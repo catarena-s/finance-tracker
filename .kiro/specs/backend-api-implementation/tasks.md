@@ -126,8 +126,8 @@
     - Тестировать edge cases и обработку ошибок
     - _Requirements: 15.2_
 
-- [ ] 8. Реализация Service слоя - TransactionService
-  - [ ] 8.1 Создать TransactionService (базовые CRUD)
+- [x] 8. Реализация Service слоя - TransactionService
+  - [x] 8.1 Создать TransactionService (базовые CRUD)
     - Реализовать app/services/transaction.py с методами create_transaction, get_transaction, list_transactions, update_transaction, delete_transaction
     - Добавить фильтрацию и пагинацию
     - _Requirements: 11.2_
@@ -138,7 +138,7 @@
     - **Property 10: Комбинированная фильтрация**
     - **Validates: Requirements 1.1, 1.2, 1.3, 1.4, 1.5, 2.5, 2.6**
   
-  - [ ] 8.3 Добавить импорт/экспорт CSV в TransactionService
+  - [x] 8.3 Добавить импорт/экспорт CSV в TransactionService
     - Реализовать методы import_from_csv и export_to_csv
     - _Requirements: 11.2_
   
