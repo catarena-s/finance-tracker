@@ -151,8 +151,8 @@
 - [x] 9. Checkpoint - Убедиться что Services работают
   - Убедиться что все тесты проходят, спросить пользователя если возникли вопросы.
 
-- [ ] 10. Реализация Service слоя - BudgetService
-  - [ ] 10.1 Создать BudgetService
+- [x] 10. Реализация Service слоя - BudgetService
+  - [x] 10.1 Создать BudgetService
     - Реализовать app/services/budget.py с методами create_budget, get_budget, list_budgets, update_budget, delete_budget, get_budget_progress
     - Добавить расчёт прогресса бюджета
     - _Requirements: 11.2_
