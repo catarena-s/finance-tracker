@@ -26,7 +26,13 @@ async def get_budget_service(
     return BudgetService(budget_repo, category_repo, transaction_repo)
 
 
-@router.post("/", response_model=Budget, status_code=201)
+@router.post(
+    "/",
+    response_model=Budget,
+    status_code=201,
+    summary="Создать бюджет",
+    description="Создает новый бюджет для категории на определенный период"
+)
 async def create_budget(
     data: BudgetCreate,
     service: Annotated[BudgetService, Depends(get_budget_service)]
@@ -35,7 +41,12 @@ async def create_budget(
     return await service.create_budget(data)
 
 
-@router.get("/", response_model=List[Budget])
+@router.get(
+    "/",
+    response_model=List[Budget],
+    summary="Список бюджетов",
+    description="Получить список всех бюджетов"
+)
 async def list_budgets(
     service: Annotated[BudgetService, Depends(get_budget_service)]
 ):
@@ -43,7 +54,12 @@ async def list_budgets(
     return await service.list_budgets()
 
 
-@router.get("/{budget_id}", response_model=Budget)
+@router.get(
+    "/{budget_id}",
+    response_model=Budget,
+    summary="Получить бюджет",
+    description="Получить бюджет по ID"
+)
 async def get_budget(
     budget_id: uuid.UUID,
     service: Annotated[BudgetService, Depends(get_budget_service)]
@@ -52,7 +68,12 @@ async def get_budget(
     return await service.get_budget(budget_id)
 
 
-@router.put("/{budget_id}", response_model=Budget)
+@router.put(
+    "/{budget_id}",
+    response_model=Budget,
+    summary="Обновить бюджет",
+    description="Обновить существующий бюджет"
+)
 async def update_budget(
     budget_id: uuid.UUID,
     data: BudgetUpdate,
@@ -62,7 +83,12 @@ async def update_budget(
     return await service.update_budget(budget_id, data)
 
 
-@router.delete("/{budget_id}", status_code=204)
+@router.delete(
+    "/{budget_id}",
+    status_code=204,
+    summary="Удалить бюджет",
+    description="Удалить бюджет по ID"
+)
 async def delete_budget(
     budget_id: uuid.UUID,
     service: Annotated[BudgetService, Depends(get_budget_service)]
@@ -72,7 +98,12 @@ async def delete_budget(
     return Response(status_code=204)
 
 
-@router.get("/{budget_id}/progress", response_model=BudgetProgress)
+@router.get(
+    "/{budget_id}/progress",
+    response_model=BudgetProgress,
+    summary="Прогресс бюджета",
+    description="Получить прогресс выполнения бюджета с расчетом потраченной суммы"
+)
 async def get_budget_progress(
     budget_id: uuid.UUID,
     service: Annotated[BudgetService, Depends(get_budget_service)]

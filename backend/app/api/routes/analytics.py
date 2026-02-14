@@ -23,7 +23,12 @@ async def get_analytics_service(
     return AnalyticsService(transaction_repo, budget_repo)
 
 
-@router.get("/summary", response_model=dict)
+@router.get(
+    "/summary",
+    response_model=dict,
+    summary="Сводная статистика",
+    description="Получить сводную статистику доходов, расходов и баланса за период"
+)
 async def get_summary(
     start_date: date,
     end_date: date,
@@ -33,7 +38,12 @@ async def get_summary(
     return await service.get_summary(start_date, end_date)
 
 
-@router.get("/trends", response_model=dict)
+@router.get(
+    "/trends",
+    response_model=dict,
+    summary="Динамика по месяцам",
+    description="Получить динамику доходов и расходов по месяцам"
+)
 async def get_trends(
     start_date: date,
     end_date: date,
@@ -43,7 +53,12 @@ async def get_trends(
     return await service.get_trends(start_date, end_date)
 
 
-@router.get("/by-category", response_model=dict)
+@router.get(
+    "/by-category",
+    response_model=dict,
+    summary="Распределение по категориям",
+    description="Получить распределение расходов по категориям"
+)
 async def get_category_breakdown(
     start_date: date,
     end_date: date,
@@ -53,7 +68,12 @@ async def get_category_breakdown(
     return await service.get_category_breakdown(start_date, end_date)
 
 
-@router.get("/top-categories", response_model=dict)
+@router.get(
+    "/top-categories",
+    response_model=dict,
+    summary="Топ категорий",
+    description="Получить топ категорий по расходам"
+)
 async def get_top_categories(
     start_date: date,
     end_date: date,

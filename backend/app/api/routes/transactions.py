@@ -26,7 +26,13 @@ async def get_transaction_service(
     return TransactionService(transaction_repo, category_repo)
 
 
-@router.post("/", response_model=Transaction, status_code=201)
+@router.post(
+    "/",
+    response_model=Transaction,
+    status_code=201,
+    summary="Создать транзакцию",
+    description="Создает новую транзакцию дохода или расхода"
+)
 async def create_transaction(
     data: TransactionCreate,
     service: Annotated[TransactionService, Depends(get_transaction_service)]
@@ -35,7 +41,12 @@ async def create_transaction(
     return await service.create_transaction(data)
 
 
-@router.get("/", response_model=dict)
+@router.get(
+    "/",
+    response_model=dict,
+    summary="Список транзакций",
+    description="Получить список транзакций с фильтрацией и пагинацией"
+)
 async def list_transactions(
     service: Annotated[TransactionService, Depends(get_transaction_service)],
     start_date: date | None = Query(None),
@@ -60,7 +71,12 @@ async def list_transactions(
     )
 
 
-@router.get("/{transaction_id}", response_model=Transaction)
+@router.get(
+    "/{transaction_id}",
+    response_model=Transaction,
+    summary="Получить транзакцию",
+    description="Получить транзакцию по ID"
+)
 async def get_transaction(
     transaction_id: uuid.UUID,
     service: Annotated[TransactionService, Depends(get_transaction_service)]
@@ -69,7 +85,12 @@ async def get_transaction(
     return await service.get_transaction(transaction_id)
 
 
-@router.put("/{transaction_id}", response_model=Transaction)
+@router.put(
+    "/{transaction_id}",
+    response_model=Transaction,
+    summary="Обновить транзакцию",
+    description="Обновить существующую транзакцию"
+)
 async def update_transaction(
     transaction_id: uuid.UUID,
     data: TransactionUpdate,
@@ -79,7 +100,12 @@ async def update_transaction(
     return await service.update_transaction(transaction_id, data)
 
 
-@router.delete("/{transaction_id}", status_code=204)
+@router.delete(
+    "/{transaction_id}",
+    status_code=204,
+    summary="Удалить транзакцию",
+    description="Удалить транзакцию по ID"
+)
 async def delete_transaction(
     transaction_id: uuid.UUID,
     service: Annotated[TransactionService, Depends(get_transaction_service)]
@@ -89,7 +115,12 @@ async def delete_transaction(
     return Response(status_code=204)
 
 
-@router.post("/import", response_model=dict)
+@router.post(
+    "/import",
+    response_model=dict,
+    summary="Импорт транзакций",
+    description="Импортировать транзакции из CSV файла"
+)
 async def import_transactions(
     file: UploadFile = File(...),
     service: Annotated[TransactionService, Depends(get_transaction_service)]
@@ -100,7 +131,12 @@ async def import_transactions(
     return await service.import_from_csv(csv_content)
 
 
-@router.get("/export", response_class=Response)
+@router.get(
+    "/export",
+    response_class=Response,
+    summary="Экспорт транзакций",
+    description="Экспортировать транзакции в CSV файл"
+)
 async def export_transactions(
     service: Annotated[TransactionService, Depends(get_transaction_service)],
     start_date: date | None = Query(None),
