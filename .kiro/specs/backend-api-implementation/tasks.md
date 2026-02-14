@@ -163,8 +163,8 @@
     - **Property 26: Расчёт прогресса бюджета**
     - **Validates: Requirements 5.1, 5.2, 5.3, 5.4, 5.7, 6.1, 6.2, 6.3, 6.5, 6.6**
 
-- [ ] 11. Реализация Service слоя - AnalyticsService
-  - [ ] 11.1 Создать AnalyticsService
+- [x] 11. Реализация Service слоя - AnalyticsService
+  - [x] 11.1 Создать AnalyticsService
     - Реализовать app/services/analytics.py с методами get_summary, get_trends, get_category_breakdown, get_top_categories
     - _Requirements: 11.2_
   
