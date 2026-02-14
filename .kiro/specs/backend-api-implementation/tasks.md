@@ -6,7 +6,7 @@
 
 ## Задачи
 
-- [ ] 1. Настройка базовой структуры проекта и конфигурации
+- [x] 1. Настройка базовой структуры проекта и конфигурации
   - Создать структуру директорий (app/models, app/schemas, app/repositories, app/services, app/api/routes, app/core)
   - Настроить app/core/config.py с конфигурацией БД и приложения
   - Настроить app/core/database.py с async engine и session factory
