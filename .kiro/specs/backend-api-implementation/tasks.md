@@ -15,7 +15,7 @@
   - _Requirements: 9.10, 15.4, 15.8_
 
 - [ ] 2. Реализация SQLAlchemy моделей
-  - [ ] 2.1 Создать базовую модель и Category модель
+  - [x] 2.1 Создать базовую модель и Category модель
     - Создать app/models/base.py с Base декларативной базой
     - Реализовать app/models/category.py с полями, relationships и constraints
     - _Requirements: 9.4, 9.5_
