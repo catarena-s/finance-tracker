@@ -101,13 +101,13 @@
     - Реализовать app/repositories/budget.py с методами get_by_category_and_period, get_active_budgets
     - _Requirements: 11.1_
 
-- [ ] 6. Реализация кастомных исключений и обработчиков ошибок
+- [x] 6. Реализация кастомных исключений и обработчиков ошибок
   - Создать app/core/exceptions.py с AppException, NotFoundException, ConflictException, ValidationException
   - Реализовать exception handlers в app/main.py
   - Настроить логирование ошибок
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-- [ ]* 6.1 Написать property тест для единого формата ошибок
+- [x]* 6.1 Написать property тест для единого формата ошибок
   - **Property 32: Единый формат ошибок**
   - **Validates: Requirements 8.1, 8.2, 8.3, 8.5**
 
