@@ -2,6 +2,7 @@
 Finance Tracker API
 Main application entry point
 """
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,7 +28,7 @@ app.add_middleware(
 async def health_check():
     """
     Health check endpoint
-    
+
     Returns:
         dict: Status message
     """
@@ -38,7 +39,7 @@ async def health_check():
 async def root():
     """
     Root endpoint
-    
+
     Returns:
         dict: Welcome message
     """
