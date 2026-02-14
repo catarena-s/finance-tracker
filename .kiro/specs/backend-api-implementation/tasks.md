@@ -196,8 +196,8 @@
     - Тестировать все эндпоинты включая импорт/экспорт
     - _Requirements: 15.3_
 
-- [ ] 14. Реализация API Routes - Budgets
-  - [ ] 14.1 Создать budget routes
+- [x] 14. Реализация API Routes - Budgets
+  - [x] 14.1 Создать budget routes
     - Реализовать app/api/routes/budgets.py с эндпоинтами POST /, GET /, GET /{id}, PUT /{id}, DELETE /{id}, GET /{id}/progress
     - Настроить dependency injection для BudgetService
     - _Requirements: 11.3_
