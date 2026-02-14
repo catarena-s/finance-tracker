@@ -10,6 +10,7 @@ from fastapi.exceptions import RequestValidationError
 import logging
 
 from app.core.exceptions import AppException
+from app.api.routes import categories, transactions, budgets, analytics
 
 # Настройка логирования
 logging.basicConfig(
@@ -58,6 +59,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Register routers
+app.include_router(categories.router, prefix="/api/v1")
+app.include_router(transactions.router, prefix="/api/v1")
+app.include_router(budgets.router, prefix="/api/v1")
+app.include_router(analytics.router, prefix="/api/v1")
 
 
 @app.get("/health", tags=["Health"])

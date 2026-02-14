@@ -10,7 +10,7 @@ from app.core.database import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-router = APIRouter(prefix="/api/v1/categories", tags=["categories"])
+router = APIRouter(prefix="/categories", tags=["categories"])
 
 
 async def get_category_service(
