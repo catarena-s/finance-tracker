@@ -1,4 +1,5 @@
 """Базовые тесты для Pydantic схем"""
+
 import pytest
 from datetime import date
 from decimal import Decimal
@@ -16,7 +17,7 @@ def test_category_create_valid():
         name="Groceries",
         icon="shopping-cart",
         color="#FF5733",
-        type=CategoryType.EXPENSE
+        type=CategoryType.EXPENSE,
     )
     assert category.name == "Groceries"
     assert category.color == "#FF5733"
@@ -30,7 +31,7 @@ def test_category_invalid_color():
             name="Groceries",
             icon="shopping-cart",
             color="FF5733",  # Missing #
-            type=CategoryType.EXPENSE
+            type=CategoryType.EXPENSE,
         )
     assert "color" in str(exc_info.value)
 
@@ -44,7 +45,7 @@ def test_transaction_create_valid():
         description="Test transaction",
         transaction_date=date.today(),
         type=TransactionType.EXPENSE,
-        is_recurring=False
+        is_recurring=False,
     )
     assert transaction.amount == Decimal("100.50")
     assert transaction.currency == "USD"
@@ -59,7 +60,7 @@ def test_transaction_negative_amount():
             currency="USD",
             category_id=uuid.uuid4(),
             transaction_date=date.today(),
-            type=TransactionType.EXPENSE
+            type=TransactionType.EXPENSE,
         )
     assert "amount" in str(exc_info.value)
 
@@ -74,7 +75,7 @@ def test_transaction_recurring_pattern_required():
             transaction_date=date.today(),
             type=TransactionType.EXPENSE,
             is_recurring=True,
-            recurring_pattern=None
+            recurring_pattern=None,
         )
     assert "recurring_pattern" in str(exc_info.value)
 
@@ -89,7 +90,7 @@ def test_transaction_with_recurring_pattern():
         transaction_date=date.today(),
         type=TransactionType.EXPENSE,
         is_recurring=True,
-        recurring_pattern=pattern
+        recurring_pattern=pattern,
     )
     assert transaction.is_recurring is True
     assert transaction.recurring_pattern.frequency == "monthly"
@@ -103,7 +104,7 @@ def test_budget_create_valid():
         amount=Decimal("1000.00"),
         period=BudgetPeriod.MONTHLY,
         start_date=date(2024, 1, 1),
-        end_date=date(2024, 1, 31)
+        end_date=date(2024, 1, 31),
     )
     assert budget.amount == Decimal("1000.00")
     assert budget.period == BudgetPeriod.MONTHLY
@@ -117,7 +118,7 @@ def test_budget_invalid_date_range():
             amount=Decimal("1000.00"),
             period=BudgetPeriod.MONTHLY,
             start_date=date(2024, 1, 31),
-            end_date=date(2024, 1, 1)  # end_date <= start_date
+            end_date=date(2024, 1, 1),  # end_date <= start_date
         )
     assert "end_date" in str(exc_info.value)
 
@@ -130,6 +131,6 @@ def test_budget_negative_amount():
             amount=Decimal("-1000.00"),
             period=BudgetPeriod.MONTHLY,
             start_date=date(2024, 1, 1),
-            end_date=date(2024, 1, 31)
+            end_date=date(2024, 1, 31),
         )
     assert "amount" in str(exc_info.value)

@@ -1,4 +1,5 @@
 """Pydantic схемы для транзакций"""
+
 from pydantic import BaseModel, Field, field_validator
 from datetime import date, datetime
 from decimal import Decimal
@@ -8,18 +9,21 @@ import uuid
 
 class TransactionType(str, Enum):
     """Тип транзакции"""
+
     INCOME = "income"
     EXPENSE = "expense"
 
 
 class RecurringPattern(BaseModel):
     """Паттерн повторяющейся транзакции"""
+
     frequency: str = Field(..., pattern="^(daily|weekly|monthly|yearly)$")
     interval: int = Field(..., gt=0)
 
 
 class TransactionBase(BaseModel):
     """Базовая схема транзакции"""
+
     amount: Decimal = Field(..., gt=0, decimal_places=2)
     currency: str = Field(default="USD", min_length=3, max_length=3)
     category_id: uuid.UUID
@@ -28,7 +32,7 @@ class TransactionBase(BaseModel):
     type: TransactionType
     is_recurring: bool = False
     recurring_pattern: RecurringPattern | None = None
-    
+
     @field_validator("currency")
     @classmethod
     def validate_currency(cls, v: str) -> str:
@@ -36,20 +40,103 @@ class TransactionBase(BaseModel):
         v = v.upper()
         # Список популярных ISO 4217 кодов валют
         valid_currencies = {
-            "USD", "EUR", "GBP", "JPY", "CNY", "RUB", "INR", "BRL", "CAD", "AUD",
-            "CHF", "SEK", "NOK", "DKK", "PLN", "CZK", "HUF", "RON", "BGN", "HRK",
-            "TRY", "ILS", "ZAR", "MXN", "ARS", "CLP", "COP", "PEN", "VES", "KRW",
-            "THB", "IDR", "MYR", "SGD", "PHP", "VND", "NZD", "AED", "SAR", "QAR",
-            "KWD", "BHD", "OMR", "JOD", "EGP", "MAD", "DZD", "TND", "LYD", "NGN",
-            "KES", "GHS", "UGX", "TZS", "ZMW", "BWP", "MUR", "SCR", "MGA", "XOF",
-            "XAF", "KMF", "DJF", "SOS", "ETB", "ERN", "SDG", "SSP", "UZS", "KZT",
-            "GEL", "AMD", "AZN", "BYN", "UAH", "MDL", "TJS", "TMT", "KGS", "MNT",
-            "AFN", "PKR", "BDT", "LKR", "NPR", "BTN", "MVR", "MMK", "LAK", "KHR"
+            "USD",
+            "EUR",
+            "GBP",
+            "JPY",
+            "CNY",
+            "RUB",
+            "INR",
+            "BRL",
+            "CAD",
+            "AUD",
+            "CHF",
+            "SEK",
+            "NOK",
+            "DKK",
+            "PLN",
+            "CZK",
+            "HUF",
+            "RON",
+            "BGN",
+            "HRK",
+            "TRY",
+            "ILS",
+            "ZAR",
+            "MXN",
+            "ARS",
+            "CLP",
+            "COP",
+            "PEN",
+            "VES",
+            "KRW",
+            "THB",
+            "IDR",
+            "MYR",
+            "SGD",
+            "PHP",
+            "VND",
+            "NZD",
+            "AED",
+            "SAR",
+            "QAR",
+            "KWD",
+            "BHD",
+            "OMR",
+            "JOD",
+            "EGP",
+            "MAD",
+            "DZD",
+            "TND",
+            "LYD",
+            "NGN",
+            "KES",
+            "GHS",
+            "UGX",
+            "TZS",
+            "ZMW",
+            "BWP",
+            "MUR",
+            "SCR",
+            "MGA",
+            "XOF",
+            "XAF",
+            "KMF",
+            "DJF",
+            "SOS",
+            "ETB",
+            "ERN",
+            "SDG",
+            "SSP",
+            "UZS",
+            "KZT",
+            "GEL",
+            "AMD",
+            "AZN",
+            "BYN",
+            "UAH",
+            "MDL",
+            "TJS",
+            "TMT",
+            "KGS",
+            "MNT",
+            "AFN",
+            "PKR",
+            "BDT",
+            "LKR",
+            "NPR",
+            "BTN",
+            "MVR",
+            "MMK",
+            "LAK",
+            "KHR",
         }
         if v not in valid_currencies:
-            raise ValueError(f"Invalid currency code: {v}. Must be a valid ISO 4217 code.")
+            raise ValueError(
+                f"Invalid currency code: {v}. Must be a valid ISO 4217 code."
+            )
         return v
-    
+
     @field_validator("recurring_pattern")
     @classmethod
     def validate_recurring_pattern(cls, v, info):
@@ -61,11 +148,13 @@ class TransactionBase(BaseModel):
 
 class TransactionCreate(TransactionBase):
     """Схема для создания транзакции"""
+
     pass
 
 
 class TransactionUpdate(BaseModel):
     """Схема для обновления транзакции"""
+
     amount: Decimal | None = Field(None, gt=0, decimal_places=2)
     currency: str | None = Field(None, min_length=3, max_length=3)
     category_id: uuid.UUID | None = None
@@ -78,8 +167,9 @@ class TransactionUpdate(BaseModel):
 
 class Transaction(TransactionBase):
     """Схема транзакции с полными данными"""
+
     id: uuid.UUID
     created_at: datetime
     updated_at: datetime
-    
+
     model_config = {"from_attributes": True}

@@ -1,4 +1,5 @@
 """API маршруты для бюджетов"""
+
 from typing import Annotated, List
 import uuid
 
@@ -31,11 +32,10 @@ async def get_budget_service(
     response_model=Budget,
     status_code=201,
     summary="Создать бюджет",
-    description="Создает новый бюджет для категории на определенный период"
+    description="Создает новый бюджет для категории на определенный период",
 )
 async def create_budget(
-    data: BudgetCreate,
-    service: Annotated[BudgetService, Depends(get_budget_service)]
+    data: BudgetCreate, service: Annotated[BudgetService, Depends(get_budget_service)]
 ):
     """Создать новый бюджет"""
     return await service.create_budget(data)
@@ -45,11 +45,9 @@ async def create_budget(
     "/",
     response_model=List[Budget],
     summary="Список бюджетов",
-    description="Получить список всех бюджетов"
+    description="Получить список всех бюджетов",
 )
-async def list_budgets(
-    service: Annotated[BudgetService, Depends(get_budget_service)]
-):
+async def list_budgets(service: Annotated[BudgetService, Depends(get_budget_service)]):
     """Получить список всех бюджетов"""
     return await service.list_budgets()
 
@@ -58,11 +56,10 @@ async def list_budgets(
     "/{budget_id}",
     response_model=Budget,
     summary="Получить бюджет",
-    description="Получить бюджет по ID"
+    description="Получить бюджет по ID",
 )
 async def get_budget(
-    budget_id: uuid.UUID,
-    service: Annotated[BudgetService, Depends(get_budget_service)]
+    budget_id: uuid.UUID, service: Annotated[BudgetService, Depends(get_budget_service)]
 ):
     """Получить бюджет по ID"""
     return await service.get_budget(budget_id)
@@ -72,12 +69,12 @@ async def get_budget(
     "/{budget_id}",
     response_model=Budget,
     summary="Обновить бюджет",
-    description="Обновить существующий бюджет"
+    description="Обновить существующий бюджет",
 )
 async def update_budget(
     budget_id: uuid.UUID,
     data: BudgetUpdate,
-    service: Annotated[BudgetService, Depends(get_budget_service)]
+    service: Annotated[BudgetService, Depends(get_budget_service)],
 ):
     """Обновить бюджет"""
     return await service.update_budget(budget_id, data)
@@ -87,11 +84,10 @@ async def update_budget(
     "/{budget_id}",
     status_code=204,
     summary="Удалить бюджет",
-    description="Удалить бюджет по ID"
+    description="Удалить бюджет по ID",
 )
 async def delete_budget(
-    budget_id: uuid.UUID,
-    service: Annotated[BudgetService, Depends(get_budget_service)]
+    budget_id: uuid.UUID, service: Annotated[BudgetService, Depends(get_budget_service)]
 ):
     """Удалить бюджет"""
     await service.delete_budget(budget_id)
@@ -102,11 +98,10 @@ async def delete_budget(
     "/{budget_id}/progress",
     response_model=BudgetProgress,
     summary="Прогресс бюджета",
-    description="Получить прогресс выполнения бюджета с расчетом потраченной суммы"
+    description="Получить прогресс выполнения бюджета с расчетом потраченной суммы",
 )
 async def get_budget_progress(
-    budget_id: uuid.UUID,
-    service: Annotated[BudgetService, Depends(get_budget_service)]
+    budget_id: uuid.UUID, service: Annotated[BudgetService, Depends(get_budget_service)]
 ):
     """Получить прогресс выполнения бюджета"""
     return await service.get_budget_progress(budget_id)

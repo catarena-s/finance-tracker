@@ -23,10 +23,14 @@ class Transaction(Base, UUIDMixin, TimestampMixin):
 
     __tablename__ = "transactions"
 
-    amount: Mapped[Decimal] = mapped_column(Numeric(precision=10, scale=2), nullable=False)
+    amount: Mapped[Decimal] = mapped_column(
+        Numeric(precision=10, scale=2), nullable=False
+    )
     currency: Mapped[str] = mapped_column(String(3), nullable=False, default="USD")
     category_id: Mapped[UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("categories.id", ondelete="RESTRICT"), nullable=False
+        UUID(as_uuid=True),
+        ForeignKey("categories.id", ondelete="RESTRICT"),
+        nullable=False,
     )
     description: Mapped[str] = mapped_column(Text, nullable=True)
     transaction_date: Mapped[date] = mapped_column(Date, nullable=False)
@@ -35,7 +39,9 @@ class Transaction(Base, UUIDMixin, TimestampMixin):
     recurring_pattern: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 
     # Relationships
-    category: Mapped["Category"] = relationship("Category", back_populates="transactions")
+    category: Mapped["Category"] = relationship(
+        "Category", back_populates="transactions"
+    )
 
     # Constraints
     __table_args__ = (

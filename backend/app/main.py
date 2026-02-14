@@ -14,8 +14,7 @@ from app.api.routes import categories, transactions, budgets, analytics
 
 # Настройка логирования
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -42,13 +41,10 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    contact={
-        "name": "Finance Tracker Team",
-        "email": "support@financetracker.com"
-    },
+    contact={"name": "Finance Tracker Team", "email": "support@financetracker.com"},
     license_info={
         "name": "MIT",
-    }
+    },
 )
 
 # CORS configuration
@@ -95,6 +91,7 @@ async def root():
 
 # Exception handlers
 
+
 @app.exception_handler(AppException)
 async def app_exception_handler(request: Request, exc: AppException):
     """Обработчик кастомных исключений приложения"""
@@ -104,8 +101,8 @@ async def app_exception_handler(request: Request, exc: AppException):
         content={
             "error": exc.__class__.__name__,
             "detail": exc.message,
-            "status_code": exc.status_code
-        }
+            "status_code": exc.status_code,
+        },
     )
 
 
@@ -118,8 +115,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         content={
             "error": "ValidationError",
             "detail": exc.errors(),
-            "status_code": 422
-        }
+            "status_code": 422,
+        },
     )
 
 
@@ -132,6 +129,6 @@ async def generic_exception_handler(request: Request, exc: Exception):
         content={
             "error": "InternalServerError",
             "detail": "An unexpected error occurred",
-            "status_code": 500
-        }
+            "status_code": 500,
+        },
     )

@@ -1,4 +1,5 @@
 """API маршруты для аналитики"""
+
 from typing import Annotated
 from datetime import date
 
@@ -27,12 +28,12 @@ async def get_analytics_service(
     "/summary",
     response_model=dict,
     summary="Сводная статистика",
-    description="Получить сводную статистику доходов, расходов и баланса за период"
+    description="Получить сводную статистику доходов, расходов и баланса за период",
 )
 async def get_summary(
     start_date: date,
     end_date: date,
-    service: Annotated[AnalyticsService, Depends(get_analytics_service)]
+    service: Annotated[AnalyticsService, Depends(get_analytics_service)],
 ):
     """Получить сводную статистику за период"""
     return await service.get_summary(start_date, end_date)
@@ -42,12 +43,12 @@ async def get_summary(
     "/trends",
     response_model=dict,
     summary="Динамика по месяцам",
-    description="Получить динамику доходов и расходов по месяцам"
+    description="Получить динамику доходов и расходов по месяцам",
 )
 async def get_trends(
     start_date: date,
     end_date: date,
-    service: Annotated[AnalyticsService, Depends(get_analytics_service)]
+    service: Annotated[AnalyticsService, Depends(get_analytics_service)],
 ):
     """Получить динамику доходов и расходов по месяцам"""
     return await service.get_trends(start_date, end_date)
@@ -57,12 +58,12 @@ async def get_trends(
     "/by-category",
     response_model=dict,
     summary="Распределение по категориям",
-    description="Получить распределение расходов по категориям"
+    description="Получить распределение расходов по категориям",
 )
 async def get_category_breakdown(
     start_date: date,
     end_date: date,
-    service: Annotated[AnalyticsService, Depends(get_analytics_service)]
+    service: Annotated[AnalyticsService, Depends(get_analytics_service)],
 ):
     """Получить распределение расходов по категориям"""
     return await service.get_category_breakdown(start_date, end_date)
@@ -72,13 +73,13 @@ async def get_category_breakdown(
     "/top-categories",
     response_model=dict,
     summary="Топ категорий",
-    description="Получить топ категорий по расходам"
+    description="Получить топ категорий по расходам",
 )
 async def get_top_categories(
     start_date: date,
     end_date: date,
     service: Annotated[AnalyticsService, Depends(get_analytics_service)],
-    limit: int = Query(5, ge=1, le=20)
+    limit: int = Query(5, ge=1, le=20),
 ):
     """Получить топ категорий по расходам"""
     return await service.get_top_categories(start_date, end_date, limit)
