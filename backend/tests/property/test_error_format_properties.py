@@ -3,7 +3,6 @@
 **Property 32: Единый формат ошибок**
 Validates: Requirements 8.1, 8.2, 8.3, 8.5
 """
-import pytest
 from hypothesis import given, strategies as st
 from fastapi import FastAPI
 from fastapi.testclient import TestClient

@@ -1,5 +1,5 @@
 """Сервис для работы с транзакциями"""
-from typing import Dict, List
+from typing import Dict
 from datetime import date
 from decimal import Decimal
 import uuid

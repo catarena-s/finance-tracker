@@ -1,6 +1,6 @@
 """Базовые тесты для Pydantic схем"""
 import pytest
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 import uuid
 from pydantic import ValidationError

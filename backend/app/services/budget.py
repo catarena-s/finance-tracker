@@ -36,7 +36,7 @@ class BudgetService:
         )
         if existing:
             raise ConflictException(
-                f"Budget for this category, period and start date already exists"
+                "Budget for this category, period and start date already exists"
             )
         
         budget = await self.budget_repo.create(**data.model_dump())

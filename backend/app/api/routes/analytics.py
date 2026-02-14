@@ -77,8 +77,8 @@ async def get_category_breakdown(
 async def get_top_categories(
     start_date: date,
     end_date: date,
-    limit: int = Query(5, ge=1, le=20),
-    service: Annotated[AnalyticsService, Depends(get_analytics_service)]
+    service: Annotated[AnalyticsService, Depends(get_analytics_service)],
+    limit: int = Query(5, ge=1, le=20)
 ):
     """Получить топ категорий по расходам"""
     return await service.get_top_categories(start_date, end_date, limit)

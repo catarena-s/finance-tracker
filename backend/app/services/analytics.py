@@ -2,7 +2,7 @@
 from datetime import date
 from decimal import Decimal
 from collections import defaultdict
-from typing import Dict, List
+from typing import Dict
 
 from app.repositories.transaction import TransactionRepository
 from app.repositories.budget import BudgetRepository

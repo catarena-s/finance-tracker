@@ -1,7 +1,7 @@
 """Базовый репозиторий для CRUD операций"""
 from typing import Generic, TypeVar, Type, List
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete, func
+from sqlalchemy import select, delete, func
 import uuid
 
 ModelType = TypeVar("ModelType")

@@ -122,8 +122,8 @@ async def delete_transaction(
     description="Импортировать транзакции из CSV файла"
 )
 async def import_transactions(
-    file: UploadFile = File(...),
-    service: Annotated[TransactionService, Depends(get_transaction_service)]
+    service: Annotated[TransactionService, Depends(get_transaction_service)],
+    file: UploadFile = File(...)
 ):
     """Импортировать транзакции из CSV файла"""
     content = await file.read()
