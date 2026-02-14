@@ -27,6 +27,7 @@ class Transaction(Base, UUIDMixin, TimestampMixin):
     description: Mapped[str] = mapped_column(Text, nullable=True)
     transaction_date: Mapped[date] = mapped_column(Date, nullable=False)
     type: Mapped[str] = mapped_column(String(10), nullable=False)
+    is_recurring: Mapped[bool] = mapped_column(nullable=False, default=False)
     recurring_pattern: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 
     # Relationships
