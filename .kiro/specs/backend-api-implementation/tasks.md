@@ -41,8 +41,8 @@
     - **Property 22: Валидация положительной суммы бюджета**
     - **Validates: Requirements 9.6, 9.7, 10.6, 10.8**
 
-- [ ] 3. Реализация Pydantic схем валидации
-  - [ ] 3.1 Создать схемы для Category
+- [x] 3. Реализация Pydantic схем валидации
+  - [x] 3.1 Создать схемы для Category
     - Реализовать app/schemas/category.py с CategoryBase, CategoryCreate, CategoryUpdate, Category
     - Добавить валидаторы для color (hex формат) и type
     - _Requirements: 10.4, 10.5_
@@ -51,7 +51,7 @@
     - **Property 18: Валидация hex цвета**
     - **Validates: Requirements 4.8, 10.4**
   
-  - [ ] 3.3 Создать схемы для Transaction
+  - [x] 3.3 Создать схемы для Transaction
     - Реал��зовать app/schemas/transaction.py с TransactionBase, TransactionCreate, TransactionUpdate, Transaction, RecurringPattern
     - Добавить валидаторы для amount, currency, type, recurring_pattern
     - _Requirements: 10.1, 10.2, 10.3_
@@ -61,12 +61,12 @@
     - **Property 39: Обязательность recurring_pattern**
     - **Validates: Requirements 10.2, 13.3**
   
-  - [ ] 3.5 Создать схемы для Budget
+  - [x] 3.5 Создать схемы для Budget
     - Реализовать app/schemas/budget.py с BudgetBase, BudgetCreate, BudgetUpdate, Budget, BudgetProgress
     - Добавить валидаторы для amount, period, date range
     - _Requirements: 10.6, 10.7, 10.8_
 
-- [ ] 4. Checkpoint - Убедиться что модели и схемы работают
+- [-] 4. Checkpoint - Убедиться что модели и схемы работают
   - Убедиться что все тесты проходят, спросить пользователя если возникли вопросы.
 
 - [ ] 5. Реализация Repository слоя
