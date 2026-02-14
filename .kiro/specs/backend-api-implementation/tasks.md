@@ -206,8 +206,8 @@
     - Тестировать все эндпоинты включая прогресс
     - _Requirements: 15.3_
 
-- [ ] 15. Реализация API Routes - Analytics
-  - [ ] 15.1 Создать analytics routes
+- [x] 15. Реализация API Routes - Analytics
+  - [x] 15.1 Создать analytics routes
     - Реализовать app/api/routes/analytics.py с эндпоинтами GET /summary, GET /trends, GET /by-category, GET /top-categories
     - Настроить dependency injection для AnalyticsService
     - _Requirements: 11.3_
