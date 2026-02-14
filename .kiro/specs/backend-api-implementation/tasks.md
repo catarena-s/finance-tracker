@@ -24,7 +24,7 @@
     - **Property 19: Валидация типа категории**
     - **Validates: Requirements 9.5, 10.5**
   
-  - [ ] 2.3 Создать Transaction модель
+  - [x] 2.3 Создать Transaction модель
     - Реализовать app/models/transaction.py с полями, relationships и constraints
     - _Requirements: 9.1, 9.2, 9.3_
   
