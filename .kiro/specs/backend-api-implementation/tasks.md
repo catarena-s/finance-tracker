@@ -111,8 +111,8 @@
   - **Property 32: Единый формат ошибок**
   - **Validates: Requirements 8.1, 8.2, 8.3, 8.5**
 
-- [ ] 7. Реализация Service слоя - CategoryService
-  - [ ] 7.1 Создать CategoryService
+- [x] 7. Реализация Service слоя - CategoryService
+  - [x] 7.1 Создать CategoryService
     - Реализовать app/services/category.py с методами create_category, get_category, list_categories, update_category, delete_category
     - Добавить проверки уникальности и наличия транзакций
     - _Requirements: 11.2_
