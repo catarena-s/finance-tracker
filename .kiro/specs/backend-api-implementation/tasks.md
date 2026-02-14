@@ -14,7 +14,7 @@
   - Настроить pytest конфигурацию и conftest.py с фикстурами для тестовой БД
   - _Requirements: 9.10, 15.4, 15.8_
 
-- [ ] 2. Реализация SQLAlchemy моделей
+- [x] 2. Реализация SQLAlchemy моделей
   - [x] 2.1 Создать базовую модель и Category модель
     - Создать app/models/base.py с Base декларативной базой
     - Реализовать app/models/category.py с полями, relationships и constraints
@@ -32,7 +32,7 @@
     - **Property 2: Валидация положительной суммы транзакции**
     - **Validates: Requirements 9.1, 10.1**
   
-  - [ ] 2.5 Создать Budget модель
+  - [x] 2.5 Создать Budget модель
     - Реализовать app/models/budget.py с полями, relationships и constraints
     - _Requirements: 9.6, 9.7, 9.8, 9.9_
   
