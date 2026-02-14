@@ -1,6 +1,6 @@
 """Pydantic схемы для бюджетов"""
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, condecimal
 from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
@@ -18,7 +18,7 @@ class BudgetBase(BaseModel):
     """Базовая схема бюджета"""
 
     category_id: uuid.UUID
-    amount: Decimal = Field(..., gt=0, decimal_places=2)
+    amount: condecimal(gt=0, decimal_places=2) = Field(...)
     period: BudgetPeriod
     start_date: date
     end_date: date
@@ -42,7 +42,7 @@ class BudgetUpdate(BaseModel):
     """Схема для обновления бюджета"""
 
     category_id: uuid.UUID | None = None
-    amount: Decimal | None = Field(None, gt=0, decimal_places=2)
+    amount: condecimal(gt=0, decimal_places=2) | None = Field(None)
     period: BudgetPeriod | None = None
     start_date: date | None = None
     end_date: date | None = None

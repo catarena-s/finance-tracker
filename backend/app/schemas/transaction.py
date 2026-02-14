@@ -1,6 +1,6 @@
 """Pydantic схемы для транзакций"""
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, condecimal
 from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum
@@ -24,7 +24,7 @@ class RecurringPattern(BaseModel):
 class TransactionBase(BaseModel):
     """Базовая схема транзакции"""
 
-    amount: Decimal = Field(..., gt=0, decimal_places=2)
+    amount: condecimal(gt=0, decimal_places=2) = Field(...)
     currency: str = Field(default="USD", min_length=3, max_length=3)
     category_id: uuid.UUID
     description: str | None = None
@@ -155,7 +155,7 @@ class TransactionCreate(TransactionBase):
 class TransactionUpdate(BaseModel):
     """Схема для обновления транзакции"""
 
-    amount: Decimal | None = Field(None, gt=0, decimal_places=2)
+    amount: condecimal(gt=0, decimal_places=2) | None = Field(None)
     currency: str | None = Field(None, min_length=3, max_length=3)
     category_id: uuid.UUID | None = None
     description: str | None = None
