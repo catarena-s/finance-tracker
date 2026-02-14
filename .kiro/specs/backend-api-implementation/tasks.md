@@ -69,8 +69,8 @@
 - [x] 4. Checkpoint - Убедиться что модели и схемы работают
   - Убедиться что все тесты проходят, спросить пользователя если возникли вопросы.
 
-- [ ] 5. Реализация Repository слоя
-  - [ ] 5.1 Создать базовый Repository
+- [x] 5. Реализация Repository слоя
+  - [x] 5.1 Создать базовый Repository
     - Реализовать app/repositories/base.py с BaseRepository (create, get_by_id, get_all, update, delete)
     - _Requirements: 11.1_
   
@@ -78,7 +78,7 @@
     - Тестировать все CRUD операции
     - _Requirements: 15.1_
   
-  - [ ] 5.3 Создать CategoryRepository
+  - [x] 5.3 Создать CategoryRepository
     - Реализовать app/repositories/category.py с методами get_by_name_and_type, has_transactions
     - _Requirements: 11.1_
   
@@ -86,7 +86,7 @@
     - **Property 16: Уникальность категории**
     - **Validates: Requirements 4.6, 9.4**
   
-  - [ ] 5.5 Создать TransactionRepository
+  - [x] 5.5 Создать TransactionRepository
     - Реализовать app/repositories/transaction.py с методами get_filtered, get_by_date_range
     - _Requirements: 11.1_
   
@@ -97,7 +97,7 @@
     - **Property 8: Фильтрация транзакций по сумме**
     - **Validates: Requirements 2.1, 2.2, 2.3, 2.4**
   
-  - [ ] 5.7 Создать BudgetRepository
+  - [x] 5.7 Создать BudgetRepository
     - Реализовать app/repositories/budget.py с методами get_by_category_and_period, get_active_budgets
     - _Requirements: 11.1_
 
