@@ -16,6 +16,7 @@ __pycache__/
 *.so
 .Python
 .pytest_cache/
+.hypothesis/
 venv/
 env/
 ENV/
