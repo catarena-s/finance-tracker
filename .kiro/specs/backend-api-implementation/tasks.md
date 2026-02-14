@@ -176,8 +176,8 @@
     - **Property 31: Фильтрация аналитики по датам**
     - **Validates: Requirements 7.1, 7.2, 7.3, 7.4, 7.5**
 
-- [ ] 12. Реализация API Routes - Categories
-  - [ ] 12.1 Создать category routes
+- [x] 12. Реализация API Routes - Categories
+  - [x] 12.1 Создать category routes
     - Реализовать app/api/routes/categories.py с эндпоинтами POST /, GET /, GET /{id}, PUT /{id}, DELETE /{id}
     - Настроить dependency injection для CategoryService
     - _Requirements: 11.3_
