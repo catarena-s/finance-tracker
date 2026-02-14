@@ -2,7 +2,6 @@
 
 from pydantic import BaseModel, Field, field_validator, condecimal
 from datetime import date, datetime
-from decimal import Decimal
 from enum import Enum
 import uuid
 
