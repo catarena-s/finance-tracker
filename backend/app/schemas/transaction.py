@@ -32,8 +32,23 @@ class TransactionBase(BaseModel):
     @field_validator("currency")
     @classmethod
     def validate_currency(cls, v: str) -> str:
-        """Конвертировать валюту в верхний регистр"""
-        return v.upper()
+        """Валидация ISO 4217 кода валюты"""
+        v = v.upper()
+        # Список популярных ISO 4217 кодов валют
+        valid_currencies = {
+            "USD", "EUR", "GBP", "JPY", "CNY", "RUB", "INR", "BRL", "CAD", "AUD",
+            "CHF", "SEK", "NOK", "DKK", "PLN", "CZK", "HUF", "RON", "BGN", "HRK",
+            "TRY", "ILS", "ZAR", "MXN", "ARS", "CLP", "COP", "PEN", "VES", "KRW",
+            "THB", "IDR", "MYR", "SGD", "PHP", "VND", "NZD", "AED", "SAR", "QAR",
+            "KWD", "BHD", "OMR", "JOD", "EGP", "MAD", "DZD", "TND", "LYD", "NGN",
+            "KES", "GHS", "UGX", "TZS", "ZMW", "BWP", "MUR", "SCR", "MGA", "XOF",
+            "XAF", "KMF", "DJF", "SOS", "ETB", "ERN", "SDG", "SSP", "UZS", "KZT",
+            "GEL", "AMD", "AZN", "BYN", "UAH", "MDL", "TJS", "TMT", "KGS", "MNT",
+            "AFN", "PKR", "BDT", "LKR", "NPR", "BTN", "MVR", "MMK", "LAK", "KHR"
+        }
+        if v not in valid_currencies:
+            raise ValueError(f"Invalid currency code: {v}. Must be a valid ISO 4217 code.")
+        return v
     
     @field_validator("recurring_pattern")
     @classmethod

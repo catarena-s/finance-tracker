@@ -8,6 +8,27 @@ from app.repositories.transaction import TransactionRepository
 from app.repositories.budget import BudgetRepository
 
 
+# Упрощённые курсы валют к USD (для демонстрации)
+CURRENCY_RATES = {
+    "USD": Decimal("1.0"),
+    "EUR": Decimal("1.1"),
+    "GBP": Decimal("1.3"),
+    "JPY": Decimal("0.0067"),
+    "CNY": Decimal("0.14"),
+    "RUB": Decimal("0.011"),
+    "INR": Decimal("0.012"),
+    "BRL": Decimal("0.20"),
+    "CAD": Decimal("0.74"),
+    "AUD": Decimal("0.66"),
+}
+
+
+def convert_to_usd(amount: Decimal, currency: str) -> Decimal:
+    """Конвертировать сумму в USD"""
+    rate = CURRENCY_RATES.get(currency, Decimal("1.0"))
+    return amount * rate
+
+
 class AnalyticsService:
     """Сервис для расчета аналитики по финансам"""
     
@@ -31,8 +52,8 @@ class AnalyticsService:
         total_expense = Decimal(0)
         
         for t in transactions:
-            # Конвертировать в USD (упрощённо)
-            amount = t.amount
+            # Конвертировать в USD
+            amount = convert_to_usd(t.amount, t.currency)
             if t.type == "income":
                 total_income += amount
             else:
@@ -60,7 +81,7 @@ class AnalyticsService:
         
         for t in transactions:
             month_key = t.transaction_date.strftime("%Y-%m")
-            amount = t.amount  # Конвертировать в USD (упрощённо)
+            amount = convert_to_usd(t.amount, t.currency)
             
             if t.type == "income":
                 monthly_data[month_key]["income"] += amount
@@ -92,7 +113,7 @@ class AnalyticsService:
         
         for t in transactions:
             if t.type == "expense":
-                amount = t.amount  # Конвертировать в USD (упрощённо)
+                amount = convert_to_usd(t.amount, t.currency)
                 category_totals[t.category.name] += amount
         
         # Преобразовать в список
