@@ -186,8 +186,8 @@
     - Тестировать все эндпоинты с разными HTTP кодами
     - _Requirements: 15.3_
 
-- [ ] 13. Реализация API Routes - Transactions
-  - [ ] 13.1 Создать transaction routes
+- [x] 13. Реализация API Routes - Transactions
+  - [x] 13.1 Создать transaction routes
     - Реализовать app/api/routes/transactions.py с эндпоинтами POST /, GET /, GET /{id}, PUT /{id}, DELETE /{id}, POST /import, GET /export
     - Настроить dependency injection для TransactionService
     - _Requirements: 11.3_
