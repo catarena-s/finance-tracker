@@ -2,14 +2,17 @@
 Application configuration
 """
 
+from typing import Union
 from pydantic import field_validator
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     """
     Application settings loaded from environment variables
     """
+
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 
     # Project
     PROJECT_NAME: str = "Finance Tracker API"
@@ -20,10 +23,10 @@ class Settings(BaseSettings):
         "postgresql+asyncpg://postgres:postgres@localhost:5432/finance_tracker"
     )
 
-    # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+    # CORS - принимаем строку или список
+    CORS_ORIGINS: Union[str, list[str]] = "http://localhost:3000"
 
-    @field_validator("CORS_ORIGINS", mode="before")
+    @field_validator("CORS_ORIGINS", mode="after")
     @classmethod
     def parse_cors_origins(cls, v):
         """Parse CORS_ORIGINS from string or list"""
@@ -31,10 +34,6 @@ class Settings(BaseSettings):
             # Split by comma if it's a comma-separated string
             return [origin.strip() for origin in v.split(",")]
         return v
-
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
 
 settings = Settings()
