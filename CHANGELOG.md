@@ -4,6 +4,31 @@
 
 Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/).
 
+## 0.0.3 - 2026-02-15
+
+### Добавлено
+- Frontend: утилиты форматирования и валидации
+  - `formatCurrency` для форматирования денежных сумм с символом валюты
+  - `formatDate` для консистентного форматирования дат (short, long, iso)
+  - `parseDate` для парсинга дат с учетом часовых поясов
+  - Валидаторы для сумм, дат, строк и hex цветов
+  - Валидатор диапазона дат
+- Frontend: API клиенты для всех эндпоинтов
+  - Базовый HTTP клиент на Axios с перехватчиками
+  - Обработка ошибок для различных HTTP статусов (400, 401, 403, 404, 422, 500)
+  - Механизм повтора для неудавшихся запросов (exponential backoff)
+  - Transaction API клиент с фильтрацией и пагинацией
+  - Category API клиент с фильтрацией по типу
+  - Budget API клиент
+  - Analytics API клиент (summary, trends, top categories)
+- Frontend: TypeScript типы для всех API сущностей
+  - Transaction, Category, Budget типы
+  - API Response и Paginated Response типы
+  - Типы для аналитики (SummaryData, TrendData, CategorySpending)
+
+### Изменено
+- Обновлен tsconfig.json для включения типов Node.js
+
 ## 0.0.2 - 2026-02-14
 
 ### Добавлено
