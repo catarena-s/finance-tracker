@@ -69,7 +69,7 @@ export default function BudgetsPage() {
   };
 
   const handleDeleteClick = (id: string) => {
-    const budget = budgets.find((b) => b.id === id);
+    const budget = budgets?.find((b) => b.id === id);
     if (budget) {
       setSelectedBudget(budget);
       setIsDeleteModalOpen(true);

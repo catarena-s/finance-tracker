@@ -56,7 +56,7 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
   };
 
   // Filter only expense categories for budgets
-  const expenseCategories = categories.filter((cat) => cat.type === 'expense');
+  const expenseCategories = (categories || []).filter((cat) => cat.type === 'expense');
   const categoryOptions = expenseCategories.map((cat) => ({
     value: cat.id,
     label: `${cat.icon} ${cat.name}`,

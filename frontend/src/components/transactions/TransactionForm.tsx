@@ -57,7 +57,7 @@ export function TransactionForm({
   });
 
   const selectedType = watch('type');
-  const filteredCategories = categories.filter((cat) => cat.type === selectedType);
+  const filteredCategories = (categories || []).filter((cat) => cat.type === selectedType);
 
   useEffect(() => {
     // Reset category if it doesn't match the selected type

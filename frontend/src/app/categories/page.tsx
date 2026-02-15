@@ -53,7 +53,7 @@ export default function CategoriesPage() {
   };
 
   const handleDeleteClick = (id: string) => {
-    const category = categories.find((c) => c.id === id);
+    const category = categories?.find((c) => c.id === id);
     if (category) {
       setSelectedCategory(category);
       setIsDeleteModalOpen(true);

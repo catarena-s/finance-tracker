@@ -69,7 +69,7 @@ export default function TransactionsPage() {
   };
 
   const handleDeleteClick = (id: string) => {
-    const transaction = transactions.find((t) => t.id === id);
+    const transaction = transactions?.find((t) => t.id === id);
     if (transaction) {
       setSelectedTransaction(transaction);
       setIsDeleteModalOpen(true);
@@ -87,7 +87,7 @@ export default function TransactionsPage() {
     }
   };
 
-  const totalPages = Math.ceil(transactions.length / pageSize);
+  const totalPages = Math.ceil((transactions?.length || 0) / pageSize);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -115,7 +115,7 @@ export default function TransactionsPage() {
           loading={loading}
           currentPage={currentPage}
           totalPages={totalPages}
-          totalItems={transactions.length}
+          totalItems={transactions?.length || 0}
           pageSize={pageSize}
           onPageChange={setCurrentPage}
           onEdit={handleEdit}
