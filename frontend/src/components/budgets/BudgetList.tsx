@@ -43,7 +43,7 @@ export function BudgetList({
     );
   }
 
-  if (budgets.length === 0) {
+  if (!budgets || budgets.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-12 text-center">
         <svg

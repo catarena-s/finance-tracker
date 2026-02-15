@@ -53,7 +53,7 @@ export function TransactionList({
     );
   }
 
-  if (transactions.length === 0) {
+  if (!transactions || transactions.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-12 text-center">
         <svg

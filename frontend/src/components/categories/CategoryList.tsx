@@ -33,7 +33,7 @@ export function CategoryList({ categories, loading = false, onEdit, onDelete }: 
     );
   }
 
-  if (categories.length === 0) {
+  if (!categories || categories.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-12 text-center">
         <svg
