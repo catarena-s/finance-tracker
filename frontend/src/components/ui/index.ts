@@ -5,3 +5,4 @@ export { DatePicker } from './DatePicker';
 export { CurrencyInput } from './CurrencyInput';
 export { Modal } from './Modal';
 export { Pagination } from './Pagination';
+export { Toast } from './Toast';
