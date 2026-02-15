@@ -358,7 +358,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const data = await analyticsApi.getSummary({ startDate, endDate });
+      
+      // Default to last 30 days if no dates provided
+      const end = endDate || new Date().toISOString().split('T')[0];
+      const start = startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      const data = await analyticsApi.getSummary({ startDate: start, endDate: end });
       setSummary(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load summary');
@@ -372,7 +377,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const data = await analyticsApi.getTrends({ period, startDate, endDate });
+      
+      // Default to last 30 days if no dates provided
+      const end = endDate || new Date().toISOString().split('T')[0];
+      const start = startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      const data = await analyticsApi.getTrends({ period, startDate: start, endDate: end });
       setTrends(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load trends');
@@ -386,7 +396,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const data = await analyticsApi.getTopCategories({ limit, type, startDate, endDate });
+      
+      // Default to last 30 days if no dates provided
+      const end = endDate || new Date().toISOString().split('T')[0];
+      const start = startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      const data = await analyticsApi.getTopCategories({ limit, type, startDate: start, endDate: end });
       setTopCategories(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load top categories');

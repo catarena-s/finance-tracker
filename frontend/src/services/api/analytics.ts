@@ -8,21 +8,21 @@ import {
 } from '@/types/api';
 
 export interface SummaryParams {
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
 }
 
 export interface TrendsParams {
-  period: 'week' | 'month' | 'year';
-  startDate?: string;
-  endDate?: string;
+  period?: 'week' | 'month' | 'year';
+  startDate: string;
+  endDate: string;
 }
 
 export interface TopCategoriesParams {
   limit: number;
   type?: TransactionType;
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
 }
 
 /**
@@ -32,10 +32,10 @@ export const analyticsApi = {
   /**
    * Получить сводку по финансам
    */
-  async getSummary(params: SummaryParams = {}): Promise<SummaryData> {
+  async getSummary(params: SummaryParams): Promise<SummaryData> {
     const queryParams = new URLSearchParams();
-    if (params.startDate) queryParams.append('start_date', params.startDate);
-    if (params.endDate) queryParams.append('end_date', params.endDate);
+    queryParams.append('start_date', params.startDate);
+    queryParams.append('end_date', params.endDate);
 
     const response = await apiClient.get<ApiResponse<SummaryData>>(
       `/analytics/summary?${queryParams.toString()}`
@@ -48,9 +48,8 @@ export const analyticsApi = {
    */
   async getTrends(params: TrendsParams): Promise<TrendData[]> {
     const queryParams = new URLSearchParams();
-    queryParams.append('period', params.period);
-    if (params.startDate) queryParams.append('start_date', params.startDate);
-    if (params.endDate) queryParams.append('end_date', params.endDate);
+    queryParams.append('start_date', params.startDate);
+    queryParams.append('end_date', params.endDate);
 
     const response = await apiClient.get<ApiResponse<TrendData[]>>(
       `/analytics/trends?${queryParams.toString()}`
@@ -64,9 +63,9 @@ export const analyticsApi = {
   async getTopCategories(params: TopCategoriesParams): Promise<CategorySpending[]> {
     const queryParams = new URLSearchParams();
     queryParams.append('limit', params.limit.toString());
+    queryParams.append('start_date', params.startDate);
+    queryParams.append('end_date', params.endDate);
     if (params.type) queryParams.append('type', params.type);
-    if (params.startDate) queryParams.append('start_date', params.startDate);
-    if (params.endDate) queryParams.append('end_date', params.endDate);
 
     const response = await apiClient.get<ApiResponse<CategorySpending[]>>(
       `/analytics/top-categories?${queryParams.toString()}`
