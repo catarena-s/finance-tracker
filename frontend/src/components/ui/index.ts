@@ -9,3 +9,4 @@ export { Toast } from './Toast';
 export { Spinner } from './Spinner';
 export { FullScreenLoader } from './FullScreenLoader';
 export { Skeleton, CardSkeleton, ListSkeleton, TableSkeleton } from './Skeleton';
+export { LazyImage } from './LazyImage';
