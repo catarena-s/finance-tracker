@@ -1,18 +1,23 @@
 # CI/CD Pipeline
 
+# CI/CD Pipeline
+
 ## Автоматические проверки
 
-### Pre-commit хуки
+### Pre-commit хуки (только для локальной разработки)
 
 При каждом коммите автоматически запускаются:
 - ESLint проверка кода
 - TypeScript type checking
 
-Для установки хуков:
+Для установки хуков в локальной разработке:
 ```bash
 npm install
-npm run prepare
+# Установить husky вручную (не требуется в Docker)
+npx husky install frontend/.husky
 ```
+
+**Примечание:** Pre-commit хуки работают только в локальной разработке. В Docker контейнере они не используются.
 
 ### GitHub Actions
 
