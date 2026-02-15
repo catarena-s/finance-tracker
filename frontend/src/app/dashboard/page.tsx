@@ -2,13 +2,30 @@
 
 import React, { useEffect } from 'react';
 import { useApp } from '@/contexts/AppContext';
-import { SummaryCards } from '@/components/dashboard';
+import {
+  SummaryCards,
+  ExpenseChart,
+  TrendChart,
+  TopCategoriesWidget,
+} from '@/components/dashboard';
 
 export default function DashboardPage() {
-  const { summary, loading, error, loadSummary, clearError } = useApp();
+  const {
+    summary,
+    trends,
+    topCategories,
+    loading,
+    error,
+    loadSummary,
+    loadTrends,
+    loadTopCategories,
+    clearError,
+  } = useApp();
 
   useEffect(() => {
     loadSummary();
+    loadTrends();
+    loadTopCategories();
   }, []);
 
   return (
@@ -32,11 +49,28 @@ export default function DashboardPage() {
           loading={loading}
         />
 
-        <div className="mt-8 bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Добро пожаловать!</h2>
-          <p className="text-gray-600">
-            Здесь будет отображаться аналитика и графики ваших финансов.
-          </p>
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TrendChart
+            incomeData={
+              trends?.map((t) => ({ date: t.date, amount: t.income })) || []
+            }
+            expenseData={
+              trends?.map((t) => ({ date: t.date, amount: t.expense })) || []
+            }
+            loading={loading}
+          />
+          <ExpenseChart
+            data={trends?.map((t) => ({ date: t.date, amount: t.expense })) || []}
+            loading={loading}
+          />
+        </div>
+
+        <div className="mt-6">
+          <TopCategoriesWidget
+            categories={topCategories || []}
+            loading={loading}
+            limit={5}
+          />
         </div>
       </div>
     </div>

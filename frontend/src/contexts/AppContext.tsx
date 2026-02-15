@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { Transaction, Category, Budget, SummaryData, TrendData as ApiTrendData, CategorySpending } from '@/types/api';
+import { Transaction, Category, Budget, SummaryData, TrendData, CategorySpending } from '@/types/api';
 import { transactionApi } from '@/services/api/transactions';
 import { categoryApi } from '@/services/api/categories';
 import { budgetApi } from '@/services/api/budgets';
@@ -13,7 +13,7 @@ interface AppContextValue {
   categories: Category[];
   budgets: Budget[];
   summary: SummaryData | null;
-  trends: ApiTrendData[];
+  trends: TrendData[];
   topCategories: CategorySpending[];
   loading: boolean;
   error: string | null;
@@ -53,7 +53,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [summary, setSummary] = useState<SummaryData | null>(null);
-  const [trends, setTrends] = useState<ApiTrendData[]>([]);
+  const [trends, setTrends] = useState<TrendData[]>([]);
   const [topCategories, setTopCategories] = useState<CategorySpending[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
