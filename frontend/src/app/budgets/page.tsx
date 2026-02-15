@@ -33,6 +33,8 @@ export default function BudgetsPage() {
 
   // TODO: Load actual budget progress from analytics API
   useEffect(() => {
+    if (!budgets) return;
+    
     // Mock budget progress for now
     const progress: Record<string, number> = {};
     budgets.forEach((budget) => {

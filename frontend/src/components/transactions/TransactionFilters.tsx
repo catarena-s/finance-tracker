@@ -49,7 +49,7 @@ export function TransactionFilters({ categories, onFilterChange }: TransactionFi
 
   const categoryOptions = [
     { value: '', label: 'Все категории' },
-    ...categories.map((cat) => ({
+    ...(categories || []).map((cat) => ({
       value: cat.id,
       label: `${cat.icon} ${cat.name}`,
     })),
