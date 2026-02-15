@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 import logging
 
+from app.core.config import settings
 from app.core.exceptions import AppException
 from app.api.routes import categories, transactions, budgets, analytics
 
@@ -19,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="Finance Tracker API",
+    title=settings.PROJECT_NAME,
     description="""
     ## API для управления личными финансами
     
@@ -50,17 +51,17 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Register routers
-app.include_router(categories.router, prefix="/api/v1")
-app.include_router(transactions.router, prefix="/api/v1")
-app.include_router(budgets.router, prefix="/api/v1")
-app.include_router(analytics.router, prefix="/api/v1")
+app.include_router(categories.router, prefix=settings.API_V1_PREFIX)
+app.include_router(transactions.router, prefix=settings.API_V1_PREFIX)
+app.include_router(budgets.router, prefix=settings.API_V1_PREFIX)
+app.include_router(analytics.router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/health", tags=["Health"])

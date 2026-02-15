@@ -27,7 +27,7 @@ services:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
       API_V1_PREFIX: /api/v1
       PROJECT_NAME: Finance Tracker API
-      CORS_ORIGINS: http://localhost:3000
+      CORS_ORIGINS: "http://localhost:3000,http://localhost:8000"
     ports:
       - "8000:8000"
     volumes:
