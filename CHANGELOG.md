@@ -32,8 +32,9 @@
 - Backend: API_V1_PREFIX используется из настроек
 
 ### Исправлено
-- Backend: ошибка парсинга CORS_ORIGINS в Docker (добавлен валидатор для строк с запятыми)
+- Backend: ошибка парсинга CORS_ORIGINS в Docker (изменен тип поля на Union[str, list[str]])
 - Backend: Swagger теперь доступен по адресу /docs
+- Backend: добавлен python-multipart для поддержки загрузки файлов (CSV импорт)
 
 ## 0.0.2 - 2026-02-14
 
