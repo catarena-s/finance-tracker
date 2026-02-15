@@ -25,6 +25,7 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
+    setValue,
   } = useForm<BudgetFormData>({
     defaultValues: budget
       ? {
@@ -78,17 +79,16 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
         })}
       />
 
-      <CurrencyInput
-        label="Сумма бюджета"
-        error={errors.amount?.message}
-        {...register('amount', {
-          required: 'Введите сумму',
-          validate: (value) => {
-            const result = validateAmount(Number(value));
-            return result.valid || result.error || 'Неверная сумма';
-          },
-        })}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Сумма бюджета
+        </label>
+        <CurrencyInput
+          value={watch('amount')}
+          onChange={(value) => setValue('amount', value)}
+          error={errors.amount?.message}
+        />
+      </div>
 
       <Select
         label="Период"
@@ -99,45 +99,29 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
         })}
       />
 
-      <DatePicker
-        label="Дата начала"
-        error={errors.startDate?.message}
-        maxDate={endDate || undefined}
-        {...register('startDate', {
-          required: 'Выберите дату начала',
-          validate: (value) => {
-            const result = validateDate(value);
-            if (!result.valid) return result.error || 'Неверная дата';
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Дата начала
+        </label>
+        <DatePicker
+          value={watch('startDate')}
+          onChange={(value) => setValue('startDate', value)}
+          error={errors.startDate?.message}
+          maxDate={endDate || undefined}
+        />
+      </div>
 
-            if (endDate) {
-              const rangeResult = validateDateRange(value, endDate);
-              return rangeResult.valid || rangeResult.error || 'Неверный диапазон дат';
-            }
-
-            return true;
-          },
-        })}
-      />
-
-      <DatePicker
-        label="Дата окончания"
-        error={errors.endDate?.message}
-        minDate={startDate || undefined}
-        {...register('endDate', {
-          required: 'Выберите дату окончания',
-          validate: (value) => {
-            const result = validateDate(value);
-            if (!result.valid) return result.error || 'Неверная дата';
-
-            if (startDate) {
-              const rangeResult = validateDateRange(startDate, value);
-              return rangeResult.valid || rangeResult.error || 'Дата окончания должна быть после даты начала';
-            }
-
-            return true;
-          },
-        })}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Дата окончания
+        </label>
+        <DatePicker
+          value={watch('endDate')}
+          onChange={(value) => setValue('endDate', value)}
+          error={errors.endDate?.message}
+          minDate={startDate || undefined}
+        />
+      </div>
 
       <div className="flex gap-3 pt-4">
         <Button

@@ -98,18 +98,17 @@ export function TransactionForm({
         })}
       />
 
-      <CurrencyInput
-        label="Сумма"
-        error={errors.amount?.message}
-        currency={watch('currency')}
-        {...register('amount', {
-          required: 'Введите сумму',
-          validate: (value) => {
-            const result = validateAmount(Number(value));
-            return result.valid || result.error || 'Неверная сумма';
-          },
-        })}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Сумма
+        </label>
+        <CurrencyInput
+          value={watch('amount')}
+          onChange={(value) => setValue('amount', value)}
+          currency={watch('currency')}
+          error={errors.amount?.message}
+        />
+      </div>
 
       <Select
         label="Валюта"
@@ -135,18 +134,17 @@ export function TransactionForm({
         })}
       />
 
-      <DatePicker
-        label="Дата транзакции"
-        error={errors.transactionDate?.message}
-        maxDate={new Date().toISOString().split('T')[0]}
-        {...register('transactionDate', {
-          required: 'Выберите дату',
-          validate: (value) => {
-            const result = validateDate(value);
-            return result.valid || result.error || 'Неверная дата';
-          },
-        })}
-      />
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Дата транзакции
+        </label>
+        <DatePicker
+          value={watch('transactionDate')}
+          onChange={(value) => setValue('transactionDate', value)}
+          error={errors.transactionDate?.message}
+          maxDate={new Date().toISOString().split('T')[0]}
+        />
+      </div>
 
       <Input
         label="Описание (необязательно)"
@@ -156,8 +154,7 @@ export function TransactionForm({
         {...register('description', {
           validate: (value) => {
             if (!value) return true;
-            const result = validateString(value, { maxLength: 500 });
-            return result.valid || result.error || 'Описание слишком длинное';
+            return validateString(value, { maxLength: 500 }) || true;
           },
         })}
       />

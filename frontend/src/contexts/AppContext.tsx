@@ -1,43 +1,20 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { Transaction, Category, Budget } from '@/types/api';
+import { Transaction, Category, Budget, SummaryData, TrendData as ApiTrendData, CategorySpending } from '@/types/api';
 import { transactionApi } from '@/services/api/transactions';
 import { categoryApi } from '@/services/api/categories';
 import { budgetApi } from '@/services/api/budgets';
 import { analyticsApi } from '@/services/api/analytics';
-
-interface AnalyticsSummary {
-  totalIncome: number;
-  totalExpense: number;
-  balance: number;
-  period: {
-    startDate: string;
-    endDate: string;
-  };
-}
-
-interface TrendData {
-  date: string;
-  income: number;
-  expense: number;
-}
-
-interface TopCategory {
-  categoryId: string;
-  categoryName: string;
-  amount: number;
-  percentage: number;
-}
 
 interface AppContextValue {
   // State
   transactions: Transaction[];
   categories: Category[];
   budgets: Budget[];
-  summary: AnalyticsSummary | null;
-  trends: TrendData[];
-  topCategories: TopCategory[];
+  summary: SummaryData | null;
+  trends: ApiTrendData[];
+  topCategories: CategorySpending[];
   loading: boolean;
   error: string | null;
 
@@ -61,8 +38,8 @@ interface AppContextValue {
 
   // Analytics actions
   loadSummary: (startDate?: string, endDate?: string) => Promise<void>;
-  loadTrends: (startDate?: string, endDate?: string) => Promise<void>;
-  loadTopCategories: (limit?: number) => Promise<void>;
+  loadTrends: (period?: 'week' | 'month' | 'year', startDate?: string, endDate?: string) => Promise<void>;
+  loadTopCategories: (limit?: number, type?: 'income' | 'expense', startDate?: string, endDate?: string) => Promise<void>;
 
   // UI actions
   setError: (error: string | null) => void;
@@ -75,9 +52,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
-  const [summary, setSummary] = useState<AnalyticsSummary | null>(null);
-  const [trends, setTrends] = useState<TrendData[]>([]);
-  const [topCategories, setTopCategories] = useState<TopCategory[]>([]);
+  const [summary, setSummary] = useState<SummaryData | null>(null);
+  const [trends, setTrends] = useState<ApiTrendData[]>([]);
+  const [topCategories, setTopCategories] = useState<CategorySpending[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -87,7 +64,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       setError(null);
       const data = await transactionApi.getAll(filters);
-      setTransactions(data.items || data);
+      setTransactions(data.data);
     } catch (err: any) {
       setError(err.message || 'Failed to load transactions');
       throw err;
@@ -111,7 +88,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
       } as Transaction;
       setTransactions(prev => [optimisticTransaction, ...prev]);
 
-      const created = await transactionApi.create(data);
+      // Map transactionDate to date for API
+      const apiData = {
+        type: data.type,
+        amount: data.amount,
+        categoryId: data.categoryId,
+        description: data.description || '',
+        date: data.transactionDate,
+      };
+      const created = await transactionApi.create(apiData);
       
       // Replace optimistic with real data
       setTransactions(prev => 
@@ -128,17 +113,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateTransaction = useCallback(async (id: string, data: Partial<Transaction>) => {
+    const previousTransactions = [...transactions];
     try {
       setLoading(true);
       setError(null);
       
       // Optimistic update
-      const previousTransactions = [...transactions];
       setTransactions(prev =>
         prev.map(t => t.id === id ? { ...t, ...data } : t)
       );
 
-      const updated = await transactionApi.update(id, data);
+      // Map transactionDate to date for API
+      const apiData: any = {};
+      if (data.type !== undefined) apiData.type = data.type;
+      if (data.amount !== undefined) apiData.amount = data.amount;
+      if (data.categoryId !== undefined) apiData.categoryId = data.categoryId;
+      if (data.description !== undefined) apiData.description = data.description;
+      if (data.transactionDate !== undefined) apiData.date = data.transactionDate;
+
+      const updated = await transactionApi.update(id, apiData);
       
       // Replace with real data
       setTransactions(prev =>
@@ -155,12 +148,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [transactions]);
 
   const deleteTransaction = useCallback(async (id: string) => {
+    const previousTransactions = [...transactions];
     try {
       setLoading(true);
       setError(null);
       
       // Optimistic update
-      const previousTransactions = [...transactions];
       setTransactions(prev => prev.filter(t => t.id !== id));
 
       await transactionApi.delete(id);
@@ -221,12 +214,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateCategory = useCallback(async (id: string, data: Partial<Category>) => {
+    const previousCategories = [...categories];
     try {
       setLoading(true);
       setError(null);
       
       // Optimistic update
-      const previousCategories = [...categories];
       setCategories(prev =>
         prev.map(c => c.id === id ? { ...c, ...data } : c)
       );
@@ -248,12 +241,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [categories]);
 
   const deleteCategory = useCallback(async (id: string) => {
+    const previousCategories = [...categories];
     try {
       setLoading(true);
       setError(null);
       
       // Optimistic update
-      const previousCategories = [...categories];
       setCategories(prev => prev.filter(c => c.id !== id));
 
       await categoryApi.delete(id);
@@ -314,12 +307,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateBudget = useCallback(async (id: string, data: Partial<Budget>) => {
+    const previousBudgets = [...budgets];
     try {
       setLoading(true);
       setError(null);
       
       // Optimistic update
-      const previousBudgets = [...budgets];
       setBudgets(prev =>
         prev.map(b => b.id === id ? { ...b, ...data } : b)
       );
@@ -341,12 +334,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [budgets]);
 
   const deleteBudget = useCallback(async (id: string) => {
+    const previousBudgets = [...budgets];
     try {
       setLoading(true);
       setError(null);
       
       // Optimistic update
-      const previousBudgets = [...budgets];
       setBudgets(prev => prev.filter(b => b.id !== id));
 
       await budgetApi.delete(id);
@@ -365,7 +358,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const data = await analyticsApi.getSummary(startDate, endDate);
+      const data = await analyticsApi.getSummary({ startDate, endDate });
       setSummary(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load summary');
@@ -375,11 +368,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const loadTrends = useCallback(async (startDate?: string, endDate?: string) => {
+  const loadTrends = useCallback(async (period: 'week' | 'month' | 'year' = 'month', startDate?: string, endDate?: string) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await analyticsApi.getTrends(startDate, endDate);
+      const data = await analyticsApi.getTrends({ period, startDate, endDate });
       setTrends(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load trends');
@@ -389,11 +382,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const loadTopCategories = useCallback(async (limit: number = 5) => {
+  const loadTopCategories = useCallback(async (limit: number = 5, type?: 'income' | 'expense', startDate?: string, endDate?: string) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await analyticsApi.getTopCategories(limit);
+      const data = await analyticsApi.getTopCategories({ limit, type, startDate, endDate });
       setTopCategories(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load top categories');

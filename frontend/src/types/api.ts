@@ -5,9 +5,12 @@ export interface Transaction {
   id: string;
   type: TransactionType;
   amount: number;
+  currency: string;
   categoryId: string;
-  description: string;
-  date: string;
+  description?: string;
+  transactionDate: string;
+  isRecurring: boolean;
+  recurringPattern?: any;
   createdAt: string;
   updatedAt: string;
 }

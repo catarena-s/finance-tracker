@@ -76,10 +76,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
         error={errors.name?.message}
         {...register('name', {
           required: 'Введите название категории',
-          validate: (value) => {
-            const result = validateString(value, { minLength: 1, maxLength: 100 });
-            return result.valid || result.error || 'Неверное название';
-          },
+          validate: (value) => validateString(value, { minLength: 1, maxLength: 100 }) || true,
         })}
       />
 
@@ -109,10 +106,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             error={errors.icon?.message}
             {...register('icon', {
               required: 'Выберите иконку',
-              validate: (value) => {
-                const result = validateString(value, { minLength: 1, maxLength: 10 });
-                return result.valid || result.error || 'Неверная иконка';
-              },
+              validate: (value) => validateString(value, { minLength: 1, maxLength: 10 }) || true,
             })}
           />
         </div>
@@ -147,10 +141,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             error={errors.color?.message}
             {...register('color', {
               required: 'Выберите цвет',
-              validate: (value) => {
-                const result = validateHexColor(value);
-                return result.valid || result.error || 'Неверный формат цвета';
-              },
+              validate: (value) => validateHexColor(value) || true,
             })}
           />
         </div>
