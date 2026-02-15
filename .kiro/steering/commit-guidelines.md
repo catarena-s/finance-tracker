@@ -8,6 +8,33 @@ inclusion: auto
 
 **Все коммиты должны быть на русском языке.**
 
+## Автор коммитов
+
+**Важно**: Используйте правильного автора для всех коммитов.
+
+Настройки автора хранятся в `.kiro/local/git-author.conf` (файл игнорируется git).
+
+### Настройка автора
+
+**Вариант 1: Глобальная настройка (рекомендуется)**
+```bash
+git config --global user.name "Ваше Имя"
+git config --global user.email "your.email@example.com"
+```
+
+**Вариант 2: Для конкретного коммита**
+```bash
+git commit --author="Ваше Имя <your.email@example.com>" -m "сообщение"
+```
+
+**Вариант 3: Для текущего репозитория**
+```bash
+git config user.name "Ваше Имя"
+git config user.email "your.email@example.com"
+```
+
+Конкретные данные автора смотрите в `.kiro/local/git-author.conf`
+
 ## Формат коммита
 
 ```
