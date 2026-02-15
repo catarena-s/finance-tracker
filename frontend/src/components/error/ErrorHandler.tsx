@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useCallback, createContext, useContext, ReactNode } from 'react';
 import { Toast } from '@/components/ui/Toast';
 

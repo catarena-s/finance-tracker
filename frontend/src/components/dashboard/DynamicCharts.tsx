@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import { Spinner } from '@/components/ui';
 
 // Динамический импорт тяжелых компонентов с графиками
+// TODO: Раскомментировать когда компоненты будут созданы
+/*
 export const ExpenseChart = dynamic(
   () => import('./ExpenseChart').then((mod) => mod.ExpenseChart),
   {
@@ -39,3 +41,4 @@ export const TopCategoriesWidget = dynamic(
     ssr: false,
   }
 );
+*/
