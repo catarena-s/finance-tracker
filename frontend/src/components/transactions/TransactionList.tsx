@@ -1,7 +1,7 @@
-import React from 'react';
-import { Transaction } from '@/types/api';
-import { TransactionCard } from './TransactionCard';
-import { Pagination } from '@/components/ui';
+import React from "react";
+import { Transaction } from "@/types/api";
+import { TransactionCard } from "./TransactionCard";
+import { Pagination } from "@/components/ui";
 
 interface TransactionListProps {
   transactions: Transaction[];

@@ -1,8 +1,8 @@
-import React, { InputHTMLAttributes, forwardRef } from 'react';
+import React, { InputHTMLAttributes, forwardRef } from "react";
 
-type InputType = 'text' | 'number' | 'email' | 'password' | 'date';
+type InputType = "text" | "number" | "email" | "password" | "date";
 
-interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   type?: InputType;
   label?: string;
   error?: string;
@@ -10,7 +10,7 @@ interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'text', label, error, helperText, className = '', id, ...props }, ref) => {
+  ({ type = "text", label, error, helperText, className = "", id, ...props }, ref) => {
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
     const errorId = error ? `${inputId}-error` : undefined;
     const helperId = helperText ? `${inputId}-helper` : undefined;
@@ -39,31 +39,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled:bg-gray-100 disabled:cursor-not-allowed
             ${
               hasError
-                ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
-                : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             }
             ${className}
           `}
           aria-invalid={hasError}
-          aria-describedby={
-            [errorId, helperId].filter(Boolean).join(' ') || undefined
-          }
+          aria-describedby={[errorId, helperId].filter(Boolean).join(" ") || undefined}
           {...props}
         />
         {error && (
-          <p
-            id={errorId}
-            className="mt-1 text-sm text-red-600"
-            role="alert"
-          >
+          <p id={errorId} className="mt-1 text-sm text-red-600" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p
-            id={helperId}
-            className="mt-1 text-sm text-gray-500"
-          >
+          <p id={helperId} className="mt-1 text-sm text-gray-500">
             {helperText}
           </p>
         )}
@@ -72,4 +63,4 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
-Input.displayName = 'Input';
+Input.displayName = "Input";

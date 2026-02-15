@@ -1,11 +1,11 @@
-import React from 'react';
-import { Spinner } from './Spinner';
+import React from "react";
+import { Spinner } from "./Spinner";
 
 interface FullScreenLoaderProps {
   message?: string;
 }
 
-export function FullScreenLoader({ message = 'Загрузка...' }: FullScreenLoaderProps) {
+export function FullScreenLoader({ message = "Загрузка..." }: FullScreenLoaderProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white bg-opacity-90"

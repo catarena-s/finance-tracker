@@ -4,9 +4,9 @@
  * @param currency - Код валюты (по умолчанию 'USD')
  * @returns Отформатированная строка с валютой
  */
-export function formatCurrency(amount: number, currency: string = 'USD'): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
+export function formatCurrency(amount: number, currency: string = "USD"): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
     currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -21,29 +21,29 @@ export function formatCurrency(amount: number, currency: string = 'USD'): string
  */
 export function formatDate(
   date: string | Date,
-  format: 'short' | 'long' | 'iso' = 'short'
+  format: "short" | "long" | "iso" = "short"
 ): string {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const dateObj = typeof date === "string" ? new Date(date) : date;
 
   if (isNaN(dateObj.getTime())) {
-    return 'Invalid Date';
+    return "Invalid Date";
   }
 
   switch (format) {
-    case 'iso':
-      return dateObj.toISOString().split('T')[0];
-    case 'long':
-      return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+    case "iso":
+      return dateObj.toISOString().split("T")[0];
+    case "long":
+      return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       }).format(dateObj);
-    case 'short':
+    case "short":
     default:
-      return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
+      return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
       }).format(dateObj);
   }
 }
@@ -55,11 +55,11 @@ export function formatDate(
  */
 export function parseDate(dateString: string): Date {
   // Если строка уже содержит информацию о часовом поясе, используем её
-  if (dateString.includes('T') || dateString.includes('Z')) {
+  if (dateString.includes("T") || dateString.includes("Z")) {
     return new Date(dateString);
   }
 
   // Для дат без времени (YYYY-MM-DD), создаем дату в локальном часовом поясе
-  const [year, month, day] = dateString.split('-').map(Number);
+  const [year, month, day] = dateString.split("-").map(Number);
   return new Date(year, month - 1, day);
 }

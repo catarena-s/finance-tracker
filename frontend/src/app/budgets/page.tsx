@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Budget } from '@/types/api';
-import { BudgetList, BudgetForm } from '@/components/budgets';
-import { Modal, Button } from '@/components/ui';
+import React, { useEffect, useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import { Budget } from "@/types/api";
+import { BudgetList, BudgetForm } from "@/components/budgets";
+import { Modal, Button } from "@/components/ui";
 
 export default function BudgetsPage() {
   const {
@@ -34,7 +34,7 @@ export default function BudgetsPage() {
   // TODO: Load actual budget progress from analytics API
   useEffect(() => {
     if (!budgets) return;
-    
+
     // Mock budget progress for now
     const progress: Record<string, number> = {};
     budgets.forEach((budget) => {
@@ -92,9 +92,7 @@ export default function BudgetsPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Бюджеты</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            Добавить бюджет
-          </Button>
+          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить бюджет</Button>
         </div>
 
         {error && (
@@ -157,23 +155,17 @@ export default function BudgetsPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-gray-700">
-              Вы уверены, что хотите удалить этот бюджет?
-            </p>
+            <p className="text-gray-700">Вы уверены, что хотите удалить этот бюджет?</p>
             {selectedBudget && (
               <div className="bg-gray-50 p-3 rounded">
                 <p className="font-medium">{selectedBudget.amount} USD</p>
                 <p className="text-sm text-gray-600">
-                  {selectedBudget.period === 'monthly' ? 'Месячный' : 'Годовой'}
+                  {selectedBudget.period === "monthly" ? "Месячный" : "Годовой"}
                 </p>
               </div>
             )}
             <div className="flex gap-3">
-              <Button
-                variant="danger"
-                onClick={handleDeleteConfirm}
-                className="flex-1"
-              >
+              <Button variant="danger" onClick={handleDeleteConfirm} className="flex-1">
                 Удалить
               </Button>
               <Button

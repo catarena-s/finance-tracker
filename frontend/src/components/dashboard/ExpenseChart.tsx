@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,8 +9,8 @@ import {
   Tooltip,
   Legend,
   Filler,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -28,10 +28,10 @@ interface ExpenseChartProps {
   loading?: boolean;
 }
 
-type Period = 'week' | 'month' | 'year';
+type Period = "week" | "month" | "year";
 
 export function ExpenseChart({ data, loading }: ExpenseChartProps) {
-  const [period, setPeriod] = useState<Period>('month');
+  const [period, setPeriod] = useState<Period>("month");
 
   const chartData = useMemo(() => {
     if (!data || data.length === 0) {
@@ -45,10 +45,10 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
       labels: data.map((item) => item.date),
       datasets: [
         {
-          label: 'Расходы',
+          label: "Расходы",
           data: data.map((item) => item.amount),
-          borderColor: 'rgb(239, 68, 68)',
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          borderColor: "rgb(239, 68, 68)",
+          backgroundColor: "rgba(239, 68, 68, 0.1)",
           fill: true,
           tension: 0.4,
         },
@@ -62,21 +62,21 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
     plugins: {
       legend: {
         display: true,
-        position: 'top' as const,
+        position: "top" as const,
       },
       tooltip: {
-        mode: 'index' as const,
+        mode: "index" as const,
         intersect: false,
         callbacks: {
           label: function (context: any) {
-            let label = context.dataset.label || '';
+            let label = context.dataset.label || "";
             if (label) {
-              label += ': ';
+              label += ": ";
             }
             if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat('ru-RU', {
-                style: 'currency',
-                currency: 'USD',
+              label += new Intl.NumberFormat("ru-RU", {
+                style: "currency",
+                currency: "USD",
               }).format(context.parsed.y);
             }
             return label;
@@ -89,9 +89,9 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
         beginAtZero: true,
         ticks: {
           callback: function (value: any) {
-            return new Intl.NumberFormat('ru-RU', {
-              style: 'currency',
-              currency: 'USD',
+            return new Intl.NumberFormat("ru-RU", {
+              style: "currency",
+              currency: "USD",
               minimumFractionDigits: 0,
             }).format(value);
           },
@@ -128,31 +128,31 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
         <h2 className="text-xl font-semibold">Тренд расходов</h2>
         <div className="flex gap-2">
           <button
-            onClick={() => setPeriod('week')}
+            onClick={() => setPeriod("week")}
             className={`px-3 py-1 rounded text-sm ${
-              period === 'week'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              period === "week"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
             Неделя
           </button>
           <button
-            onClick={() => setPeriod('month')}
+            onClick={() => setPeriod("month")}
             className={`px-3 py-1 rounded text-sm ${
-              period === 'month'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              period === "month"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
             Месяц
           </button>
           <button
-            onClick={() => setPeriod('year')}
+            onClick={() => setPeriod("year")}
             className={`px-3 py-1 rounded text-sm ${
-              period === 'year'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              period === "year"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
             Год

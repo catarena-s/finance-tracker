@@ -1,5 +1,5 @@
-import { apiClient } from './client';
-import { Budget, BudgetWithDetails, BudgetPeriod, ApiResponse } from '@/types/api';
+import { apiClient } from "./client";
+import { Budget, BudgetWithDetails, BudgetPeriod, ApiResponse } from "@/types/api";
 
 export interface CreateBudgetData {
   categoryId: string;
@@ -25,7 +25,7 @@ export const budgetApi = {
    * Получить все бюджеты с деталями
    */
   async getAll(): Promise<BudgetWithDetails[]> {
-    const response = await apiClient.get<ApiResponse<BudgetWithDetails[]>>('/budgets');
+    const response = await apiClient.get<ApiResponse<BudgetWithDetails[]>>("/budgets");
     return response.data.data;
   },
 
@@ -33,7 +33,9 @@ export const budgetApi = {
    * Получить бюджет по ID
    */
   async getById(id: string): Promise<BudgetWithDetails> {
-    const response = await apiClient.get<ApiResponse<BudgetWithDetails>>(`/budgets/${id}`);
+    const response = await apiClient.get<ApiResponse<BudgetWithDetails>>(
+      `/budgets/${id}`
+    );
     return response.data.data;
   },
 
@@ -41,7 +43,7 @@ export const budgetApi = {
    * Создать новый бюджет
    */
   async create(data: CreateBudgetData): Promise<Budget> {
-    const response = await apiClient.post<ApiResponse<Budget>>('/budgets', data);
+    const response = await apiClient.post<ApiResponse<Budget>>("/budgets", data);
     return response.data.data;
   },
 

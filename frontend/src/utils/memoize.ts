@@ -6,14 +6,14 @@ export function memoize<T extends (...args: any[]) => any>(fn: T): T {
 
   return ((...args: Parameters<T>): ReturnType<T> => {
     const key = JSON.stringify(args);
-    
+
     if (cache.has(key)) {
       return cache.get(key)!;
     }
 
     const result = fn(...args);
     cache.set(key, result);
-    
+
     return result;
   }) as T;
 }
@@ -30,7 +30,7 @@ export function memoizeWithLimit<T extends (...args: any[]) => any>(
 
   return ((...args: Parameters<T>): ReturnType<T> => {
     const key = JSON.stringify(args);
-    
+
     if (cache.has(key)) {
       // Перемещаем ключ в конец (most recently used)
       const index = keys.indexOf(key);
@@ -42,7 +42,7 @@ export function memoizeWithLimit<T extends (...args: any[]) => any>(
     }
 
     const result = fn(...args);
-    
+
     // Если достигнут лимит, удаляем самый старый элемент
     if (cache.size >= limit) {
       const oldestKey = keys.shift();
@@ -53,7 +53,7 @@ export function memoizeWithLimit<T extends (...args: any[]) => any>(
 
     cache.set(key, result);
     keys.push(key);
-    
+
     return result;
   }) as T;
 }

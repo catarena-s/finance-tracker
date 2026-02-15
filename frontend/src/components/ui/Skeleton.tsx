@@ -1,29 +1,29 @@
-import React from 'react';
+import React from "react";
 
 interface SkeletonProps {
-  variant?: 'text' | 'circular' | 'rectangular';
+  variant?: "text" | "circular" | "rectangular";
   width?: string | number;
   height?: string | number;
   className?: string;
 }
 
 export function Skeleton({
-  variant = 'text',
+  variant = "text",
   width,
   height,
-  className = '',
+  className = "",
 }: SkeletonProps) {
-  const baseClasses = 'bg-gray-200 animate-pulse';
+  const baseClasses = "bg-gray-200 animate-pulse";
 
   const variantClasses = {
-    text: 'rounded h-4',
-    circular: 'rounded-full',
-    rectangular: 'rounded',
+    text: "rounded h-4",
+    circular: "rounded-full",
+    rectangular: "rounded",
   };
 
   const style: React.CSSProperties = {};
-  if (width) style.width = typeof width === 'number' ? `${width}px` : width;
-  if (height) style.height = typeof height === 'number' ? `${height}px` : height;
+  if (width) style.width = typeof width === "number" ? `${width}px` : width;
+  if (height) style.height = typeof height === "number" ? `${height}px` : height;
 
   return (
     <div
@@ -59,7 +59,13 @@ export function ListSkeleton({ count = 3 }: { count?: number }) {
   );
 }
 
-export function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
+export function TableSkeleton({
+  rows = 5,
+  cols = 4,
+}: {
+  rows?: number;
+  cols?: number;
+}) {
   return (
     <div className="space-y-2">
       {/* Header */}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 /**
  * Хук для предзагрузки данных следующей страницы
@@ -12,7 +12,7 @@ export function usePrefetch<T>(
 
   useEffect(() => {
     const nextPage = currentPage + 1;
-    
+
     // Предзагружаем следующую страницу, если она существует и еще не загружена
     if (nextPage <= totalPages && !prefetchedPages.current.has(nextPage)) {
       const timer = setTimeout(() => {

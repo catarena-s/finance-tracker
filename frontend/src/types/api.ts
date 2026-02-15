@@ -1,5 +1,5 @@
 // Transaction types
-export type TransactionType = 'income' | 'expense';
+export type TransactionType = "income" | "expense";
 
 export interface Transaction {
   id: string;
@@ -35,7 +35,7 @@ export interface Category {
 }
 
 // Budget types
-export type BudgetPeriod = 'monthly' | 'yearly';
+export type BudgetPeriod = "monthly" | "yearly";
 
 export interface Budget {
   id: string;

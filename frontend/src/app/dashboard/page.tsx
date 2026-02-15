@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import { useApp } from '@/contexts/AppContext';
+import React, { useEffect } from "react";
+import { useApp } from "@/contexts/AppContext";
 import {
   SummaryCards,
   ExpenseChart,
   TrendChart,
   TopCategoriesWidget,
-} from '@/components/dashboard';
+} from "@/components/dashboard";
 
 export default function DashboardPage() {
   const {
@@ -51,9 +51,7 @@ export default function DashboardPage() {
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <TrendChart
-            incomeData={
-              trends?.map((t) => ({ date: t.date, amount: t.income })) || []
-            }
+            incomeData={trends?.map((t) => ({ date: t.date, amount: t.income })) || []}
             expenseData={
               trends?.map((t) => ({ date: t.date, amount: t.expense })) || []
             }

@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 export interface ToastProps {
   message: string;
-  type?: 'error' | 'success' | 'warning' | 'info';
+  type?: "error" | "success" | "warning" | "info";
   onClose: () => void;
   duration?: number;
 }
 
-export function Toast({ message, type = 'error', onClose, duration = 5000 }: ToastProps) {
+export function Toast({
+  message,
+  type = "error",
+  onClose,
+  duration = 5000,
+}: ToastProps) {
   useEffect(() => {
     if (duration > 0) {
       const timer = setTimeout(onClose, duration);
@@ -16,17 +21,17 @@ export function Toast({ message, type = 'error', onClose, duration = 5000 }: Toa
   }, [duration, onClose]);
 
   const typeStyles = {
-    error: 'bg-red-500 border-red-600',
-    success: 'bg-green-500 border-green-600',
-    warning: 'bg-yellow-500 border-yellow-600',
-    info: 'bg-blue-500 border-blue-600',
+    error: "bg-red-500 border-red-600",
+    success: "bg-green-500 border-green-600",
+    warning: "bg-yellow-500 border-yellow-600",
+    info: "bg-blue-500 border-blue-600",
   };
 
   const icons = {
-    error: '❌',
-    success: '✅',
-    warning: '⚠️',
-    info: 'ℹ️',
+    error: "❌",
+    success: "✅",
+    warning: "⚠️",
+    info: "ℹ️",
   };
 
   return (

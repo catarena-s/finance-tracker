@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Category } from '@/types/api';
-import { CategoryList, CategoryForm } from '@/components/categories';
-import { Modal, Button } from '@/components/ui';
+import React, { useEffect, useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import { Category } from "@/types/api";
+import { CategoryList, CategoryForm } from "@/components/categories";
+import { Modal, Button } from "@/components/ui";
 
 export default function CategoriesPage() {
   const {
@@ -76,9 +76,7 @@ export default function CategoriesPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Категории</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            Добавить категорию
-          </Button>
+          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить категорию</Button>
         </div>
 
         {error && (
@@ -147,20 +145,17 @@ export default function CategoriesPage() {
                 <div>
                   <p className="font-medium">{selectedCategory.name}</p>
                   <p className="text-sm text-gray-600">
-                    {selectedCategory.type === 'income' ? 'Доход' : 'Расход'}
+                    {selectedCategory.type === "income" ? "Доход" : "Расход"}
                   </p>
                 </div>
               </div>
             )}
             <p className="text-sm text-amber-600">
-              ⚠️ Внимание: Если у категории есть связанные транзакции, удаление будет невозможно.
+              ⚠️ Внимание: Если у категории есть связанные транзакции, удаление будет
+              невозможно.
             </p>
             <div className="flex gap-3">
-              <Button
-                variant="danger"
-                onClick={handleDeleteConfirm}
-                className="flex-1"
-              >
+              <Button variant="danger" onClick={handleDeleteConfirm} className="flex-1">
                 Удалить
               </Button>
               <Button

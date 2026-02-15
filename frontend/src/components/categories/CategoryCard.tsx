@@ -1,6 +1,6 @@
-import React from 'react';
-import { Category } from '@/types/api';
-import { Button } from '@/components/ui';
+import React from "react";
+import { Category } from "@/types/api";
+import { Button } from "@/components/ui";
 
 interface CategoryCardProps {
   category: Category;
@@ -9,8 +9,11 @@ interface CategoryCardProps {
 }
 
 export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) {
-  const typeLabel = category.type === 'income' ? 'Доход' : 'Расход';
-  const typeBadgeColor = category.type === 'income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+  const typeLabel = category.type === "income" ? "Доход" : "Расход";
+  const typeBadgeColor =
+    category.type === "income"
+      ? "bg-green-100 text-green-800"
+      : "bg-red-100 text-red-800";
 
   return (
     <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
@@ -29,7 +32,9 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
               {category.name}
             </h3>
             <div className="flex items-center gap-2 mt-1">
-              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${typeBadgeColor}`}>
+              <span
+                className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${typeBadgeColor}`}
+              >
                 {typeLabel}
               </span>
               <div

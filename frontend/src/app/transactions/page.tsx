@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Transaction } from '@/types/api';
+import React, { useEffect, useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import { Transaction } from "@/types/api";
 import {
   TransactionList,
   TransactionFilters,
   TransactionForm,
   TransactionFilterValues,
-} from '@/components/transactions';
-import { Modal, Button } from '@/components/ui';
+} from "@/components/transactions";
+import { Modal, Button } from "@/components/ui";
 
 export default function TransactionsPage() {
   const {
@@ -28,7 +28,9 @@ export default function TransactionsPage() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<TransactionFilterValues>({});
   const pageSize = 10;
@@ -108,7 +110,10 @@ export default function TransactionsPage() {
           </div>
         )}
 
-        <TransactionFilters categories={categories} onFilterChange={handleFilterChange} />
+        <TransactionFilters
+          categories={categories}
+          onFilterChange={handleFilterChange}
+        />
 
         <TransactionList
           transactions={transactions}
@@ -170,16 +175,16 @@ export default function TransactionsPage() {
             </p>
             {selectedTransaction && (
               <div className="bg-gray-50 p-3 rounded">
-                <p className="font-medium">{selectedTransaction.amount} {selectedTransaction.currency}</p>
-                <p className="text-sm text-gray-600">{selectedTransaction.description}</p>
+                <p className="font-medium">
+                  {selectedTransaction.amount} {selectedTransaction.currency}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {selectedTransaction.description}
+                </p>
               </div>
             )}
             <div className="flex gap-3">
-              <Button
-                variant="danger"
-                onClick={handleDeleteConfirm}
-                className="flex-1"
-              >
+              <Button variant="danger" onClick={handleDeleteConfirm} className="flex-1">
                 Удалить
               </Button>
               <Button

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 interface UseIntersectionObserverOptions {
   threshold?: number;
@@ -9,10 +9,8 @@ interface UseIntersectionObserverOptions {
 /**
  * Хук для отслеживания видимости элемента в viewport
  */
-export function useIntersectionObserver(
-  options: UseIntersectionObserverOptions = {}
-) {
-  const { threshold = 0, rootMargin = '0px', triggerOnce = true } = options;
+export function useIntersectionObserver(options: UseIntersectionObserverOptions = {}) {
+  const { threshold = 0, rootMargin = "0px", triggerOnce = true } = options;
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
   const targetRef = useRef<HTMLDivElement>(null);

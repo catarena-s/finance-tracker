@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const navItems = [
-    { href: '/dashboard', label: 'Dashboard' },
-    { href: '/transactions', label: 'Транзакции' },
-    { href: '/categories', label: 'Категории' },
-    { href: '/budgets', label: 'Бюджеты' },
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/transactions", label: "Транзакции" },
+    { href: "/categories", label: "Категории" },
+    { href: "/budgets", label: "Бюджеты" },
   ];
 
   const isActive = (href: string) => pathname === href;
@@ -34,8 +34,8 @@ export function Header() {
                 href={item.href}
                 className={`text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 {item.label}
@@ -76,8 +76,8 @@ export function Header() {
                 href={item.href}
                 className={`block py-2 text-sm font-medium ${
                   isActive(item.href)
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >

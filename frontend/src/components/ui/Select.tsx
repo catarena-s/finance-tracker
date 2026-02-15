@@ -1,4 +1,4 @@
-import React, { SelectHTMLAttributes, forwardRef, ReactNode } from 'react';
+import React, { SelectHTMLAttributes, forwardRef, ReactNode } from "react";
 
 interface SelectOption {
   value: string;
@@ -14,7 +14,10 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, error, helperText, options, placeholder, className = '', id, ...props }, ref) => {
+  (
+    { label, error, helperText, options, placeholder, className = "", id, ...props },
+    ref
+  ) => {
     const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
     const errorId = error ? `${selectId}-error` : undefined;
     const helperId = helperText ? `${selectId}-helper` : undefined;
@@ -43,15 +46,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             disabled:bg-gray-100 disabled:cursor-not-allowed
             ${
               hasError
-                ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
-                : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             }
             ${className}
           `}
           aria-invalid={hasError}
-          aria-describedby={
-            [errorId, helperId].filter(Boolean).join(' ') || undefined
-          }
+          aria-describedby={[errorId, helperId].filter(Boolean).join(" ") || undefined}
           {...props}
         >
           {placeholder && (
@@ -66,19 +67,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ))}
         </select>
         {error && (
-          <p
-            id={errorId}
-            className="mt-1 text-sm text-red-600"
-            role="alert"
-          >
+          <p id={errorId} className="mt-1 text-sm text-red-600" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p
-            id={helperId}
-            className="mt-1 text-sm text-gray-500"
-          >
+          <p id={helperId} className="mt-1 text-sm text-gray-500">
             {helperText}
           </p>
         )}
@@ -87,4 +81,4 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   }
 );
 
-Select.displayName = 'Select';
+Select.displayName = "Select";

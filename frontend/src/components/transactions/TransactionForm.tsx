@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Transaction, Category } from '@/types/api';
-import { Input, Select, DatePicker, CurrencyInput, Button } from '@/components/ui';
-import { validateAmount, validateDate, validateString } from '@/utils/validation';
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Transaction, Category } from "@/types/api";
+import { Input, Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { validateAmount, validateDate, validateString } from "@/utils/validation";
 
 interface TransactionFormProps {
   transaction?: Transaction;
@@ -12,7 +12,7 @@ interface TransactionFormProps {
 }
 
 export interface TransactionFormData {
-  type: 'income' | 'expense';
+  type: "income" | "expense";
   amount: number;
   currency: string;
   categoryId: string;
@@ -41,30 +41,34 @@ export function TransactionForm({
           amount: Number(transaction.amount),
           currency: transaction.currency,
           categoryId: transaction.categoryId,
-          description: transaction.description || '',
+          description: transaction.description || "",
           transactionDate: transaction.transactionDate,
           isRecurring: transaction.isRecurring || false,
         }
       : {
-          type: 'expense',
+          type: "expense",
           amount: 0,
-          currency: 'USD',
-          categoryId: '',
-          description: '',
-          transactionDate: new Date().toISOString().split('T')[0],
+          currency: "USD",
+          categoryId: "",
+          description: "",
+          transactionDate: new Date().toISOString().split("T")[0],
           isRecurring: false,
         },
   });
 
-  const selectedType = watch('type');
-  const filteredCategories = (categories || []).filter((cat) => cat.type === selectedType);
+  const selectedType = watch("type");
+  const filteredCategories = (categories || []).filter(
+    (cat) => cat.type === selectedType
+  );
 
   useEffect(() => {
     // Reset category if it doesn't match the selected type
-    const currentCategoryId = watch('categoryId');
-    const isValidCategory = filteredCategories.some((cat) => cat.id === currentCategoryId);
+    const currentCategoryId = watch("categoryId");
+    const isValidCategory = filteredCategories.some(
+      (cat) => cat.id === currentCategoryId
+    );
     if (!isValidCategory && filteredCategories.length > 0) {
-      setValue('categoryId', '');
+      setValue("categoryId", "");
     }
   }, [selectedType, filteredCategories, setValue, watch]);
 
@@ -78,8 +82,8 @@ export function TransactionForm({
   };
 
   const typeOptions = [
-    { value: 'income', label: 'Доход' },
-    { value: 'expense', label: 'Расход' },
+    { value: "income", label: "Доход" },
+    { value: "expense", label: "Расход" },
   ];
 
   const categoryOptions = filteredCategories.map((cat) => ({
@@ -93,19 +97,17 @@ export function TransactionForm({
         label="Тип транзакции"
         options={typeOptions}
         error={errors.type?.message}
-        {...register('type', {
-          required: 'Выберите тип транзакции',
+        {...register("type", {
+          required: "Выберите тип транзакции",
         })}
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Сумма
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Сумма</label>
         <CurrencyInput
-          value={watch('amount')}
-          onChange={(value) => setValue('amount', value)}
-          currency={watch('currency')}
+          value={watch("amount")}
+          onChange={(value) => setValue("amount", value)}
+          currency={watch("currency")}
           error={errors.amount?.message}
         />
       </div>
@@ -113,14 +115,14 @@ export function TransactionForm({
       <Select
         label="Валюта"
         options={[
-          { value: 'USD', label: 'USD ($)' },
-          { value: 'EUR', label: 'EUR (€)' },
-          { value: 'GBP', label: 'GBP (£)' },
-          { value: 'RUB', label: 'RUB (₽)' },
+          { value: "USD", label: "USD ($)" },
+          { value: "EUR", label: "EUR (€)" },
+          { value: "GBP", label: "GBP (£)" },
+          { value: "RUB", label: "RUB (₽)" },
         ]}
         error={errors.currency?.message}
-        {...register('currency', {
-          required: 'Выберите валюту',
+        {...register("currency", {
+          required: "Выберите валюту",
         })}
       />
 
@@ -129,8 +131,8 @@ export function TransactionForm({
         options={categoryOptions}
         placeholder="Выберите категорию"
         error={errors.categoryId?.message}
-        {...register('categoryId', {
-          required: 'Выберите категорию',
+        {...register("categoryId", {
+          required: "Выберите категорию",
         })}
       />
 
@@ -139,10 +141,10 @@ export function TransactionForm({
           Дата транзакции
         </label>
         <DatePicker
-          value={watch('transactionDate')}
-          onChange={(value) => setValue('transactionDate', value)}
+          value={watch("transactionDate")}
+          onChange={(value) => setValue("transactionDate", value)}
           error={errors.transactionDate?.message}
-          maxDate={new Date().toISOString().split('T')[0]}
+          maxDate={new Date().toISOString().split("T")[0]}
         />
       </div>
 
@@ -151,7 +153,7 @@ export function TransactionForm({
         type="text"
         placeholder="Добавьте описание..."
         error={errors.description?.message}
-        {...register('description', {
+        {...register("description", {
           validate: (value) => {
             if (!value) return true;
             return validateString(value, { maxLength: 500 }) || true;
@@ -164,7 +166,7 @@ export function TransactionForm({
           type="checkbox"
           id="isRecurring"
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-          {...register('isRecurring')}
+          {...register("isRecurring")}
         />
         <label htmlFor="isRecurring" className="text-sm text-gray-700">
           Повторяющаяся транзакция
@@ -179,7 +181,7 @@ export function TransactionForm({
           disabled={isSubmitting}
           className="flex-1"
         >
-          {transaction ? 'Обновить' : 'Создать'}
+          {transaction ? "Обновить" : "Создать"}
         </Button>
         <Button
           type="button"

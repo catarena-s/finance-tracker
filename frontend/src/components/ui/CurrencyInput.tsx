@@ -1,5 +1,5 @@
-import React, { forwardRef, useState, useEffect } from 'react';
-import { Input } from './Input';
+import React, { forwardRef, useState, useEffect } from "react";
+import { Input } from "./Input";
 
 interface CurrencyInputProps {
   label?: string;
@@ -22,24 +22,24 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
       helperText,
       value,
       onChange,
-      currency = 'USD',
+      currency = "USD",
       disabled,
       required,
       id,
-      placeholder = '0.00',
+      placeholder = "0.00",
     },
     ref
   ) => {
-    const [displayValue, setDisplayValue] = useState('');
+    const [displayValue, setDisplayValue] = useState("");
 
     useEffect(() => {
-      if (value !== undefined && value !== '') {
-        const numValue = typeof value === 'string' ? parseFloat(value) : value;
+      if (value !== undefined && value !== "") {
+        const numValue = typeof value === "string" ? parseFloat(value) : value;
         if (!isNaN(numValue)) {
           setDisplayValue(numValue.toFixed(2));
         }
       } else {
-        setDisplayValue('');
+        setDisplayValue("");
       }
     }, [value]);
 
@@ -47,8 +47,8 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
       const inputValue = e.target.value;
 
       // Allow empty value
-      if (inputValue === '') {
-        setDisplayValue('');
+      if (inputValue === "") {
+        setDisplayValue("");
         onChange?.(0);
         return;
       }
@@ -65,7 +65,7 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
     };
 
     const handleBlur = () => {
-      if (displayValue && displayValue !== '') {
+      if (displayValue && displayValue !== "") {
         const numValue = parseFloat(displayValue);
         if (!isNaN(numValue)) {
           setDisplayValue(numValue.toFixed(2));
@@ -74,10 +74,10 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
     };
 
     const currencySymbols: Record<string, string> = {
-      USD: '$',
-      EUR: '€',
-      GBP: '£',
-      RUB: '₽',
+      USD: "$",
+      EUR: "€",
+      GBP: "£",
+      RUB: "₽",
     };
 
     const symbol = currencySymbols[currency] || currency;
@@ -108,4 +108,4 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
   }
 );
 
-CurrencyInput.displayName = 'CurrencyInput';
+CurrencyInput.displayName = "CurrencyInput";

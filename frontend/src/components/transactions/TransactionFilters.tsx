@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Category } from '@/types/api';
-import { Select, DatePicker, Button } from '@/components/ui';
+import React, { useState } from "react";
+import { Category } from "@/types/api";
+import { Select, DatePicker, Button } from "@/components/ui";
 
 interface TransactionFiltersProps {
   categories: Category[];
@@ -8,18 +8,21 @@ interface TransactionFiltersProps {
 }
 
 export interface TransactionFilterValues {
-  type?: 'income' | 'expense' | '';
+  type?: "income" | "expense" | "";
   categoryId?: string;
   startDate?: string;
   endDate?: string;
 }
 
-export function TransactionFilters({ categories, onFilterChange }: TransactionFiltersProps) {
+export function TransactionFilters({
+  categories,
+  onFilterChange,
+}: TransactionFiltersProps) {
   const [filters, setFilters] = useState<TransactionFilterValues>({
-    type: '',
-    categoryId: '',
-    startDate: '',
-    endDate: '',
+    type: "",
+    categoryId: "",
+    startDate: "",
+    endDate: "",
   });
 
   const handleFilterChange = (key: keyof TransactionFilterValues, value: string) => {
@@ -30,25 +33,25 @@ export function TransactionFilters({ categories, onFilterChange }: TransactionFi
 
   const handleClear = () => {
     const clearedFilters: TransactionFilterValues = {
-      type: '',
-      categoryId: '',
-      startDate: '',
-      endDate: '',
+      type: "",
+      categoryId: "",
+      startDate: "",
+      endDate: "",
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
   };
 
-  const hasActiveFilters = Object.values(filters).some((value) => value !== '');
+  const hasActiveFilters = Object.values(filters).some((value) => value !== "");
 
   const typeOptions = [
-    { value: '', label: 'Все типы' },
-    { value: 'income', label: 'Доходы' },
-    { value: 'expense', label: 'Расходы' },
+    { value: "", label: "Все типы" },
+    { value: "income", label: "Доходы" },
+    { value: "expense", label: "Расходы" },
   ];
 
   const categoryOptions = [
-    { value: '', label: 'Все категории' },
+    { value: "", label: "Все категории" },
     ...(categories || []).map((cat) => ({
       value: cat.id,
       label: `${cat.icon} ${cat.name}`,
@@ -63,7 +66,7 @@ export function TransactionFilters({ categories, onFilterChange }: TransactionFi
             label="Тип"
             options={typeOptions}
             value={filters.type}
-            onChange={(e) => handleFilterChange('type', e.target.value as any)}
+            onChange={(e) => handleFilterChange("type", e.target.value as any)}
           />
         </div>
 
@@ -72,7 +75,7 @@ export function TransactionFilters({ categories, onFilterChange }: TransactionFi
             label="Категория"
             options={categoryOptions}
             value={filters.categoryId}
-            onChange={(e) => handleFilterChange('categoryId', e.target.value)}
+            onChange={(e) => handleFilterChange("categoryId", e.target.value)}
           />
         </div>
 
@@ -80,7 +83,7 @@ export function TransactionFilters({ categories, onFilterChange }: TransactionFi
           <DatePicker
             label="Дата от"
             value={filters.startDate}
-            onChange={(value) => handleFilterChange('startDate', value)}
+            onChange={(value) => handleFilterChange("startDate", value)}
             maxDate={filters.endDate || undefined}
           />
         </div>
@@ -89,7 +92,7 @@ export function TransactionFilters({ categories, onFilterChange }: TransactionFi
           <DatePicker
             label="Дата до"
             value={filters.endDate}
-            onChange={(value) => handleFilterChange('endDate', value)}
+            onChange={(value) => handleFilterChange("endDate", value)}
             minDate={filters.startDate || undefined}
           />
         </div>

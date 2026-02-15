@@ -1,8 +1,8 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Budget, Category } from '@/types/api';
-import { Select, DatePicker, CurrencyInput, Button } from '@/components/ui';
-import { validateAmount, validateDate, validateDateRange } from '@/utils/validation';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Budget, Category } from "@/types/api";
+import { Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { validateAmount, validateDate, validateDateRange } from "@/utils/validation";
 
 interface BudgetFormProps {
   budget?: Budget;
@@ -14,12 +14,17 @@ interface BudgetFormProps {
 export interface BudgetFormData {
   categoryId: string;
   amount: number;
-  period: 'monthly' | 'yearly';
+  period: "monthly" | "yearly";
   startDate: string;
   endDate: string;
 }
 
-export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFormProps) {
+export function BudgetForm({
+  budget,
+  categories,
+  onSubmit,
+  onCancel,
+}: BudgetFormProps) {
   const {
     register,
     handleSubmit,
@@ -36,16 +41,16 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
           endDate: budget.endDate,
         }
       : {
-          categoryId: '',
+          categoryId: "",
           amount: 0,
-          period: 'monthly',
-          startDate: new Date().toISOString().split('T')[0],
-          endDate: '',
+          period: "monthly",
+          startDate: new Date().toISOString().split("T")[0],
+          endDate: "",
         },
   });
 
-  const startDate = watch('startDate');
-  const endDate = watch('endDate');
+  const startDate = watch("startDate");
+  const endDate = watch("endDate");
 
   const handleFormSubmit = async (data: BudgetFormData) => {
     try {
@@ -56,15 +61,15 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
   };
 
   // Filter only expense categories for budgets
-  const expenseCategories = (categories || []).filter((cat) => cat.type === 'expense');
+  const expenseCategories = (categories || []).filter((cat) => cat.type === "expense");
   const categoryOptions = expenseCategories.map((cat) => ({
     value: cat.id,
     label: `${cat.icon} ${cat.name}`,
   }));
 
   const periodOptions = [
-    { value: 'monthly', label: 'Месячный' },
-    { value: 'yearly', label: 'Годовой' },
+    { value: "monthly", label: "Месячный" },
+    { value: "yearly", label: "Годовой" },
   ];
 
   return (
@@ -74,8 +79,8 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
         options={categoryOptions}
         placeholder="Выберите категорию"
         error={errors.categoryId?.message}
-        {...register('categoryId', {
-          required: 'Выберите категорию',
+        {...register("categoryId", {
+          required: "Выберите категорию",
         })}
       />
 
@@ -84,8 +89,8 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
           Сумма бюджета
         </label>
         <CurrencyInput
-          value={watch('amount')}
-          onChange={(value) => setValue('amount', value)}
+          value={watch("amount")}
+          onChange={(value) => setValue("amount", value)}
           error={errors.amount?.message}
         />
       </div>
@@ -94,8 +99,8 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
         label="Период"
         options={periodOptions}
         error={errors.period?.message}
-        {...register('period', {
-          required: 'Выберите период',
+        {...register("period", {
+          required: "Выберите период",
         })}
       />
 
@@ -104,8 +109,8 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
           Дата начала
         </label>
         <DatePicker
-          value={watch('startDate')}
-          onChange={(value) => setValue('startDate', value)}
+          value={watch("startDate")}
+          onChange={(value) => setValue("startDate", value)}
           error={errors.startDate?.message}
           maxDate={endDate || undefined}
         />
@@ -116,8 +121,8 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
           Дата окончания
         </label>
         <DatePicker
-          value={watch('endDate')}
-          onChange={(value) => setValue('endDate', value)}
+          value={watch("endDate")}
+          onChange={(value) => setValue("endDate", value)}
           error={errors.endDate?.message}
           minDate={startDate || undefined}
         />
@@ -131,7 +136,7 @@ export function BudgetForm({ budget, categories, onSubmit, onCancel }: BudgetFor
           disabled={isSubmitting}
           className="flex-1"
         >
-          {budget ? 'Обновить' : 'Создать'}
+          {budget ? "Обновить" : "Создать"}
         </Button>
         <Button
           type="button"

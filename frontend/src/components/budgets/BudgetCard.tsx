@@ -1,7 +1,7 @@
-import React from 'react';
-import { Budget } from '@/types/api';
-import { formatCurrency, formatDate } from '@/utils/format';
-import { Button } from '@/components/ui';
+import React from "react";
+import { Budget } from "@/types/api";
+import { formatCurrency, formatDate } from "@/utils/format";
+import { Button } from "@/components/ui";
 
 interface BudgetCardProps {
   budget: Budget;
@@ -17,18 +17,18 @@ export function BudgetCard({ budget, spent, onEdit, onDelete }: BudgetCardProps)
   const percentage = budgetAmount > 0 ? (spentAmount / budgetAmount) * 100 : 0;
 
   const getProgressColor = () => {
-    if (percentage < 70) return 'bg-green-500';
-    if (percentage < 90) return 'bg-yellow-500';
-    return 'bg-red-500';
+    if (percentage < 70) return "bg-green-500";
+    if (percentage < 90) return "bg-yellow-500";
+    return "bg-red-500";
   };
 
   const getTextColor = () => {
-    if (percentage < 70) return 'text-green-600';
-    if (percentage < 90) return 'text-yellow-600';
-    return 'text-red-600';
+    if (percentage < 70) return "text-green-600";
+    if (percentage < 90) return "text-yellow-600";
+    return "text-red-600";
   };
 
-  const periodLabel = budget.period === 'monthly' ? 'Месячный' : 'Годовой';
+  const periodLabel = budget.period === "monthly" ? "Месячный" : "Годовой";
 
   return (
     <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
@@ -96,9 +96,11 @@ export function BudgetCard({ budget, spent, onEdit, onDelete }: BudgetCardProps)
 
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Осталось:</span>
-          <span className={`font-medium ${remaining >= 0 ? 'text-gray-900' : 'text-red-600'}`}>
+          <span
+            className={`font-medium ${remaining >= 0 ? "text-gray-900" : "text-red-600"}`}
+          >
             {formatCurrency(Math.abs(remaining))}
-            {remaining < 0 && ' (превышение)'}
+            {remaining < 0 && " (превышение)"}
           </span>
         </div>
 

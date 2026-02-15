@@ -1,7 +1,7 @@
-import React from 'react';
-import { Transaction } from '@/types/api';
-import { formatCurrency, formatDate } from '@/utils/format';
-import { Button } from '@/components/ui';
+import React from "react";
+import { Transaction } from "@/types/api";
+import { formatCurrency, formatDate } from "@/utils/format";
+import { Button } from "@/components/ui";
 
 interface TransactionCardProps {
   transaction: Transaction;
@@ -9,10 +9,14 @@ interface TransactionCardProps {
   onDelete: (id: string) => void;
 }
 
-export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCardProps) {
-  const isIncome = transaction.type === 'income';
-  const amountColor = isIncome ? 'text-green-600' : 'text-red-600';
-  const amountSign = isIncome ? '+' : '-';
+export function TransactionCard({
+  transaction,
+  onEdit,
+  onDelete,
+}: TransactionCardProps) {
+  const isIncome = transaction.type === "income";
+  const amountColor = isIncome ? "text-green-600" : "text-red-600";
+  const amountSign = isIncome ? "+" : "-";
 
   return (
     <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
@@ -21,12 +25,14 @@ export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCa
           <div className="flex items-center gap-2 mb-1">
             <span
               className={`text-lg font-semibold ${amountColor}`}
-              aria-label={`${isIncome ? 'Income' : 'Expense'} amount`}
+              aria-label={`${isIncome ? "Income" : "Expense"} amount`}
             >
               {amountSign}
               {formatCurrency(Number(transaction.amount), transaction.currency)}
             </span>
-            <span className="text-xs text-gray-500 uppercase">{transaction.currency}</span>
+            <span className="text-xs text-gray-500 uppercase">
+              {transaction.currency}
+            </span>
           </div>
 
           <div className="text-sm text-gray-600 mb-1">
@@ -34,7 +40,9 @@ export function TransactionCard({ transaction, onEdit, onDelete }: TransactionCa
           </div>
 
           {transaction.description && (
-            <p className="text-sm text-gray-700 mb-2 line-clamp-2">{transaction.description}</p>
+            <p className="text-sm text-gray-700 mb-2 line-clamp-2">
+              {transaction.description}
+            </p>
           )}
 
           <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">

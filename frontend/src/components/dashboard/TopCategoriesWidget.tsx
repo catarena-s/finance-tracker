@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,8 +7,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -43,21 +43,21 @@ export function TopCategoriesWidget({
       labels: limitedCategories.map((cat) => cat.categoryName),
       datasets: [
         {
-          label: 'Сумма',
+          label: "Сумма",
           data: limitedCategories.map((cat) => cat.totalAmount),
           backgroundColor: [
-            'rgba(239, 68, 68, 0.8)',
-            'rgba(249, 115, 22, 0.8)',
-            'rgba(234, 179, 8, 0.8)',
-            'rgba(34, 197, 94, 0.8)',
-            'rgba(59, 130, 246, 0.8)',
+            "rgba(239, 68, 68, 0.8)",
+            "rgba(249, 115, 22, 0.8)",
+            "rgba(234, 179, 8, 0.8)",
+            "rgba(34, 197, 94, 0.8)",
+            "rgba(59, 130, 246, 0.8)",
           ],
           borderColor: [
-            'rgb(239, 68, 68)',
-            'rgb(249, 115, 22)',
-            'rgb(234, 179, 8)',
-            'rgb(34, 197, 94)',
-            'rgb(59, 130, 246)',
+            "rgb(239, 68, 68)",
+            "rgb(249, 115, 22)",
+            "rgb(234, 179, 8)",
+            "rgb(34, 197, 94)",
+            "rgb(59, 130, 246)",
           ],
           borderWidth: 1,
         },
@@ -68,7 +68,7 @@ export function TopCategoriesWidget({
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    indexAxis: 'y' as const,
+    indexAxis: "y" as const,
     plugins: {
       legend: {
         display: false,
@@ -77,11 +77,11 @@ export function TopCategoriesWidget({
         callbacks: {
           label: function (context: any) {
             const category = categories[context.dataIndex];
-            const amount = new Intl.NumberFormat('ru-RU', {
-              style: 'currency',
-              currency: 'USD',
+            const amount = new Intl.NumberFormat("ru-RU", {
+              style: "currency",
+              currency: "USD",
             }).format(context.parsed.x);
-            const percentage = category?.percentage?.toFixed(1) || '0';
+            const percentage = category?.percentage?.toFixed(1) || "0";
             return `${amount} (${percentage}%)`;
           },
         },
@@ -92,9 +92,9 @@ export function TopCategoriesWidget({
         beginAtZero: true,
         ticks: {
           callback: function (value: any) {
-            return new Intl.NumberFormat('ru-RU', {
-              style: 'currency',
-              currency: 'USD',
+            return new Intl.NumberFormat("ru-RU", {
+              style: "currency",
+              currency: "USD",
               minimumFractionDigits: 0,
             }).format(value);
           },
@@ -137,9 +137,9 @@ export function TopCategoriesWidget({
             <span className="text-gray-700">{cat.categoryName}</span>
             <div className="flex items-center gap-2">
               <span className="font-medium">
-                {new Intl.NumberFormat('ru-RU', {
-                  style: 'currency',
-                  currency: 'USD',
+                {new Intl.NumberFormat("ru-RU", {
+                  style: "currency",
+                  currency: "USD",
                 }).format(cat.totalAmount)}
               </span>
               <span className="text-gray-500">({cat.percentage.toFixed(1)}%)</span>

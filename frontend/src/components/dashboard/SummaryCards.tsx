@@ -1,5 +1,5 @@
-import React from 'react';
-import { formatCurrency } from '@/utils/format';
+import React from "react";
+import { formatCurrency } from "@/utils/format";
 
 interface SummaryCardsProps {
   totalIncome: number;
@@ -88,7 +88,7 @@ export function SummaryCards({
             <p className="text-sm font-medium text-gray-600 mb-1">Баланс</p>
             <p
               className={`text-3xl font-bold ${
-                balance >= 0 ? 'text-blue-600' : 'text-red-600'
+                balance >= 0 ? "text-blue-600" : "text-red-600"
               }`}
             >
               {formatCurrency(balance)}

@@ -4,20 +4,20 @@
  * @returns Сообщение об ошибке или null если валидна
  */
 export function validateAmount(amount: number | string): string | null {
-  const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+  const numAmount = typeof amount === "string" ? parseFloat(amount) : amount;
 
   if (isNaN(numAmount)) {
-    return 'Amount must be a valid number';
+    return "Amount must be a valid number";
   }
 
   if (numAmount <= 0) {
-    return 'Amount must be greater than 0';
+    return "Amount must be greater than 0";
   }
 
   // Проверка на максимум 2 десятичных знака
-  const decimalPart = numAmount.toString().split('.')[1];
+  const decimalPart = numAmount.toString().split(".")[1];
   if (decimalPart && decimalPart.length > 2) {
-    return 'Amount must have at most 2 decimal places';
+    return "Amount must have at most 2 decimal places";
   }
 
   return null;
@@ -33,14 +33,14 @@ export function validateDate(
   date: string | Date,
   allowFuture: boolean = false
 ): string | null {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const dateObj = typeof date === "string" ? new Date(date) : date;
 
   if (isNaN(dateObj.getTime())) {
-    return 'Invalid date format';
+    return "Invalid date format";
   }
 
   if (!allowFuture && dateObj > new Date()) {
-    return 'Date cannot be in the future';
+    return "Date cannot be in the future";
   }
 
   return null;
@@ -64,7 +64,7 @@ export function validateString(
   const { required = false, minLength, maxLength, pattern } = options;
 
   if (required && (!value || value.trim().length === 0)) {
-    return 'This field is required';
+    return "This field is required";
   }
 
   if (!value) {
@@ -80,7 +80,7 @@ export function validateString(
   }
 
   if (pattern && !pattern.test(value)) {
-    return 'Invalid format';
+    return "Invalid format";
   }
 
   return null;
@@ -95,7 +95,7 @@ export function validateHexColor(color: string): string | null {
   const hexPattern = /^#[0-9A-Fa-f]{6}$/;
 
   if (!hexPattern.test(color)) {
-    return 'Color must be a valid hex code (e.g., #FF5733)';
+    return "Color must be a valid hex code (e.g., #FF5733)";
   }
 
   return null;
@@ -111,19 +111,19 @@ export function validateDateRange(
   startDate: string | Date,
   endDate: string | Date
 ): string | null {
-  const start = typeof startDate === 'string' ? new Date(startDate) : startDate;
-  const end = typeof endDate === 'string' ? new Date(endDate) : endDate;
+  const start = typeof startDate === "string" ? new Date(startDate) : startDate;
+  const end = typeof endDate === "string" ? new Date(endDate) : endDate;
 
   if (isNaN(start.getTime())) {
-    return 'Invalid start date';
+    return "Invalid start date";
   }
 
   if (isNaN(end.getTime())) {
-    return 'Invalid end date';
+    return "Invalid end date";
   }
 
   if (end <= start) {
-    return 'End date must be after start date';
+    return "End date must be after start date";
   }
 
   return null;

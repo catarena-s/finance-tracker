@@ -1,11 +1,11 @@
-import { apiClient } from './client';
+import { apiClient } from "./client";
 import {
   Transaction,
   TransactionWithCategory,
   TransactionType,
   ApiResponse,
   PaginatedResponse,
-} from '@/types/api';
+} from "@/types/api";
 
 export interface TransactionFilters {
   page?: number;
@@ -44,12 +44,12 @@ export const transactionApi = {
   ): Promise<PaginatedResponse<TransactionWithCategory>> {
     const params = new URLSearchParams();
 
-    if (filters.page) params.append('page', filters.page.toString());
-    if (filters.pageSize) params.append('page_size', filters.pageSize.toString());
-    if (filters.type) params.append('type', filters.type);
-    if (filters.categoryId) params.append('category_id', filters.categoryId);
-    if (filters.startDate) params.append('start_date', filters.startDate);
-    if (filters.endDate) params.append('end_date', filters.endDate);
+    if (filters.page) params.append("page", filters.page.toString());
+    if (filters.pageSize) params.append("page_size", filters.pageSize.toString());
+    if (filters.type) params.append("type", filters.type);
+    if (filters.categoryId) params.append("category_id", filters.categoryId);
+    if (filters.startDate) params.append("start_date", filters.startDate);
+    if (filters.endDate) params.append("end_date", filters.endDate);
 
     const response = await apiClient.get<PaginatedResponse<TransactionWithCategory>>(
       `/transactions?${params.toString()}`
@@ -71,7 +71,10 @@ export const transactionApi = {
    * Создать новую транзакцию
    */
   async create(data: CreateTransactionData): Promise<Transaction> {
-    const response = await apiClient.post<ApiResponse<Transaction>>('/transactions', data);
+    const response = await apiClient.post<ApiResponse<Transaction>>(
+      "/transactions",
+      data
+    );
     return response.data.data;
   },
 

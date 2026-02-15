@@ -1,8 +1,8 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Category } from '@/types/api';
-import { Input, Select, Button } from '@/components/ui';
-import { validateString, validateHexColor } from '@/utils/validation';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Category } from "@/types/api";
+import { Input, Select, Button } from "@/components/ui";
+import { validateString, validateHexColor } from "@/utils/validation";
 
 interface CategoryFormProps {
   category?: Category;
@@ -14,18 +14,40 @@ export interface CategoryFormData {
   name: string;
   icon: string;
   color: string;
-  type: 'income' | 'expense';
+  type: "income" | "expense";
 }
 
 const commonIcons = [
-  '💰', '💼', '📈', '🎁', '💵', // Income
-  '🛒', '🚗', '🏠', '🎬', '⚕️', '📚', '👔', '🍽️', '📦', '✈️', // Expense
+  "💰",
+  "💼",
+  "📈",
+  "🎁",
+  "💵", // Income
+  "🛒",
+  "🚗",
+  "🏠",
+  "🎬",
+  "⚕️",
+  "📚",
+  "👔",
+  "🍽️",
+  "📦",
+  "✈️", // Expense
 ];
 
 const commonColors = [
-  '#4CAF50', '#8BC34A', '#009688', '#2196F3', '#3F51B5',
-  '#9C27B0', '#E91E63', '#F44336', '#FF5722', '#FF9800',
-  '#FFC107', '#607D8B',
+  "#4CAF50",
+  "#8BC34A",
+  "#009688",
+  "#2196F3",
+  "#3F51B5",
+  "#9C27B0",
+  "#E91E63",
+  "#F44336",
+  "#FF5722",
+  "#FF9800",
+  "#FFC107",
+  "#607D8B",
 ];
 
 export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps) {
@@ -44,15 +66,15 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
           type: category.type,
         }
       : {
-          name: '',
-          icon: '📦',
-          color: '#607D8B',
-          type: 'expense',
+          name: "",
+          icon: "📦",
+          color: "#607D8B",
+          type: "expense",
         },
   });
 
-  const selectedColor = watch('color');
-  const selectedIcon = watch('icon');
+  const selectedColor = watch("color");
+  const selectedIcon = watch("icon");
 
   const handleFormSubmit = async (data: CategoryFormData) => {
     try {
@@ -63,8 +85,8 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
   };
 
   const typeOptions = [
-    { value: 'income', label: 'Доход' },
-    { value: 'expense', label: 'Расход' },
+    { value: "income", label: "Доход" },
+    { value: "expense", label: "Расход" },
   ];
 
   return (
@@ -74,9 +96,10 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
         type="text"
         placeholder="Например: Продукты"
         error={errors.name?.message}
-        {...register('name', {
-          required: 'Введите название категории',
-          validate: (value) => validateString(value, { minLength: 1, maxLength: 100 }) || true,
+        {...register("name", {
+          required: "Введите название категории",
+          validate: (value) =>
+            validateString(value, { minLength: 1, maxLength: 100 }) || true,
         })}
       />
 
@@ -84,15 +107,13 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
         label="Тип"
         options={typeOptions}
         error={errors.type?.message}
-        {...register('type', {
-          required: 'Выберите тип категории',
+        {...register("type", {
+          required: "Выберите тип категории",
         })}
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Иконка
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Иконка</label>
         <div className="flex items-center gap-3 mb-2">
           <div
             className="w-12 h-12 rounded-full flex items-center justify-center text-2xl border-2 border-gray-300"
@@ -104,9 +125,10 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             type="text"
             placeholder="Введите эмодзи"
             error={errors.icon?.message}
-            {...register('icon', {
-              required: 'Выберите иконку',
-              validate: (value) => validateString(value, { minLength: 1, maxLength: 10 }) || true,
+            {...register("icon", {
+              required: "Выберите иконку",
+              validate: (value) =>
+                validateString(value, { minLength: 1, maxLength: 10 }) || true,
             })}
           />
         </div>
@@ -115,9 +137,11 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             <button
               key={icon}
               type="button"
-              onClick={() => setValue('icon', icon)}
+              onClick={() => setValue("icon", icon)}
               className={`w-10 h-10 rounded flex items-center justify-center text-xl hover:bg-gray-100 transition-colors ${
-                selectedIcon === icon ? 'bg-blue-100 ring-2 ring-blue-500' : 'bg-gray-50'
+                selectedIcon === icon
+                  ? "bg-blue-100 ring-2 ring-blue-500"
+                  : "bg-gray-50"
               }`}
             >
               {icon}
@@ -127,9 +151,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Цвет
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Цвет</label>
         <div className="flex items-center gap-3 mb-2">
           <div
             className="w-12 h-12 rounded border-2 border-gray-300"
@@ -139,8 +161,8 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             type="text"
             placeholder="#000000"
             error={errors.color?.message}
-            {...register('color', {
-              required: 'Выберите цвет',
+            {...register("color", {
+              required: "Выберите цвет",
               validate: (value) => validateHexColor(value) || true,
             })}
           />
@@ -150,9 +172,11 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             <button
               key={color}
               type="button"
-              onClick={() => setValue('color', color)}
+              onClick={() => setValue("color", color)}
               className={`w-8 h-8 rounded border-2 transition-all ${
-                selectedColor === color ? 'border-gray-900 scale-110' : 'border-gray-300'
+                selectedColor === color
+                  ? "border-gray-900 scale-110"
+                  : "border-gray-300"
               }`}
               style={{ backgroundColor: color }}
               aria-label={`Select color ${color}`}
@@ -169,7 +193,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
           disabled={isSubmitting}
           className="flex-1"
         >
-          {category ? 'Обновить' : 'Создать'}
+          {category ? "Обновить" : "Создать"}
         </Button>
         <Button
           type="button"

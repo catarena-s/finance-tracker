@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios';
-import { ApiError } from '@/types/api';
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from "axios";
+import { ApiError } from "@/types/api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 /**
  * Создает и настраивает экземпляр Axios
@@ -11,7 +11,7 @@ function createApiClient(): AxiosInstance {
     baseURL: BASE_URL,
     timeout: 10000,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
@@ -37,7 +37,7 @@ function createApiClient(): AxiosInstance {
       const apiError = handleApiError(error);
 
       // Retry logic for network errors
-      if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
+      if (error.code === "ECONNABORTED" || error.code === "ERR_NETWORK") {
         const config = error.config as AxiosRequestConfig & { _retry?: number };
         config._retry = (config._retry || 0) + 1;
 
@@ -69,52 +69,52 @@ function handleApiError(error: AxiosError): ApiError {
     switch (status) {
       case 400:
         return {
-          message: errorData.message || 'Invalid request data',
+          message: errorData.message || "Invalid request data",
           errors: errorData.errors,
           statusCode: 400,
         };
       case 401:
         return {
-          message: 'Authentication required',
+          message: "Authentication required",
           statusCode: 401,
         };
       case 403:
         return {
-          message: 'Access denied',
+          message: "Access denied",
           statusCode: 403,
         };
       case 404:
         return {
-          message: errorData.message || 'Resource not found',
+          message: errorData.message || "Resource not found",
           statusCode: 404,
         };
       case 422:
         return {
-          message: errorData.message || 'Validation error',
+          message: errorData.message || "Validation error",
           errors: errorData.errors,
           statusCode: 422,
         };
       case 500:
         return {
-          message: 'Server error, please try again later',
+          message: "Server error, please try again later",
           statusCode: 500,
         };
       default:
         return {
-          message: errorData.message || 'An unexpected error occurred',
+          message: errorData.message || "An unexpected error occurred",
           statusCode: status,
         };
     }
   } else if (error.request) {
     // Запрос был отправлен, но ответа не получено
     return {
-      message: 'Unable to connect to server',
+      message: "Unable to connect to server",
       statusCode: 0,
     };
   } else {
     // Ошибка при настройке запроса
     return {
-      message: error.message || 'An unexpected error occurred',
+      message: error.message || "An unexpected error occurred",
       statusCode: 0,
     };
   }

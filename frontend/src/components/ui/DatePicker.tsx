@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import { Input } from './Input';
+import React, { forwardRef } from "react";
+import { Input } from "./Input";
 
 interface DatePickerProps {
   label?: string;
@@ -15,7 +15,21 @@ interface DatePickerProps {
 }
 
 export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
-  ({ label, error, helperText, value, onChange, minDate, maxDate, disabled, required, id }, ref) => {
+  (
+    {
+      label,
+      error,
+      helperText,
+      value,
+      onChange,
+      minDate,
+      maxDate,
+      disabled,
+      required,
+      id,
+    },
+    ref
+  ) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.(e.target.value);
     };
@@ -40,4 +54,4 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
   }
 );
 
-DatePicker.displayName = 'DatePicker';
+DatePicker.displayName = "DatePicker";

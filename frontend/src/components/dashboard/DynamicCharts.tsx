@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import { Spinner } from '@/components/ui';
+import dynamic from "next/dynamic";
+import { Spinner } from "@/components/ui";
 
 // Динамический импорт тяжелых компонентов с графиками
 // TODO: Раскомментировать когда компоненты будут созданы
