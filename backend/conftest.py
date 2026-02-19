@@ -3,6 +3,7 @@ Pytest configuration and fixtures
 """
 
 import asyncio
+import os
 from typing import AsyncGenerator
 
 import pytest
@@ -13,8 +14,9 @@ from sqlalchemy.pool import NullPool
 from app.core.database import Base
 
 
-# Test database URL
-TEST_DATABASE_URL = (
+# Test database URL - use environment variable if set (for CI), otherwise use local default
+TEST_DATABASE_URL = os.getenv(
+    "DATABASE_URL",
     "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test"
 )
 
