@@ -71,8 +71,11 @@ class TransactionRepository(BaseRepository[Transaction]):
         self, start_date: date, end_date: date
     ) -> List[Transaction]:
         """Получить транзакции за период"""
+        from sqlalchemy.orm import selectinload
+        
         result = await self.session.execute(
             select(Transaction)
+            .options(selectinload(Transaction.category))
             .where(
                 and_(
                     Transaction.transaction_date >= start_date,

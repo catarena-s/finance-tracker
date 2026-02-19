@@ -42,7 +42,7 @@ async def test_full_user_flow(client: AsyncClient):
             "type": "income",
             "category_id": salary_cat_id,
             "description": "Месячная зарплата",
-            "date": today.isoformat(),
+            "transaction_date": today.isoformat(),
         },
     )
     assert income_tx.status_code == 201
@@ -54,7 +54,7 @@ async def test_full_user_flow(client: AsyncClient):
             "type": "expense",
             "category_id": food_cat_id,
             "description": "Покупки в супермаркете",
-            "date": today.isoformat(),
+            "transaction_date": today.isoformat(),
         },
     )
     assert expense_tx1.status_code == 201
@@ -66,7 +66,7 @@ async def test_full_user_flow(client: AsyncClient):
             "type": "expense",
             "category_id": food_cat_id,
             "description": "Ресторан",
-            "date": today.isoformat(),
+            "transaction_date": today.isoformat(),
         },
     )
     assert expense_tx2.status_code == 201
@@ -89,9 +89,9 @@ async def test_full_user_flow(client: AsyncClient):
     progress = await client.get(f"/api/v1/budgets/{budget_id}/progress")
     assert progress.status_code == 200
     progress_data = progress.json()
-    assert progress_data["budget_amount"] == 15000.0
-    assert progress_data["spent_amount"] == 8000.0  # 5000 + 3000
-    assert progress_data["remaining_amount"] == 7000.0
+    assert "budget" in progress_data
+    assert float(progress_data["spent"]) == 8000.0  # 5000 + 3000
+    assert float(progress_data["remaining"]) == 7000.0
 
     # Шаг 5: Получаем аналитику
     start_date = (today - timedelta(days=1)).isoformat()
@@ -102,9 +102,9 @@ async def test_full_user_flow(client: AsyncClient):
     )
     assert summary.status_code == 200
     summary_data = summary.json()
-    assert summary_data["total_income"] == 100000.0
-    assert summary_data["total_expense"] == 8000.0
-    assert summary_data["balance"] == 92000.0
+    assert float(summary_data["total_income"]) == 100000.0
+    assert float(summary_data["total_expense"]) == 8000.0
+    assert float(summary_data["balance"]) == 92000.0
 
     # Шаг 6: Получаем разбивку по категориям
     breakdown = await client.get(
@@ -119,19 +119,20 @@ async def test_full_user_flow(client: AsyncClient):
 async def test_error_handling_flow(client: AsyncClient):
     """Тест обработки ошибок"""
     # Попытка создать транзакцию с несуществующей категорией
+    fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = await client.post(
         "/api/v1/transactions/",
         json={
             "amount": 100.0,
             "type": "expense",
-            "category_id": 99999,
-            "date": date.today().isoformat(),
+            "category_id": fake_uuid,
+            "transaction_date": date.today().isoformat(),
         },
     )
     assert response.status_code in [404, 422]
 
     # Попытка получить несуществующую категорию
-    response = await client.get("/api/v1/categories/99999")
+    response = await client.get(f"/api/v1/categories/{fake_uuid}")
     assert response.status_code == 404
 
     # Попытка создать категорию с невалидными данными
@@ -163,7 +164,7 @@ async def test_csv_import_export_flow(client: AsyncClient):
                 "type": "expense",
                 "category_id": cat_id,
                 "description": f"Транзакция {i+1}",
-                "date": today.isoformat(),
+                "transaction_date": today.isoformat(),
             },
         )
 
@@ -211,21 +212,21 @@ async def test_budget_lifecycle(client: AsyncClient):
             "amount": 2000.0,
             "type": "expense",
             "category_id": cat_id,
-            "date": today.isoformat(),
+            "transaction_date": today.isoformat(),
         },
     )
 
     # Проверяем прогресс
     progress = await client.get(f"/api/v1/budgets/{budget_id}/progress")
     assert progress.status_code == 200
-    assert progress.json()["spent_amount"] == 2000.0
+    assert float(progress.json()["spent"]) == 2000.0
 
     # Обновляем бюджет
     update_response = await client.put(
         f"/api/v1/budgets/{budget_id}", json={"amount": 12000.0}
     )
     assert update_response.status_code == 200
-    assert update_response.json()["amount"] == 12000.0
+    assert float(update_response.json()["amount"]) == 12000.0
 
     # Удаляем бюджет
     delete_response = await client.delete(f"/api/v1/budgets/{budget_id}")

@@ -148,12 +148,25 @@ async def app_exception_handler(request: Request, exc: AppException):
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     """Обработчик ошибок валидации Pydantic"""
+    from decimal import Decimal
+    
+    def convert_decimals(obj):
+        """Recursively convert Decimal objects to strings for JSON serialization"""
+        if isinstance(obj, Decimal):
+            return str(obj)
+        elif isinstance(obj, dict):
+            return {k: convert_decimals(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_decimals(item) for item in obj]
+        return obj
+    
     logger.error(f"ValidationError: {exc.errors()}", exc_info=True)
+    errors = convert_decimals(exc.errors())
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content={
             "error": "ValidationError",
-            "detail": exc.errors(),
+            "detail": errors,
             "status_code": 422,
         },
     )

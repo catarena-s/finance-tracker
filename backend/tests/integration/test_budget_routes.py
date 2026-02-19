@@ -29,7 +29,7 @@ async def test_create_budget_success(client: AsyncClient):
     )
     assert response.status_code == 201
     data = response.json()
-    assert data["amount"] == 10000.0
+    assert float(data["amount"]) == 10000.0
     assert data["period"] == "monthly"
     assert "id" in data
 
@@ -112,7 +112,7 @@ async def test_get_budget_by_id(client: AsyncClient):
     assert response.status_code == 200
     data = response.json()
     assert data["id"] == budget_id
-    assert data["amount"] == 7000.0
+    assert float(data["amount"]) == 7000.0
 
 
 @pytest.mark.asyncio
@@ -140,7 +140,7 @@ async def test_update_budget(client: AsyncClient):
     response = await client.put(f"/api/v1/budgets/{budget_id}", json={"amount": 6000.0})
     assert response.status_code == 200
     data = response.json()
-    assert data["amount"] == 6000.0
+    assert float(data["amount"]) == 6000.0
 
 
 @pytest.mark.asyncio
@@ -201,14 +201,14 @@ async def test_get_budget_progress(client: AsyncClient):
             "amount": 1500.0,
             "type": "expense",
             "category_id": category_id,
-            "date": today.isoformat(),
+            "transaction_date": today.isoformat(),
         },
     )
 
     response = await client.get(f"/api/v1/budgets/{budget_id}/progress")
     assert response.status_code == 200
     data = response.json()
-    assert data["budget_amount"] == 5000.0
-    assert data["spent_amount"] == 1500.0
-    assert data["remaining_amount"] == 3500.0
-    assert data["percentage_used"] == 30.0
+    assert "budget" in data
+    assert float(data["spent"]) == 1500.0
+    assert float(data["remaining"]) == 3500.0
+    assert float(data["percentage"]) == 30.0

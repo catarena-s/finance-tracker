@@ -24,12 +24,12 @@ async def test_create_transaction_success(client: AsyncClient):
             "type": "expense",
             "category_id": category_id,
             "description": "Покупки в магазине",
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
     assert response.status_code == 201
     data = response.json()
-    assert data["amount"] == 1500.50
+    assert float(data["amount"]) == 1500.50
     assert data["type"] == "expense"
     assert data["category_id"] == category_id
     assert "id" in data
@@ -50,7 +50,7 @@ async def test_create_transaction_invalid_amount(client: AsyncClient):
             "amount": -100.0,
             "type": "expense",
             "category_id": category_id,
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
     assert response.status_code == 422
@@ -72,7 +72,7 @@ async def test_get_transactions_list(client: AsyncClient):
             "amount": 100.0,
             "type": "expense",
             "category_id": category_id,
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
     await client.post(
@@ -81,7 +81,7 @@ async def test_get_transactions_list(client: AsyncClient):
             "amount": 200.0,
             "type": "expense",
             "category_id": category_id,
-            "date": "2024-02-16",
+            "transaction_date": "2024-02-16",
         },
     )
 
@@ -108,7 +108,7 @@ async def test_get_transaction_by_id(client: AsyncClient):
             "type": "expense",
             "category_id": category_id,
             "description": "Билеты в кино",
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
     transaction_id = create_response.json()["id"]
@@ -117,7 +117,7 @@ async def test_get_transaction_by_id(client: AsyncClient):
     assert response.status_code == 200
     data = response.json()
     assert data["id"] == transaction_id
-    assert data["amount"] == 500.0
+    assert float(data["amount"]) == 500.0
 
 
 @pytest.mark.asyncio
@@ -135,7 +135,7 @@ async def test_update_transaction(client: AsyncClient):
             "amount": 300.0,
             "type": "expense",
             "category_id": category_id,
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
     transaction_id = create_response.json()["id"]
@@ -146,7 +146,7 @@ async def test_update_transaction(client: AsyncClient):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["amount"] == 350.0
+    assert float(data["amount"]) == 350.0
     assert data["description"] == "Поездка на такси"
 
 
@@ -165,7 +165,7 @@ async def test_delete_transaction(client: AsyncClient):
             "amount": 100.0,
             "type": "expense",
             "category_id": category_id,
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
     transaction_id = create_response.json()["id"]
@@ -192,7 +192,7 @@ async def test_filter_transactions_by_type(client: AsyncClient):
             "amount": 100.0,
             "type": "expense",
             "category_id": category_id,
-            "date": "2024-02-15",
+            "transaction_date": "2024-02-15",
         },
     )
 
