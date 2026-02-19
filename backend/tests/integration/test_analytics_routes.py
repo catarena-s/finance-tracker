@@ -13,13 +13,13 @@ async def test_get_summary(client: AsyncClient):
     # Создаем категории
     cat1_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Еда", "type": "expense", "color": "#FF0000"},
+        json={"name": "Еда", "icon": "🍔", "type": "expense", "color": "#FF0000"},
     )
     cat1_id = cat1_response.json()["id"]
 
     cat2_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Зарплата", "type": "income", "color": "#00FF00"},
+        json={"name": "Зарплата", "icon": "💰", "type": "income", "color": "#00FF00"},
     )
     cat2_id = cat2_response.json()["id"]
 
@@ -64,7 +64,7 @@ async def test_get_trends(client: AsyncClient):
     """Тест получения трендов"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Покупки", "type": "expense", "color": "#0000FF"},
+        json={"name": "Покупки", "icon": "🛍️", "type": "expense", "color": "#0000FF"},
     )
     cat_id = cat_response.json()["id"]
 
@@ -94,7 +94,7 @@ async def test_get_category_breakdown(client: AsyncClient):
     """Тест получения разбивки по категориям"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Транспорт", "type": "expense", "color": "#FF00FF"},
+        json={"name": "Транспорт", "icon": "🚗", "type": "expense", "color": "#FF00FF"},
     )
     cat_id = cat_response.json()["id"]
 
@@ -127,7 +127,7 @@ async def test_get_top_categories(client: AsyncClient):
     """Тест получения топ категорий"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Рестораны", "type": "expense", "color": "#FFFF00"},
+        json={"name": "Рестораны", "icon": "🍽️", "type": "expense", "color": "#FFFF00"},
     )
     cat_id = cat_response.json()["id"]
 

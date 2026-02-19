@@ -12,7 +12,7 @@ async def test_create_budget_success(client: AsyncClient):
     """Тест успешного создания бюджета"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Продукты", "type": "expense", "color": "#FF0000"},
+        json={"name": "Продукты", "icon": "🛒", "type": "expense", "color": "#FF0000"},
     )
     category_id = cat_response.json()["id"]
 
@@ -39,7 +39,7 @@ async def test_create_budget_duplicate(client: AsyncClient):
     """Тест создания дубликата бюджета"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Транспорт", "type": "expense", "color": "#00FF00"},
+        json={"name": "Транспорт", "icon": "🚗", "type": "expense", "color": "#00FF00"},
     )
     category_id = cat_response.json()["id"]
 
@@ -64,7 +64,7 @@ async def test_get_budgets_list(client: AsyncClient):
     """Тест получения списка бюджетов"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Развлечения", "type": "expense", "color": "#0000FF"},
+        json={"name": "Развлечения", "icon": "🎬", "type": "expense", "color": "#0000FF"},
     )
     category_id = cat_response.json()["id"]
 
@@ -91,7 +91,7 @@ async def test_get_budget_by_id(client: AsyncClient):
     """Тест получения бюджета по ID"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Одежда", "type": "expense", "color": "#FF00FF"},
+        json={"name": "Одежда", "icon": "👕", "type": "expense", "color": "#FF00FF"},
     )
     category_id = cat_response.json()["id"]
 
@@ -120,7 +120,7 @@ async def test_update_budget(client: AsyncClient):
     """Тест обновления бюджета"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Здоровье", "type": "expense", "color": "#FFFF00"},
+        json={"name": "Здоровье", "icon": "💊", "type": "expense", "color": "#FFFF00"},
     )
     category_id = cat_response.json()["id"]
 
@@ -148,7 +148,7 @@ async def test_delete_budget(client: AsyncClient):
     """Тест удаления бюджета"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Временный", "type": "expense", "color": "#AAAAAA"},
+        json={"name": "Временный", "icon": "⏰", "type": "expense", "color": "#AAAAAA"},
     )
     category_id = cat_response.json()["id"]
 
@@ -177,7 +177,7 @@ async def test_get_budget_progress(client: AsyncClient):
     """Тест получения прогресса бюджета"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Кафе", "type": "expense", "color": "#123456"},
+        json={"name": "Кафе", "icon": "☕", "type": "expense", "color": "#123456"},
     )
     category_id = cat_response.json()["id"]
 

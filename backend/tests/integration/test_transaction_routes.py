@@ -12,7 +12,7 @@ async def test_create_transaction_success(client: AsyncClient):
     # Создаем категорию
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Супермаркет", "type": "expense", "color": "#FF0000"},
+        json={"name": "Супермаркет", "icon": "🛒", "type": "expense", "color": "#FF0000"},
     )
     category_id = cat_response.json()["id"]
 
@@ -40,7 +40,7 @@ async def test_create_transaction_invalid_amount(client: AsyncClient):
     """Тест создания транзакции с невалидной суммой"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Тест", "type": "expense", "color": "#000000"},
+        json={"name": "Тест", "icon": "📝", "type": "expense", "color": "#000000"},
     )
     category_id = cat_response.json()["id"]
 
@@ -61,7 +61,7 @@ async def test_get_transactions_list(client: AsyncClient):
     """Тест получения списка транзакций"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Разное", "type": "expense", "color": "#AAAAAA"},
+        json={"name": "Разное", "icon": "📦", "type": "expense", "color": "#AAAAAA"},
     )
     category_id = cat_response.json()["id"]
 
@@ -97,7 +97,7 @@ async def test_get_transaction_by_id(client: AsyncClient):
     """Тест получения транзакции по ID"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Кино", "type": "expense", "color": "#FF00FF"},
+        json={"name": "Кино", "icon": "🎬", "type": "expense", "color": "#FF00FF"},
     )
     category_id = cat_response.json()["id"]
 
@@ -125,7 +125,7 @@ async def test_update_transaction(client: AsyncClient):
     """Тест обновления транзакции"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Такси", "type": "expense", "color": "#FFFF00"},
+        json={"name": "Такси", "icon": "🚕", "type": "expense", "color": "#FFFF00"},
     )
     category_id = cat_response.json()["id"]
 
@@ -155,7 +155,7 @@ async def test_delete_transaction(client: AsyncClient):
     """Тест удаления транзакции"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Удалить", "type": "expense", "color": "#000000"},
+        json={"name": "Удалить", "icon": "🗑️", "type": "expense", "color": "#000000"},
     )
     category_id = cat_response.json()["id"]
 
@@ -182,7 +182,7 @@ async def test_filter_transactions_by_type(client: AsyncClient):
     """Тест фильтрации транзакций по типу"""
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Фильтр", "type": "expense", "color": "#123456"},
+        json={"name": "Фильтр", "icon": "🔍", "type": "expense", "color": "#123456"},
     )
     category_id = cat_response.json()["id"]
 

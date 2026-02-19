@@ -33,14 +33,14 @@ async def test_create_category_duplicate(client: AsyncClient, db_session: AsyncS
     # Создаем первую категорию
     response1 = await client.post(
         "/api/v1/categories/",
-        json={"name": "Зарплата", "type": "income", "color": "#00FF00"},
+        json={"name": "Зарплата", "icon": "💰", "type": "income", "color": "#00FF00"},
     )
     assert response1.status_code == 201
 
     # Пытаемся создать дубликат
     response2 = await client.post(
         "/api/v1/categories/",
-        json={"name": "Зарплата", "type": "income", "color": "#00FF00"},
+        json={"name": "Зарплата", "icon": "💰", "type": "income", "color": "#00FF00"},
     )
     assert response2.status_code == 409
     assert "already exists" in response2.json()["detail"].lower()
@@ -51,7 +51,7 @@ async def test_create_category_invalid_color(client: AsyncClient):
     """Тест создания категории с невалидным цветом"""
     response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Транспорт", "type": "expense", "color": "invalid"},
+        json={"name": "Транспорт", "icon": "🚗", "type": "expense", "color": "invalid"},
     )
     assert response.status_code == 422
 
@@ -62,11 +62,11 @@ async def test_get_categories_list(client: AsyncClient):
     # Создаем несколько категорий
     await client.post(
         "/api/v1/categories/",
-        json={"name": "Еда", "type": "expense", "color": "#FF0000"},
+        json={"name": "Еда", "icon": "🍔", "type": "expense", "color": "#FF0000"},
     )
     await client.post(
         "/api/v1/categories/",
-        json={"name": "Доход", "type": "income", "color": "#00FF00"},
+        json={"name": "Доход", "icon": "💵", "type": "income", "color": "#00FF00"},
     )
 
     response = await client.get("/api/v1/categories/")
@@ -81,7 +81,7 @@ async def test_get_category_by_id(client: AsyncClient):
     # Создаем категорию
     create_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Развлечения", "type": "expense", "color": "#0000FF"},
+        json={"name": "Развлечения", "icon": "🎬", "type": "expense", "color": "#0000FF"},
     )
     category_id = create_response.json()["id"]
 
@@ -106,7 +106,7 @@ async def test_update_category(client: AsyncClient):
     # Создаем категорию
     create_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Одежда", "type": "expense", "color": "#FFFF00"},
+        json={"name": "Одежда", "icon": "👕", "type": "expense", "color": "#FFFF00"},
     )
     category_id = create_response.json()["id"]
 
@@ -127,7 +127,7 @@ async def test_delete_category_success(client: AsyncClient):
     # Создаем категорию
     create_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Временная", "type": "expense", "color": "#AAAAAA"},
+        json={"name": "Временная", "icon": "⏰", "type": "expense", "color": "#AAAAAA"},
     )
     category_id = create_response.json()["id"]
 
@@ -146,7 +146,7 @@ async def test_delete_category_with_transactions(client: AsyncClient):
     # Создаем категорию
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Кафе", "type": "expense", "color": "#123456"},
+        json={"name": "Кафе", "icon": "☕", "type": "expense", "color": "#123456"},
     )
     category_id = cat_response.json()["id"]
 

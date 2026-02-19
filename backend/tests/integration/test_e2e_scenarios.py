@@ -22,14 +22,14 @@ async def test_full_user_flow(client: AsyncClient):
     # Шаг 1: Создаем категории
     food_cat = await client.post(
         "/api/v1/categories/",
-        json={"name": "Продукты", "type": "expense", "color": "#FF0000"},
+        json={"name": "Продукты", "icon": "🛒", "type": "expense", "color": "#FF0000"},
     )
     assert food_cat.status_code == 201
     food_cat_id = food_cat.json()["id"]
 
     salary_cat = await client.post(
         "/api/v1/categories/",
-        json={"name": "Зарплата", "type": "income", "color": "#00FF00"},
+        json={"name": "Зарплата", "icon": "💰", "type": "income", "color": "#00FF00"},
     )
     assert salary_cat.status_code == 201
     salary_cat_id = salary_cat.json()["id"]
@@ -148,7 +148,7 @@ async def test_csv_import_export_flow(client: AsyncClient):
     # Создаем категорию
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Тестовая", "type": "expense", "color": "#123456"},
+        json={"name": "Тестовая", "icon": "📝", "type": "expense", "color": "#123456"},
     )
     assert cat_response.status_code == 201
     cat_id = cat_response.json()["id"]
@@ -184,7 +184,7 @@ async def test_budget_lifecycle(client: AsyncClient):
     # Создаем категорию
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Развлечения", "type": "expense", "color": "#FF00FF"},
+        json={"name": "Развлечения", "icon": "🎬", "type": "expense", "color": "#FF00FF"},
     )
     cat_id = cat_response.json()["id"]
 
