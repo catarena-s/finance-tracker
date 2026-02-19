@@ -106,6 +106,7 @@ export default function BudgetsPage() {
 
         <BudgetList
           budgets={budgets}
+          categories={categories}
           budgetProgress={budgetProgress}
           loading={loading}
           onEdit={handleEdit}
