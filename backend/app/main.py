@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 import logging
+from contextlib import asynccontextmanager
+from alembic.config import Config
+from alembic import command
+import os
 
 from app.core.config import settings
 from app.core.exceptions import AppException
@@ -18,6 +22,27 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifecycle events для приложения"""
+    # Startup: автоматическое применение миграций
+    logger.info("Применение миграций базы данных...")
+    try:
+        alembic_cfg = Config(os.path.join(os.path.dirname(__file__), "..", "alembic.ini"))
+        alembic_cfg.set_main_option("script_location", os.path.join(os.path.dirname(__file__), "..", "alembic"))
+        command.upgrade(alembic_cfg, "head")
+        logger.info("Миграции успешно применены")
+    except Exception as e:
+        logger.error(f"Ошибка при применении миграций: {e}")
+        # Не останавливаем приложение, если миграции уже применены
+    
+    yield
+    
+    # Shutdown
+    logger.info("Завершение работы приложения")
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -46,6 +71,7 @@ app = FastAPI(
     license_info={
         "name": "MIT",
     },
+    lifespan=lifespan,
 )
 
 # CORS configuration
