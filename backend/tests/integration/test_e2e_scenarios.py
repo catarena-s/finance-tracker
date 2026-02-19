@@ -6,7 +6,6 @@ End-to-end integration tests
 import pytest
 from httpx import AsyncClient
 from datetime import date, timedelta
-import io
 
 
 @pytest.mark.asyncio

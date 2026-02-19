@@ -4,7 +4,6 @@ Integration tests for transaction routes
 
 import pytest
 from httpx import AsyncClient
-from datetime import date
 
 
 @pytest.mark.asyncio

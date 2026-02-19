@@ -6,8 +6,6 @@ import pytest
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.category import Category
-
 
 @pytest.mark.asyncio
 async def test_create_category_success(client: AsyncClient):

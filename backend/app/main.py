@@ -31,7 +31,6 @@ async def lifespan(app: FastAPI):
     logger.info("Применение миграций базы данных...")
     try:
         import asyncio
-        from functools import partial
         
         def run_migrations():
             alembic_cfg = Config(os.path.join(os.path.dirname(__file__), "..", "alembic.ini"))
