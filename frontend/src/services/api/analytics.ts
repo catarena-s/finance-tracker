@@ -51,10 +51,16 @@ export const analyticsApi = {
     queryParams.append("start_date", params.startDate);
     queryParams.append("end_date", params.endDate);
 
-    const response = await apiClient.get<TrendData[]>(
+    const response = await apiClient.get<{ trends: Array<{ month: string; income: string; expense: string; balance: string }> }>(
       `/analytics/trends?${queryParams.toString()}`
     );
-    return response.data;
+    
+    // Transform backend format to frontend format
+    return response.data.trends.map(t => ({
+      date: t.month,
+      income: parseFloat(t.income),
+      expense: parseFloat(t.expense),
+    }));
   },
 
   /**
@@ -67,9 +73,19 @@ export const analyticsApi = {
     queryParams.append("end_date", params.endDate);
     if (params.type) queryParams.append("type", params.type);
 
-    const response = await apiClient.get<CategorySpending[]>(
+    const response = await apiClient.get<{ topCategories: Array<{ category: string; amount: string }> }>(
       `/analytics/top-categories?${queryParams.toString()}`
     );
-    return response.data;
+    
+    // Transform backend format to frontend format
+    // Note: Backend doesn't return all fields, so we use defaults
+    return response.data.topCategories.map((cat, index) => ({
+      categoryId: `cat-${index}`,
+      categoryName: cat.category,
+      categoryColor: '#' + Math.floor(Math.random()*16777215).toString(16), // Random color as fallback
+      totalAmount: parseFloat(cat.amount),
+      transactionCount: 0, // Not provided by backend
+      percentage: 0, // Will be calculated by component
+    }));
   },
 };
