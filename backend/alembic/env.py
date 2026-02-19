@@ -13,7 +13,12 @@ from alembic import context
 
 # Import app configuration and models
 from app.core.config import settings
-from app.core.database import Base
+from app.models.base import Base
+
+# Import all models to ensure they are registered with Base.metadata
+from app.models.category import Category  # noqa: F401
+from app.models.transaction import Transaction  # noqa: F401
+from app.models.budget import Budget  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

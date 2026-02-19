@@ -11,7 +11,7 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.pool import NullPool
 
-from app.core.database import Base
+from app.models.base import Base
 
 
 # Test database URL - use environment variable if set (for CI), otherwise use local default
