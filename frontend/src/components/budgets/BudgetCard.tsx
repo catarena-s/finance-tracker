@@ -11,7 +11,13 @@ interface BudgetCardProps {
   onDelete: (id: string) => void;
 }
 
-export function BudgetCard({ budget, category, spent, onEdit, onDelete }: BudgetCardProps) {
+export function BudgetCard({
+  budget,
+  category,
+  spent,
+  onEdit,
+  onDelete,
+}: BudgetCardProps) {
   const budgetAmount = Number(budget.amount);
   const spentAmount = Number(spent);
   const remaining = budgetAmount - spentAmount;

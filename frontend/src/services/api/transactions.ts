@@ -60,10 +60,10 @@ export const transactionApi = {
     if (filters.startDate) params.append("start_date", filters.startDate);
     if (filters.endDate) params.append("end_date", filters.endDate);
 
-    const response = await apiClient.get<BackendPaginatedResponse<TransactionWithCategory>>(
-      `/transactions?${params.toString()}`
-    );
-    
+    const response = await apiClient.get<
+      BackendPaginatedResponse<TransactionWithCategory>
+    >(`/transactions?${params.toString()}`);
+
     // Transform backend format to frontend format
     return {
       data: response.data.items,
@@ -90,10 +90,7 @@ export const transactionApi = {
    * Создать новую транзакцию
    */
   async create(data: CreateTransactionData): Promise<Transaction> {
-    const response = await apiClient.post<Transaction>(
-      "/transactions",
-      data
-    );
+    const response = await apiClient.post<Transaction>("/transactions", data);
     return response.data;
   },
 
@@ -101,10 +98,7 @@ export const transactionApi = {
    * Обновить транзакцию
    */
   async update(id: string, data: UpdateTransactionData): Promise<Transaction> {
-    const response = await apiClient.put<Transaction>(
-      `/transactions/${id}`,
-      data
-    );
+    const response = await apiClient.put<Transaction>(`/transactions/${id}`, data);
     return response.data;
   },
 

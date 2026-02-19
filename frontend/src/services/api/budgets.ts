@@ -33,9 +33,7 @@ export const budgetApi = {
    * Получить бюджет по ID
    */
   async getById(id: string): Promise<BudgetWithDetails> {
-    const response = await apiClient.get<BudgetWithDetails>(
-      `/budgets/${id}`
-    );
+    const response = await apiClient.get<BudgetWithDetails>(`/budgets/${id}`);
     return response.data;
   },
 

@@ -68,7 +68,7 @@ function createApiClient(): AxiosInstance {
       if (config.data) {
         config.data = keysToSnake(config.data);
       }
-      
+
       // Можно добавить токен аутентификации здесь
       // const token = localStorage.getItem('token');
       // if (token) {

@@ -24,9 +24,7 @@ export const categoryApi = {
    */
   async getAll(type?: TransactionType): Promise<Category[]> {
     const params = type ? `?type=${type}` : "";
-    const response = await apiClient.get<Category[]>(
-      `/categories${params}`
-    );
+    const response = await apiClient.get<Category[]>(`/categories${params}`);
     return response.data;
   },
 
@@ -50,10 +48,7 @@ export const categoryApi = {
    * Обновить категорию
    */
   async update(id: string, data: UpdateCategoryData): Promise<Category> {
-    const response = await apiClient.put<Category>(
-      `/categories/${id}`,
-      data
-    );
+    const response = await apiClient.put<Category>(`/categories/${id}`, data);
     return response.data;
   },
 
