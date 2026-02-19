@@ -149,7 +149,7 @@ async def app_exception_handler(request: Request, exc: AppException):
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     """Обработчик ошибок валидации Pydantic"""
     from decimal import Decimal
-    
+
     def convert_decimals(obj):
         """Recursively convert Decimal objects to strings for JSON serialization"""
         if isinstance(obj, Decimal):
@@ -159,7 +159,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         elif isinstance(obj, list):
             return [convert_decimals(item) for item in obj]
         return obj
-    
+
     logger.error(f"ValidationError: {exc.errors()}", exc_info=True)
     errors = convert_decimals(exc.errors())
     return JSONResponse(

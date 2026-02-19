@@ -185,7 +185,12 @@ async def test_budget_lifecycle(client: AsyncClient):
     # Создаем категорию
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Развлечения", "icon": "🎬", "type": "expense", "color": "#FF00FF"},
+        json={
+            "name": "Развлечения",
+            "icon": "🎬",
+            "type": "expense",
+            "color": "#FF00FF",
+        },
     )
     cat_id = cat_response.json()["id"]
 

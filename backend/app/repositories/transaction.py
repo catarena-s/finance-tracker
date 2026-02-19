@@ -72,7 +72,7 @@ class TransactionRepository(BaseRepository[Transaction]):
     ) -> List[Transaction]:
         """Получить транзакции за период"""
         from sqlalchemy.orm import selectinload
-        
+
         result = await self.session.execute(
             select(Transaction)
             .options(selectinload(Transaction.category))

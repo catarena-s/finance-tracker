@@ -12,7 +12,12 @@ async def test_create_transaction_success(client: AsyncClient):
     # Создаем категорию
     cat_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Супермаркет", "icon": "🛒", "type": "expense", "color": "#FF0000"},
+        json={
+            "name": "Супермаркет",
+            "icon": "🛒",
+            "type": "expense",
+            "color": "#FF0000",
+        },
     )
     category_id = cat_response.json()["id"]
 

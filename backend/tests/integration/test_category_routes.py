@@ -81,7 +81,12 @@ async def test_get_category_by_id(client: AsyncClient):
     # Создаем категорию
     create_response = await client.post(
         "/api/v1/categories/",
-        json={"name": "Развлечения", "icon": "🎬", "type": "expense", "color": "#0000FF"},
+        json={
+            "name": "Развлечения",
+            "icon": "🎬",
+            "type": "expense",
+            "color": "#0000FF",
+        },
     )
     category_id = create_response.json()["id"]
 
