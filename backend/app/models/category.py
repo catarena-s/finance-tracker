@@ -22,7 +22,7 @@ class Category(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "categories"
 
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    icon: Mapped[str] = mapped_column(String(10), nullable=False)
+    icon: Mapped[str] = mapped_column(String(50), nullable=False)
     color: Mapped[str] = mapped_column(String(7), nullable=False)
     type: Mapped[str] = mapped_column(String(10), nullable=False)
 

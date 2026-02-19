@@ -1,0 +1,13 @@
+{
+  "name": "Backend Pre-commit Checks",
+  "version": "1.0.0",
+  "description": "Автоматическая проверка линтинга и форматирования перед коммитом в backend",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["backend/**/*.py"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Файл Python был изменен. Запусти проверки:\n1. ruff check backend/\n2. black --check backend/\n\nЕсли Black находит проблемы, запусти: black backend/\n\nЕсли есть ошибки, сообщи пользователю и предложи исправить перед коммитом."
+  }
+}

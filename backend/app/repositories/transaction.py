@@ -29,6 +29,8 @@ class TransactionRepository(BaseRepository[Transaction]):
         limit: int = 100,
     ) -> Tuple[List[Transaction], int]:
         """Получить отфильтрованные транзакции с пагинацией"""
+        from sqlalchemy.orm import selectinload
+
         filters = []
 
         if start_date:
@@ -44,8 +46,8 @@ class TransactionRepository(BaseRepository[Transaction]):
         if max_amount:
             filters.append(Transaction.amount <= max_amount)
 
-        # Построить базовый запрос
-        query = select(Transaction)
+        # Построить базовый запрос с eager loading категории
+        query = select(Transaction).options(selectinload(Transaction.category))
         if filters:
             query = query.where(and_(*filters))
 
@@ -69,8 +71,11 @@ class TransactionRepository(BaseRepository[Transaction]):
         self, start_date: date, end_date: date
     ) -> List[Transaction]:
         """Получить транзакции за период"""
+        from sqlalchemy.orm import selectinload
+
         result = await self.session.execute(
             select(Transaction)
+            .options(selectinload(Transaction.category))
             .where(
                 and_(
                     Transaction.transaction_date >= start_date,

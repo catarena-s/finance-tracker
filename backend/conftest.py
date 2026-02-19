@@ -3,6 +3,7 @@ Pytest configuration and fixtures
 """
 
 import asyncio
+import os
 from typing import AsyncGenerator
 
 import pytest
@@ -10,12 +11,14 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.pool import NullPool
 
-from app.core.database import Base
+from app.models.base import Base
 
 
-# Test database URL
-TEST_DATABASE_URL = (
-    "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test"
+# Test database URL - use environment variable if set (for CI), otherwise use local default
+# CI uses port 5432, local docker-compose uses port 5433
+TEST_DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test",
 )
 
 
@@ -34,6 +37,11 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Create a test database session for each test function
     """
+    # Import all models to ensure they are registered with Base.metadata
+    from app.models.category import Category  # noqa: F401
+    from app.models.transaction import Transaction  # noqa: F401
+    from app.models.budget import Budget  # noqa: F401
+
     # Create async engine for test database
     engine = create_async_engine(
         TEST_DATABASE_URL,
@@ -46,13 +54,14 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    # Create session
+    # Create session factory
     async_session = async_sessionmaker(
         engine,
         class_=AsyncSession,
         expire_on_commit=False,
     )
 
+    # Create test session
     async with async_session() as session:
         yield session
 
@@ -61,3 +70,25 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
         await conn.run_sync(Base.metadata.drop_all)
 
     await engine.dispose()
+
+
+@pytest_asyncio.fixture(scope="function")
+async def client(test_db: AsyncSession) -> AsyncGenerator:
+    """
+    Create a test client for integration tests
+    """
+    from httpx import AsyncClient, ASGITransport
+    from app.main import app
+    from app.core.database import get_db
+
+    # Override get_db dependency
+    async def override_get_db():
+        yield test_db
+
+    app.dependency_overrides[get_db] = override_get_db
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        yield ac
+
+    app.dependency_overrides.clear()

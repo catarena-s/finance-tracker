@@ -23,7 +23,15 @@ class CategoryService:
                 f"Category with name '{data.name}' and type '{data.type}' already exists"
             )
 
-        category = await self.category_repo.create(**data.model_dump())
+        # Создать категорию
+        category_data = {
+            "name": data.name,
+            "icon": data.icon,
+            "color": data.color,
+            "type": data.type.value,  # Преобразуем Enum в строку
+        }
+
+        category = await self.category_repo.create(**category_data)
         return Category.model_validate(category)
 
     async def get_category(self, category_id: uuid.UUID) -> Category:

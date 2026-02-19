@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 import logging
+from contextlib import asynccontextmanager
+from alembic.config import Config
+from alembic import command
+import os
 
 from app.core.config import settings
 from app.core.exceptions import AppException
@@ -18,6 +22,39 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifecycle events для приложения"""
+    # Startup: автоматическое применение миграций
+    logger.info("Применение миграций базы данных...")
+    try:
+        import asyncio
+
+        def run_migrations():
+            alembic_cfg = Config(
+                os.path.join(os.path.dirname(__file__), "..", "alembic.ini")
+            )
+            alembic_cfg.set_main_option(
+                "script_location",
+                os.path.join(os.path.dirname(__file__), "..", "alembic"),
+            )
+            command.upgrade(alembic_cfg, "head")
+
+        # Запускаем миграции в отдельном потоке
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, run_migrations)
+        logger.info("Миграции успешно применены")
+    except Exception as e:
+        logger.error(f"Ошибка при применении миграций: {e}")
+        # Не останавливаем приложение, если миграции уже применены
+
+    yield
+
+    # Shutdown
+    logger.info("Завершение работы приложения")
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -46,6 +83,7 @@ app = FastAPI(
     license_info={
         "name": "MIT",
     },
+    lifespan=lifespan,
 )
 
 # CORS configuration
@@ -110,12 +148,25 @@ async def app_exception_handler(request: Request, exc: AppException):
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     """Обработчик ошибок валидации Pydantic"""
+    from decimal import Decimal
+
+    def convert_decimals(obj):
+        """Recursively convert Decimal objects to strings for JSON serialization"""
+        if isinstance(obj, Decimal):
+            return str(obj)
+        elif isinstance(obj, dict):
+            return {k: convert_decimals(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_decimals(item) for item in obj]
+        return obj
+
     logger.error(f"ValidationError: {exc.errors()}", exc_info=True)
+    errors = convert_decimals(exc.errors())
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content={
             "error": "ValidationError",
-            "detail": exc.errors(),
+            "detail": errors,
             "status_code": 422,
         },
     )
