@@ -1,9 +1,10 @@
 import React from "react";
-import { Budget } from "@/types/api";
+import { Budget, Category } from "@/types/api";
 import { BudgetCard } from "./BudgetCard";
 
 interface BudgetListProps {
   budgets: Budget[];
+  categories: Category[];
   budgetProgress: Record<string, number>; // budgetId -> spent amount
   loading?: boolean;
   onEdit: (budget: Budget) => void;
@@ -12,6 +13,7 @@ interface BudgetListProps {
 
 export function BudgetList({
   budgets,
+  categories,
   budgetProgress,
   loading = false,
   onEdit,
@@ -69,6 +71,7 @@ export function BudgetList({
         <BudgetCard
           key={budget.id}
           budget={budget}
+          category={categories.find((c) => c.id === budget.categoryId)}
           spent={budgetProgress[budget.id] || 0}
           onEdit={onEdit}
           onDelete={onDelete}

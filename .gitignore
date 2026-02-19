@@ -8,6 +8,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 next-env.d.ts
+*.tsbuildinfo
 
 # Python
 __pycache__/
@@ -55,3 +56,6 @@ Thumbs.db
 
 # Local configuration (not committed)
 .kiro/local/
+
+# Testing and development files (temporary)
+INTEGRATION_TEST_REPORT.md

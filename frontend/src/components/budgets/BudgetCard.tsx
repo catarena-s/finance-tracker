@@ -1,16 +1,23 @@
 import React from "react";
-import { Budget } from "@/types/api";
+import { Budget, Category } from "@/types/api";
 import { formatCurrency, formatDate } from "@/utils/format";
 import { Button } from "@/components/ui";
 
 interface BudgetCardProps {
   budget: Budget;
+  category?: Category;
   spent: number;
   onEdit: (budget: Budget) => void;
   onDelete: (id: string) => void;
 }
 
-export function BudgetCard({ budget, spent, onEdit, onDelete }: BudgetCardProps) {
+export function BudgetCard({
+  budget,
+  category,
+  spent,
+  onEdit,
+  onDelete,
+}: BudgetCardProps) {
   const budgetAmount = Number(budget.amount);
   const spentAmount = Number(spent);
   const remaining = budgetAmount - spentAmount;
@@ -34,9 +41,18 @@ export function BudgetCard({ budget, spent, onEdit, onDelete }: BudgetCardProps)
     <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 truncate">
-            {budget.categoryId}
-          </h3>
+          <div className="flex items-center gap-2">
+            {category && (
+              <span
+                className="w-3 h-3 rounded-full flex-shrink-0"
+                style={{ backgroundColor: category.color }}
+                aria-hidden="true"
+              />
+            )}
+            <h3 className="text-lg font-semibold text-gray-900 truncate">
+              {category ? category.name : budget.categoryId}
+            </h3>
+          </div>
           <p className="text-sm text-gray-500">{periodLabel}</p>
         </div>
 

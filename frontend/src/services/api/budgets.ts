@@ -22,37 +22,35 @@ export interface UpdateBudgetData {
  */
 export const budgetApi = {
   /**
-   * Получить все бюджеты с деталями
+   * Получить все бюджеты
    */
-  async getAll(): Promise<BudgetWithDetails[]> {
-    const response = await apiClient.get<ApiResponse<BudgetWithDetails[]>>("/budgets");
-    return response.data.data;
+  async getAll(): Promise<Budget[]> {
+    const response = await apiClient.get<Budget[]>("/budgets");
+    return response.data;
   },
 
   /**
    * Получить бюджет по ID
    */
-  async getById(id: string): Promise<BudgetWithDetails> {
-    const response = await apiClient.get<ApiResponse<BudgetWithDetails>>(
-      `/budgets/${id}`
-    );
-    return response.data.data;
+  async getById(id: string): Promise<Budget> {
+    const response = await apiClient.get<Budget>(`/budgets/${id}`);
+    return response.data;
   },
 
   /**
    * Создать новый бюджет
    */
   async create(data: CreateBudgetData): Promise<Budget> {
-    const response = await apiClient.post<ApiResponse<Budget>>("/budgets", data);
-    return response.data.data;
+    const response = await apiClient.post<Budget>("/budgets", data);
+    return response.data;
   },
 
   /**
    * Обновить бюджет
    */
   async update(id: string, data: UpdateBudgetData): Promise<Budget> {
-    const response = await apiClient.put<ApiResponse<Budget>>(`/budgets/${id}`, data);
-    return response.data.data;
+    const response = await apiClient.put<Budget>(`/budgets/${id}`, data);
+    return response.data;
   },
 
   /**
