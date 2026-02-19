@@ -4,6 +4,52 @@ import { ApiError } from "@/types/api";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 /**
+ * Преобразует snake_case в camelCase
+ */
+function toCamelCase(str: string): string {
+  return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+/**
+ * Преобразует camelCase в snake_case
+ */
+function toSnakeCase(str: string): string {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
+
+/**
+ * Рекурсивно преобразует ключи объекта из snake_case в camelCase
+ */
+function keysToCamel(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map((v) => keysToCamel(v));
+  } else if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce((result, key) => {
+      const camelKey = toCamelCase(key);
+      result[camelKey] = keysToCamel(obj[key]);
+      return result;
+    }, {} as any);
+  }
+  return obj;
+}
+
+/**
+ * Рекурсивно преобразует ключи объекта из camelCase в snake_case
+ */
+function keysToSnake(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map((v) => keysToSnake(v));
+  } else if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce((result, key) => {
+      const snakeKey = toSnakeCase(key);
+      result[snakeKey] = keysToSnake(obj[key]);
+      return result;
+    }, {} as any);
+  }
+  return obj;
+}
+
+/**
  * Создает и настраивает экземпляр Axios
  */
 function createApiClient(): AxiosInstance {
@@ -18,6 +64,11 @@ function createApiClient(): AxiosInstance {
   // Request interceptor
   client.interceptors.request.use(
     (config) => {
+      // Преобразуем данные запроса из camelCase в snake_case
+      if (config.data) {
+        config.data = keysToSnake(config.data);
+      }
+      
       // Можно добавить токен аутентификации здесь
       // const token = localStorage.getItem('token');
       // if (token) {
@@ -32,7 +83,13 @@ function createApiClient(): AxiosInstance {
 
   // Response interceptor
   client.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      // Преобразуем данные ответа из snake_case в camelCase
+      if (response.data) {
+        response.data = keysToCamel(response.data);
+      }
+      return response;
+    },
     async (error: AxiosError) => {
       const apiError = handleApiError(error);
 

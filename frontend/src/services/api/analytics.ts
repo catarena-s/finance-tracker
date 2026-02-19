@@ -37,10 +37,10 @@ export const analyticsApi = {
     queryParams.append("start_date", params.startDate);
     queryParams.append("end_date", params.endDate);
 
-    const response = await apiClient.get<ApiResponse<SummaryData>>(
+    const response = await apiClient.get<SummaryData>(
       `/analytics/summary?${queryParams.toString()}`
     );
-    return response.data.data;
+    return response.data;
   },
 
   /**
@@ -51,10 +51,10 @@ export const analyticsApi = {
     queryParams.append("start_date", params.startDate);
     queryParams.append("end_date", params.endDate);
 
-    const response = await apiClient.get<ApiResponse<TrendData[]>>(
+    const response = await apiClient.get<TrendData[]>(
       `/analytics/trends?${queryParams.toString()}`
     );
-    return response.data.data;
+    return response.data;
   },
 
   /**
@@ -67,9 +67,9 @@ export const analyticsApi = {
     queryParams.append("end_date", params.endDate);
     if (params.type) queryParams.append("type", params.type);
 
-    const response = await apiClient.get<ApiResponse<CategorySpending[]>>(
+    const response = await apiClient.get<CategorySpending[]>(
       `/analytics/top-categories?${queryParams.toString()}`
     );
-    return response.data.data;
+    return response.data;
   },
 };

@@ -32,6 +32,15 @@ export interface UpdateTransactionData {
   date?: string;
 }
 
+// Backend response format for paginated data
+interface BackendPaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  page_size: number;
+  pages: number;
+}
+
 /**
  * Transaction API клиент
  */
@@ -51,42 +60,52 @@ export const transactionApi = {
     if (filters.startDate) params.append("start_date", filters.startDate);
     if (filters.endDate) params.append("end_date", filters.endDate);
 
-    const response = await apiClient.get<PaginatedResponse<TransactionWithCategory>>(
+    const response = await apiClient.get<BackendPaginatedResponse<TransactionWithCategory>>(
       `/transactions?${params.toString()}`
     );
-    return response.data;
+    
+    // Transform backend format to frontend format
+    return {
+      data: response.data.items,
+      pagination: {
+        page: response.data.page,
+        pageSize: response.data.page_size,
+        totalPages: response.data.pages,
+        totalItems: response.data.total,
+      },
+    };
   },
 
   /**
    * Получить транзакцию по ID
    */
   async getById(id: string): Promise<TransactionWithCategory> {
-    const response = await apiClient.get<ApiResponse<TransactionWithCategory>>(
+    const response = await apiClient.get<TransactionWithCategory>(
       `/transactions/${id}`
     );
-    return response.data.data;
+    return response.data;
   },
 
   /**
    * Создать новую транзакцию
    */
   async create(data: CreateTransactionData): Promise<Transaction> {
-    const response = await apiClient.post<ApiResponse<Transaction>>(
+    const response = await apiClient.post<Transaction>(
       "/transactions",
       data
     );
-    return response.data.data;
+    return response.data;
   },
 
   /**
    * Обновить транзакцию
    */
   async update(id: string, data: UpdateTransactionData): Promise<Transaction> {
-    const response = await apiClient.put<ApiResponse<Transaction>>(
+    const response = await apiClient.put<Transaction>(
       `/transactions/${id}`,
       data
     );
-    return response.data.data;
+    return response.data;
   },
 
   /**
