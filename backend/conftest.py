@@ -51,15 +51,15 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    # Create session
+    # Create session factory
     async_session = async_sessionmaker(
         engine,
         class_=AsyncSession,
         expire_on_commit=False,
     )
 
-    async with async_session() as session:
-        # Add default categories
+    # Add default categories in a separate session
+    async with async_session() as setup_session:
         default_categories = [
             # Expense categories
             Category(
@@ -149,9 +149,11 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
             ),
         ]
 
-        session.add_all(default_categories)
-        await session.commit()
+        setup_session.add_all(default_categories)
+        await setup_session.commit()
 
+    # Create test session
+    async with async_session() as session:
         yield session
 
     # Drop all tables after test
