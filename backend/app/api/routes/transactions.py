@@ -72,6 +72,45 @@ async def list_transactions(
     )
 
 
+@router.post(
+    "/import",
+    response_model=dict,
+    summary="Импорт транзакций",
+    description="Импортировать транзакции из CSV файла",
+)
+async def import_transactions(
+    service: Annotated[TransactionService, Depends(get_transaction_service)],
+    file: UploadFile = File(...),
+):
+    """Импортировать транзакции из CSV файла"""
+    content = await file.read()
+    csv_content = content.decode("utf-8")
+    return await service.import_from_csv(csv_content)
+
+
+@router.get(
+    "/export",
+    response_class=Response,
+    summary="Экспорт транзакций",
+    description="Экспортировать транзакции в CSV файл",
+)
+async def export_transactions(
+    service: Annotated[TransactionService, Depends(get_transaction_service)],
+    start_date: date | None = Query(None),
+    end_date: date | None = Query(None),
+    category_id: uuid.UUID | None = Query(None),
+):
+    """Экспортировать транзакции в CSV файл"""
+    csv_content = await service.export_to_csv(
+        start_date=start_date, end_date=end_date, category_id=category_id
+    )
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=transactions.csv"},
+    )
+
+
 @router.get(
     "/{transaction_id}",
     response_model=Transaction,
@@ -114,42 +153,3 @@ async def delete_transaction(
     """Удалить транзакцию"""
     await service.delete_transaction(transaction_id)
     return Response(status_code=204)
-
-
-@router.post(
-    "/import",
-    response_model=dict,
-    summary="Импорт транзакций",
-    description="Импортировать транзакции из CSV файла",
-)
-async def import_transactions(
-    service: Annotated[TransactionService, Depends(get_transaction_service)],
-    file: UploadFile = File(...),
-):
-    """Импортировать транзакции из CSV файла"""
-    content = await file.read()
-    csv_content = content.decode("utf-8")
-    return await service.import_from_csv(csv_content)
-
-
-@router.get(
-    "/export",
-    response_class=Response,
-    summary="Экспорт транзакций",
-    description="Экспортировать транзакции в CSV файл",
-)
-async def export_transactions(
-    service: Annotated[TransactionService, Depends(get_transaction_service)],
-    start_date: date | None = Query(None),
-    end_date: date | None = Query(None),
-    category_id: uuid.UUID | None = Query(None),
-):
-    """Экспортировать транзакции в CSV файл"""
-    csv_content = await service.export_to_csv(
-        start_date=start_date, end_date=end_date, category_id=category_id
-    )
-    return Response(
-        content=csv_content,
-        media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=transactions.csv"},
-    )
