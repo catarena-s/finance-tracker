@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Create initial schema with categories, transactions, and budgets tables"""
-    
+
     # Create categories table
     op.create_table(
         "categories",
@@ -30,8 +30,12 @@ def upgrade() -> None:
         sa.Column("icon", sa.String(length=50), nullable=False),
         sa.Column("color", sa.String(length=7), nullable=False),
         sa.Column("type", sa.String(length=10), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
         sa.CheckConstraint("type IN ('income', 'expense')", name="ck_category_type"),
         sa.CheckConstraint("color ~ '^#[0-9A-Fa-f]{6}$'", name="ck_category_color_hex"),
         sa.PrimaryKeyConstraint("id"),
@@ -44,16 +48,24 @@ def upgrade() -> None:
         "transactions",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("amount", sa.Numeric(precision=10, scale=2), nullable=False),
-        sa.Column("currency", sa.String(length=3), nullable=False, server_default="USD"),
+        sa.Column(
+            "currency", sa.String(length=3), nullable=False, server_default="USD"
+        ),
         sa.Column("category_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("description", sa.Text(), nullable=True),
         sa.Column("transaction_date", sa.Date(), nullable=False),
         sa.Column("type", sa.String(length=10), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
         sa.CheckConstraint("amount > 0", name="ck_transaction_amount_positive"),
         sa.CheckConstraint("type IN ('income', 'expense')", name="ck_transaction_type"),
-        sa.CheckConstraint("currency ~ '^[A-Z]{3}$'", name="ck_transaction_currency_iso4217"),
+        sa.CheckConstraint(
+            "currency ~ '^[A-Z]{3}$'", name="ck_transaction_currency_iso4217"
+        ),
         sa.ForeignKeyConstraint(
             ["category_id"],
             ["categories.id"],
@@ -64,7 +76,10 @@ def upgrade() -> None:
     )
     op.create_index(op.f("ix_transactions_id"), "transactions", ["id"], unique=False)
     op.create_index(
-        op.f("ix_transactions_category_id"), "transactions", ["category_id"], unique=False
+        op.f("ix_transactions_category_id"),
+        "transactions",
+        ["category_id"],
+        unique=False,
     )
     op.create_index(
         op.f("ix_transactions_transaction_date"),
@@ -82,8 +97,12 @@ def upgrade() -> None:
         sa.Column("period", sa.String(length=10), nullable=False),
         sa.Column("start_date", sa.Date(), nullable=False),
         sa.Column("end_date", sa.Date(), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
         sa.CheckConstraint("amount > 0", name="ck_budget_amount_positive"),
         sa.CheckConstraint("period IN ('monthly', 'yearly')", name="ck_budget_period"),
         sa.CheckConstraint("end_date > start_date", name="ck_budget_date_range"),
@@ -109,11 +128,11 @@ def downgrade() -> None:
     op.drop_index(op.f("ix_budgets_category_id"), table_name="budgets")
     op.drop_index(op.f("ix_budgets_id"), table_name="budgets")
     op.drop_table("budgets")
-    
+
     op.drop_index(op.f("ix_transactions_transaction_date"), table_name="transactions")
     op.drop_index(op.f("ix_transactions_category_id"), table_name="transactions")
     op.drop_index(op.f("ix_transactions_id"), table_name="transactions")
     op.drop_table("transactions")
-    
+
     op.drop_index(op.f("ix_categories_id"), table_name="categories")
     op.drop_table("categories")

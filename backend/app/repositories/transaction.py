@@ -30,7 +30,7 @@ class TransactionRepository(BaseRepository[Transaction]):
     ) -> Tuple[List[Transaction], int]:
         """Получить отфильтрованные транзакции с пагинацией"""
         from sqlalchemy.orm import selectinload
-        
+
         filters = []
 
         if start_date:

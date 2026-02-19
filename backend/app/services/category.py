@@ -25,12 +25,12 @@ class CategoryService:
 
         # Создать категорию
         category_data = {
-            'name': data.name,
-            'icon': data.icon,
-            'color': data.color,
-            'type': data.type.value  # Преобразуем Enum в строку
+            "name": data.name,
+            "icon": data.icon,
+            "color": data.color,
+            "type": data.type.value,  # Преобразуем Enum в строку
         }
-        
+
         category = await self.category_repo.create(**category_data)
         return Category.model_validate(category)
 

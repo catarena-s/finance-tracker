@@ -31,12 +31,17 @@ async def lifespan(app: FastAPI):
     logger.info("Применение миграций базы данных...")
     try:
         import asyncio
-        
+
         def run_migrations():
-            alembic_cfg = Config(os.path.join(os.path.dirname(__file__), "..", "alembic.ini"))
-            alembic_cfg.set_main_option("script_location", os.path.join(os.path.dirname(__file__), "..", "alembic"))
+            alembic_cfg = Config(
+                os.path.join(os.path.dirname(__file__), "..", "alembic.ini")
+            )
+            alembic_cfg.set_main_option(
+                "script_location",
+                os.path.join(os.path.dirname(__file__), "..", "alembic"),
+            )
             command.upgrade(alembic_cfg, "head")
-        
+
         # Запускаем миграции в отдельном потоке
         loop = asyncio.get_event_loop()
         await loop.run_in_executor(None, run_migrations)
@@ -44,9 +49,9 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Ошибка при применении миграций: {e}")
         # Не останавливаем приложение, если миграции уже применены
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Завершение работы приложения")
 

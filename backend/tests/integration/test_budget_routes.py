@@ -137,9 +137,7 @@ async def test_update_budget(client: AsyncClient):
     )
     budget_id = create_response.json()["id"]
 
-    response = await client.put(
-        f"/api/v1/budgets/{budget_id}", json={"amount": 6000.0}
-    )
+    response = await client.put(f"/api/v1/budgets/{budget_id}", json={"amount": 6000.0})
     assert response.status_code == 200
     data = response.json()
     assert data["amount"] == 6000.0

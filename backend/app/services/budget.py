@@ -42,13 +42,13 @@ class BudgetService:
 
         # Создать бюджет
         budget_data = {
-            'category_id': data.category_id,
-            'amount': data.amount,
-            'period': data.period.value,  # Преобразуем Enum в строку
-            'start_date': data.start_date,
-            'end_date': data.end_date
+            "category_id": data.category_id,
+            "amount": data.amount,
+            "period": data.period.value,  # Преобразуем Enum в строку
+            "start_date": data.start_date,
+            "end_date": data.end_date,
         }
-        
+
         budget = await self.budget_repo.create(**budget_data)
         return Budget.model_validate(budget)
 

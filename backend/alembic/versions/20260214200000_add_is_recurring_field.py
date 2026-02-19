@@ -29,7 +29,9 @@ def upgrade() -> None:
     # Add recurring_pattern column to transactions table
     op.add_column(
         "transactions",
-        sa.Column("recurring_pattern", postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+        sa.Column(
+            "recurring_pattern", postgresql.JSONB(astext_type=sa.Text()), nullable=True
+        ),
     )
 
 
