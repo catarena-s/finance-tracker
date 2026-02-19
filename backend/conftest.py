@@ -61,3 +61,25 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
         await conn.run_sync(Base.metadata.drop_all)
 
     await engine.dispose()
+
+
+@pytest_asyncio.fixture(scope="function")
+async def client(test_db: AsyncSession) -> AsyncGenerator:
+    """
+    Create a test client for integration tests
+    """
+    from httpx import AsyncClient, ASGITransport
+    from app.main import app
+    from app.core.database import get_db
+
+    # Override get_db dependency
+    async def override_get_db():
+        yield test_db
+
+    app.dependency_overrides[get_db] = override_get_db
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        yield ac
+
+    app.dependency_overrides.clear()
