@@ -36,7 +36,10 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Create a test database session for each test function
     """
+    # Import all models to ensure they are registered with Base.metadata
     from app.models.category import Category
+    from app.models.transaction import Transaction  # noqa: F401
+    from app.models.budget import Budget  # noqa: F401
     from app.schemas.category import CategoryType
 
     # Create async engine for test database
