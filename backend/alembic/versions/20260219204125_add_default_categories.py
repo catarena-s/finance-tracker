@@ -21,29 +21,29 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     # Добавляем базовые категории расходов
     op.execute("""
-        INSERT INTO categories (name, type, color, description, created_at, updated_at)
+        INSERT INTO categories (id, name, icon, type, color, created_at, updated_at)
         VALUES
-            ('Продукты', 'expense', '#FF6B6B', 'Покупки продуктов питания', NOW(), NOW()),
-            ('Транспорт', 'expense', '#4ECDC4', 'Расходы на транспорт', NOW(), NOW()),
-            ('Жильё', 'expense', '#45B7D1', 'Аренда, коммунальные услуги', NOW(), NOW()),
-            ('Здоровье', 'expense', '#96CEB4', 'Медицина, аптека', NOW(), NOW()),
-            ('Развлечения', 'expense', '#FFEAA7', 'Кино, рестораны, хобби', NOW(), NOW()),
-            ('Одежда', 'expense', '#DFE6E9', 'Покупка одежды и обуви', NOW(), NOW()),
-            ('Образование', 'expense', '#74B9FF', 'Курсы, книги, обучение', NOW(), NOW()),
-            ('Связь', 'expense', '#A29BFE', 'Интернет, мобильная связь', NOW(), NOW()),
-            ('Прочее', 'expense', '#B2BEC3', 'Прочие расходы', NOW(), NOW())
+            (gen_random_uuid(), 'Продукты', '🛒', 'expense', '#FF6B6B', NOW(), NOW()),
+            (gen_random_uuid(), 'Транспорт', '🚗', 'expense', '#4ECDC4', NOW(), NOW()),
+            (gen_random_uuid(), 'Жильё', '🏠', 'expense', '#45B7D1', NOW(), NOW()),
+            (gen_random_uuid(), 'Здоровье', '💊', 'expense', '#96CEB4', NOW(), NOW()),
+            (gen_random_uuid(), 'Развлечения', '🎬', 'expense', '#FFEAA7', NOW(), NOW()),
+            (gen_random_uuid(), 'Одежда', '👕', 'expense', '#DFE6E9', NOW(), NOW()),
+            (gen_random_uuid(), 'Образование', '📚', 'expense', '#74B9FF', NOW(), NOW()),
+            (gen_random_uuid(), 'Связь', '📱', 'expense', '#A29BFE', NOW(), NOW()),
+            (gen_random_uuid(), 'Прочее', '📦', 'expense', '#B2BEC3', NOW(), NOW())
         ON CONFLICT (name, type) DO NOTHING;
     """)
     
     # Добавляем базовые категории доходов
     op.execute("""
-        INSERT INTO categories (name, type, color, description, created_at, updated_at)
+        INSERT INTO categories (id, name, icon, type, color, created_at, updated_at)
         VALUES
-            ('Зарплата', 'income', '#00B894', 'Основной доход', NOW(), NOW()),
-            ('Фриланс', 'income', '#00CEC9', 'Доход от фриланса', NOW(), NOW()),
-            ('Инвестиции', 'income', '#FDCB6E', 'Дивиденды, проценты', NOW(), NOW()),
-            ('Подарки', 'income', '#E17055', 'Подарки, призы', NOW(), NOW()),
-            ('Прочее', 'income', '#636E72', 'Прочие доходы', NOW(), NOW())
+            (gen_random_uuid(), 'Зарплата', '💰', 'income', '#00B894', NOW(), NOW()),
+            (gen_random_uuid(), 'Фриланс', '💻', 'income', '#00CEC9', NOW(), NOW()),
+            (gen_random_uuid(), 'Инвестиции', '📈', 'income', '#FDCB6E', NOW(), NOW()),
+            (gen_random_uuid(), 'Подарки', '🎁', 'income', '#E17055', NOW(), NOW()),
+            (gen_random_uuid(), 'Прочее', '💵', 'income', '#636E72', NOW(), NOW())
         ON CONFLICT (name, type) DO NOTHING;
     """)
 

@@ -24,14 +24,32 @@ class TransactionService:
 
     async def create_transaction(self, data: TransactionCreate) -> Transaction:
         """Создать транзакцию"""
-        # Проверить существование категории
-        category = await self.category_repo.get_by_id(data.category_id)
-        if not category:
-            raise NotFoundException("Category not found")
+        try:
+            # Проверить существование категории
+            category = await self.category_repo.get_by_id(data.category_id)
+            if not category:
+                raise NotFoundException("Category not found")
 
-        # Создать транзакцию
-        transaction = await self.transaction_repo.create(**data.model_dump())
-        return Transaction.model_validate(transaction)
+            # Создать транзакцию
+            # Преобразуем данные для SQLAlchemy
+            transaction_data = {
+                'amount': data.amount,
+                'currency': data.currency,
+                'category_id': data.category_id,
+                'description': data.description,
+                'transaction_date': data.transaction_date,
+                'type': data.type.value,  # Преобразуем Enum в строку
+                'is_recurring': data.is_recurring,
+                'recurring_pattern': data.recurring_pattern.model_dump() if data.recurring_pattern else None
+            }
+            
+            transaction = await self.transaction_repo.create(**transaction_data)
+            return Transaction.model_validate(transaction)
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Error creating transaction: {type(e).__name__}: {str(e)}", exc_info=True)
+            raise
 
     async def get_transaction(self, transaction_id: uuid.UUID) -> Transaction:
         """Получить транзакцию по ID"""
