@@ -15,6 +15,7 @@ from app.models.base import Base
 
 
 # Test database URL - use environment variable if set (for CI), otherwise use local default
+# CI uses port 5432, local docker-compose uses port 5433
 TEST_DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test",
