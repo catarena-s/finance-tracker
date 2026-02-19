@@ -1,4 +1,4 @@
-"""Add is_recurring field to transactions
+"""Add is_recurring and recurring_pattern fields to transactions
 
 Revision ID: 20260214200000
 Revises: 20260214185500
@@ -10,6 +10,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 # revision identifiers, used by Alembic.
@@ -25,8 +26,15 @@ def upgrade() -> None:
         "transactions",
         sa.Column("is_recurring", sa.Boolean(), nullable=False, server_default="false"),
     )
+    # Add recurring_pattern column to transactions table
+    op.add_column(
+        "transactions",
+        sa.Column("recurring_pattern", postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    )
 
 
 def downgrade() -> None:
+    # Remove recurring_pattern column from transactions table
+    op.drop_column("transactions", "recurring_pattern")
     # Remove is_recurring column from transactions table
     op.drop_column("transactions", "is_recurring")
