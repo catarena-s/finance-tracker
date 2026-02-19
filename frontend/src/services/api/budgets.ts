@@ -22,18 +22,18 @@ export interface UpdateBudgetData {
  */
 export const budgetApi = {
   /**
-   * Получить все бюджеты с деталями
+   * Получить все бюджеты
    */
-  async getAll(): Promise<BudgetWithDetails[]> {
-    const response = await apiClient.get<BudgetWithDetails[]>("/budgets");
+  async getAll(): Promise<Budget[]> {
+    const response = await apiClient.get<Budget[]>("/budgets");
     return response.data;
   },
 
   /**
    * Получить бюджет по ID
    */
-  async getById(id: string): Promise<BudgetWithDetails> {
-    const response = await apiClient.get<BudgetWithDetails>(`/budgets/${id}`);
+  async getById(id: string): Promise<Budget> {
+    const response = await apiClient.get<Budget>(`/budgets/${id}`);
     return response.data;
   },
 
