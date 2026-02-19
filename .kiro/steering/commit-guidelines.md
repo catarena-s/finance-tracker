@@ -134,13 +134,61 @@ test(frontend): добавить тесты для оптимистичных о
 
 ## Проверка перед коммитом
 
+**ОБЯЗАТЕЛЬНО запускайте проверки перед каждым коммитом!**
+
+### Frontend
+
 ```bash
+cd frontend
+
 # Проверка типов
 npm run type-check
 
-# Запуск тестов
-npm test
-
 # Линтинг
 npm run lint
+
+# Форматирование
+npm run format:check
+
+# Запуск тестов
+npm test -- --watchAll=false
 ```
+
+### Backend
+
+```bash
+cd backend
+
+# Линтинг (Ruff)
+ruff check .
+
+# Форматирование (Black)
+black --check .
+
+# Если Black находит проблемы, исправьте их:
+black .
+
+# Запуск тестов
+pytest
+```
+
+### Быстрая проверка всего проекта
+
+```bash
+# Backend
+cd backend && ruff check . && black --check . && pytest && cd ..
+
+# Frontend
+cd frontend && npm run type-check && npm run lint && npm run format:check && npm test -- --watchAll=false && cd ..
+```
+
+## Автоматизация проверок (рекомендуется)
+
+Для автоматического запуска проверок перед коммитом используйте pre-commit hooks или создайте hook в Kiro:
+
+```bash
+# Создать hook для проверки перед коммитом
+# Откройте Kiro Hook UI через Command Palette
+```
+
+**Важно:** CI будет проверять те же правила. Если проверки не пройдут локально, они не пройдут и в CI.
