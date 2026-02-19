@@ -36,6 +36,9 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Create a test database session for each test function
     """
+    from app.models.category import Category
+    from app.schemas.category import CategoryType
+
     # Create async engine for test database
     engine = create_async_engine(
         TEST_DATABASE_URL,
@@ -56,6 +59,99 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
     )
 
     async with async_session() as session:
+        # Add default categories
+        default_categories = [
+            # Expense categories
+            Category(
+                name="Продукты",
+                icon="🛒",
+                type=CategoryType.EXPENSE.value,
+                color="#FF6B6B",
+            ),
+            Category(
+                name="Транспорт",
+                icon="🚗",
+                type=CategoryType.EXPENSE.value,
+                color="#4ECDC4",
+            ),
+            Category(
+                name="Жильё",
+                icon="🏠",
+                type=CategoryType.EXPENSE.value,
+                color="#45B7D1",
+            ),
+            Category(
+                name="Здоровье",
+                icon="💊",
+                type=CategoryType.EXPENSE.value,
+                color="#96CEB4",
+            ),
+            Category(
+                name="Развлечения",
+                icon="🎬",
+                type=CategoryType.EXPENSE.value,
+                color="#FFEAA7",
+            ),
+            Category(
+                name="Одежда",
+                icon="👕",
+                type=CategoryType.EXPENSE.value,
+                color="#DFE6E9",
+            ),
+            Category(
+                name="Образование",
+                icon="📚",
+                type=CategoryType.EXPENSE.value,
+                color="#74B9FF",
+            ),
+            Category(
+                name="Связь",
+                icon="📱",
+                type=CategoryType.EXPENSE.value,
+                color="#A29BFE",
+            ),
+            Category(
+                name="Прочее",
+                icon="📦",
+                type=CategoryType.EXPENSE.value,
+                color="#B2BEC3",
+            ),
+            # Income categories
+            Category(
+                name="Зарплата",
+                icon="💰",
+                type=CategoryType.INCOME.value,
+                color="#00B894",
+            ),
+            Category(
+                name="Фриланс",
+                icon="💻",
+                type=CategoryType.INCOME.value,
+                color="#00CEC9",
+            ),
+            Category(
+                name="Инвестиции",
+                icon="📈",
+                type=CategoryType.INCOME.value,
+                color="#FDCB6E",
+            ),
+            Category(
+                name="Подарки",
+                icon="🎁",
+                type=CategoryType.INCOME.value,
+                color="#E17055",
+            ),
+            Category(
+                name="Прочее",
+                icon="💵",
+                type=CategoryType.INCOME.value,
+                color="#636E72",
+            ),
+        ]
+
+        session.add_all(default_categories)
+        await session.commit()
+
         yield session
 
     # Drop all tables after test
