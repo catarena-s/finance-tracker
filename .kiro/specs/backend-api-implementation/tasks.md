@@ -189,7 +189,7 @@
     - Настроить dependency injection для CategoryService
     - _Requirements: 11.3_
   
-  - [ ] 12.2 Написать integration тесты для category routes
+  - [x] 12.2 Написать integration тесты для category routes
     - Тестировать все эндпоинты с разными HTTP кодами
     - _Requirements: 15.3_
 
@@ -199,7 +199,7 @@
     - Настроить dependency injection для TransactionService
     - _Requirements: 11.3_
   
-  - [ ] 13.2 Написать integration тесты для transaction routes
+  - [x] 13.2 Написать integration тесты для transaction routes
     - Тестировать все эндпоинты включая импорт/экспорт
     - _Requirements: 15.3_
 
@@ -209,7 +209,7 @@
     - Настроить dependency injection для BudgetService
     - _Requirements: 11.3_
   
-  - [ ] 14.2 Написать integration тесты для budget routes
+  - [x] 14.2 Написать integration тесты для budget routes
     - Тестировать все эндпоинты включая прогресс
     - _Requirements: 15.3_
 
@@ -219,7 +219,7 @@
     - Настроить dependency injection для AnalyticsService
     - _Requirements: 11.3_
   
-  - [ ] 15.2 Написать integration тесты для analytics routes
+  - [x] 15.2 Написать integration тесты для analytics routes
     - Тестировать все аналитические эндпоинты
     - _Requirements: 15.3_
 
@@ -265,7 +265,7 @@
     - Настроить CORS если необходимо
     - _Requirements: 11.3_
   
-  - [ ] 19.2 Написать end-to-end integration тесты
+  - [x] 19.2 Написать end-to-end integration тесты
     - Тестировать полные сценарии использования API (создание категории → создание транзакции → создание бюджета → получение аналитики)
     - Тестировать обработку ошибок и граничные случаи
     - Тестировать импорт/экспорт CSV
