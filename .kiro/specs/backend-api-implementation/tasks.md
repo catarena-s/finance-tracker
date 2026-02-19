@@ -14,6 +14,13 @@
   - Настроить pytest конфигурацию и conftest.py с фикстурами для тестовой БД
   - _Requirements: 9.10, 15.4, 15.8_
 
+- [ ] 1.1 Создание базы данных и миграций
+  - Настроить Alembic для управления миграциями БД
+  - Создать initial migration с таблицами categories, transactions, budgets
+  - Добавить автоматическое применение миграций при старте приложения (startup event в main.py)
+  - Создать скрипты инициализации БД (init.sh, init.bat) для ручного запуска при необходимости
+  - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 9.10_
+
 - [x] 2. Реализация SQLAlchemy моделей
   - [x] 2.1 Создать базовую модель и Category модель
     - Создать app/models/base.py с Base декларативной базой
@@ -182,7 +189,7 @@
     - Настроить dependency injection для CategoryService
     - _Requirements: 11.3_
   
-  - [ ]* 12.2 Написать integration тесты для category routes
+  - [ ] 12.2 Написать integration тесты для category routes
     - Тестировать все эндпоинты с разными HTTP кодами
     - _Requirements: 15.3_
 
@@ -192,7 +199,7 @@
     - Настроить dependency injection для TransactionService
     - _Requirements: 11.3_
   
-  - [ ]* 13.2 Написать integration тесты для transaction routes
+  - [ ] 13.2 Написать integration тесты для transaction routes
     - Тестировать все эндпоинты включая импорт/экспорт
     - _Requirements: 15.3_
 
@@ -202,7 +209,7 @@
     - Настроить dependency injection для BudgetService
     - _Requirements: 11.3_
   
-  - [ ]* 14.2 Написать integration тесты для budget routes
+  - [ ] 14.2 Написать integration тесты для budget routes
     - Тестировать все эндпоинты включая прогресс
     - _Requirements: 15.3_
 
@@ -212,7 +219,7 @@
     - Настроить dependency injection для AnalyticsService
     - _Requirements: 11.3_
   
-  - [ ]* 15.2 Написать integration тесты для analytics routes
+  - [ ] 15.2 Написать integration тесты для analytics routes
     - Тестировать все аналитические эндпоинты
     - _Requirements: 15.3_
 
@@ -258,8 +265,10 @@
     - Настроить CORS если необходимо
     - _Requirements: 11.3_
   
-  - [ ]* 19.2 Написать end-to-end integration тесты
-    - Тестировать полные сценарии использования API
+  - [ ] 19.2 Написать end-to-end integration тесты
+    - Тестировать полные сценарии использования API (создание категории → создание транзакции → создание бюджета → получение аналитики)
+    - Тестировать обработку ошибок и граничные случаи
+    - Тестировать импорт/экспорт CSV
     - _Requirements: 15.3_
   
   - [x] 19.3 Проверить покрытие property-based тестами
