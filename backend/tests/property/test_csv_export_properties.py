@@ -13,7 +13,14 @@ from datetime import date
 from app.services.csv_export import CSVExportService
 
 
-def _make_transaction(amount="100", currency="USD", category_name="Food", description="", transaction_date=None, type="expense"):
+def _make_transaction(
+    amount="100",
+    currency="USD",
+    category_name="Food",
+    description="",
+    transaction_date=None,
+    type="expense",
+):
     t = MagicMock()
     t.amount = amount
     t.currency = currency
@@ -31,8 +38,12 @@ def _make_export_service(transactions):
     return CSVExportService(repo)
 
 
-_column = st.sampled_from(["amount", "currency", "category_name", "description", "transaction_date", "type"])
-columns_list = st.lists(_column, min_size=1, max_size=6).map(lambda x: list(dict.fromkeys(x)))  # unique order preserved
+_column = st.sampled_from(
+    ["amount", "currency", "category_name", "description", "transaction_date", "type"]
+)
+columns_list = st.lists(_column, min_size=1, max_size=6).map(
+    lambda x: list(dict.fromkeys(x))
+)  # unique order preserved
 date_fmt = st.sampled_from(["%Y-%m-%d", "%d.%m.%Y", "%m/%d/%Y"])
 
 
@@ -60,7 +71,9 @@ async def test_property_export_dates_formatted(date_format):
     d = date(2024, 12, 25)
     t = _make_transaction(transaction_date=d)
     svc = _make_export_service([t])
-    out = await svc.export_csv(None, None, None, ["amount", "transaction_date"], date_format)
+    out = await svc.export_csv(
+        None, None, None, ["amount", "transaction_date"], date_format
+    )
     lines = out.strip().split("\n")
     assert len(lines) >= 2
     data_line = lines[1]
@@ -70,9 +83,13 @@ async def test_property_export_dates_formatted(date_format):
 @pytest.mark.asyncio
 async def test_property_export_special_chars_quoted():
     """Свойство 9: Значения с запятыми/кавычками экранируются (csv module)."""
-    t = _make_transaction(description='Test "quote" and, comma', category_name="Cat,egory")
+    t = _make_transaction(
+        description='Test "quote" and, comma', category_name="Cat,egory"
+    )
     svc = _make_export_service([t])
-    out = await svc.export_csv(None, None, None, ["description", "category_name"], "%Y-%m-%d")
+    out = await svc.export_csv(
+        None, None, None, ["description", "category_name"], "%Y-%m-%d"
+    )
     assert "quote" in out
     assert "comma" in out
     lines = out.strip().split("\n")

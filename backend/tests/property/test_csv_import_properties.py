@@ -10,13 +10,15 @@ from hypothesis import given, strategies as st
 from unittest.mock import AsyncMock, MagicMock
 import uuid
 
-from app.schemas.csv_import import CSVColumnMapping, CSVImportResult
+from app.schemas.csv_import import CSVColumnMapping
 from app.services.csv_import import CSVImportService
 
 
 # Стратегии
 amount_str = st.one_of(
-    st.floats(min_value=0.01, max_value=999999, allow_nan=False).map(lambda x: str(round(x, 2))),
+    st.floats(min_value=0.01, max_value=999999, allow_nan=False).map(
+        lambda x: str(round(x, 2))
+    ),
     st.just("100"),
     st.just("0.5"),
 )
@@ -116,7 +118,10 @@ async def test_property_csv_validation_invalid_amount_in_errors():
     )
     result = await svc._process_csv(csv_content, mapping, "%Y-%m-%d")
     assert result.error_count >= 1
-    assert any("сумм" in str(e.get("error", "")) or "amount" in str(e.get("error", "")).lower() for e in result.errors)
+    assert any(
+        "сумм" in str(e.get("error", "")) or "amount" in str(e.get("error", "")).lower()
+        for e in result.errors
+    )
 
 
 @pytest.mark.asyncio
@@ -132,7 +137,10 @@ async def test_property_csv_validation_invalid_date_in_errors():
     )
     result = await svc._process_csv(csv_content, mapping, "%Y-%m-%d")
     assert result.error_count >= 1
-    assert any("дат" in str(e.get("error", "")) or "date" in str(e.get("error", "")).lower() for e in result.errors)
+    assert any(
+        "дат" in str(e.get("error", "")) or "date" in str(e.get("error", "")).lower()
+        for e in result.errors
+    )
 
 
 @pytest.mark.asyncio

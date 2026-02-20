@@ -28,20 +28,34 @@ def upgrade() -> None:
         sa.Column("result", postgresql.JSONB(), nullable=True),
         sa.Column("error", sa.Text(), nullable=True),
         sa.Column(
-            "created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
         ),
         sa.Column(
-            "updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+            "updated_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
         ),
         sa.PrimaryKeyConstraint("id"),
     )
-    op.create_index(op.f("ix_task_results_task_id"), "task_results", ["task_id"], unique=True)
-    op.create_index(op.f("ix_task_results_task_type"), "task_results", ["task_type"], unique=False)
-    op.create_index(op.f("ix_task_results_status"), "task_results", ["status"], unique=False)
+    op.create_index(
+        op.f("ix_task_results_task_id"), "task_results", ["task_id"], unique=True
+    )
+    op.create_index(
+        op.f("ix_task_results_task_type"), "task_results", ["task_type"], unique=False
+    )
+    op.create_index(
+        op.f("ix_task_results_status"), "task_results", ["status"], unique=False
+    )
 
     op.add_column(
         "transactions",
-        sa.Column("recurring_template_id", postgresql.UUID(as_uuid=True), nullable=True),
+        sa.Column(
+            "recurring_template_id", postgresql.UUID(as_uuid=True), nullable=True
+        ),
     )
     op.create_foreign_key(
         "fk_transactions_recurring_template_id",

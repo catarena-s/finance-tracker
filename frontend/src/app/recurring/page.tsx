@@ -72,20 +72,10 @@ export default function RecurringPage() {
     load();
   };
 
-  if (loading && items.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-gray-600">Загрузка...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Повторяющиеся транзакции
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900">Повторяющиеся транзакции</h1>
         <div className="flex gap-2">
           <Link
             href="/transactions"
@@ -93,28 +83,30 @@ export default function RecurringPage() {
           >
             К транзакциям
           </Link>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            Добавить шаблон
-          </Button>
+          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить шаблон</Button>
         </div>
       </div>
       <p className="text-gray-600 mb-4">
         Шаблоны для автоматического создания транзакций (подписки, зарплата и т.д.).
       </p>
 
+      {loading && items.length === 0 && <p className="text-gray-600">Загрузка...</p>}
+
       {error && (
         <div className="bg-red-50 text-red-800 px-4 py-2 rounded mb-4">{error}</div>
       )}
 
-      <RecurringTransactionList
-        items={items}
-        onEdit={handleEdit}
-        onDelete={(id) => {
-          const item = items.find((r) => r.id === id);
-          if (item) handleDeleteClick(item);
-        }}
-        onToggleActive={handleToggleActive}
-      />
+      {(!loading || items.length > 0) && (
+        <RecurringTransactionList
+          items={items}
+          onEdit={handleEdit}
+          onDelete={(id) => {
+            const item = items.find((r) => r.id === id);
+            if (item) handleDeleteClick(item);
+          }}
+          onToggleActive={handleToggleActive}
+        />
+      )}
 
       <Modal
         isOpen={isCreateModalOpen}
@@ -162,7 +154,8 @@ export default function RecurringPage() {
       >
         <div className="space-y-4">
           <p className="text-gray-700">
-            Удалить шаблон &quot;{selected?.name}&quot;? Созданные транзакции сохранятся.
+            Удалить шаблон &quot;{selected?.name}&quot;? Созданные транзакции
+            сохранятся.
           </p>
           <div className="flex gap-2">
             <Button variant="danger" onClick={handleDeleteConfirm}>

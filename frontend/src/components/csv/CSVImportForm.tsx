@@ -37,11 +37,15 @@ export function CSVImportForm() {
     setImportResult(null);
     setMapping(null);
     const reader = new FileReader();
-    reader.onload = () => {
-      const text = (reader.result as string) || "";
+    reader.onload = (ev) => {
+      const text = (ev.target?.result as string) || (reader.result as string) || "";
       setCsvText(text);
-      const parsed = Papa.parse<Record<string, string>>(text, { header: true, skipEmptyLines: true });
-      const hs = parsed.meta.fields || (parsed.data[0] ? Object.keys(parsed.data[0]) : []);
+      const parsed = Papa.parse<Record<string, string>>(text, {
+        header: true,
+        skipEmptyLines: true,
+      });
+      const hs =
+        parsed.meta.fields || (parsed.data[0] ? Object.keys(parsed.data[0]) : []);
       setHeaders(hs);
       setRows(parsed.data || []);
       setMappingDialogOpen(true);
@@ -76,9 +80,12 @@ export function CSVImportForm() {
             setImportResult({
               taskId: result.taskId,
               status: "completed",
-              createdCount: (status.result as { created_count?: number }).created_count ?? 0,
+              createdCount:
+                (status.result as { created_count?: number }).created_count ?? 0,
               errorCount: (status.result as { error_count?: number }).error_count ?? 0,
-              errors: (status.result as { errors?: Array<{ row: number; error: string }> }).errors ?? [],
+              errors:
+                (status.result as { errors?: Array<{ row: number; error: string }> })
+                  .errors ?? [],
             });
             setTaskPolling(false);
             return;
@@ -177,7 +184,9 @@ export function CSVImportForm() {
       )}
 
       {importResult && (
-        <div className={`rounded-lg p-4 ${importResult.status === "failed" ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800"}`}>
+        <div
+          className={`rounded-lg p-4 ${importResult.status === "failed" ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800"}`}
+        >
           <p className="font-medium">
             {importResult.status === "completed"
               ? `Готово: создано ${importResult.createdCount ?? 0}, ошибок ${importResult.errorCount ?? 0}`
@@ -188,7 +197,9 @@ export function CSVImportForm() {
           {importResult.errors && importResult.errors.length > 0 && (
             <ul className="mt-2 text-sm list-disc list-inside">
               {importResult.errors.slice(0, 10).map((e, i) => (
-                <li key={i}>Строка {e.row}: {e.error}</li>
+                <li key={i}>
+                  Строка {e.row}: {e.error}
+                </li>
               ))}
               {(importResult.errors?.length ?? 0) > 10 && (
                 <li>… и ещё {(importResult.errors?.length ?? 0) - 10} ошибок</li>

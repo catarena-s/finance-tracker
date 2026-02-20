@@ -7,7 +7,7 @@ Property-based тесты для RecurringTransactionService.
 
 import pytest
 from hypothesis import given, strategies as st
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import MagicMock
 from datetime import date, timedelta
 
 from app.services.recurring_transaction import RecurringTransactionService
@@ -55,6 +55,7 @@ async def test_property_next_occurrence_weekly(start, interval):
 async def test_property_next_occurrence_monthly(start, interval):
     """Свойство 12: Ежемесячная частота — следующая дата сдвинута на interval месяцев."""
     from dateutil.relativedelta import relativedelta
+
     svc = _make_recurring_service()
     ref = start
     next_d = svc._next_occurrence(start, "monthly", interval, ref)

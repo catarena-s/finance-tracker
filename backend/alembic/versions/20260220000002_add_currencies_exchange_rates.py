@@ -39,7 +39,10 @@ def upgrade() -> None:
         sa.Column("symbol", sa.String(length=10), nullable=False),
         sa.Column("is_active", sa.Boolean(), nullable=False),
         sa.Column(
-            "created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
         ),
         sa.PrimaryKeyConstraint("code"),
     )
@@ -61,7 +64,10 @@ def upgrade() -> None:
         sa.Column("rate", sa.Numeric(precision=20, scale=10), nullable=False),
         sa.Column("date", sa.Date(), nullable=False),
         sa.Column(
-            "created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
         ),
         sa.ForeignKeyConstraint(
             ["from_currency"], ["currencies.code"], ondelete="RESTRICT"

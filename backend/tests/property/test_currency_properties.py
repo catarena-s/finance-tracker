@@ -29,7 +29,9 @@ def _make_currency_service(rate_value=None):
     return CurrencyService(currency_repo, exchange_repo)
 
 
-amount_strategy = st.decimals(min_value=Decimal("0.01"), max_value=Decimal("999999"), allow_nan=False)
+amount_strategy = st.decimals(
+    min_value=Decimal("0.01"), max_value=Decimal("999999"), allow_nan=False
+)
 currency_code = st.sampled_from(["USD", "EUR", "GBP", "RUB"])
 date_strategy = st.dates(min_value=date(2020, 1, 1), max_value=date(2030, 12, 31))
 
@@ -51,8 +53,6 @@ async def test_property_convert_same_currency_returns_amount(amount, code, rate_
 async def test_property_convert_amount_times_rate(amount, rate_val):
     """Свойство 20, 21: Конвертация = amount * rate при наличии курса."""
     svc = _make_currency_service(rate_value=rate_val)
-    result = await svc.convert_amount(
-        amount, "USD", "EUR", date(2024, 1, 1)
-    )
+    result = await svc.convert_amount(amount, "USD", "EUR", date(2024, 1, 1))
     expected = amount * Decimal(str(rate_val))
     assert abs(result - expected) < Decimal("0.0001")

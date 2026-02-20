@@ -35,12 +35,20 @@ def upgrade() -> None:
         sa.Column("next_occurrence", sa.Date(), nullable=False),
         sa.Column("is_active", sa.Boolean(), nullable=False),
         sa.Column(
-            "created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
         ),
         sa.Column(
-            "updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
+            "updated_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
         ),
-        sa.ForeignKeyConstraint(["category_id"], ["categories.id"], ondelete="RESTRICT"),
+        sa.ForeignKeyConstraint(
+            ["category_id"], ["categories.id"], ondelete="RESTRICT"
+        ),
         sa.PrimaryKeyConstraint("id"),
         sa.CheckConstraint("amount > 0", name="ck_recurring_amount_positive"),
         sa.CheckConstraint("type IN ('income', 'expense')", name="ck_recurring_type"),
@@ -49,7 +57,9 @@ def upgrade() -> None:
             name="ck_recurring_frequency",
         ),
         sa.CheckConstraint("interval > 0", name="ck_recurring_interval_positive"),
-        sa.CheckConstraint("currency ~ '^[A-Z]{3}$'", name="ck_recurring_currency_iso4217"),
+        sa.CheckConstraint(
+            "currency ~ '^[A-Z]{3}$'", name="ck_recurring_currency_iso4217"
+        ),
     )
     op.create_index(
         op.f("ix_recurring_transactions_next_occurrence"),
