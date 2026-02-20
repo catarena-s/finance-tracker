@@ -11,6 +11,7 @@ export function Header() {
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/transactions", label: "Транзакции" },
+    { href: "/recurring", label: "Повторяющиеся" },
     { href: "/categories", label: "Категории" },
     { href: "/budgets", label: "Бюджеты" },
   ];
