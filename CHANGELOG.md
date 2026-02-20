@@ -4,6 +4,18 @@
 
 Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/).
 
+## [Unreleased] - Дополнительные функции (feature/additional-features)
+
+### Добавлено
+- Инфраструктура для фоновых задач
+  - Redis сервис в docker-compose
+  - Celery worker и Celery Beat в docker-compose
+  - Конфигурация Celery (broker Redis, расписание Beat: recurring 00:00 UTC, exchange_rates 01:00 UTC)
+  - Заглушки задач: import_csv_task, create_recurring_transactions_task, update_exchange_rates_task
+- Зависимости backend: celery[redis], redis, pandas, httpx, python-dateutil
+- Зависимости frontend: papaparse (уже была), fast-check (dev)
+- Настройка CELERY_BROKER_URL в config и окружении backend
+
 ## 0.0.4 - 2026-02-15
 
 ### Добавлено

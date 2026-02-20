@@ -1,4 +1,17 @@
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: finance-tracker-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   database:
     image: postgres:15-alpine
     container_name: finance-tracker-db
@@ -25,6 +38,7 @@ services:
     container_name: finance-tracker-backend
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
+      CELERY_BROKER_URL: redis://redis:6379/0
       API_V1_PREFIX: /api/v1
       PROJECT_NAME: Finance Tracker API
       CORS_ORIGINS: "http://localhost:3000,http://localhost:8000"
@@ -35,9 +49,45 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - app-network
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: finance-tracker-celery-worker
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      backend:
+        condition: service_started
+      redis:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    networks:
+      - app-network
+    command: celery -A app.tasks.celery_app worker -l info
+
+  celery_beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: finance-tracker-celery-beat
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      celery_worker:
+        condition: service_started
+    networks:
+      - app-network
+    command: celery -A app.tasks.celery_app beat -l info
 
   frontend:
     build:

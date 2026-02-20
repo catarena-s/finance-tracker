@@ -23,6 +23,9 @@ class Settings(BaseSettings):
         "postgresql+asyncpg://postgres:postgres@localhost:5432/finance_tracker"
     )
 
+    # Celery / Redis
+    CELERY_BROKER_URL: str = "redis://localhost:6379/0"
+
     # CORS - принимаем строку или список
     CORS_ORIGINS: Union[str, list[str]] = "http://localhost:3000"
 
