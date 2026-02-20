@@ -4,8 +4,6 @@
 
 Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/).
 
-## [Unreleased]
-
 ## 0.0.5 - 2026-02-20
 
 ### Ключевые изменения ветки (E2E, CSV, тесты, Docker)
