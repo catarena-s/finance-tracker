@@ -9,6 +9,7 @@ import {
   TransactionForm,
   TransactionFilterValues,
 } from "@/components/transactions";
+import { CSVImportForm, CSVExportDialog } from "@/components/csv";
 import { Modal, Button } from "@/components/ui";
 
 export default function TransactionsPage() {
@@ -33,6 +34,8 @@ export default function TransactionsPage() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<TransactionFilterValues>({});
+  const [csvImportOpen, setCsvImportOpen] = useState(false);
+  const [csvExportOpen, setCsvExportOpen] = useState(false);
   const pageSize = 10;
 
   useEffect(() => {
@@ -94,12 +97,35 @@ export default function TransactionsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 flex-wrap gap-2">
           <h1 className="text-3xl font-bold text-gray-900">Транзакции</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            Добавить транзакцию
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="secondary" onClick={() => setCsvImportOpen(true)}>
+              Импорт CSV
+            </Button>
+            <Button variant="secondary" onClick={() => setCsvExportOpen(true)}>
+              Экспорт CSV
+            </Button>
+            <Button onClick={() => setIsCreateModalOpen(true)}>
+              Добавить транзакцию
+            </Button>
+          </div>
         </div>
+
+        <Modal
+          isOpen={csvImportOpen}
+          onClose={() => setCsvImportOpen(false)}
+          title="Импорт из CSV"
+          size="xl"
+        >
+          <CSVImportForm />
+        </Modal>
+
+        <CSVExportDialog
+          isOpen={csvExportOpen}
+          onClose={() => setCsvExportOpen(false)}
+          categories={categories}
+        />
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
