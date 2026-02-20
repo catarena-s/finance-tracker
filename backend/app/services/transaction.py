@@ -22,8 +22,10 @@ class TransactionService:
         self.transaction_repo = transaction_repo
         self.category_repo = category_repo
 
-    async def create_transaction(self, data: TransactionCreate) -> Transaction:
-        """Создать транзакцию"""
+    async def create_transaction(
+        self, data: TransactionCreate, recurring_template_id: uuid.UUID | None = None
+    ) -> Transaction:
+        """Создать транзакцию (опционально — из шаблона повторяющейся транзакции)."""
         try:
             # Проверить существование категории
             category = await self.category_repo.get_by_id(data.category_id)
@@ -31,14 +33,13 @@ class TransactionService:
                 raise NotFoundException("Category not found")
 
             # Создать транзакцию
-            # Преобразуем данные для SQLAlchemy
             transaction_data = {
                 "amount": data.amount,
                 "currency": data.currency,
                 "category_id": data.category_id,
                 "description": data.description,
                 "transaction_date": data.transaction_date,
-                "type": data.type.value,  # Преобразуем Enum в строку
+                "type": data.type.value,
                 "is_recurring": data.is_recurring,
                 "recurring_pattern": (
                     data.recurring_pattern.model_dump()
@@ -46,6 +47,8 @@ class TransactionService:
                     else None
                 ),
             }
+            if recurring_template_id is not None:
+                transaction_data["recurring_template_id"] = recurring_template_id
 
             transaction = await self.transaction_repo.create(**transaction_data)
             return Transaction.model_validate(transaction)

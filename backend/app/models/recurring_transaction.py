@@ -2,11 +2,20 @@
 Модель шаблона повторяющейся транзакции.
 """
 
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean, CheckConstraint, Date, ForeignKey, Integer, Numeric, String, Text
+from sqlalchemy import (
+    Boolean,
+    CheckConstraint,
+    Date,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+    Text,
+)
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -43,7 +52,9 @@ class RecurringTransaction(Base, UUIDMixin, TimestampMixin):
 
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    category: Mapped["Category"] = relationship("Category", back_populates="recurring_templates")
+    category: Mapped["Category"] = relationship(
+        "Category", back_populates="recurring_templates"
+    )
     generated_transactions: Mapped[list["Transaction"]] = relationship(
         "Transaction", back_populates="recurring_template"
     )
@@ -56,7 +67,9 @@ class RecurringTransaction(Base, UUIDMixin, TimestampMixin):
             name="ck_recurring_frequency",
         ),
         CheckConstraint("interval > 0", name="ck_recurring_interval_positive"),
-        CheckConstraint("currency ~ '^[A-Z]{3}$'", name="ck_recurring_currency_iso4217"),
+        CheckConstraint(
+            "currency ~ '^[A-Z]{3}$'", name="ck_recurring_currency_iso4217"
+        ),
     )
 
     def __repr__(self) -> str:

@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Any
 
 from sqlalchemy import DateTime, String, Text, func
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, UUIDMixin
@@ -19,7 +19,9 @@ class TaskResult(Base, UUIDMixin):
 
     __tablename__ = "task_results"
 
-    task_id: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
+    task_id: Mapped[str] = mapped_column(
+        String(255), unique=True, nullable=False, index=True
+    )
     task_type: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
     status: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
     result: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)

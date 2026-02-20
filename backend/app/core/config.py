@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     # Celery / Redis
     CELERY_BROKER_URL: str = "redis://localhost:6379/0"
 
+    # API курсов валют (exchangerate-api.com)
+    EXCHANGE_RATE_API_KEY: str = ""
+    EXCHANGE_RATE_API_BASE: str = "https://api.exchangerate-api.com/v4/latest"
+
     # CORS - принимаем строку или список
     CORS_ORIGINS: Union[str, list[str]] = "http://localhost:3000"
 

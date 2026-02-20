@@ -7,6 +7,12 @@
 ## [Unreleased] - Дополнительные функции (feature/additional-features)
 
 ### Добавлено
+- Модели данных и миграции (RecurringTransaction, Currency, ExchangeRate, TaskResult, recurring_template_id в transactions).
+- Pydantic-схемы: повторяющиеся транзакции, CSV импорт/экспорт, валюты, задачи.
+- Репозитории: RecurringTransactionRepository, CurrencyRepository, ExchangeRateRepository, TaskResultRepository.
+- Сервисы: CSVImportService, CSVExportService, RecurringTransactionService, CurrencyService, ExchangeRateService.
+- Клиент API курсов валют (CurrencyAPIClient), настройки EXCHANGE_RATE_API_KEY и EXCHANGE_RATE_API_BASE.
+- В TransactionService добавлен опциональный параметр recurring_template_id при создании транзакции.
 - Инфраструктура для фоновых задач
   - Redis сервис в docker-compose
   - Celery worker и Celery Beat в docker-compose
