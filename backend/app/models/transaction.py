@@ -14,6 +14,7 @@ from app.models.base import Base, TimestampMixin, UUIDMixin
 
 if TYPE_CHECKING:
     from app.models.category import Category
+    from app.models.recurring_transaction import RecurringTransaction
 
 
 class Transaction(Base, UUIDMixin, TimestampMixin):
@@ -37,10 +38,18 @@ class Transaction(Base, UUIDMixin, TimestampMixin):
     type: Mapped[str] = mapped_column(String(10), nullable=False)
     is_recurring: Mapped[bool] = mapped_column(nullable=False, default=False)
     recurring_pattern: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    recurring_template_id: Mapped[UUID | None] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("recurring_transactions.id", ondelete="SET NULL"),
+        nullable=True,
+    )
 
     # Relationships
     category: Mapped["Category"] = relationship(
         "Category", back_populates="transactions"
+    )
+    recurring_template: Mapped["RecurringTransaction | None"] = relationship(
+        "RecurringTransaction", back_populates="generated_transactions"
     )
 
     # Constraints

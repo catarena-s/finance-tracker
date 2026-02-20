@@ -12,6 +12,7 @@ from app.models.base import Base, TimestampMixin, UUIDMixin
 if TYPE_CHECKING:
     from app.models.transaction import Transaction
     from app.models.budget import Budget
+    from app.models.recurring_transaction import RecurringTransaction
 
 
 class Category(Base, UUIDMixin, TimestampMixin):
@@ -32,6 +33,9 @@ class Category(Base, UUIDMixin, TimestampMixin):
     )
     budgets: Mapped[list["Budget"]] = relationship(
         "Budget", back_populates="category", cascade="all, delete-orphan"
+    )
+    recurring_templates: Mapped[list["RecurringTransaction"]] = relationship(
+        "RecurringTransaction", back_populates="category"
     )
 
     # Constraints
