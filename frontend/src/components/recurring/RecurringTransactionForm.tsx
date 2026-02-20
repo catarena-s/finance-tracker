@@ -3,7 +3,11 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
-import type { RecurringTransaction, RecurringTransactionCreate, Category } from "@/types/api";
+import type {
+  RecurringTransaction,
+  RecurringTransactionCreate,
+  Category,
+} from "@/types/api";
 
 interface RecurringTransactionFormProps {
   item?: RecurringTransaction | null;
@@ -120,23 +124,26 @@ export function RecurringTransactionForm({
         label="Категория"
         options={filteredCategories.map((c) => ({ value: c.id, label: c.name }))}
         value={watch("categoryId")}
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setValue("categoryId", e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          setValue("categoryId", e.target.value)
+        }
         error={errors.categoryId?.message}
       />
-      <Input
-        label="Описание"
-        {...register("description")}
-      />
+      <Input label="Описание" {...register("description")} />
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Повтор</label>
         <div className="flex gap-2">
           <select
             className="flex-1 border rounded px-2 py-1.5"
             value={watch("frequency")}
-            onChange={(e) => setValue("frequency", e.target.value as RecurringFormData["frequency"])}
+            onChange={(e) =>
+              setValue("frequency", e.target.value as RecurringFormData["frequency"])
+            }
           >
             {FREQUENCIES.map((f) => (
-              <option key={f.value} value={f.value}>{f.label}</option>
+              <option key={f.value} value={f.value}>
+                {f.label}
+              </option>
             ))}
           </select>
           <input

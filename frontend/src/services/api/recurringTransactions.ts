@@ -1,8 +1,5 @@
 import { apiClient } from "./client";
-import type {
-  RecurringTransaction,
-  RecurringTransactionCreate,
-} from "@/types/api";
+import type { RecurringTransaction, RecurringTransactionCreate } from "@/types/api";
 
 export interface RecurringTransactionUpdate {
   name?: string;

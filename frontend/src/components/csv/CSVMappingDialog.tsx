@@ -48,8 +48,12 @@ export function CSVMappingDialog({
         const prev = initialMapping?.[key as keyof CSVColumnMapping];
         if (prev && headers.includes(prev)) m[key] = prev;
         else {
-          const guess = key === "amount" && lower.some((h) => h.includes("amount") || h.includes("sum"));
-          const idx = guess ? lower.findIndex((h) => h.includes("amount") || h.includes("sum")) : -1;
+          const guess =
+            key === "amount" &&
+            lower.some((h) => h.includes("amount") || h.includes("sum"));
+          const idx = guess
+            ? lower.findIndex((h) => h.includes("amount") || h.includes("sum"))
+            : -1;
           if (idx >= 0) m[key] = headers[idx];
           else if (headers[0]) m[key] = headers[0];
         }
@@ -94,7 +98,9 @@ export function CSVMappingDialog({
               >
                 <option value="">— Выберите колонку —</option>
                 {headers.map((h) => (
-                  <option key={h} value={h}>{h}</option>
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
                 ))}
               </select>
             </div>
@@ -109,7 +115,9 @@ export function CSVMappingDialog({
               >
                 <option value="">— Не использовать —</option>
                 {headers.map((h) => (
-                  <option key={h} value={h}>{h}</option>
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
                 ))}
               </select>
             </div>

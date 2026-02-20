@@ -28,11 +28,13 @@ export function CurrencySelector({
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
-        {currencies.filter((c) => c.isActive).map((c) => (
-          <option key={c.code} value={c.code}>
-            {c.code} — {c.name}
-          </option>
-        ))}
+        {currencies
+          .filter((c) => c.isActive)
+          .map((c) => (
+            <option key={c.code} value={c.code}>
+              {c.code} — {c.name}
+            </option>
+          ))}
       </select>
     </div>
   );

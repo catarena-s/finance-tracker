@@ -4,18 +4,26 @@ import React from "react";
 
 interface CSVPreviewProps {
   rows: Record<string, string>[];
-  mapping: { amount: string; transactionDate: string; type: string; categoryName: string };
+  mapping: {
+    amount: string;
+    transactionDate: string;
+    type: string;
+    categoryName: string;
+  };
   maxRows?: number;
 }
 
 export function CSVPreview({ rows, mapping, maxRows = 10 }: CSVPreviewProps) {
   const display = rows.slice(0, maxRows);
-  const columns = [mapping.amount, mapping.transactionDate, mapping.type, mapping.categoryName].filter(Boolean);
+  const columns = [
+    mapping.amount,
+    mapping.transactionDate,
+    mapping.type,
+    mapping.categoryName,
+  ].filter(Boolean);
 
   if (display.length === 0) {
-    return (
-      <p className="text-gray-500 text-sm">Нет данных для предпросмотра.</p>
-    );
+    return <p className="text-gray-500 text-sm">Нет данных для предпросмотра.</p>;
   }
 
   return (

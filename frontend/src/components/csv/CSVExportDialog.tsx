@@ -26,11 +26,17 @@ interface CSVExportDialogProps {
   categories?: Category[];
 }
 
-export function CSVExportDialog({ isOpen, onClose, categories = [] }: CSVExportDialogProps) {
+export function CSVExportDialog({
+  isOpen,
+  onClose,
+  categories = [],
+}: CSVExportDialogProps) {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [categoryId, setCategoryId] = useState<string>("");
-  const [selectedColumns, setSelectedColumns] = useState<string[]>(COLUMNS.map((c) => c.id));
+  const [selectedColumns, setSelectedColumns] = useState<string[]>(
+    COLUMNS.map((c) => c.id)
+  );
   const [dateFormat, setDateFormat] = useState("%Y-%m-%d");
 
   const toggleColumn = (id: string) => {
@@ -56,7 +62,9 @@ export function CSVExportDialog({ isOpen, onClose, categories = [] }: CSVExportD
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Дата с</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Дата с
+            </label>
             <input
               type="date"
               className="w-full border rounded px-2 py-1.5 text-sm"
@@ -65,7 +73,9 @@ export function CSVExportDialog({ isOpen, onClose, categories = [] }: CSVExportD
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Дата по</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Дата по
+            </label>
             <input
               type="date"
               className="w-full border rounded px-2 py-1.5 text-sm"
@@ -75,7 +85,9 @@ export function CSVExportDialog({ isOpen, onClose, categories = [] }: CSVExportD
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Категория</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Категория
+          </label>
           <select
             className="w-full border rounded px-2 py-1.5 text-sm"
             value={categoryId}
@@ -83,15 +95,22 @@ export function CSVExportDialog({ isOpen, onClose, categories = [] }: CSVExportD
           >
             <option value="">Все категории</option>
             {categories.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
             ))}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Колонки</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Колонки
+          </label>
           <div className="flex flex-wrap gap-2">
             {COLUMNS.map((c) => (
-              <label key={c.id} className="inline-flex items-center gap-1 cursor-pointer">
+              <label
+                key={c.id}
+                className="inline-flex items-center gap-1 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={selectedColumns.includes(c.id)}
@@ -103,19 +122,25 @@ export function CSVExportDialog({ isOpen, onClose, categories = [] }: CSVExportD
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Формат даты</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Формат даты
+          </label>
           <select
             className="w-full border rounded px-2 py-1.5 text-sm"
             value={dateFormat}
             onChange={(e) => setDateFormat(e.target.value)}
           >
             {DATE_FORMATS.map((f) => (
-              <option key={f.value} value={f.value}>{f.label}</option>
+              <option key={f.value} value={f.value}>
+                {f.label}
+              </option>
             ))}
           </select>
         </div>
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="secondary" onClick={onClose}>Отмена</Button>
+          <Button variant="secondary" onClick={onClose}>
+            Отмена
+          </Button>
           <Button onClick={handleDownload}>Скачать CSV</Button>
         </div>
       </div>
