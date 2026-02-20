@@ -4,26 +4,16 @@
 
 Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/).
 
-## [Unreleased] - Дополнительные функции (feature/additional-features)
+## [Unreleased]
 
-### Добавлено
-- Модели данных и миграции (RecurringTransaction, Currency, ExchangeRate, TaskResult, recurring_template_id в transactions).
-- Pydantic-схемы: повторяющиеся транзакции, CSV импорт/экспорт, валюты, задачи.
-- Репозитории: RecurringTransactionRepository, CurrencyRepository, ExchangeRateRepository, TaskResultRepository.
-- Сервисы: CSVImportService, CSVExportService, RecurringTransactionService, CurrencyService, ExchangeRateService.
-- Клиент API курсов валют (CurrencyAPIClient), настройки EXCHANGE_RATE_API_KEY и EXCHANGE_RATE_API_BASE.
-- В TransactionService добавлен опциональный параметр recurring_template_id при создании транзакции.
-- Celery-задачи: полная реализация import_csv_task (TaskResult, async run), create_recurring_transactions_task, update_exchange_rates_task; run_async и get_session_factory в core для воркеров.
-- API: маршруты /api/v1/csv (import, export), /api/v1/recurring-transactions (CRUD), /api/v1/currencies и /api/v1/currencies/exchange-rate, /api/v1/tasks/{task_id}/status.
-- Frontend: типы и API-клиенты для CSV, повторяющихся транзакций, валют и задач; страница «Повторяющиеся» и пункт навигации.
-- Инфраструктура для фоновых задач
-  - Redis сервис в docker-compose
-  - Celery worker и Celery Beat в docker-compose
-  - Конфигурация Celery (broker Redis, расписание Beat: recurring 00:00 UTC, exchange_rates 01:00 UTC)
-  - Заглушки задач: import_csv_task, create_recurring_transactions_task, update_exchange_rates_task
-- Зависимости backend: celery[redis], redis, pandas, httpx, python-dateutil
-- Зависимости frontend: papaparse (уже была), fast-check (dev)
-- Настройка CELERY_BROKER_URL в config и окружении backend
+## 0.0.5 - 2026-02-20
+
+### Ключевые изменения ветки (E2E, CSV, тесты, Docker)
+
+- **E2E:** стабильный прогон тестов Playwright для страницы повторяющихся транзакций (таймауты, загрузка страницы до ответа API).
+- **Frontend:** правка CSV-импорта для совместимости с тестами; unit-тесты формы импорта CSV (моки papaparse и API).
+- **Тесты backend:** исправление патча Celery в unit-тестах; приведение к Ruff и Black (property, миграции).
+- **Docker и CI:** инициализация тестовой БД при старте контейнера; скрипт запуска интеграционных тестов (PowerShell).
 
 ## 0.0.4 - 2026-02-15
 
