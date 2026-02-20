@@ -67,12 +67,10 @@ class CSVImportService:
 
         line_count = decoded.count("\n") + (1 if decoded.strip() else 0)
         if line_count > CSV_BACKGROUND_THRESHOLD:
-            # Фоновая задача — task_id вернёт API после постановки в очередь
-            return CSVImportResult(
-                task_id="pending",
-                status="pending",
-                errors=[{"info": "Файл большой, импорт будет выполнен в фоне"}],
-            )
+            from app.tasks.csv_tasks import import_csv_task
+
+            task = import_csv_task.delay(decoded, mapping.model_dump(), date_format)
+            return CSVImportResult(task_id=task.id, status="pending")
 
         return await self._process_csv(decoded, mapping, date_format)
 

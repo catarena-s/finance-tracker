@@ -13,6 +13,8 @@
 - Сервисы: CSVImportService, CSVExportService, RecurringTransactionService, CurrencyService, ExchangeRateService.
 - Клиент API курсов валют (CurrencyAPIClient), настройки EXCHANGE_RATE_API_KEY и EXCHANGE_RATE_API_BASE.
 - В TransactionService добавлен опциональный параметр recurring_template_id при создании транзакции.
+- Celery-задачи: полная реализация import_csv_task (TaskResult, async run), create_recurring_transactions_task, update_exchange_rates_task; run_async и get_session_factory в core для воркеров.
+- API: маршруты /api/v1/csv (import, export), /api/v1/recurring-transactions (CRUD), /api/v1/currencies и /api/v1/currencies/exchange-rate, /api/v1/tasks/{task_id}/status.
 - Инфраструктура для фоновых задач
   - Redis сервис в docker-compose
   - Celery worker и Celery Beat в docker-compose
