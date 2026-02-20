@@ -183,20 +183,20 @@
     - Вызывать ExchangeRateService.update_exchange_rates()
     - _Требования: 4.11, 6.6_
   
-  - [ ] 7.5 Написать unit тесты для Celery задач
+  - [x] 7.5 Написать unit тесты для Celery задач
     - Тестировать выполнение задач в eager mode
     - Тестировать сохранение результатов в TaskResult
     - Тестировать обработку ошибок
     - _Требования: 6.2, 6.4, 6.7_
 
-- [ ] 8. Реализация API эндпоинтов
-  - [ ] 8.1 Создать CSV routes
+- [x] 8. Реализация API эндпоинтов
+  - [x] 8.1 Создать CSV routes
     - POST /api/v1/csv/import для импорта CSV
     - GET /api/v1/csv/export для экспорта CSV
     - Добавить валидацию запросов через Pydantic
     - _Требования: 1.1, 2.1_
   
-  - [ ] 8.2 Создать recurring transaction routes
+  - [x] 8.2 Создать recurring transaction routes
     - POST /api/v1/recurring-transactions для создания шаблона
     - GET /api/v1/recurring-transactions для списка шаблонов
     - GET /api/v1/recurring-transactions/{id} для получения шаблона
@@ -204,16 +204,16 @@
     - DELETE /api/v1/recurring-transactions/{id} для удаления шаблона
     - _Требования: 3.1, 3.7, 3.8, 3.9_
   
-  - [ ] 8.3 Создать currency routes
+  - [x] 8.3 Создать currency routes
     - GET /api/v1/currencies для списка валют
     - GET /api/v1/currencies/exchange-rate для получения курса
     - _Требования: 4.9, 5.7_
   
-  - [ ] 8.4 Создать task routes
+  - [x] 8.4 Создать task routes
     - GET /api/v1/tasks/{task_id}/status для получения статуса задачи
     - _Требования: 6.3_
   
-  - [ ] 8.5 Написать integration тесты для API эндпоинтов
+  - [x] 8.5 Написать integration тесты для API эндпоинтов
     - Тестировать полные циклы запрос/ответ
     - Тестировать коды статуса и формат ответов
     - Тестировать обработку ошибок
@@ -257,17 +257,17 @@
     - Тестировать обработку ошибок
     - _Требования: все UI требования_
 
-- [ ] 11. Реализация Frontend сервисов
-  - [ ] 11.1 Создать csvService
+- [x] 11. Реализация Frontend сервисов
+  - [x] 11.1 Создать csvService
     - Функции для импорта и экспорта CSV
     - Функции для получения статуса задачи
     - _Требования: 1.1, 2.1, 6.3_
   
-  - [ ] 11.2 Создать recurringTransactionService
+  - [x] 11.2 Создать recurringTransactionService
     - CRUD функции для шаблонов
     - _Требования: 3.1, 3.7, 3.8, 3.9_
   
-  - [ ] 11.3 Создать currencyService
+  - [x] 11.3 Создать currencyService
     - Функции для получения списка валют
     - Функции для получения курсов
     - _Требования: 4.9, 5.7_
