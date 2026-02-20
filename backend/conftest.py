@@ -41,6 +41,10 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
     from app.models.category import Category  # noqa: F401
     from app.models.transaction import Transaction  # noqa: F401
     from app.models.budget import Budget  # noqa: F401
+    from app.models.recurring_transaction import RecurringTransaction  # noqa: F401
+    from app.models.currency import Currency  # noqa: F401
+    from app.models.exchange_rate import ExchangeRate  # noqa: F401
+    from app.models.task_result import TaskResult  # noqa: F401
 
     # Create async engine for test database
     engine = create_async_engine(

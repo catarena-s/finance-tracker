@@ -15,7 +15,16 @@ import os
 
 from app.core.config import settings
 from app.core.exceptions import AppException
-from app.api.routes import categories, transactions, budgets, analytics
+from app.api.routes import (
+    categories,
+    transactions,
+    budgets,
+    analytics,
+    csv_routes,
+    recurring_transactions,
+    currencies,
+    tasks,
+)
 
 # Настройка логирования
 logging.basicConfig(
@@ -100,6 +109,10 @@ app.include_router(categories.router, prefix=settings.API_V1_PREFIX)
 app.include_router(transactions.router, prefix=settings.API_V1_PREFIX)
 app.include_router(budgets.router, prefix=settings.API_V1_PREFIX)
 app.include_router(analytics.router, prefix=settings.API_V1_PREFIX)
+app.include_router(csv_routes.router, prefix=settings.API_V1_PREFIX)
+app.include_router(recurring_transactions.router, prefix=settings.API_V1_PREFIX)
+app.include_router(currencies.router, prefix=settings.API_V1_PREFIX)
+app.include_router(tasks.router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/health", tags=["Health"])

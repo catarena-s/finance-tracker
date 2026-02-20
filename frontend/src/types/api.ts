@@ -111,3 +111,86 @@ export interface PaginationInfo {
   totalPages: number;
   totalItems: number;
 }
+
+// CSV Import/Export
+export interface CSVColumnMapping {
+  amount: string;
+  currency?: string;
+  categoryName: string;
+  description?: string;
+  transactionDate: string;
+  type: string;
+}
+
+export interface CSVImportResult {
+  taskId: string;
+  status: string;
+  createdCount?: number;
+  errorCount?: number;
+  errors?: Array<{ row: number; error: string }>;
+}
+
+// Recurring transactions
+export type FrequencyType = "daily" | "weekly" | "monthly" | "yearly";
+
+export interface RecurringTransaction {
+  id: string;
+  name: string;
+  amount: number;
+  currency: string;
+  categoryId: string;
+  description?: string;
+  type: TransactionType;
+  frequency: FrequencyType;
+  interval: number;
+  startDate: string;
+  endDate?: string;
+  nextOccurrence: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RecurringTransactionCreate {
+  name: string;
+  amount: number;
+  currency: string;
+  categoryId: string;
+  description?: string;
+  type: TransactionType;
+  frequency: FrequencyType;
+  interval: number;
+  startDate: string;
+  endDate?: string;
+}
+
+// Currencies
+export interface Currency {
+  code: string;
+  name: string;
+  symbol: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface ExchangeRate {
+  id: string;
+  fromCurrency: string;
+  toCurrency: string;
+  rate: number;
+  date: string;
+  createdAt: string;
+}
+
+// Task status
+export type TaskStatus = "pending" | "running" | "completed" | "failed";
+
+export interface TaskStatusResponse {
+  taskId: string;
+  taskType: string;
+  status: TaskStatus;
+  result?: Record<string, unknown>;
+  error?: string;
+  createdAt: string;
+  updatedAt: string;
+}
