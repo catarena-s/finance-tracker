@@ -12,6 +12,7 @@ from app.core.database import get_session
 from app.services.transaction import TransactionService
 from app.repositories.transaction import TransactionRepository
 from app.repositories.category import CategoryRepository
+from app.repositories.recurring_transaction import RecurringTransactionRepository
 from app.schemas.transaction import TransactionCreate, TransactionUpdate, Transaction
 
 
@@ -24,7 +25,8 @@ async def get_transaction_service(
     """Dependency для получения TransactionService"""
     transaction_repo = TransactionRepository(session)
     category_repo = CategoryRepository(session)
-    return TransactionService(transaction_repo, category_repo)
+    recurring_repo = RecurringTransactionRepository(session)
+    return TransactionService(transaction_repo, category_repo, recurring_repo)
 
 
 @router.post(

@@ -74,7 +74,7 @@ class RecurringTransaction(RecurringTransactionBase):
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
     id: uuid.UUID
-    next_occurrence: date
-    is_active: bool
-    created_at: datetime
-    updated_at: datetime
+    next_occurrence: date = Field(..., alias="nextOccurrence")
+    is_active: bool = Field(..., alias="isActive")
+    created_at: datetime = Field(..., alias="createdAt")
+    updated_at: datetime = Field(..., alias="updatedAt")

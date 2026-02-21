@@ -190,5 +190,6 @@ class Transaction(TransactionBase):
     category: CategoryInTransaction
     is_recurring: bool = Field(..., alias="isRecurring")
     recurring_pattern: RecurringPattern | None = Field(None, alias="recurringPattern")
+    recurring_template_id: uuid.UUID | None = Field(None, alias="recurringTemplateId")
     created_at: datetime = Field(..., alias="createdAt")
     updated_at: datetime = Field(..., alias="updatedAt")
