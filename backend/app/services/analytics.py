@@ -110,7 +110,9 @@ class AnalyticsService:
             "balance": balance,
             "display_currency": display_currency,
             "by_currency": by_currency_list,
-            "currency_rates": {cur: float(rate) for cur, rate in CURRENCY_RATES.items()},
+            "currency_rates": {
+                cur: float(rate) for cur, rate in CURRENCY_RATES.items()
+            },
             "start_date": start_date,
             "end_date": end_date,
         }
@@ -139,9 +141,7 @@ class AnalyticsService:
         )
 
         period = period if period in ("day", "week", "month", "year") else "month"
-        bucket_data = defaultdict(
-            lambda: {"income": Decimal(0), "expense": Decimal(0)}
-        )
+        bucket_data = defaultdict(lambda: {"income": Decimal(0), "expense": Decimal(0)})
 
         for t in transactions:
             key = self._period_key(t.transaction_date, period)
@@ -211,7 +211,9 @@ class AnalyticsService:
                 "category": item["category"],
                 "amount": item["amount"],
                 "percentage": (
-                    float(item["amount"] / total_amount * 100) if total_amount > 0 else 0
+                    float(item["amount"] / total_amount * 100)
+                    if total_amount > 0
+                    else 0
                 ),
             }
             for item in top

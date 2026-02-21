@@ -3,8 +3,6 @@
 """
 
 import pytest
-from decimal import Decimal
-from datetime import date
 
 
 @pytest.mark.asyncio
@@ -51,17 +49,19 @@ async def test_update_transaction_set_recurring_creates_template(client, test_db
     )
     assert update_response.status_code == 200
     updated_transaction = update_response.json()
-    
+
     # Проверить, что транзакция теперь повторяющаяся
     assert updated_transaction["isRecurring"] is True
     assert updated_transaction["recurringTemplateId"] is not None
-    
+
     # Проверить, что шаблон создан
     template_id = updated_transaction["recurringTemplateId"]
-    template_response = await client.get(f"/api/v1/recurring-transactions/{template_id}")
+    template_response = await client.get(
+        f"/api/v1/recurring-transactions/{template_id}"
+    )
     assert template_response.status_code == 200
     template = template_response.json()
-    
+
     assert template["name"] == "Покупка продуктов"
     assert template["amount"] == "1500.00"
     assert template["currency"] == "RUB"
@@ -127,15 +127,15 @@ async def test_update_transaction_recurring_twice_no_duplicate(client, test_db):
     assert update2_response.status_code == 200
     updated2 = update2_response.json()
     template_id_2 = updated2["recurringTemplateId"]
-    
+
     # Проверить, что ID шаблона не изменился
     assert template_id_2 == template_id_1
-    
+
     # Проверить, что создан только один шаблон
     templates_response = await client.get("/api/v1/recurring-transactions/")
     assert templates_response.status_code == 200
     templates = templates_response.json()
-    
+
     # Должен быть только один шаблон для этой категории
     matching_templates = [t for t in templates if t["categoryId"] == category["id"]]
     assert len(matching_templates) == 1

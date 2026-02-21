@@ -40,7 +40,7 @@ class TransactionRepository(BaseRepository[Transaction]):
         transaction = await super().update(id, **data)
         if transaction is None:
             return None
-        
+
         # Затем перезагружаем с категорией
         await self.session.refresh(transaction, ["category"])
         return transaction

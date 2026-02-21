@@ -14,12 +14,7 @@ export type DashboardPeriod = "day" | "month" | "year";
 export function getDateRange(period: DashboardPeriod): { start: string; end: string } {
   const end = new Date();
   const start = new Date();
-  const days =
-    period === "day"
-      ? 7
-      : period === "month"
-        ? 30
-        : 365;
+  const days = period === "day" ? 7 : period === "month" ? 30 : 365;
   start.setDate(start.getDate() - days);
   return {
     start: start.toISOString().split("T")[0],
@@ -50,7 +45,7 @@ export default function DashboardPage() {
   } = useApp();
 
   const defaultDates = useMemo(() => getDefaultDateRange(), []);
-  
+
   const [period, setPeriod] = useState<DashboardPeriod>("month");
   const [startDate, setStartDate] = useState(defaultDates.start);
   const [endDate, setEndDate] = useState(defaultDates.end);
@@ -72,7 +67,7 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          
+
           {/* Выбор периода */}
           <div className="flex gap-4 items-center flex-wrap">
             {/* Выбор диапазона дат */}
@@ -91,7 +86,7 @@ export default function DashboardPage() {
                 className="px-3 py-2 border border-gray-300 rounded text-sm"
               />
             </div>
-            
+
             {/* Группировка данных */}
             <div className="flex gap-2 items-center">
               <span className="text-sm text-gray-600">Группировка:</span>

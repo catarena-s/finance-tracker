@@ -20,10 +20,10 @@ class TransactionService:
     """Сервис для управления транзакциями"""
 
     def __init__(
-        self, 
-        transaction_repo: TransactionRepository, 
+        self,
+        transaction_repo: TransactionRepository,
         category_repo: CategoryRepository,
-        recurring_repo: "RecurringTransactionRepository | None" = None
+        recurring_repo: "RecurringTransactionRepository | None" = None,
     ):
         self.transaction_repo = transaction_repo
         self.category_repo = category_repo
@@ -56,18 +56,18 @@ class TransactionService:
             }
             if recurring_template_id is not None:
                 transaction_data["recurring_template_id"] = recurring_template_id
-            
+
             # Если is_recurring=True и есть recurring_pattern - создать шаблон
             elif (
-                data.is_recurring 
+                data.is_recurring
                 and data.recurring_pattern is not None
                 and self.recurring_repo is not None
             ):
                 pattern = data.recurring_pattern
-                
+
                 # Создать шаблон повторяющейся транзакции
                 template_data = {
-                    "name": data.description or f"Повторяющаяся транзакция",
+                    "name": data.description or "Повторяющаяся транзакция",
                     "amount": data.amount,
                     "currency": data.currency,
                     "category_id": data.category_id,
@@ -75,11 +75,13 @@ class TransactionService:
                     "frequency": pattern.frequency,
                     "interval": pattern.interval,
                     "start_date": data.transaction_date,
-                    "end_date": pattern.end_date if hasattr(pattern, 'end_date') else None,
+                    "end_date": (
+                        pattern.end_date if hasattr(pattern, "end_date") else None
+                    ),
                     "next_occurrence": data.transaction_date,
                     "is_active": True,
                 }
-                
+
                 template = await self.recurring_repo.create(**template_data)
                 transaction_data["recurring_template_id"] = template.id
 
@@ -151,29 +153,41 @@ class TransactionService:
 
         # Подготовить данные для обновления
         update_data = data.model_dump(exclude_unset=True, by_alias=False)
-        
+
         # Преобразовать recurring_pattern в dict если он есть
-        if "recurring_pattern" in update_data and update_data["recurring_pattern"] is not None:
+        if (
+            "recurring_pattern" in update_data
+            and update_data["recurring_pattern"] is not None
+        ):
             update_data["recurring_pattern"] = update_data["recurring_pattern"]
-        
+
         # Преобразовать type в строку если он есть
         if "type" in update_data and update_data["type"] is not None:
-            update_data["type"] = update_data["type"].value if hasattr(update_data["type"], "value") else update_data["type"]
+            update_data["type"] = (
+                update_data["type"].value
+                if hasattr(update_data["type"], "value")
+                else update_data["type"]
+            )
 
         # Если устанавливается is_recurring=True и есть recurring_pattern - создать шаблон
         if (
-            update_data.get("is_recurring") is True 
+            update_data.get("is_recurring") is True
             and update_data.get("recurring_pattern") is not None
             and self.recurring_repo is not None
             and existing.recurring_template_id is None  # Только если шаблона ещё нет
         ):
             pattern = update_data["recurring_pattern"]
             if not isinstance(pattern, dict):
-                pattern = pattern.model_dump() if hasattr(pattern, "model_dump") else dict(pattern)
-            
+                pattern = (
+                    pattern.model_dump()
+                    if hasattr(pattern, "model_dump")
+                    else dict(pattern)
+                )
+
             # Создать шаблон повторяющейся транзакции
             template_data = {
-                "name": existing.description or f"Повторяющаяся транзакция #{existing.id}",
+                "name": existing.description
+                or f"Повторяющаяся транзакция #{existing.id}",
                 "amount": existing.amount,
                 "currency": existing.currency,
                 "category_id": existing.category_id,
@@ -185,7 +199,7 @@ class TransactionService:
                 "next_occurrence": existing.transaction_date,
                 "is_active": True,
             }
-            
+
             template = await self.recurring_repo.create(**template_data)
             update_data["recurring_template_id"] = template.id
 

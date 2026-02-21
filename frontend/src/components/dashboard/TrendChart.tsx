@@ -27,11 +27,7 @@ interface TrendChartProps {
   loading?: boolean;
 }
 
-export function TrendChart({
-  incomeData,
-  expenseData,
-  loading,
-}: TrendChartProps) {
+export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps) {
   const chartData = useMemo(() => {
     if (
       (!incomeData || incomeData.length === 0) &&

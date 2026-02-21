@@ -28,10 +28,7 @@ interface ExpenseChartProps {
   loading?: boolean;
 }
 
-export function ExpenseChart({
-  data,
-  loading,
-}: ExpenseChartProps) {
+export function ExpenseChart({ data, loading }: ExpenseChartProps) {
   const chartData = useMemo(() => {
     if (!data || data.length === 0) {
       return {

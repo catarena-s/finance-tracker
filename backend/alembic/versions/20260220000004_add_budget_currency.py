@@ -20,7 +20,9 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.add_column(
         "budgets",
-        sa.Column("currency", sa.String(length=3), nullable=False, server_default="USD"),
+        sa.Column(
+            "currency", sa.String(length=3), nullable=False, server_default="USD"
+        ),
     )
     op.create_check_constraint(
         "ck_budget_currency_iso4217",

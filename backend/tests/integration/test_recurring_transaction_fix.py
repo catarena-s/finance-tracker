@@ -29,7 +29,7 @@ async def test_update_transaction_set_is_recurring(client: AsyncClient):
     )
     assert create_response.status_code == 201
     transaction_id = create_response.json()["id"]
-    
+
     # Проверяем, что транзакция не повторяющаяся
     data = create_response.json()
     assert data.get("isRecurring") is False
@@ -44,7 +44,7 @@ async def test_update_transaction_set_is_recurring(client: AsyncClient):
     )
     assert update_response.status_code == 200, update_response.text
     updated_data = update_response.json()
-    
+
     # Проверяем, что флаг is_recurring установлен
     assert updated_data.get("isRecurring") is True
     assert updated_data.get("recurringPattern") is not None
@@ -80,7 +80,7 @@ async def test_create_recurring_template(client: AsyncClient):
     )
     assert template_response.status_code == 201, template_response.text
     template_data = template_response.json()
-    
+
     # Проверяем, что шаблон создан
     assert template_data.get("id") is not None
     assert float(template_data["amount"]) == 30000.0

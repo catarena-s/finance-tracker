@@ -61,7 +61,8 @@ export function SummaryCards({
                 <div className="mt-2 space-y-1">
                   {byCurrency.map((item) => (
                     <p key={item.currency} className="text-xs text-gray-500">
-                      {item.currency}: {new Intl.NumberFormat("ru-RU", {
+                      {item.currency}:{" "}
+                      {new Intl.NumberFormat("ru-RU", {
                         style: "currency",
                         currency: item.currency,
                         minimumFractionDigits: 0,
@@ -99,7 +100,8 @@ export function SummaryCards({
                 <div className="mt-2 space-y-1">
                   {byCurrency.map((item) => (
                     <p key={item.currency} className="text-xs text-gray-500">
-                      {item.currency}: {new Intl.NumberFormat("ru-RU", {
+                      {item.currency}:{" "}
+                      {new Intl.NumberFormat("ru-RU", {
                         style: "currency",
                         currency: item.currency,
                         minimumFractionDigits: 0,
@@ -141,7 +143,8 @@ export function SummaryCards({
                 <div className="mt-2 space-y-1">
                   {byCurrency.map((item) => (
                     <p key={item.currency} className="text-xs text-gray-500">
-                      {item.currency}: {new Intl.NumberFormat("ru-RU", {
+                      {item.currency}:{" "}
+                      {new Intl.NumberFormat("ru-RU", {
                         style: "currency",
                         currency: item.currency,
                         minimumFractionDigits: 0,
@@ -173,19 +176,39 @@ export function SummaryCards({
       {currencyRates && byCurrency && byCurrency.length > 1 && (
         <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
           <div className="flex items-center gap-2 text-sm text-gray-700">
-            <svg className="w-4 h-4 text-blue-600" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="w-4 h-4 text-blue-600"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span className="font-medium">Курсы валют к RUB:</span>
             {Object.entries(currencyRates)
-              .filter(([currency]) => currency !== 'RUB' && byCurrency.some(bc => bc.currency === currency))
+              .filter(
+                ([currency]) =>
+                  currency !== "RUB" &&
+                  byCurrency.some((bc) => bc.currency === currency)
+              )
               .map(([currency, rate]) => (
                 <span key={currency} className="text-gray-600">
                   {currency} = ₽{rate.toFixed(2)}
                 </span>
               ))
-              .reduce((prev, curr, i) => [prev, <span key={`sep-${i}`} className="text-gray-400">•</span>, curr] as any)
-            }
+              .reduce(
+                (prev, curr, i) =>
+                  [
+                    prev,
+                    <span key={`sep-${i}`} className="text-gray-400">
+                      •
+                    </span>,
+                    curr,
+                  ] as any
+              )}
           </div>
         </div>
       )}

@@ -153,7 +153,6 @@ class TransactionBase(BaseModel):
         return v
 
 
-
 class TransactionCreate(TransactionBase):
     """Схема для создания транзакции"""
 
