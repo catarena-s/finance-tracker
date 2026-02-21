@@ -205,4 +205,4 @@ async def test_transaction_create_with_currency_and_is_recurring(client: AsyncCl
     data = response.json()
     assert float(data["amount"]) == 100000.0
     assert data.get("currency") == "RUB"
-    assert data.get("is_recurring") is True
+    assert data.get("isRecurring") is True

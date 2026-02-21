@@ -112,35 +112,6 @@ export function SummaryCards({
           </div>
         </div>
       </div>
-
-      {byCurrency && byCurrency.length > 0 && (
-        <div className="md:col-span-3 mt-4">
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm font-medium text-gray-600 mb-3">По валютам</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {byCurrency.map((row) => (
-                <div
-                  key={row.currency}
-                  className="border border-gray-100 rounded-lg p-3"
-                >
-                  <p className="text-xs font-medium text-gray-500 mb-1">
-                    {row.currency}
-                  </p>
-                  <p className="text-sm text-green-600">
-                    +{formatCurrency(row.totalIncome)}
-                  </p>
-                  <p className="text-sm text-red-600">
-                    −{formatCurrency(row.totalExpense)}
-                  </p>
-                  <p className="text-sm font-medium text-gray-800">
-                    {formatCurrency(row.balance)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

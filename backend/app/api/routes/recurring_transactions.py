@@ -36,6 +36,7 @@ async def get_recurring_service(
 @router.post(
     "/",
     response_model=RecurringTransaction,
+    response_model_by_alias=True,
     status_code=201,
     summary="Создать шаблон",
 )
@@ -49,6 +50,7 @@ async def create_recurring(
 @router.get(
     "/",
     response_model=list[RecurringTransaction],
+    response_model_by_alias=True,
     summary="Список шаблонов",
 )
 async def list_recurring(
@@ -62,6 +64,7 @@ async def list_recurring(
 @router.get(
     "/{recurring_id}",
     response_model=RecurringTransaction,
+    response_model_by_alias=True,
     summary="Получить шаблон",
 )
 async def get_recurring(
@@ -74,6 +77,7 @@ async def get_recurring(
 @router.put(
     "/{recurring_id}",
     response_model=RecurringTransaction,
+    response_model_by_alias=True,
     summary="Обновить шаблон",
 )
 async def update_recurring(

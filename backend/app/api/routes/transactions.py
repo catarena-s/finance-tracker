@@ -30,6 +30,7 @@ async def get_transaction_service(
 @router.post(
     "/",
     response_model=Transaction,
+    response_model_by_alias=True,
     status_code=201,
     summary="Создать транзакцию",
     description="Создает новую транзакцию дохода или расхода",
@@ -45,6 +46,7 @@ async def create_transaction(
 @router.get(
     "/",
     response_model=dict,
+    response_model_by_alias=True,
     summary="Список транзакций",
     description="Получить список транзакций с фильтрацией и пагинацией",
 )
@@ -114,6 +116,7 @@ async def export_transactions(
 @router.get(
     "/{transaction_id}",
     response_model=Transaction,
+    response_model_by_alias=True,
     summary="Получить транзакцию",
     description="Получить транзакцию по ID",
 )
@@ -128,6 +131,7 @@ async def get_transaction(
 @router.put(
     "/{transaction_id}",
     response_model=Transaction,
+    response_model_by_alias=True,
     summary="Обновить транзакцию",
     description="Обновить существующую транзакцию",
 )

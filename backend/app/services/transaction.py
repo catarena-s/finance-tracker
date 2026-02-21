@@ -116,10 +116,19 @@ class TransactionService:
             if not category:
                 raise NotFoundException("Category not found")
 
+        # Подготовить данные для обновления
+        update_data = data.model_dump(exclude_unset=True, by_alias=False)
+        
+        # Преобразовать recurring_pattern в dict если он есть
+        if "recurring_pattern" in update_data and update_data["recurring_pattern"] is not None:
+            update_data["recurring_pattern"] = update_data["recurring_pattern"]
+        
+        # Преобразовать type в строку если он есть
+        if "type" in update_data and update_data["type"] is not None:
+            update_data["type"] = update_data["type"].value if hasattr(update_data["type"], "value") else update_data["type"]
+
         # Обновить транзакцию
-        updated = await self.transaction_repo.update(
-            transaction_id, **data.model_dump(exclude_unset=True)
-        )
+        updated = await self.transaction_repo.update(transaction_id, update_data)
         return Transaction.model_validate(updated)
 
     async def delete_transaction(self, transaction_id: uuid.UUID) -> None:
