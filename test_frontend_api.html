@@ -1,262 +1,30 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест API Фронтенда</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #333;
-        }
-        h2 {
-            color: #666;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 10px;
-        }
-        .status {
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background: #4CAF50;
-            color: white;
-        }
-        tr:hover {
-            background: #f5f5f5;
-        }
-        button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-        }
-        button:hover {
-            background: #45a049;
-        }
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
+    <title>Test Frontend API</title>
 </head>
 <body>
-    <h1>🧪 Тест интеграции фронтенда и бэкенда</h1>
-    
-    <div class="container">
-        <h2>Статус сервисов</h2>
-        <div id="status"></div>
-    </div>
-
-    <div class="container">
-        <h2>Категории</h2>
-        <button onclick="loadCategories()">Загрузить категории</button>
-        <div id="categories"></div>
-    </div>
-
-    <div class="container">
-        <h2>Транзакции</h2>
-        <button onclick="loadTransactions()">Загрузить транзакции</button>
-        <div id="transactions"></div>
-    </div>
-
-    <div class="container">
-        <h2>Бюджеты</h2>
-        <button onclick="loadBudgets()">Загрузить бюджеты</button>
-        <div id="budgets"></div>
-    </div>
-
-    <div class="container">
-        <h2>Аналитика</h2>
-        <button onclick="loadAnalytics()">Загрузить аналитику</button>
-        <div id="analytics"></div>
-    </div>
+    <h1>Test Top Categories API</h1>
+    <button onclick="testAPI()">Test API</button>
+    <pre id="result"></pre>
 
     <script>
-        const API_BASE = 'http://127.0.0.1:8000/api/v1';
-
-        async function checkStatus() {
-            const statusDiv = document.getElementById('status');
-            statusDiv.innerHTML = '<div class="loading">Проверка статуса...</div>';
-
+        async function testAPI() {
+            const end = new Date().toISOString().split('T')[0];
+            const start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            const url = `http://localhost:8000/api/v1/analytics/top-categories?start_date=${start}&end_date=${end}&limit=5`;
+            
+            document.getElementById('result').textContent = `Запрос: ${url}\n\nОжидание...`;
+            
             try {
-                const response = await fetch(`${API_BASE}/categories/`);
-                if (response.ok) {
-                    statusDiv.innerHTML = '<div class="status success">✅ Бэкенд работает!</div>';
-                } else {
-                    statusDiv.innerHTML = `<div class="status error">❌ Ошибка: ${response.status}</div>`;
-                }
-            } catch (error) {
-                statusDiv.innerHTML = `<div class="status error">❌ Ошибка подключения: ${error.message}</div>`;
-            }
-        }
-
-        async function loadCategories() {
-            const div = document.getElementById('categories');
-            div.innerHTML = '<div class="loading">Загрузка...</div>';
-
-            try {
-                const response = await fetch(`${API_BASE}/categories/`);
-                const categories = await response.json();
-
-                let html = `<div class="status info">Найдено категорий: ${categories.length}</div>`;
-                html += '<table><tr><th>Иконка</th><th>Название</th><th>Тип</th><th>Цвет</th></tr>';
-                
-                categories.forEach(cat => {
-                    html += `<tr>
-                        <td>${cat.icon || '📌'}</td>
-                        <td>${cat.name}</td>
-                        <td>${cat.type === 'income' ? 'Доход' : 'Расход'}</td>
-                        <td><span style="background:${cat.color};padding:5px 10px;color:white;border-radius:3px;">${cat.color}</span></td>
-                    </tr>`;
-                });
-                
-                html += '</table>';
-                div.innerHTML = html;
-            } catch (error) {
-                div.innerHTML = `<div class="status error">❌ Ошибка: ${error.message}</div>`;
-            }
-        }
-
-        async function loadTransactions() {
-            const div = document.getElementById('transactions');
-            div.innerHTML = '<div class="loading">Загрузка...</div>';
-
-            try {
-                const response = await fetch(`${API_BASE}/transactions/`);
+                const response = await fetch(url);
                 const data = await response.json();
-                
-                const transactions = data.items || [];
-                
-                let html = `<div class="status info">Найдено транзакций: ${data.total || transactions.length}</div>`;
-                html += '<table><tr><th>Дата</th><th>Описание</th><th>Тип</th><th>Сумма</th><th>Валюта</th></tr>';
-                
-                transactions.slice(0, 10).forEach(tx => {
-                    const typeText = tx.type === 'income' ? '💰 Доход' : '💸 Расход';
-                    const amountColor = tx.type === 'income' ? 'green' : 'red';
-                    html += `<tr>
-                        <td>${tx.transaction_date}</td>
-                        <td>${tx.description || '-'}</td>
-                        <td>${typeText}</td>
-                        <td style="color:${amountColor};font-weight:bold;">${tx.amount}</td>
-                        <td>${tx.currency}</td>
-                    </tr>`;
-                });
-                
-                html += '</table>';
-                if (transactions.length > 10) {
-                    html += `<div class="status info">Показано 10 из ${transactions.length} транзакций</div>`;
-                }
-                div.innerHTML = html;
+                document.getElementById('result').textContent = `Статус: ${response.status}\n\nОтвет:\n${JSON.stringify(data, null, 2)}`;
             } catch (error) {
-                div.innerHTML = `<div class="status error">❌ Ошибка: ${error.message}</div>`;
+                document.getElementById('result').textContent = `Ошибка: ${error.message}`;
             }
         }
-
-        async function loadBudgets() {
-            const div = document.getElementById('budgets');
-            div.innerHTML = '<div class="loading">Загрузка...</div>';
-
-            try {
-                const response = await fetch(`${API_BASE}/budgets/`);
-                const budgets = await response.json();
-
-                let html = `<div class="status info">Найдено бюджетов: ${budgets.length}</div>`;
-                
-                if (budgets.length > 0) {
-                    html += '<table><tr><th>Категория</th><th>Сумма</th><th>Период</th><th>Даты</th></tr>';
-                    
-                    budgets.forEach(budget => {
-                        html += `<tr>
-                            <td>${budget.category_id}</td>
-                            <td>${budget.amount}</td>
-                            <td>${budget.period}</td>
-                            <td>${budget.start_date} - ${budget.end_date}</td>
-                        </tr>`;
-                    });
-                    
-                    html += '</table>';
-                } else {
-                    html += '<div class="status info">Бюджеты не найдены</div>';
-                }
-                
-                div.innerHTML = html;
-            } catch (error) {
-                div.innerHTML = `<div class="status error">❌ Ошибка: ${error.message}</div>`;
-            }
-        }
-
-        async function loadAnalytics() {
-            const div = document.getElementById('analytics');
-            div.innerHTML = '<div class="loading">Загрузка...</div>';
-
-            try {
-                const today = new Date().toISOString().split('T')[0];
-                const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-                
-                const response = await fetch(`${API_BASE}/analytics/summary?start_date=${monthAgo}&end_date=${today}`);
-                const summary = await response.json();
-
-                let html = '<table>';
-                html += `<tr><th>Метрика</th><th>Значение</th></tr>`;
-                html += `<tr><td>💰 Общий доход</td><td style="color:green;font-weight:bold;">${summary.total_income} ₽</td></tr>`;
-                html += `<tr><td>💸 Общий расход</td><td style="color:red;font-weight:bold;">${summary.total_expense} ₽</td></tr>`;
-                html += `<tr><td>📊 Баланс</td><td style="font-weight:bold;">${summary.balance} ₽</td></tr>`;
-                html += `<tr><td>📝 Количество транзакций</td><td>${summary.transaction_count}</td></tr>`;
-                html += '</table>';
-                
-                div.innerHTML = html;
-            } catch (error) {
-                div.innerHTML = `<div class="status error">❌ Ошибка: ${error.message}</div>`;
-            }
-        }
-
-        // Проверить статус при загрузке страницы
-        window.onload = checkStatus;
     </script>
 </body>
 </html>

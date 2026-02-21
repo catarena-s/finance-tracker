@@ -74,10 +74,12 @@ export const analyticsApi = {
     if (params.type) queryParams.append("type", params.type);
 
     const response = await apiClient.get<{
-      top_categories: Array<{ category: string; amount: string }>;
+      top_categories?: Array<{ category: string; amount: string }>;
+      topCategories?: Array<{ category: string; amount: string }>;
     }>(`/analytics/top-categories?${queryParams.toString()}`);
 
-    const list = response.data.top_categories ?? [];
+    // Backend возвращает top_categories, но axios может конвертировать в topCategories
+    const list = response.data.topCategories ?? response.data.top_categories ?? [];
     const total = list.reduce((s, c) => s + parseFloat(c.amount), 0);
     return list.map((cat, index) => {
       const totalAmount = parseFloat(cat.amount);
