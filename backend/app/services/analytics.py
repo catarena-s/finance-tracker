@@ -9,33 +9,33 @@ from app.repositories.transaction import TransactionRepository
 from app.repositories.budget import BudgetRepository
 
 
-# Упрощённые курсы валют к USD (для демонстрации)
+# Упрощённые курсы валют к RUB (для демонстрации)
 CURRENCY_RATES = {
-    "USD": Decimal("1.0"),
-    "EUR": Decimal("1.1"),
-    "GBP": Decimal("1.3"),
-    "JPY": Decimal("0.0067"),
-    "CNY": Decimal("0.14"),
-    "RUB": Decimal("0.011"),
-    "INR": Decimal("0.012"),
-    "BRL": Decimal("0.20"),
-    "CAD": Decimal("0.74"),
-    "AUD": Decimal("0.66"),
+    "RUB": Decimal("1.0"),
+    "USD": Decimal("91.0"),  # 1 USD = 91 RUB
+    "EUR": Decimal("100.0"),  # 1 EUR = 100 RUB
+    "GBP": Decimal("115.0"),  # 1 GBP = 115 RUB
+    "JPY": Decimal("0.61"),  # 1 JPY = 0.61 RUB
+    "CNY": Decimal("12.5"),  # 1 CNY = 12.5 RUB
+    "INR": Decimal("1.1"),  # 1 INR = 1.1 RUB
+    "BRL": Decimal("18.0"),  # 1 BRL = 18 RUB
+    "CAD": Decimal("67.0"),  # 1 CAD = 67 RUB
+    "AUD": Decimal("60.0"),  # 1 AUD = 60 RUB
 }
 
 
-def convert_to_usd(amount: Decimal, currency: str) -> Decimal:
-    """Конвертировать сумму в USD"""
+def convert_to_rub(amount: Decimal, currency: str) -> Decimal:
+    """Конвертировать сумму в RUB"""
     rate = CURRENCY_RATES.get(currency, Decimal("1.0"))
     return amount * rate
 
 
-def convert_from_usd(amount_usd: Decimal, to_currency: str) -> Decimal:
-    """Конвертировать сумму из USD в указанную валюту"""
+def convert_from_rub(amount_rub: Decimal, to_currency: str) -> Decimal:
+    """Конвертировать сумму из RUB в указанную валюту"""
     rate = CURRENCY_RATES.get(to_currency, Decimal("1.0"))
     if rate == 0:
-        return amount_usd
-    return amount_usd / rate
+        return amount_rub
+    return amount_rub / rate
 
 
 class AnalyticsService:
@@ -58,22 +58,22 @@ class AnalyticsService:
             start_date, end_date
         )
 
-        total_income_usd = Decimal(0)
-        total_expense_usd = Decimal(0)
+        total_income_rub = Decimal(0)
+        total_expense_rub = Decimal(0)
         by_currency: Dict[str, Dict[str, Decimal]] = defaultdict(
             lambda: {"total_income": Decimal(0), "total_expense": Decimal(0)}
         )
 
         for t in transactions:
-            amount_usd = convert_to_usd(t.amount, t.currency)
+            amount_rub = convert_to_rub(t.amount, t.currency)
             if t.type == "income":
-                total_income_usd += amount_usd
+                total_income_rub += amount_rub
                 by_currency[t.currency]["total_income"] += t.amount
             else:
-                total_expense_usd += amount_usd
+                total_expense_rub += amount_rub
                 by_currency[t.currency]["total_expense"] += t.amount
 
-        balance_usd = total_income_usd - total_expense_usd
+        balance_rub = total_income_rub - total_expense_rub
 
         by_currency_list: List[Dict] = [
             {
@@ -85,20 +85,32 @@ class AnalyticsService:
             for cur, data in sorted(by_currency.items())
         ]
 
-        if currency:
-            total_income = convert_from_usd(total_income_usd, currency)
-            total_expense = convert_from_usd(total_expense_usd, currency)
-            balance = convert_from_usd(balance_usd, currency)
+        # Если все транзакции в одной валюте - показываем в ней, иначе в RUB
+        if len(by_currency_list) == 1:
+            single_currency = by_currency_list[0]["currency"]
+            total_income = by_currency_list[0]["total_income"]
+            total_expense = by_currency_list[0]["total_expense"]
+            balance = by_currency_list[0]["balance"]
+            display_currency = single_currency
         else:
-            total_income = total_income_usd
-            total_expense = total_expense_usd
-            balance = balance_usd
+            if currency:
+                total_income = convert_from_rub(total_income_rub, currency)
+                total_expense = convert_from_rub(total_expense_rub, currency)
+                balance = convert_from_rub(balance_rub, currency)
+                display_currency = currency
+            else:
+                total_income = total_income_rub
+                total_expense = total_expense_rub
+                balance = balance_rub
+                display_currency = "RUB"
 
         return {
             "total_income": total_income,
             "total_expense": total_expense,
             "balance": balance,
+            "display_currency": display_currency,
             "by_currency": by_currency_list,
+            "currency_rates": {cur: float(rate) for cur, rate in CURRENCY_RATES.items()},
             "start_date": start_date,
             "end_date": end_date,
         }
@@ -133,11 +145,11 @@ class AnalyticsService:
 
         for t in transactions:
             key = self._period_key(t.transaction_date, period)
-            amount_usd = convert_to_usd(t.amount, t.currency)
+            amount_rub = convert_to_rub(t.amount, t.currency)
             amount = (
-                convert_from_usd(amount_usd, currency)
-                if currency and currency != "USD"
-                else amount_usd
+                convert_from_rub(amount_rub, currency)
+                if currency and currency != "RUB"
+                else amount_rub
             )
 
             if t.type == "income":
@@ -167,7 +179,7 @@ class AnalyticsService:
 
         for t in transactions:
             if t.type == "expense":
-                amount = convert_to_usd(t.amount, t.currency)
+                amount = convert_to_rub(t.amount, t.currency)
                 category_totals[t.category.name] += amount
 
         # Преобразовать в список

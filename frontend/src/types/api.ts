@@ -72,8 +72,10 @@ export interface SummaryData {
   totalIncome: number;
   totalExpense: number;
   balance: number;
+  displayCurrency?: string;
   transactionCount?: number;
   byCurrency?: SummaryByCurrency[];
+  currencyRates?: Record<string, number>;
 }
 
 export interface TrendData {

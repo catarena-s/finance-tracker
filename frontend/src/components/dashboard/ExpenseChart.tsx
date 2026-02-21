@@ -23,25 +23,12 @@ ChartJS.register(
   Filler
 );
 
-export type ChartPeriod = "day" | "week" | "month" | "year";
-
 interface ExpenseChartProps {
-  period: ChartPeriod;
-  onPeriodChange: (period: ChartPeriod) => void;
   data: Array<{ date: string; amount: number }>;
   loading?: boolean;
 }
 
-const PERIOD_LABELS: Record<ChartPeriod, string> = {
-  day: "День",
-  week: "Неделя",
-  month: "Месяц",
-  year: "Год",
-};
-
 export function ExpenseChart({
-  period,
-  onPeriodChange,
   data,
   loading,
 }: ExpenseChartProps) {
@@ -136,24 +123,7 @@ export function ExpenseChart({
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Тренд расходов</h2>
-        <div className="flex gap-2 flex-wrap">
-          {(Object.keys(PERIOD_LABELS) as ChartPeriod[]).map((p) => (
-            <button
-              key={p}
-              onClick={() => onPeriodChange(p)}
-              className={`px-3 py-1 rounded text-sm ${
-                period === p
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              {PERIOD_LABELS[p]}
-            </button>
-          ))}
-        </div>
-      </div>
+      <h2 className="text-xl font-semibold mb-4">Тренд расходов</h2>
       <div className="h-64 sm:h-80">
         <Line data={chartData} options={options} />
       </div>
