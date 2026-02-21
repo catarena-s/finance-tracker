@@ -86,4 +86,4 @@ async def test_create_recurring_template(client: AsyncClient):
     assert float(template_data["amount"]) == 30000.0
     assert template_data["frequency"] == "monthly"
     assert template_data["interval"] == 1
-    assert template_data.get("is_active") is True
+    assert template_data.get("isActive") is True  # camelCase from schema
