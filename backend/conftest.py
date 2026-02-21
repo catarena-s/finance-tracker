@@ -14,12 +14,16 @@ from sqlalchemy.pool import NullPool
 from app.models.base import Base
 
 
-# Test database URL - use environment variable if set (for CI), otherwise use local default
-# CI uses port 5432, local docker-compose uses port 5433
-TEST_DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test",
-)
+# Test database URL - always use test database
+# Detect if running inside Docker (DATABASE_HOST will be set to 'database')
+# or locally (use localhost with port 5433)
+DATABASE_HOST = os.getenv("DATABASE_HOST", "localhost")
+if DATABASE_HOST == "database":
+    # Running inside Docker - use internal port 5432
+    TEST_DATABASE_URL = f"postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker_test"
+else:
+    # Running locally - use exposed port 5433
+    TEST_DATABASE_URL = f"postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test"
 
 
 @pytest.fixture(scope="session")
