@@ -163,7 +163,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (data.description !== undefined) apiData.description = data.description;
         if (data.transactionDate !== undefined)
           apiData.transactionDate = data.transactionDate;
-        if (data.isRecurring !== undefined) apiData.isRecurring = data.isRecurring;
+        if (data.isRecurring !== undefined) {
+          apiData.isRecurring = data.isRecurring;
+          if (data.isRecurring) {
+            apiData.recurringPattern = { frequency: "monthly", interval: 1 };
+          }
+        }
 
         const updated = await transactionApi.update(id, apiData);
 
