@@ -16,20 +16,12 @@ from app.models.base import Base
 
 # Test database URL - always use test database
 # Priority:
-# 1. If DATABASE_URL is set (CI/CD) - use it with test database name
+# 1. If DATABASE_URL is set (CI/CD) - use it as is (already points to test DB)
 # 2. If DATABASE_HOST=database (Docker) - use internal port 5432
 # 3. Otherwise (local) - use localhost with port 5433
 if "DATABASE_URL" in os.environ:
-    # CI/CD environment - use provided DATABASE_URL but change database name
-    base_url = os.getenv("DATABASE_URL", "")
-    # Replace database name with test database
-    if "finance_tracker" in base_url:
-        TEST_DATABASE_URL = base_url.replace("finance_tracker", "finance_tracker_test")
-    else:
-        # Fallback for CI/CD
-        TEST_DATABASE_URL = (
-            "postgresql+asyncpg://postgres:postgres@localhost:5432/finance_tracker_test"
-        )
+    # CI/CD environment - use provided DATABASE_URL as is
+    TEST_DATABASE_URL = os.getenv("DATABASE_URL", "")
 elif os.getenv("DATABASE_HOST") == "database":
     # Running inside Docker - use internal port 5432
     TEST_DATABASE_URL = (
