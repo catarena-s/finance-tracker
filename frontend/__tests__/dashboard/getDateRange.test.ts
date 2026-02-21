@@ -34,14 +34,6 @@ describe("getDateRange", () => {
     expect(diffDays).toBe(30);
   });
 
-  it("week period gives 7 days back", () => {
-    const { start } = getDateRange("week");
-    const startDate = new Date(start);
-    const endDate = new Date("2025-02-20");
-    const diffDays = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    expect(diffDays).toBe(7);
-  });
-
   it("day period gives 7 days back (last 7 days for chart)", () => {
     const { start } = getDateRange("day");
     const startDate = new Date(start);

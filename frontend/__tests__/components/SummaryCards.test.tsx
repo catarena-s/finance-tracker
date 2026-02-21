@@ -20,7 +20,7 @@ describe("SummaryCards", () => {
     expect(screen.getByText("Баланс")).toBeInTheDocument();
   });
 
-  it("renders byCurrency section when byCurrency is provided", () => {
+  it("renders byCurrency breakdown when multiple currencies are provided", () => {
     render(
       <SummaryCards
         totalIncome={1000}
@@ -32,21 +32,26 @@ describe("SummaryCards", () => {
         ]}
       />
     );
-    expect(screen.getByText("По валютам")).toBeInTheDocument();
-    expect(screen.getByText("USD")).toBeInTheDocument();
-    expect(screen.getByText("EUR")).toBeInTheDocument();
+    // Проверяем что валюты отображаются в карточках
+    const usdElements = screen.getAllByText(/USD/);
+    const eurElements = screen.getAllByText(/EUR/);
+    expect(usdElements.length).toBeGreaterThan(0);
+    expect(eurElements.length).toBeGreaterThan(0);
   });
 
-  it("does not render byCurrency section when byCurrency is empty", () => {
+  it("does not render byCurrency breakdown when only one currency", () => {
     render(
       <SummaryCards
         totalIncome={1000}
         totalExpense={300}
         balance={700}
-        byCurrency={[]}
+        byCurrency={[
+          { currency: "RUB", totalIncome: 1000, totalExpense: 300, balance: 700 },
+        ]}
       />
     );
-    expect(screen.queryByText("По валютам")).not.toBeInTheDocument();
+    // Когда только одна валюта, разбивка не отображается
+    expect(screen.queryByText(/RUB:/)).not.toBeInTheDocument();
   });
 
   it("shows loading state when loading is true", () => {
