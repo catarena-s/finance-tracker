@@ -185,8 +185,24 @@ class AnalyticsService:
         breakdown = await self.get_category_breakdown(start_date, end_date)
 
         # Сортировать по сумме и взять топ
-        top = sorted(breakdown["breakdown"], key=lambda x: x["amount"], reverse=True)[
-            :limit
+        sorted_breakdown = sorted(
+            breakdown["breakdown"], key=lambda x: x["amount"], reverse=True
+        )
+        top = sorted_breakdown[:limit]
+
+        # Вычислить общую сумму для процентов
+        total_amount = sum(item["amount"] for item in sorted_breakdown)
+
+        # Добавить процент к каждой категории
+        top_with_percentage = [
+            {
+                "category": item["category"],
+                "amount": item["amount"],
+                "percentage": (
+                    float(item["amount"] / total_amount * 100) if total_amount > 0 else 0
+                ),
+            }
+            for item in top
         ]
 
-        return {"top_categories": top}
+        return {"top_categories": top_with_percentage}
