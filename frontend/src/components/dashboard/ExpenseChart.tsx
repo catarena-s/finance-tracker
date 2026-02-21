@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,16 +23,28 @@ ChartJS.register(
   Filler
 );
 
+export type ChartPeriod = "day" | "week" | "month" | "year";
+
 interface ExpenseChartProps {
+  period: ChartPeriod;
+  onPeriodChange: (period: ChartPeriod) => void;
   data: Array<{ date: string; amount: number }>;
   loading?: boolean;
 }
 
-type Period = "week" | "month" | "year";
+const PERIOD_LABELS: Record<ChartPeriod, string> = {
+  day: "День",
+  week: "Неделя",
+  month: "Месяц",
+  year: "Год",
+};
 
-export function ExpenseChart({ data, loading }: ExpenseChartProps) {
-  const [period, setPeriod] = useState<Period>("month");
-
+export function ExpenseChart({
+  period,
+  onPeriodChange,
+  data,
+  loading,
+}: ExpenseChartProps) {
   const chartData = useMemo(() => {
     if (!data || data.length === 0) {
       return {
@@ -126,37 +138,20 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Тренд расходов</h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setPeriod("week")}
-            className={`px-3 py-1 rounded text-sm ${
-              period === "week"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Неделя
-          </button>
-          <button
-            onClick={() => setPeriod("month")}
-            className={`px-3 py-1 rounded text-sm ${
-              period === "month"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Месяц
-          </button>
-          <button
-            onClick={() => setPeriod("year")}
-            className={`px-3 py-1 rounded text-sm ${
-              period === "year"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Год
-          </button>
+        <div className="flex gap-2 flex-wrap">
+          {(Object.keys(PERIOD_LABELS) as ChartPeriod[]).map((p) => (
+            <button
+              key={p}
+              onClick={() => onPeriodChange(p)}
+              className={`px-3 py-1 rounded text-sm ${
+                period === p
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {PERIOD_LABELS[p]}
+            </button>
+          ))}
         </div>
       </div>
       <div className="h-64 sm:h-80">

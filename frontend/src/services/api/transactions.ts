@@ -19,25 +19,30 @@ export interface TransactionFilters {
 export interface CreateTransactionData {
   type: TransactionType;
   amount: number;
+  currency: string;
   categoryId: string;
   description: string;
-  date: string;
+  transactionDate: string;
+  isRecurring?: boolean;
 }
 
 export interface UpdateTransactionData {
   type?: TransactionType;
   amount?: number;
+  currency?: string;
   categoryId?: string;
   description?: string;
-  date?: string;
+  transactionDate?: string;
+  isRecurring?: boolean;
 }
 
-// Backend response format for paginated data
+// Backend response (camelCase after interceptor; page_size for fallback)
 interface BackendPaginatedResponse<T> {
   items: T[];
   total: number;
   page: number;
-  page_size: number;
+  pageSize?: number;
+  page_size?: number;
   pages: number;
 }
 
@@ -45,9 +50,6 @@ interface BackendPaginatedResponse<T> {
  * Transaction API клиент
  */
 export const transactionApi = {
-  /**
-   * Получить все транзакции с фильтрацией и пагинацией
-   */
   async getAll(
     filters: TransactionFilters = {}
   ): Promise<PaginatedResponse<TransactionWithCategory>> {
@@ -64,21 +66,18 @@ export const transactionApi = {
       BackendPaginatedResponse<TransactionWithCategory>
     >(`/transactions?${params.toString()}`);
 
-    // Transform backend format to frontend format
+    const d = response.data;
     return {
-      data: response.data.items,
+      data: d.items ?? [],
       pagination: {
-        page: response.data.page,
-        pageSize: response.data.page_size,
-        totalPages: response.data.pages,
-        totalItems: response.data.total,
+        page: d.page ?? 1,
+        pageSize: d.pageSize ?? d.page_size ?? 10,
+        totalPages: d.pages ?? 1,
+        totalItems: d.total ?? 0,
       },
     };
   },
 
-  /**
-   * Получить транзакцию по ID
-   */
   async getById(id: string): Promise<TransactionWithCategory> {
     const response = await apiClient.get<TransactionWithCategory>(
       `/transactions/${id}`
@@ -86,25 +85,16 @@ export const transactionApi = {
     return response.data;
   },
 
-  /**
-   * Создать новую транзакцию
-   */
   async create(data: CreateTransactionData): Promise<Transaction> {
     const response = await apiClient.post<Transaction>("/transactions", data);
     return response.data;
   },
 
-  /**
-   * Обновить транзакцию
-   */
   async update(id: string, data: UpdateTransactionData): Promise<Transaction> {
     const response = await apiClient.put<Transaction>(`/transactions/${id}`, data);
     return response.data;
   },
 
-  /**
-   * Удалить транзакцию
-   */
   async delete(id: string): Promise<void> {
     await apiClient.delete(`/transactions/${id}`);
   },

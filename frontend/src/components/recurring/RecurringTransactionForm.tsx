@@ -37,6 +37,7 @@ export function RecurringTransactionForm({
     formState: { errors, isSubmitting },
     watch,
     setValue,
+    setError,
     reset,
   } = useForm<RecurringFormData>({
     defaultValues: item
@@ -76,6 +77,10 @@ export function RecurringTransactionForm({
   }, [selectedType, filteredCategories, setValue, watch]);
 
   const handleFormSubmit = async (data: RecurringFormData) => {
+    if (!data.categoryId?.trim()) {
+      setError("categoryId", { type: "required", message: "Выберите категорию" });
+      return;
+    }
     await onSubmit(data);
     reset();
   };

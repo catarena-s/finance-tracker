@@ -38,4 +38,21 @@ test.describe("Повторяющиеся транзакции", () => {
       timeout: contentTimeout,
     });
   });
+
+  test("создание шаблона: заполнение формы и сохранение", async ({ page }) => {
+    await page.getByRole("button", { name: /Добавить шаблон/ }).click();
+    await expect(page.getByRole("dialog").getByText(/Создать шаблон/)).toBeVisible({
+      timeout: 5000,
+    });
+
+    await page.getByLabel(/Название/).fill("E2E подписка");
+    await page.getByLabel(/Сумма/).fill("99");
+    await page.getByLabel(/Категория/).selectOption({ index: 1 });
+    await page.getByLabel(/Дата начала/).fill(new Date().toISOString().split("T")[0]);
+
+    await page.getByRole("button", { name: /Создать/ }).click();
+
+    await expect(page.getByRole("dialog")).not.toBeVisible({ timeout: 15000 });
+    await expect(page.getByText("E2E подписка")).toBeVisible({ timeout: 5000 });
+  });
 });

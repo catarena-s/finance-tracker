@@ -56,7 +56,7 @@ interface AppContextValue {
   // Analytics actions
   loadSummary: (startDate?: string, endDate?: string) => Promise<void>;
   loadTrends: (
-    period?: "week" | "month" | "year",
+    period?: "day" | "week" | "month" | "year",
     startDate?: string,
     endDate?: string
   ) => Promise<void>;
@@ -115,15 +115,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
         } as Transaction;
         setTransactions((prev) => [optimisticTransaction, ...prev]);
 
-        // Map transactionDate to date for API
-        const apiData = {
+        const apiData: Record<string, unknown> = {
           type: data.type,
           amount: data.amount,
+          currency: data.currency ?? "USD",
           categoryId: data.categoryId,
           description: data.description || "",
-          date: data.transactionDate,
+          transactionDate: data.transactionDate,
+          isRecurring: data.isRecurring ?? false,
         };
-        const created = await transactionApi.create(apiData);
+        if (apiData.isRecurring) {
+          apiData.recurringPattern = { frequency: "monthly", interval: 1 };
+        }
+        const created = await transactionApi.create(apiData as any);
 
         // Replace optimistic with real data
         setTransactions((prev) => prev.map((t) => (t.id === tempId ? created : t)));
@@ -151,13 +155,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
           prev.map((t) => (t.id === id ? { ...t, ...data } : t))
         );
 
-        // Map transactionDate to date for API
         const apiData: any = {};
         if (data.type !== undefined) apiData.type = data.type;
         if (data.amount !== undefined) apiData.amount = data.amount;
+        if (data.currency !== undefined) apiData.currency = data.currency;
         if (data.categoryId !== undefined) apiData.categoryId = data.categoryId;
         if (data.description !== undefined) apiData.description = data.description;
-        if (data.transactionDate !== undefined) apiData.date = data.transactionDate;
+        if (data.transactionDate !== undefined)
+          apiData.transactionDate = data.transactionDate;
+        if (data.isRecurring !== undefined) apiData.isRecurring = data.isRecurring;
 
         const updated = await transactionApi.update(id, apiData);
 
@@ -414,7 +420,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const loadTrends = useCallback(
     async (
-      period: "week" | "month" | "year" = "month",
+      period: "day" | "week" | "month" | "year" = "month",
       startDate?: string,
       endDate?: string
     ) => {

@@ -4,6 +4,7 @@ import { Budget, BudgetWithDetails, BudgetPeriod, ApiResponse } from "@/types/ap
 export interface CreateBudgetData {
   categoryId: string;
   amount: number;
+  currency: string;
   period: BudgetPeriod;
   startDate: string;
   endDate: string;
@@ -12,6 +13,7 @@ export interface CreateBudgetData {
 export interface UpdateBudgetData {
   categoryId?: string;
   amount?: number;
+  currency?: string;
   period?: BudgetPeriod;
   startDate?: string;
   endDate?: string;

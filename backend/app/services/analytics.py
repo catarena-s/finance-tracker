@@ -3,7 +3,7 @@
 from datetime import date
 from decimal import Decimal
 from collections import defaultdict
-from typing import Dict
+from typing import Dict, List, Optional
 
 from app.repositories.transaction import TransactionRepository
 from app.repositories.budget import BudgetRepository
@@ -30,6 +30,14 @@ def convert_to_usd(amount: Decimal, currency: str) -> Decimal:
     return amount * rate
 
 
+def convert_from_usd(amount_usd: Decimal, to_currency: str) -> Decimal:
+    """Конвертировать сумму из USD в указанную валюту"""
+    rate = CURRENCY_RATES.get(to_currency, Decimal("1.0"))
+    if rate == 0:
+        return amount_usd
+    return amount_usd / rate
+
+
 class AnalyticsService:
     """Сервис для расчета аналитики по финансам"""
 
@@ -39,61 +47,112 @@ class AnalyticsService:
         self.transaction_repo = transaction_repo
         self.budget_repo = budget_repo
 
-    async def get_summary(self, start_date: date, end_date: date) -> Dict:
-        """Получить сводную статистику за период"""
+    async def get_summary(
+        self,
+        start_date: date,
+        end_date: date,
+        currency: Optional[str] = None,
+    ) -> Dict:
+        """Получить сводную статистику за период. По валютам и опционально в одной валюте."""
         transactions = await self.transaction_repo.get_by_date_range(
             start_date, end_date
         )
 
-        total_income = Decimal(0)
-        total_expense = Decimal(0)
+        total_income_usd = Decimal(0)
+        total_expense_usd = Decimal(0)
+        by_currency: Dict[str, Dict[str, Decimal]] = defaultdict(
+            lambda: {"total_income": Decimal(0), "total_expense": Decimal(0)}
+        )
 
         for t in transactions:
-            # Конвертировать в USD
-            amount = convert_to_usd(t.amount, t.currency)
+            amount_usd = convert_to_usd(t.amount, t.currency)
             if t.type == "income":
-                total_income += amount
+                total_income_usd += amount_usd
+                by_currency[t.currency]["total_income"] += t.amount
             else:
-                total_expense += amount
+                total_expense_usd += amount_usd
+                by_currency[t.currency]["total_expense"] += t.amount
 
-        balance = total_income - total_expense
+        balance_usd = total_income_usd - total_expense_usd
+
+        by_currency_list: List[Dict] = [
+            {
+                "currency": cur,
+                "total_income": data["total_income"],
+                "total_expense": data["total_expense"],
+                "balance": data["total_income"] - data["total_expense"],
+            }
+            for cur, data in sorted(by_currency.items())
+        ]
+
+        if currency:
+            total_income = convert_from_usd(total_income_usd, currency)
+            total_expense = convert_from_usd(total_expense_usd, currency)
+            balance = convert_from_usd(balance_usd, currency)
+        else:
+            total_income = total_income_usd
+            total_expense = total_expense_usd
+            balance = balance_usd
 
         return {
             "total_income": total_income,
             "total_expense": total_expense,
             "balance": balance,
+            "by_currency": by_currency_list,
             "start_date": start_date,
             "end_date": end_date,
         }
 
-    async def get_trends(self, start_date: date, end_date: date) -> Dict:
-        """Получить динамику доходов и расходов по месяцам"""
+    @staticmethod
+    def _period_key(d: date, period: str) -> str:
+        """Ключ группировки по периоду: day, week, month, year."""
+        if period == "day":
+            return d.strftime("%Y-%m-%d")
+        if period == "week":
+            return d.strftime("%Y-W%W")
+        if period == "year":
+            return d.strftime("%Y")
+        return d.strftime("%Y-%m")
+
+    async def get_trends(
+        self,
+        start_date: date,
+        end_date: date,
+        period: str = "month",
+        currency: Optional[str] = None,
+    ) -> Dict:
+        """Получить динамику доходов и расходов (day/week/month/year)."""
         transactions = await self.transaction_repo.get_by_date_range(
             start_date, end_date
         )
 
-        monthly_data = defaultdict(
+        period = period if period in ("day", "week", "month", "year") else "month"
+        bucket_data = defaultdict(
             lambda: {"income": Decimal(0), "expense": Decimal(0)}
         )
 
         for t in transactions:
-            month_key = t.transaction_date.strftime("%Y-%m")
-            amount = convert_to_usd(t.amount, t.currency)
+            key = self._period_key(t.transaction_date, period)
+            amount_usd = convert_to_usd(t.amount, t.currency)
+            amount = (
+                convert_from_usd(amount_usd, currency)
+                if currency and currency != "USD"
+                else amount_usd
+            )
 
             if t.type == "income":
-                monthly_data[month_key]["income"] += amount
+                bucket_data[key]["income"] += amount
             else:
-                monthly_data[month_key]["expense"] += amount
+                bucket_data[key]["expense"] += amount
 
-        # Преобразовать в список
         trends = [
             {
-                "month": month,
+                "month": key,
                 "income": data["income"],
                 "expense": data["expense"],
                 "balance": data["income"] - data["expense"],
             }
-            for month, data in sorted(monthly_data.items())
+            for key, data in sorted(bucket_data.items())
         ]
 
         return {"trends": trends}

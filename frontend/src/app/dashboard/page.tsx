@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/contexts/AppContext";
 import {
   SummaryCards,
@@ -8,6 +8,26 @@ import {
   TrendChart,
   TopCategoriesWidget,
 } from "@/components/dashboard";
+
+export type DashboardPeriod = "day" | "week" | "month" | "year";
+
+export function getDateRange(period: DashboardPeriod): { start: string; end: string } {
+  const end = new Date();
+  const start = new Date();
+  const days =
+    period === "day"
+      ? 7
+      : period === "week"
+        ? 7
+        : period === "month"
+          ? 30
+          : 365;
+  start.setDate(start.getDate() - days);
+  return {
+    start: start.toISOString().split("T")[0],
+    end: end.toISOString().split("T")[0],
+  };
+}
 
 export default function DashboardPage() {
   const {
@@ -22,11 +42,14 @@ export default function DashboardPage() {
     clearError,
   } = useApp();
 
+  const [period, setPeriod] = useState<DashboardPeriod>("month");
+  const { start, end } = useMemo(() => getDateRange(period), [period]);
+
   useEffect(() => {
-    loadSummary();
-    loadTrends();
-    loadTopCategories();
-  }, []);
+    loadSummary(start, end);
+    loadTrends(period, start, end);
+    loadTopCategories(5, undefined, start, end);
+  }, [period, start, end, loadSummary, loadTrends, loadTopCategories]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -43,14 +66,17 @@ export default function DashboardPage() {
         )}
 
         <SummaryCards
-          totalIncome={summary?.totalIncome || 0}
-          totalExpense={summary?.totalExpenses || 0}
-          balance={summary?.balance || 0}
+          totalIncome={summary?.totalIncome ?? 0}
+          totalExpense={summary?.totalExpense ?? 0}
+          balance={summary?.balance ?? 0}
+          byCurrency={summary?.byCurrency}
           loading={loading}
         />
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <TrendChart
+            period={period}
+            onPeriodChange={setPeriod}
             incomeData={trends?.map((t) => ({ date: t.date, amount: t.income })) || []}
             expenseData={
               trends?.map((t) => ({ date: t.date, amount: t.expense })) || []
@@ -58,6 +84,8 @@ export default function DashboardPage() {
             loading={loading}
           />
           <ExpenseChart
+            period={period}
+            onPeriodChange={setPeriod}
             data={trends?.map((t) => ({ date: t.date, amount: t.expense })) || []}
             loading={loading}
           />

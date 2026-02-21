@@ -19,6 +19,7 @@ class BudgetBase(BaseModel):
 
     category_id: uuid.UUID
     amount: condecimal(gt=0, decimal_places=2) = Field(...)
+    currency: str = Field(default="USD", min_length=3, max_length=3)
     period: BudgetPeriod
     start_date: date
     end_date: date
@@ -43,6 +44,7 @@ class BudgetUpdate(BaseModel):
 
     category_id: uuid.UUID | None = None
     amount: condecimal(gt=0, decimal_places=2) | None = Field(None)
+    currency: str | None = Field(None, min_length=3, max_length=3)
     period: BudgetPeriod | None = None
     start_date: date | None = None
     end_date: date | None = None

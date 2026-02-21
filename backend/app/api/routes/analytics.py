@@ -1,6 +1,6 @@
 """API маршруты для аналитики"""
 
-from typing import Annotated
+from typing import Annotated, Optional
 from datetime import date
 
 from fastapi import APIRouter, Depends, Query
@@ -34,24 +34,27 @@ async def get_summary(
     start_date: date,
     end_date: date,
     service: Annotated[AnalyticsService, Depends(get_analytics_service)],
+    currency: Optional[str] = Query(None, description="Валюта для конвертации (опционально)"),
 ):
     """Получить сводную статистику за период"""
-    return await service.get_summary(start_date, end_date)
+    return await service.get_summary(start_date, end_date, currency)
 
 
 @router.get(
     "/trends",
     response_model=dict,
-    summary="Динамика по месяцам",
-    description="Получить динамику доходов и расходов по месяцам",
+    summary="Динамика по периоду",
+    description="Получить динамику доходов и расходов (day/week/month/year)",
 )
 async def get_trends(
     start_date: date,
     end_date: date,
     service: Annotated[AnalyticsService, Depends(get_analytics_service)],
+    period: str = Query("month", description="Период группировки: day, week, month, year"),
+    currency: Optional[str] = Query(None, description="Валюта для конвертации (опционально)"),
 ):
-    """Получить динамику доходов и расходов по месяцам"""
-    return await service.get_trends(start_date, end_date)
+    """Получить динамику доходов и расходов по выбранному периоду"""
+    return await service.get_trends(start_date, end_date, period, currency)
 
 
 @router.get(

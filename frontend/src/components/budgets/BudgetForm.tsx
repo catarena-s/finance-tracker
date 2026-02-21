@@ -11,9 +11,17 @@ interface BudgetFormProps {
   onCancel: () => void;
 }
 
+const CURRENCY_OPTIONS = [
+  { value: "USD", label: "USD ($)" },
+  { value: "EUR", label: "EUR (€)" },
+  { value: "GBP", label: "GBP (£)" },
+  { value: "RUB", label: "RUB (₽)" },
+];
+
 export interface BudgetFormData {
   categoryId: string;
   amount: number;
+  currency: string;
   period: "monthly" | "yearly";
   startDate: string;
   endDate: string;
@@ -36,6 +44,7 @@ export function BudgetForm({
       ? {
           categoryId: budget.categoryId,
           amount: Number(budget.amount),
+          currency: budget.currency ?? "USD",
           period: budget.period,
           startDate: budget.startDate,
           endDate: budget.endDate,
@@ -43,6 +52,7 @@ export function BudgetForm({
       : {
           categoryId: "",
           amount: 0,
+          currency: "USD",
           period: "monthly",
           startDate: new Date().toISOString().split("T")[0],
           endDate: "",
@@ -84,6 +94,13 @@ export function BudgetForm({
         })}
       />
 
+      <Select
+        label="Валюта"
+        options={CURRENCY_OPTIONS}
+        error={errors.currency?.message}
+        {...register("currency", { required: "Выберите валюту" })}
+      />
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Сумма бюджета
@@ -91,6 +108,7 @@ export function BudgetForm({
         <CurrencyInput
           value={watch("amount")}
           onChange={(value) => setValue("amount", value)}
+          currency={watch("currency")}
           error={errors.amount?.message}
         />
       </div>
