@@ -2,7 +2,7 @@
  * Unit tests — getDateRange (Dashboard)
  * Проверка вычисления диапазона дат по периоду.
  */
-import { getDateRange } from "@/app/dashboard/page";
+import { getDateRange } from "@/utils/dateRange";
 
 describe("getDateRange", () => {
   beforeAll(() => {
