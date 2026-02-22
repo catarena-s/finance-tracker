@@ -2,13 +2,52 @@
 Конфигурация Celery для фоновых задач.
 
 - Broker: Redis
-- Celery Beat: повторяющиеся транзакции (00:00 UTC), обновление курсов (01:00 UTC)
+- Celery Beat: повторяющиеся транзакции (время из БД), обновление курсов (01:00 UTC)
 """
 
 from celery import Celery
 from celery.schedules import crontab
 
 from app.core.config import settings
+
+
+def get_recurring_task_schedule():
+    """
+    Получить расписание для задачи создания повторяющихся транзакций из БД.
+    Если настройки не найдены, используется 00:00 UTC по умолчанию.
+    """
+    try:
+        from sqlalchemy import create_engine, select
+        from app.models.app_setting import AppSetting
+
+        # Создаём синхронный engine для чтения настроек
+        sync_db_url = settings.DATABASE_URL.replace("+asyncpg", "")
+        engine = create_engine(sync_db_url, pool_pre_ping=True)
+
+        with engine.connect() as conn:
+            # Читаем настройки
+            hour_result = conn.execute(
+                select(AppSetting.value).where(AppSetting.key == "recurring_task_hour")
+            ).scalar()
+            minute_result = conn.execute(
+                select(AppSetting.value).where(
+                    AppSetting.key == "recurring_task_minute"
+                )
+            ).scalar()
+
+            hour = int(hour_result) if hour_result else 0
+            minute = int(minute_result) if minute_result else 0
+
+            # Валидация
+            hour = max(0, min(23, hour))
+            minute = max(0, min(59, minute))
+
+            return crontab(hour=hour, minute=minute)
+    except Exception as e:
+        # Если не удалось прочитать настройки, используем значение по умолчанию
+        print(f"Warning: Could not read task schedule from DB: {e}")
+        return crontab(hour=0, minute=0)
+
 
 celery_app = Celery(
     "finance_tracker",
@@ -33,11 +72,11 @@ celery_app.conf.update(
     worker_prefetch_multiplier=1,
 )
 
-# Расписание Celery Beat
+# Расписание Celery Beat (динамически читается из БД при старте)
 celery_app.conf.beat_schedule = {
     "create-recurring-transactions": {
         "task": "app.tasks.recurring_tasks.create_recurring_transactions_task",
-        "schedule": crontab(hour=0, minute=0),  # Ежедневно 00:00 UTC
+        "schedule": get_recurring_task_schedule(),  # Читается из БД
     },
     "update-exchange-rates": {
         "task": "app.tasks.currency_tasks.update_exchange_rates_task",
