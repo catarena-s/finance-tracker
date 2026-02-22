@@ -9,7 +9,13 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
-import { CHART_COLORS, chartGrid, chartAnimation, tooltipDefaults, formatCurrencyTooltip } from "@/lib/chartConfig";
+import {
+  CHART_COLORS,
+  chartGrid,
+  chartAnimation,
+  tooltipDefaults,
+  formatCurrencyTooltip,
+} from "@/lib/chartConfig";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -92,7 +98,9 @@ export function TopCategoriesWidget({
           ticks: {
             color: CHART_COLORS.text,
             callback: (value: unknown): string =>
-              typeof value === "number" ? formatCurrencyTooltip(value) : String(value ?? ""),
+              typeof value === "number"
+                ? formatCurrencyTooltip(value)
+                : String(value ?? ""),
           },
         },
         y: {
@@ -121,7 +129,9 @@ export function TopCategoriesWidget({
     return (
       <Card>
         <CardContent className="p-6">
-          <h2 className="text-xl font-semibold mb-4 text-foreground">Топ категорий расходов</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">
+            Топ категорий расходов
+          </h2>
           <div className="h-64 flex items-center justify-center text-muted-foreground">
             Нет данных для отображения
           </div>
@@ -133,7 +143,9 @@ export function TopCategoriesWidget({
   return (
     <Card>
       <CardContent className="p-6">
-        <h2 className="text-xl font-semibold mb-4 text-foreground">Топ {limit} категорий расходов</h2>
+        <h2 className="text-xl font-semibold mb-4 text-foreground">
+          Топ {limit} категорий расходов
+        </h2>
         <div className="h-64 sm:h-80">
           <Bar data={chartData} options={options} />
         </div>
@@ -148,7 +160,9 @@ export function TopCategoriesWidget({
                 <span className="font-medium text-foreground">
                   {formatCurrencyTooltip(cat.totalAmount)}
                 </span>
-                <span className="text-muted-foreground">({cat.percentage.toFixed(1)}%)</span>
+                <span className="text-muted-foreground">
+                  ({cat.percentage.toFixed(1)}%)
+                </span>
               </div>
             </div>
           ))}

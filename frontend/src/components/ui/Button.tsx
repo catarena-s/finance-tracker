@@ -13,7 +13,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-const variantMap: Record<ButtonVariant, "default" | "secondary" | "destructive" | "ghost" | "outline" | "link"> = {
+const variantMap: Record<
+  ButtonVariant,
+  "default" | "secondary" | "destructive" | "ghost" | "outline" | "link"
+> = {
   primary: "default",
   secondary: "secondary",
   danger: "destructive",

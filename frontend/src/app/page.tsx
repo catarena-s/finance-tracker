@@ -26,10 +26,10 @@ export default function HomePage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
                   <ArrowLeftRight className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-foreground">Транзакции</h3>
-                <p className="text-muted-foreground mb-4">
-                  Учёт доходов и расходов
-                </p>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">
+                  Транзакции
+                </h3>
+                <p className="text-muted-foreground mb-4">Учёт доходов и расходов</p>
                 <Link href="/transactions" className={linkButtonClass}>
                   Перейти
                 </Link>
@@ -41,7 +41,9 @@ export default function HomePage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
                   <FolderTree className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-foreground">Категории</h3>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">
+                  Категории
+                </h3>
                 <p className="text-muted-foreground mb-4">
                   Организуйте учёт по категориям
                 </p>
@@ -57,9 +59,7 @@ export default function HomePage() {
                   <PiggyBank className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-foreground">Бюджеты</h3>
-                <p className="text-muted-foreground mb-4">
-                  Контроль лимитов расходов
-                </p>
+                <p className="text-muted-foreground mb-4">Контроль лимитов расходов</p>
                 <Link href="/budgets" className={linkButtonClass}>
                   Перейти
                 </Link>
@@ -69,7 +69,9 @@ export default function HomePage() {
 
           <Card className="shadow-fintech text-left">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-semibold mb-6 text-foreground">Возможности</h2>
+              <h2 className="text-2xl font-semibold mb-6 text-foreground">
+                Возможности
+              </h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {[
                   {

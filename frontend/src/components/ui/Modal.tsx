@@ -1,10 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/shadcn/dialog";
+import { Dialog, DialogContent } from "@/components/ui/shadcn/dialog";
 import { cn } from "@/lib/utils";
 
 interface ModalProps {

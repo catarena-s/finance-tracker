@@ -11,7 +11,13 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
-import { CHART_COLORS, chartGrid, chartAnimation, tooltipDefaults, formatCurrencyTooltip } from "@/lib/chartConfig";
+import {
+  CHART_COLORS,
+  chartGrid,
+  chartAnimation,
+  tooltipDefaults,
+  formatCurrencyTooltip,
+} from "@/lib/chartConfig";
 
 ChartJS.register(
   CategoryScale,
@@ -86,10 +92,15 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
           padding: tooltipDefaults.padding,
           cornerRadius: tooltipDefaults.cornerRadius,
           callbacks: {
-            label: (context: { dataset: { label?: string }; parsed: { y: number | null } }) => {
+            label: (context: {
+              dataset: { label?: string };
+              parsed: { y: number | null };
+            }) => {
               const label = context.dataset.label || "";
               const value = context.parsed.y;
-              return label && value != null ? `${label}: ${formatCurrencyTooltip(value)}` : label || "";
+              return label && value != null
+                ? `${label}: ${formatCurrencyTooltip(value)}`
+                : label || "";
             },
           },
         },
@@ -105,7 +116,9 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
           ticks: {
             color: CHART_COLORS.text,
             callback: (value: unknown): string =>
-              typeof value === "number" ? formatCurrencyTooltip(value) : String(value ?? ""),
+              typeof value === "number"
+                ? formatCurrencyTooltip(value)
+                : String(value ?? ""),
           },
         },
       },
@@ -133,7 +146,9 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
     return (
       <Card>
         <CardContent className="p-6">
-          <h2 className="text-xl font-semibold mb-4 text-foreground">Доходы и расходы</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">
+            Доходы и расходы
+          </h2>
           <div className="h-64 flex items-center justify-center text-muted-foreground">
             Нет данных для отображения
           </div>

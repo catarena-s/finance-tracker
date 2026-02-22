@@ -51,7 +51,11 @@ export function AppSidebar() {
             className={linkClass(item.href)}
             onClick={() => setMobileOpen(false)}
           >
-            {Icon ? <Icon className="h-5 w-5 shrink-0" /> : <span className="text-lg">💰</span>}
+            {Icon ? (
+              <Icon className="h-5 w-5 shrink-0" />
+            ) : (
+              <span className="text-lg">💰</span>
+            )}
             {item.label}
           </Link>
         );
@@ -88,7 +92,11 @@ export function AppSidebar() {
         )}
       >
         <div className="flex h-16 items-center justify-between border-b border-border px-4 md:justify-center">
-          <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
+          <Link
+            href="/"
+            className="flex items-center gap-2"
+            onClick={() => setMobileOpen(false)}
+          >
             <span className="text-2xl">💰</span>
             <span className="font-semibold text-foreground">Финансы</span>
           </Link>

@@ -35,7 +35,11 @@ export function SummaryCards({
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        role="status"
+        aria-label="Загрузка"
+      >
         {[...Array(3)].map((_, index) => (
           <Card key={index}>
             <CardContent className="p-6">
@@ -86,7 +90,9 @@ export function SummaryCards({
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">Расходы</p>
+                <p className="text-sm font-medium text-muted-foreground mb-1">
+                  Расходы
+                </p>
                 <p className="text-3xl font-semibold text-destructive">
                   {formatAmount(totalExpense)}
                 </p>
@@ -161,9 +167,7 @@ export function SummaryCards({
               )
               .map(([currency, rate], index) => (
                 <React.Fragment key={currency}>
-                  {index > 0 && (
-                    <span className="text-muted-foreground/50"> • </span>
-                  )}
+                  {index > 0 && <span className="text-muted-foreground/50"> • </span>}
                   <span className="text-muted-foreground">
                     {currency} = ₽{rate.toFixed(2)}
                   </span>

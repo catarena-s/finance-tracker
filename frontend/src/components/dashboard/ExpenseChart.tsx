@@ -12,7 +12,13 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
-import { CHART_COLORS, chartGrid, chartAnimation, tooltipDefaults, formatCurrencyTooltip } from "@/lib/chartConfig";
+import {
+  CHART_COLORS,
+  chartGrid,
+  chartAnimation,
+  tooltipDefaults,
+  formatCurrencyTooltip,
+} from "@/lib/chartConfig";
 
 ChartJS.register(
   CategoryScale,
@@ -74,10 +80,15 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
           padding: tooltipDefaults.padding,
           cornerRadius: tooltipDefaults.cornerRadius,
           callbacks: {
-            label: (context: { dataset: { label?: string }; parsed: { y: number | null } }) => {
+            label: (context: {
+              dataset: { label?: string };
+              parsed: { y: number | null };
+            }) => {
               const label = context.dataset.label || "";
               const value = context.parsed.y;
-              return label && value != null ? `${label}: ${formatCurrencyTooltip(value)}` : label || "";
+              return label && value != null
+                ? `${label}: ${formatCurrencyTooltip(value)}`
+                : label || "";
             },
           },
         },
@@ -93,7 +104,9 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
           ticks: {
             color: CHART_COLORS.text,
             callback: (value: unknown): string =>
-              typeof value === "number" ? formatCurrencyTooltip(value) : String(value ?? ""),
+              typeof value === "number"
+                ? formatCurrencyTooltip(value)
+                : String(value ?? ""),
           },
         },
       },
