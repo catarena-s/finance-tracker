@@ -31,8 +31,11 @@ export function CSVPreview({ rows, mapping, maxRows = 10 }: CSVPreviewProps) {
       <table className="min-w-full text-sm">
         <thead className="bg-gray-100">
           <tr>
-            {columns.map((col) => (
-              <th key={col} className="px-3 py-2 text-left font-medium text-gray-700">
+            {columns.map((col, colIndex) => (
+              <th
+                key={`${col}-${colIndex}`}
+                className="px-3 py-2 text-left font-medium text-gray-700"
+              >
                 {col}
               </th>
             ))}
@@ -41,8 +44,8 @@ export function CSVPreview({ rows, mapping, maxRows = 10 }: CSVPreviewProps) {
         <tbody>
           {display.map((row, i) => (
             <tr key={i} className="border-t border-gray-200">
-              {columns.map((col) => (
-                <td key={col} className="px-3 py-2 text-gray-900">
+              {columns.map((col, colIndex) => (
+                <td key={`${col}-${colIndex}`} className="px-3 py-2 text-gray-900">
                   {row[col] ?? ""}
                 </td>
               ))}

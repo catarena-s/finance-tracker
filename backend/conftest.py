@@ -5,7 +5,6 @@ Pytest configuration and fixtures
 import os
 from typing import AsyncGenerator
 
-import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.pool import NullPool

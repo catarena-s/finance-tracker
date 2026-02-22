@@ -27,7 +27,9 @@ def celery_eager():
 
 def test_import_csv_task_returns_task_id_and_status():
     """Задача импорта CSV возвращает task_id и статус; _run_import вызывается."""
-    with patch("app.tasks.csv_tasks._run_import", new_callable=AsyncMock) as mock_import:
+    with patch(
+        "app.tasks.csv_tasks._run_import", new_callable=AsyncMock
+    ) as mock_import:
         mock_import.return_value = None
         result = import_csv_task.apply(
             args=(
@@ -48,7 +50,9 @@ def test_import_csv_task_returns_task_id_and_status():
 
 def test_import_csv_task_propagates_exception():
     """При ошибке в _run_import исключение пробрасывается."""
-    with patch("app.tasks.csv_tasks._run_import", new_callable=AsyncMock) as mock_import:
+    with patch(
+        "app.tasks.csv_tasks._run_import", new_callable=AsyncMock
+    ) as mock_import:
         mock_import.side_effect = RuntimeError("DB error")
         with pytest.raises(RuntimeError, match="DB error"):
             import_csv_task.apply(
@@ -70,7 +74,11 @@ def test_create_recurring_transactions_task_returns_dict():
     with patch(
         "app.tasks.recurring_tasks._run_recurring", new_callable=AsyncMock
     ) as mock_recurring:
-        mock_recurring.return_value = {"created_count": 0, "error_count": 0, "errors": []}
+        mock_recurring.return_value = {
+            "created_count": 0,
+            "error_count": 0,
+            "errors": [],
+        }
         result = create_recurring_transactions_task.apply().get()
         assert result["created_count"] == 0
         assert "errors" in result
