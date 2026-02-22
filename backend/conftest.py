@@ -14,19 +14,20 @@ from app.models.base import Base
 
 # Test database URL - always use test database
 # Priority:
-# 1. If DATABASE_URL is set (CI/CD) - use it as is (already points to test DB)
-# 2. If DATABASE_HOST=database (Docker) - use internal port 5432
+# 1. If TEST_DATABASE_URL is explicitly set - use it
+# 2. If DATABASE_HOST=database (Docker) - create test DB name
 # 3. Otherwise (local) - use localhost with port 5433
-if "DATABASE_URL" in os.environ:
-    # CI/CD environment - use provided DATABASE_URL as is
-    TEST_DATABASE_URL = os.getenv("DATABASE_URL", "")
+if "TEST_DATABASE_URL" in os.environ:
+    # Explicitly set test database URL
+    TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL", "")
 elif os.getenv("DATABASE_HOST") == "database":
-    # Running inside Docker - use internal port 5432
+    # Running inside Docker - use test database on internal port
+    # IMPORTANT: This should use a separate test database, not production!
     TEST_DATABASE_URL = (
         "postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker_test"
     )
 else:
-    # Running locally - use exposed port 5433
+    # Running locally - use exposed port 5433 with test database
     TEST_DATABASE_URL = (
         "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test"
     )

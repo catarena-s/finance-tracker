@@ -155,10 +155,10 @@ export default function TransactionsPage() {
         <TransactionTable
           transactions={transactions ?? []}
           loading={loading}
-          currentPage={transactionsPagination?.page ?? currentPage}
+          currentPage={currentPage}
           totalPages={transactionsPagination?.totalPages ?? 1}
           totalItems={transactionsPagination?.totalItems ?? 0}
-          pageSize={transactionsPagination?.pageSize ?? pageSize}
+          pageSize={pageSize}
           onPageChange={setCurrentPage}
           onEdit={handleEdit}
           onDelete={handleDeleteClick}
