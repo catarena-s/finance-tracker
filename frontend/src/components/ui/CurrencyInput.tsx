@@ -100,9 +100,9 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
           inputMode="decimal"
           className="pl-8"
         />
-        <span 
+        <span
           className={`absolute left-3 text-gray-500 pointer-events-none ${
-            label ? 'top-[2.125rem]' : 'top-[0.625rem]'
+            label ? "top-[2.125rem]" : "top-[0.625rem]"
           }`}
         >
           {symbol}
