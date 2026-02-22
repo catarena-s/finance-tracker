@@ -79,7 +79,7 @@ export function TopCategoriesWidget({
             const category = categories[context.dataIndex];
             const amount = new Intl.NumberFormat("ru-RU", {
               style: "currency",
-              currency: "USD",
+              currency: "RUB",
             }).format(context.parsed.x);
             const percentage = category?.percentage?.toFixed(1) || "0";
             return `${amount} (${percentage}%)`;
@@ -94,7 +94,7 @@ export function TopCategoriesWidget({
           callback: function (value: any) {
             return new Intl.NumberFormat("ru-RU", {
               style: "currency",
-              currency: "USD",
+              currency: "RUB",
               minimumFractionDigits: 0,
             }).format(value);
           },
@@ -142,7 +142,7 @@ export function TopCategoriesWidget({
               <span className="font-medium">
                 {new Intl.NumberFormat("ru-RU", {
                   style: "currency",
-                  currency: "USD",
+                  currency: "RUB",
                 }).format(cat.totalAmount)}
               </span>
               <span className="text-gray-500">({cat.percentage.toFixed(1)}%)</span>

@@ -23,6 +23,12 @@ import { analyticsApi } from "@/services/api/analytics";
 interface AppContextValue {
   // State
   transactions: Transaction[];
+  transactionsPagination: {
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalItems: number;
+  } | null;
   categories: Category[];
   budgets: Budget[];
   summary: SummaryData | null;
@@ -76,6 +82,12 @@ const AppContext = createContext<AppContextValue | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionsPagination, setTransactionsPagination] = useState<{
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalItems: number;
+  } | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [budgets, setBudgets] = useState<Budget[]>([]);
   const [summary, setSummary] = useState<SummaryData | null>(null);
@@ -89,8 +101,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const data = await transactionApi.getAll(filters);
-      setTransactions(data.data);
+      const response = await transactionApi.getAll(filters);
+      setTransactions(response.data);
+      setTransactionsPagination(response.pagination);
     } catch (err: any) {
       setError(err.message || "Failed to load transactions");
       throw err;
@@ -413,7 +426,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         startDate ||
         new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
-      const data = await analyticsApi.getSummary({ startDate: start, endDate: end });
+      const data = await analyticsApi.getSummary({
+        startDate: start,
+        endDate: end,
+        currency: "RUB",
+      });
       setSummary(data);
     } catch (err: any) {
       setError(err.message || "Failed to load summary");
@@ -443,6 +460,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           period,
           startDate: start,
           endDate: end,
+          currency: "RUB",
         });
         setTrends(data);
       } catch (err: any) {
@@ -495,6 +513,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const value: AppContextValue = {
     transactions,
+    transactionsPagination,
     categories,
     budgets,
     summary,

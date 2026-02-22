@@ -15,6 +15,7 @@ import { Modal, Button } from "@/components/ui";
 export default function TransactionsPage() {
   const {
     transactions,
+    transactionsPagination,
     categories,
     loading,
     error,
@@ -40,8 +41,11 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     loadCategories();
+  }, [loadCategories]);
+
+  useEffect(() => {
     loadTransactions({ page: currentPage, pageSize, ...filters });
-  }, [currentPage, filters, loadCategories, loadTransactions]);
+  }, [currentPage, filters, loadTransactions]);
 
   const handleFilterChange = (newFilters: TransactionFilterValues) => {
     setFilters(newFilters);
@@ -91,8 +95,6 @@ export default function TransactionsPage() {
       // Error is handled in context
     }
   };
-
-  const totalPages = Math.ceil((transactions?.length || 0) / pageSize);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -144,10 +146,10 @@ export default function TransactionsPage() {
         <TransactionList
           transactions={transactions}
           loading={loading}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={transactions?.length || 0}
-          pageSize={pageSize}
+          currentPage={transactionsPagination?.page || currentPage}
+          totalPages={transactionsPagination?.totalPages || 1}
+          totalItems={transactionsPagination?.totalItems || 0}
+          pageSize={transactionsPagination?.pageSize || pageSize}
           onPageChange={setCurrentPage}
           onEdit={handleEdit}
           onDelete={handleDeleteClick}

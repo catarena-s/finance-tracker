@@ -48,14 +48,19 @@ finance-tracker/
 │   ├── migrations/    # Alembic миграции
 │   └── seeds/         # Seed данные
 ├── docs/              # 📚 Документация проекта
+│   ├── reports/       # Отчеты о разработке и тестировании
+│   │   ├── IMPLEMENTATION_ANALYSIS.md
+│   │   ├── INTEGRATION_TEST_REPORT.md
+│   │   ├── REFACTORING_REPORT.md
+│   │   ├── REFACTORING_SUMMARY.md
+│   │   ├── REQUIREMENTS_COMPLIANCE.md
+│   │   ├── VERIFICATION_REPORT.md
+│   │   └── WARNINGS_ANALYSIS.md
 │   ├── ADMIN_GUIDE.md
 │   ├── ARCHITECTURE.md
 │   ├── DATABASE_SCHEMA.md
 │   ├── FRONTEND_TESTING_GUIDE.md
-│   ├── INTEGRATION_TEST_REPORT.md
-│   ├── QUICKSTART.md
-│   ├── REPORT.md
-│   └── WARNINGS_ANALYSIS.md
+│   └── QUICKSTART.md
 ├── frontend/          # Next.js приложение
 │   ├── src/
 │   │   ├── app/       # Next.js App Router
@@ -69,6 +74,9 @@ finance-tracker/
 │   ├── init.bat       # Инициализация (Windows)
 │   └── init.sh        # Инициализация (Linux/Mac)
 ├── .github/workflows/ # CI/CD конфигурация
+├── CHANGELOG.md       # История изменений
+├── CONTRIBUTING.md    # Руководство для контрибьюторов
+├── REPORT.md          # Отчет о разработке проекта
 └── docker-compose.yml # Docker Compose
 ```
 
