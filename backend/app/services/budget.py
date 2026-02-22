@@ -44,6 +44,7 @@ class BudgetService:
         budget_data = {
             "category_id": data.category_id,
             "amount": data.amount,
+            "currency": data.currency,
             "period": data.period.value,  # Преобразуем Enum в строку
             "start_date": data.start_date,
             "end_date": data.end_date,

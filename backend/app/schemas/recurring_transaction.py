@@ -6,7 +6,7 @@ from enum import Enum
 from typing import Any
 import uuid
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class FrequencyType(str, Enum):
@@ -19,18 +19,20 @@ class FrequencyType(str, Enum):
 
 
 class RecurringTransactionBase(BaseModel):
-    """Базовая схема шаблона повторяющейся транзакции"""
+    """Базовая схема шаблона повторяющейся транзакции. Принимает camelCase и snake_case."""
+
+    model_config = ConfigDict(populate_by_name=True)
 
     name: str = Field(..., min_length=1, max_length=200)
     amount: Decimal = Field(..., gt=0)
     currency: str = Field(default="USD", min_length=3, max_length=3)
-    category_id: uuid.UUID
+    category_id: uuid.UUID = Field(..., alias="categoryId")
     description: str | None = None
     type: str = Field(..., pattern="^(income|expense)$")
     frequency: FrequencyType
     interval: int = Field(..., gt=0)
-    start_date: date
-    end_date: date | None = None
+    start_date: date = Field(..., alias="startDate")
+    end_date: date | None = Field(None, alias="endDate")
 
     @field_validator("end_date")
     @classmethod
@@ -49,28 +51,30 @@ class RecurringTransactionCreate(RecurringTransactionBase):
 
 
 class RecurringTransactionUpdate(BaseModel):
-    """Схема для обновления шаблона"""
+    """Схема для обновления шаблона. Принимает camelCase и snake_case."""
+
+    model_config = ConfigDict(populate_by_name=True)
 
     name: str | None = Field(None, min_length=1, max_length=200)
     amount: Decimal | None = None
     currency: str | None = Field(None, min_length=3, max_length=3)
-    category_id: uuid.UUID | None = None
+    category_id: uuid.UUID | None = Field(None, alias="categoryId")
     description: str | None = None
     type: str | None = Field(None, pattern="^(income|expense)$")
     frequency: FrequencyType | None = None
     interval: int | None = Field(None, gt=0)
-    start_date: date | None = None
-    end_date: date | None = None
-    is_active: bool | None = None
+    start_date: date | None = Field(None, alias="startDate")
+    end_date: date | None = Field(None, alias="endDate")
+    is_active: bool | None = Field(None, alias="isActive")
 
 
 class RecurringTransaction(RecurringTransactionBase):
     """Схема шаблона с полными данными"""
 
-    id: uuid.UUID
-    next_occurrence: date
-    is_active: bool
-    created_at: datetime
-    updated_at: datetime
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
-    model_config = {"from_attributes": True}
+    id: uuid.UUID
+    next_occurrence: date = Field(..., alias="nextOccurrence")
+    is_active: bool = Field(..., alias="isActive")
+    created_at: datetime = Field(..., alias="createdAt")
+    updated_at: datetime = Field(..., alias="updatedAt")

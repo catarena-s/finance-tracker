@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Integration Tests - Data Loading
  * 
  * Tests data loading on Dashboard and Budgets pages:
@@ -34,7 +34,7 @@ describe('Integration Tests - Data Loading', () => {
     it('should load summary data successfully', async () => {
       const mockSummary = {
         totalIncome: 5000.00,
-        totalExpenses: 3000.00,
+        totalExpense: 3000.00,
         balance: 2000.00,
         transactionCount: 25,
       };
@@ -52,7 +52,7 @@ describe('Integration Tests - Data Loading', () => {
           <div>
             <div data-testid="loading">{loading ? 'loading' : 'idle'}</div>
             <div data-testid="total-income">{summary?.totalIncome || 0}</div>
-            <div data-testid="total-expenses">{summary?.totalExpenses || 0}</div>
+            <div data-testid="total-expenses">{summary?.totalExpense || 0}</div>
             <div data-testid="balance">{summary?.balance || 0}</div>
           </div>
         );
@@ -198,7 +198,7 @@ describe('Integration Tests - Data Loading', () => {
     it('should load all dashboard data concurrently', async () => {
       const mockSummary = {
         totalIncome: 5000.00,
-        totalExpenses: 3000.00,
+        totalExpense: 3000.00,
         balance: 2000.00,
         transactionCount: 25,
       };
@@ -317,6 +317,7 @@ describe('Integration Tests - Data Loading', () => {
           id: 'budget-1',
           categoryId: 'cat-1',
           amount: 15000.00,
+          currency: 'RUB',
           period: 'monthly' as const,
           startDate: '2024-02-01',
           endDate: '2024-02-29',
@@ -327,6 +328,7 @@ describe('Integration Tests - Data Loading', () => {
           id: 'budget-2',
           categoryId: 'cat-2',
           amount: 5000.00,
+          currency: 'RUB',
           period: 'monthly' as const,
           startDate: '2024-02-01',
           endDate: '2024-02-29',
@@ -398,6 +400,7 @@ describe('Integration Tests - Data Loading', () => {
           id: 'budget-1',
           categoryId: 'cat-1',
           amount: 15000.00,
+          currency: 'RUB',
           period: 'monthly' as const,
           startDate: '2024-02-01',
           endDate: '2024-02-29',
@@ -408,6 +411,7 @@ describe('Integration Tests - Data Loading', () => {
           id: 'budget-2',
           categoryId: 'cat-2',
           amount: 5000.00,
+          currency: 'RUB',
           period: 'monthly' as const,
           startDate: '2024-02-01',
           endDate: '2024-02-29',
@@ -482,6 +486,7 @@ describe('Integration Tests - Data Loading', () => {
           id: 'budget-1',
           categoryId: 'cat-1',
           amount: 15000.00,
+          currency: 'RUB',
           period: 'monthly' as const,
           startDate: '2024-02-01',
           endDate: '2024-02-29',
@@ -492,6 +497,7 @@ describe('Integration Tests - Data Loading', () => {
           id: 'budget-2',
           categoryId: 'cat-999', // Category doesn't exist
           amount: 5000.00,
+          currency: 'RUB',
           period: 'monthly' as const,
           startDate: '2024-02-01',
           endDate: '2024-02-29',
@@ -609,3 +615,5 @@ describe('Integration Tests - Data Loading', () => {
     });
   });
 });
+
+

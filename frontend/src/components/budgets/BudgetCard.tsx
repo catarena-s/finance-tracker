@@ -36,6 +36,7 @@ export function BudgetCard({
   };
 
   const periodLabel = budget.period === "monthly" ? "Месячный" : "Годовой";
+  const currency = budget.currency ?? "USD";
 
   return (
     <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
@@ -100,13 +101,13 @@ export function BudgetCard({
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Бюджет:</span>
-          <span className="font-medium">{formatCurrency(budgetAmount)}</span>
+          <span className="font-medium">{formatCurrency(budgetAmount, currency)}</span>
         </div>
 
         <div className="flex justify-between text-sm">
           <span className="text-gray-600">Потрачено:</span>
           <span className={`font-medium ${getTextColor()}`}>
-            {formatCurrency(spentAmount)}
+            {formatCurrency(spentAmount, currency)}
           </span>
         </div>
 
@@ -115,7 +116,7 @@ export function BudgetCard({
           <span
             className={`font-medium ${remaining >= 0 ? "text-gray-900" : "text-red-600"}`}
           >
-            {formatCurrency(Math.abs(remaining))}
+            {formatCurrency(Math.abs(remaining), currency)}
             {remaining < 0 && " (превышение)"}
           </span>
         </div>

@@ -36,7 +36,7 @@ async def test_create_transaction_success(client: AsyncClient):
     data = response.json()
     assert float(data["amount"]) == 1500.50
     assert data["type"] == "expense"
-    assert data["category_id"] == category_id
+    assert data["categoryId"] == category_id
     assert "id" in data
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,11 +27,7 @@ interface TrendChartProps {
   loading?: boolean;
 }
 
-type Period = "week" | "month" | "year";
-
 export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps) {
-  const [period, setPeriod] = useState<Period>("month");
-
   const chartData = useMemo(() => {
     if (
       (!incomeData || incomeData.length === 0) &&
@@ -137,41 +133,7 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Доходы vs Расходы</h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setPeriod("week")}
-            className={`px-3 py-1 rounded text-sm ${
-              period === "week"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Неделя
-          </button>
-          <button
-            onClick={() => setPeriod("month")}
-            className={`px-3 py-1 rounded text-sm ${
-              period === "month"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Месяц
-          </button>
-          <button
-            onClick={() => setPeriod("year")}
-            className={`px-3 py-1 rounded text-sm ${
-              period === "year"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            Год
-          </button>
-        </div>
-      </div>
+      <h2 className="text-xl font-semibold mb-4">Доходы vs Расходы</h2>
       <div className="h-64 sm:h-80">
         <Line data={chartData} options={options} />
       </div>

@@ -339,6 +339,7 @@ describe('Integration Tests - User Flows', () => {
         id: 'budget-1',
         categoryId: 'cat-1',
         amount: 500.00,
+        currency: 'RUB',
         period: 'monthly' as const,
         startDate: '2024-01-01',
         endDate: '2024-01-31',
@@ -359,6 +360,7 @@ describe('Integration Tests - User Flows', () => {
                 createBudget({
                   categoryId: 'cat-1',
                   amount: 500.00,
+                  currency: 'RUB',
                   period: 'monthly',
                   startDate: '2024-01-01',
                   endDate: '2024-01-31',
@@ -392,6 +394,7 @@ describe('Integration Tests - User Flows', () => {
         id: 'budget-1',
         categoryId: 'cat-1',
         amount: 500.00,
+        currency: 'RUB',
         period: 'monthly' as const,
         startDate: '2024-01-01',
         endDate: '2024-01-31',

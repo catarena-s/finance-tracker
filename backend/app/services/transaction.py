@@ -1,6 +1,6 @@
 """Сервис для работы с транзакциями"""
 
-from typing import Dict
+from typing import Dict, TYPE_CHECKING
 from datetime import date
 from decimal import Decimal
 import uuid
@@ -12,15 +12,22 @@ from app.repositories.category import CategoryRepository
 from app.schemas.transaction import TransactionCreate, TransactionUpdate, Transaction
 from app.core.exceptions import NotFoundException
 
+if TYPE_CHECKING:
+    from app.repositories.recurring_transaction import RecurringTransactionRepository
+
 
 class TransactionService:
     """Сервис для управления транзакциями"""
 
     def __init__(
-        self, transaction_repo: TransactionRepository, category_repo: CategoryRepository
+        self,
+        transaction_repo: TransactionRepository,
+        category_repo: CategoryRepository,
+        recurring_repo: "RecurringTransactionRepository | None" = None,
     ):
         self.transaction_repo = transaction_repo
         self.category_repo = category_repo
+        self.recurring_repo = recurring_repo
 
     async def create_transaction(
         self, data: TransactionCreate, recurring_template_id: uuid.UUID | None = None
@@ -49,6 +56,54 @@ class TransactionService:
             }
             if recurring_template_id is not None:
                 transaction_data["recurring_template_id"] = recurring_template_id
+
+            # Если is_recurring=True и есть recurring_pattern - создать шаблон
+            elif (
+                data.is_recurring
+                and data.recurring_pattern is not None
+                and self.recurring_repo is not None
+            ):
+                pattern = data.recurring_pattern
+
+                # Вычислить следующую дату выполнения (после даты транзакции)
+                from dateutil.relativedelta import relativedelta
+                from datetime import timedelta
+
+                frequency = pattern.frequency
+                interval = pattern.interval
+                start_date = data.transaction_date
+
+                # Вычислить next_occurrence как следующую дату ПОСЛЕ start_date
+                if frequency == "daily":
+                    next_occurrence = start_date + timedelta(days=interval)
+                elif frequency == "weekly":
+                    next_occurrence = start_date + timedelta(weeks=interval)
+                elif frequency == "monthly":
+                    next_occurrence = start_date + relativedelta(months=interval)
+                elif frequency == "yearly":
+                    next_occurrence = start_date + relativedelta(years=interval)
+                else:
+                    next_occurrence = start_date + relativedelta(months=1)
+
+                # Создать шаблон повторяющейся транзакции
+                template_data = {
+                    "name": data.description or "Повторяющаяся транзакция",
+                    "amount": data.amount,
+                    "currency": data.currency,
+                    "category_id": data.category_id,
+                    "type": data.type.value,
+                    "frequency": frequency,
+                    "interval": interval,
+                    "start_date": start_date,
+                    "end_date": (
+                        pattern.end_date if hasattr(pattern, "end_date") else None
+                    ),
+                    "next_occurrence": next_occurrence,
+                    "is_active": True,
+                }
+
+                template = await self.recurring_repo.create(**template_data)
+                transaction_data["recurring_template_id"] = template.id
 
             transaction = await self.transaction_repo.create(**transaction_data)
             return Transaction.model_validate(transaction)
@@ -116,10 +171,80 @@ class TransactionService:
             if not category:
                 raise NotFoundException("Category not found")
 
+        # Подготовить данные для обновления
+        update_data = data.model_dump(exclude_unset=True, by_alias=False)
+
+        # Преобразовать recurring_pattern в dict если он есть
+        if (
+            "recurring_pattern" in update_data
+            and update_data["recurring_pattern"] is not None
+        ):
+            update_data["recurring_pattern"] = update_data["recurring_pattern"]
+
+        # Преобразовать type в строку если он есть
+        if "type" in update_data and update_data["type"] is not None:
+            update_data["type"] = (
+                update_data["type"].value
+                if hasattr(update_data["type"], "value")
+                else update_data["type"]
+            )
+
+        # Если устанавливается is_recurring=True и есть recurring_pattern - создать шаблон
+        if (
+            update_data.get("is_recurring") is True
+            and update_data.get("recurring_pattern") is not None
+            and self.recurring_repo is not None
+            and existing.recurring_template_id is None  # Только если шаблона ещё нет
+        ):
+            pattern = update_data["recurring_pattern"]
+            if not isinstance(pattern, dict):
+                pattern = (
+                    pattern.model_dump()
+                    if hasattr(pattern, "model_dump")
+                    else dict(pattern)
+                )
+
+            # Вычислить следующую дату выполнения (после даты транзакции)
+            from dateutil.relativedelta import relativedelta
+            from datetime import timedelta
+
+            frequency = pattern.get("frequency", "monthly")
+            interval = pattern.get("interval", 1)
+            start_date = existing.transaction_date
+
+            # Вычислить next_occurrence как следующую дату ПОСЛЕ start_date
+            if frequency == "daily":
+                next_occurrence = start_date + timedelta(days=interval)
+            elif frequency == "weekly":
+                next_occurrence = start_date + timedelta(weeks=interval)
+            elif frequency == "monthly":
+                next_occurrence = start_date + relativedelta(months=interval)
+            elif frequency == "yearly":
+                next_occurrence = start_date + relativedelta(years=interval)
+            else:
+                next_occurrence = start_date + relativedelta(months=1)
+
+            # Создать шаблон повторяющейся транзакции
+            template_data = {
+                "name": existing.description
+                or f"Повторяющаяся транзакция #{existing.id}",
+                "amount": existing.amount,
+                "currency": existing.currency,
+                "category_id": existing.category_id,
+                "type": existing.type,
+                "frequency": frequency,
+                "interval": interval,
+                "start_date": start_date,
+                "end_date": pattern.get("end_date"),
+                "next_occurrence": next_occurrence,
+                "is_active": True,
+            }
+
+            template = await self.recurring_repo.create(**template_data)
+            update_data["recurring_template_id"] = template.id
+
         # Обновить транзакцию
-        updated = await self.transaction_repo.update(
-            transaction_id, **data.model_dump(exclude_unset=True)
-        )
+        updated = await self.transaction_repo.update(transaction_id, update_data)
         return Transaction.model_validate(updated)
 
     async def delete_transaction(self, transaction_id: uuid.UUID) -> None:

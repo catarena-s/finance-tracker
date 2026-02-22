@@ -5,6 +5,7 @@ from decimal import Decimal
 from typing import List, Tuple
 from sqlalchemy import select, and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 import uuid
 
 from app.models.transaction import Transaction
@@ -16,6 +17,33 @@ class TransactionRepository(BaseRepository[Transaction]):
 
     def __init__(self, session: AsyncSession):
         super().__init__(Transaction, session)
+
+    async def create(self, **kwargs) -> Transaction:
+        """Создать транзакцию с загрузкой категории"""
+        transaction = await super().create(**kwargs)
+        # Перезагрузить с категорией
+        await self.session.refresh(transaction, ["category"])
+        return transaction
+
+    async def get_by_id(self, id: uuid.UUID) -> Transaction | None:
+        """Получить транзакцию по ID с загрузкой категории"""
+        result = await self.session.execute(
+            select(Transaction)
+            .options(selectinload(Transaction.category))
+            .where(Transaction.id == id)
+        )
+        return result.scalar_one_or_none()
+
+    async def update(self, id: uuid.UUID, data: dict) -> Transaction | None:
+        """Обновить транзакцию и вернуть с загруженной категорией"""
+        # Сначала обновляем через базовый метод
+        transaction = await super().update(id, **data)
+        if transaction is None:
+            return None
+
+        # Затем перезагружаем с категорией
+        await self.session.refresh(transaction, ["category"])
+        return transaction
 
     async def get_filtered(
         self,
@@ -29,8 +57,6 @@ class TransactionRepository(BaseRepository[Transaction]):
         limit: int = 100,
     ) -> Tuple[List[Transaction], int]:
         """Получить отфильтрованные транзакции с пагинацией"""
-        from sqlalchemy.orm import selectinload
-
         filters = []
 
         if start_date:
@@ -71,8 +97,6 @@ class TransactionRepository(BaseRepository[Transaction]):
         self, start_date: date, end_date: date
     ) -> List[Transaction]:
         """Получить транзакции за период"""
-        from sqlalchemy.orm import selectinload
-
         result = await self.session.execute(
             select(Transaction)
             .options(selectinload(Transaction.category))

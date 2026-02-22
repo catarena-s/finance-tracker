@@ -41,6 +41,7 @@ export interface Budget {
   id: string;
   categoryId: string;
   amount: number;
+  currency: string;
   period: BudgetPeriod;
   startDate: string;
   endDate: string;
@@ -60,11 +61,21 @@ export interface BudgetWithDetails extends Budget {
 }
 
 // Analytics types
+export interface SummaryByCurrency {
+  currency: string;
+  totalIncome: number;
+  totalExpense: number;
+  balance: number;
+}
+
 export interface SummaryData {
   totalIncome: number;
-  totalExpenses: number;
+  totalExpense: number;
   balance: number;
-  transactionCount: number;
+  displayCurrency?: string;
+  transactionCount?: number;
+  byCurrency?: SummaryByCurrency[];
+  currencyRates?: Record<string, number>;
 }
 
 export interface TrendData {

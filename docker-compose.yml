@@ -39,6 +39,7 @@ services:
     container_name: finance-tracker-backend
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
+      DATABASE_HOST: database
       CELERY_BROKER_URL: redis://redis:6379/0
       API_V1_PREFIX: /api/v1
       PROJECT_NAME: Finance Tracker API
@@ -63,6 +64,7 @@ services:
     container_name: finance-tracker-celery-worker
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
+      DATABASE_HOST: database
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
       backend:
@@ -82,6 +84,7 @@ services:
     container_name: finance-tracker-celery-beat
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@database:5432/finance_tracker
+      DATABASE_HOST: database
       CELERY_BROKER_URL: redis://redis:6379/0
     depends_on:
       celery_worker:

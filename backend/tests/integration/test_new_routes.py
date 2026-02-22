@@ -71,7 +71,7 @@ async def test_create_recurring_transaction(client: AsyncClient):
     assert data["name"] == "Netflix"
     assert data["frequency"] == "monthly"
     assert "id" in data
-    assert "next_occurrence" in data
+    assert "nextOccurrence" in data  # camelCase from schema
 
 
 @pytest.mark.integration

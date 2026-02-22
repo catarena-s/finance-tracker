@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Input, Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
 import type {
   RecurringTransaction,
@@ -37,7 +37,9 @@ export function RecurringTransactionForm({
     formState: { errors, isSubmitting },
     watch,
     setValue,
+    setError,
     reset,
+    control,
   } = useForm<RecurringFormData>({
     defaultValues: item
       ? {
@@ -56,7 +58,6 @@ export function RecurringTransactionForm({
           name: "",
           amount: 0,
           currency: "USD",
-          categoryId: "",
           description: "",
           type: "expense",
           frequency: "monthly",
@@ -72,10 +73,17 @@ export function RecurringTransactionForm({
   useEffect(() => {
     const current = watch("categoryId");
     const valid = filteredCategories.some((c) => c.id === current);
-    if (!valid && filteredCategories.length > 0) setValue("categoryId", "");
+    if (!valid && filteredCategories.length > 0) {
+      setValue("categoryId", "", { shouldValidate: false });
+    }
   }, [selectedType, filteredCategories, setValue, watch]);
 
   const handleFormSubmit = async (data: RecurringFormData) => {
+    // Проверяем, что categoryId не пустая строка и не undefined
+    if (!data.categoryId || data.categoryId.trim() === "") {
+      setError("categoryId", { type: "required", message: "Выберите категорию" });
+      return;
+    }
     await onSubmit(data);
     reset();
   };
@@ -120,14 +128,27 @@ export function RecurringTransactionForm({
           <option value="expense">Расход</option>
         </select>
       </div>
-      <Select
-        label="Категория"
-        options={filteredCategories.map((c) => ({ value: c.id, label: c.name }))}
-        value={watch("categoryId")}
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-          setValue("categoryId", e.target.value)
-        }
-        error={errors.categoryId?.message}
+      <Controller
+        name="categoryId"
+        control={control}
+        rules={{
+          required: "Выберите категорию",
+          validate: (value) => {
+            if (!value || value.trim() === "") {
+              return "Выберите категорию";
+            }
+            return true;
+          },
+        }}
+        render={({ field }) => (
+          <Select
+            label="Категория"
+            placeholder="Выберите категорию"
+            options={filteredCategories.map((c) => ({ value: c.id, label: c.name }))}
+            {...field}
+            error={errors.categoryId?.message}
+          />
+        )}
       />
       <Input label="Описание" {...register("description")} />
       <div>

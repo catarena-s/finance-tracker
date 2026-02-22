@@ -38,6 +38,7 @@ class Budget(Base, UUIDMixin, TimestampMixin):
     amount: Mapped[Decimal] = mapped_column(
         Numeric(precision=10, scale=2), nullable=False
     )
+    currency: Mapped[str] = mapped_column(String(3), nullable=False, default="USD")
     period: Mapped[str] = mapped_column(String(10), nullable=False)
     start_date: Mapped[date] = mapped_column(Date, nullable=False)
     end_date: Mapped[date] = mapped_column(Date, nullable=False)
