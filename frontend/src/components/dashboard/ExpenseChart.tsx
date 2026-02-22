@@ -72,7 +72,7 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
             if (context.parsed.y !== null) {
               label += new Intl.NumberFormat("ru-RU", {
                 style: "currency",
-                currency: "USD",
+                currency: "RUB",
               }).format(context.parsed.y);
             }
             return label;
@@ -87,7 +87,7 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
           callback: function (value: any) {
             return new Intl.NumberFormat("ru-RU", {
               style: "currency",
-              currency: "USD",
+              currency: "RUB",
               minimumFractionDigits: 0,
             }).format(value);
           },
