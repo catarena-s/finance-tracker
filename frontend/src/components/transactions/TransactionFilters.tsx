@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Category } from "@/types/api";
 import { Select, DatePicker, Button } from "@/components/ui";
 
@@ -18,12 +18,29 @@ export function TransactionFilters({
   categories,
   onFilterChange,
 }: TransactionFiltersProps) {
+  // Устанавливаем даты по умолчанию: 1-е число текущего месяца - текущая дата
+  const getDefaultDates = () => {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    return {
+      startDate: firstDayOfMonth.toISOString().split("T")[0],
+      endDate: today.toISOString().split("T")[0],
+    };
+  };
+
+  const defaultDates = getDefaultDates();
+
   const [filters, setFilters] = useState<TransactionFilterValues>({
     type: "",
     categoryId: "",
-    startDate: "",
-    endDate: "",
+    startDate: defaultDates.startDate,
+    endDate: defaultDates.endDate,
   });
+
+  // Применяем фильтры по умолчанию при монтировании
+  useEffect(() => {
+    onFilterChange(filters);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFilterChange = (key: keyof TransactionFilterValues, value: string) => {
     const newFilters = { ...filters, [key]: value };
@@ -35,14 +52,18 @@ export function TransactionFilters({
     const clearedFilters: TransactionFilterValues = {
       type: "",
       categoryId: "",
-      startDate: "",
-      endDate: "",
+      startDate: defaultDates.startDate,
+      endDate: defaultDates.endDate,
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
   };
 
-  const hasActiveFilters = Object.values(filters).some((value) => value !== "");
+  const hasActiveFilters = 
+    filters.type !== "" || 
+    filters.categoryId !== "" ||
+    filters.startDate !== defaultDates.startDate ||
+    filters.endDate !== defaultDates.endDate;
 
   const typeOptions = [
     { value: "", label: "Все типы" },
