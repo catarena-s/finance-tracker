@@ -1,6 +1,5 @@
 """Тесты для динамического расписания Celery"""
 
-import pytest
 from unittest.mock import patch, MagicMock
 
 
@@ -11,9 +10,7 @@ def test_get_recurring_task_schedule_from_db():
     # Мокаем подключение к БД
     with patch("app.tasks.celery_app.create_engine") as mock_engine:
         mock_conn = MagicMock()
-        mock_engine.return_value.connect.return_value.__enter__.return_value = (
-            mock_conn
-        )
+        mock_engine.return_value.connect.return_value.__enter__.return_value = mock_conn
 
         # Мокаем результаты запросов
         mock_conn.execute.return_value.scalar.side_effect = ["12", "30"]
@@ -46,9 +43,7 @@ def test_get_recurring_task_schedule_validates_values():
 
     with patch("app.tasks.celery_app.create_engine") as mock_engine:
         mock_conn = MagicMock()
-        mock_engine.return_value.connect.return_value.__enter__.return_value = (
-            mock_conn
-        )
+        mock_engine.return_value.connect.return_value.__enter__.return_value = mock_conn
 
         # Тестируем граничные значения (должны быть ограничены)
         mock_conn.execute.return_value.scalar.side_effect = ["25", "70"]  # Невалидные

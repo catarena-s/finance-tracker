@@ -23,12 +23,12 @@ async def test_run_recurring_task_default_date(
     }
     response = await client.post("/api/v1/recurring-transactions/", json=recurring_data)
     assert response.status_code == 201
-    
+
     # Запускаем задачу
     response = await client.post("/api/v1/admin/tasks/run-recurring")
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["status"] == "completed"
     assert "date" in data
     assert "created_count" in data
@@ -56,7 +56,7 @@ async def test_run_recurring_task_with_target_date(
     }
     response = await client.post("/api/v1/recurring-transactions/", json=recurring_data)
     assert response.status_code == 201
-    
+
     # Запускаем задачу с указанной датой
     target_date = date.today()
     response = await client.post(
@@ -64,7 +64,7 @@ async def test_run_recurring_task_with_target_date(
     )
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["status"] == "completed"
     assert data["date"] == target_date.isoformat()
     assert data["created_count"] >= 0
@@ -77,7 +77,7 @@ async def test_run_recurring_task_no_due_templates(client: AsyncClient, test_db)
     response = await client.post("/api/v1/admin/tasks/run-recurring")
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["status"] == "completed"
     assert data["created_count"] == 0
     assert data["error_count"] == 0

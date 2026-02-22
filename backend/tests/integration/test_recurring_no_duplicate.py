@@ -25,7 +25,7 @@ async def test_no_duplicate_when_converting_existing_transaction(test_db):
     category_repo = CategoryRepository(test_db)
     transaction_repo = TransactionRepository(test_db)
     recurring_repo = RecurringTransactionRepository(test_db)
-    
+
     transaction_service = TransactionService(
         transaction_repo, category_repo, recurring_repo
     )
@@ -49,12 +49,12 @@ async def test_no_duplicate_when_converting_existing_transaction(test_db):
         type=TransactionType.EXPENSE,
         is_recurring=False,
     )
-    
+
     transaction = await transaction_service.create_transaction(transaction_data)
-    
+
     # Act: Устанавливаем is_recurring=True (имитация редактирования через UI)
     from app.schemas.transaction import TransactionUpdate, RecurringPattern
-    
+
     update_data = TransactionUpdate(
         is_recurring=True,
         recurring_pattern=RecurringPattern(
@@ -62,39 +62,39 @@ async def test_no_duplicate_when_converting_existing_transaction(test_db):
             interval=1,
         ),
     )
-    
+
     updated_transaction = await transaction_service.update_transaction(
         transaction.id, update_data
     )
-    
+
     # Проверяем что создался шаблон
     assert updated_transaction.recurring_template_id is not None
-    
+
     # Получаем шаблон
     template = await recurring_service.get_by_id(
         updated_transaction.recurring_template_id
     )
-    
+
     # Assert: next_occurrence должен быть в БУДУЩЕМ, не в прошлом
     assert template.next_occurrence > past_date, (
         f"next_occurrence ({template.next_occurrence}) должен быть после "
         f"даты транзакции ({past_date})"
     )
-    
+
     # Запускаем обработку повторяющихся транзакций для сегодняшней даты
     result = await recurring_service.process_due(date.today())
-    
+
     # Проверяем что НЕ создалась новая транзакция
     # (потому что next_occurrence в будущем)
-    assert result["created_count"] == 0, (
-        "Не должно создаваться транзакций, так как next_occurrence в будущем"
-    )
-    
+    assert (
+        result["created_count"] == 0
+    ), "Не должно создаваться транзакций, так как next_occurrence в будущем"
+
     # Проверяем что в базе только одна транзакция
     all_transactions = await transaction_repo.get_all()
-    assert len(all_transactions) == 1, (
-        f"Должна быть только одна транзакция, но найдено {len(all_transactions)}"
-    )
+    assert (
+        len(all_transactions) == 1
+    ), f"Должна быть только одна транзакция, но найдено {len(all_transactions)}"
 
 
 @pytest.mark.asyncio
@@ -107,7 +107,7 @@ async def test_next_occurrence_calculated_correctly_for_monthly(test_db):
     category_repo = CategoryRepository(test_db)
     transaction_repo = TransactionRepository(test_db)
     recurring_repo = RecurringTransactionRepository(test_db)
-    
+
     transaction_service = TransactionService(
         transaction_repo, category_repo, recurring_repo
     )
@@ -130,12 +130,12 @@ async def test_next_occurrence_calculated_correctly_for_monthly(test_db):
         type=TransactionType.EXPENSE,
         is_recurring=False,
     )
-    
+
     transaction = await transaction_service.create_transaction(transaction_data)
-    
+
     # Act: Устанавливаем месячную периодичность
     from app.schemas.transaction import TransactionUpdate, RecurringPattern
-    
+
     update_data = TransactionUpdate(
         is_recurring=True,
         recurring_pattern=RecurringPattern(
@@ -143,20 +143,19 @@ async def test_next_occurrence_calculated_correctly_for_monthly(test_db):
             interval=1,
         ),
     )
-    
+
     updated_transaction = await transaction_service.update_transaction(
         transaction.id, update_data
     )
-    
+
     # Получаем шаблон
     template = await recurring_service.get_by_id(
         updated_transaction.recurring_template_id
     )
-    
+
     # Assert: next_occurrence должен быть 19 марта (через месяц)
     expected_next = date(2026, 3, 19)
     assert template.next_occurrence == expected_next, (
         f"next_occurrence должен быть {expected_next}, "
         f"но получен {template.next_occurrence}"
     )
-
