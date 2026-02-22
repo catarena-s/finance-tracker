@@ -65,6 +65,26 @@ class TransactionService:
             ):
                 pattern = data.recurring_pattern
 
+                # Вычислить следующую дату выполнения (после даты транзакции)
+                from dateutil.relativedelta import relativedelta
+                from datetime import timedelta
+
+                frequency = pattern.frequency
+                interval = pattern.interval
+                start_date = data.transaction_date
+
+                # Вычислить next_occurrence как следующую дату ПОСЛЕ start_date
+                if frequency == "daily":
+                    next_occurrence = start_date + timedelta(days=interval)
+                elif frequency == "weekly":
+                    next_occurrence = start_date + timedelta(weeks=interval)
+                elif frequency == "monthly":
+                    next_occurrence = start_date + relativedelta(months=interval)
+                elif frequency == "yearly":
+                    next_occurrence = start_date + relativedelta(years=interval)
+                else:
+                    next_occurrence = start_date + relativedelta(months=1)
+
                 # Создать шаблон повторяющейся транзакции
                 template_data = {
                     "name": data.description or "Повторяющаяся транзакция",
@@ -72,13 +92,13 @@ class TransactionService:
                     "currency": data.currency,
                     "category_id": data.category_id,
                     "type": data.type.value,
-                    "frequency": pattern.frequency,
-                    "interval": pattern.interval,
-                    "start_date": data.transaction_date,
+                    "frequency": frequency,
+                    "interval": interval,
+                    "start_date": start_date,
                     "end_date": (
                         pattern.end_date if hasattr(pattern, "end_date") else None
                     ),
-                    "next_occurrence": data.transaction_date,
+                    "next_occurrence": next_occurrence,
                     "is_active": True,
                 }
 
@@ -184,6 +204,26 @@ class TransactionService:
                     else dict(pattern)
                 )
 
+            # Вычислить следующую дату выполнения (после даты транзакции)
+            from dateutil.relativedelta import relativedelta
+            from datetime import timedelta
+
+            frequency = pattern.get("frequency", "monthly")
+            interval = pattern.get("interval", 1)
+            start_date = existing.transaction_date
+
+            # Вычислить next_occurrence как следующую дату ПОСЛЕ start_date
+            if frequency == "daily":
+                next_occurrence = start_date + timedelta(days=interval)
+            elif frequency == "weekly":
+                next_occurrence = start_date + timedelta(weeks=interval)
+            elif frequency == "monthly":
+                next_occurrence = start_date + relativedelta(months=interval)
+            elif frequency == "yearly":
+                next_occurrence = start_date + relativedelta(years=interval)
+            else:
+                next_occurrence = start_date + relativedelta(months=1)
+
             # Создать шаблон повторяющейся транзакции
             template_data = {
                 "name": existing.description
@@ -192,11 +232,11 @@ class TransactionService:
                 "currency": existing.currency,
                 "category_id": existing.category_id,
                 "type": existing.type,
-                "frequency": pattern.get("frequency", "monthly"),
-                "interval": pattern.get("interval", 1),
-                "start_date": existing.transaction_date,
+                "frequency": frequency,
+                "interval": interval,
+                "start_date": start_date,
                 "end_date": pattern.get("end_date"),
-                "next_occurrence": existing.transaction_date,
+                "next_occurrence": next_occurrence,
                 "is_active": True,
             }
 
