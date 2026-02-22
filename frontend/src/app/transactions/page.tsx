@@ -4,13 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { Transaction } from "@/types/api";
 import {
-  TransactionList,
+  TransactionTable,
   TransactionFilters,
   TransactionForm,
   TransactionFilterValues,
 } from "@/components/transactions";
 import { CSVImportForm, CSVExportDialog } from "@/components/csv";
 import { Modal, Button } from "@/components/ui";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { X } from "lucide-react";
 
 export default function TransactionsPage() {
   const {
@@ -56,7 +58,7 @@ export default function TransactionsPage() {
     try {
       await createTransaction(data);
       setIsCreateModalOpen(false);
-    } catch (err) {
+    } catch {
       // Error is handled in context
     }
   };
@@ -72,7 +74,7 @@ export default function TransactionsPage() {
       await updateTransaction(selectedTransaction.id, data);
       setIsEditModalOpen(false);
       setSelectedTransaction(null);
-    } catch (err) {
+    } catch {
       // Error is handled in context
     }
   };
@@ -91,17 +93,17 @@ export default function TransactionsPage() {
       await deleteTransaction(selectedTransaction.id);
       setIsDeleteModalOpen(false);
       setSelectedTransaction(null);
-    } catch (err) {
+    } catch {
       // Error is handled in context
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6 flex-wrap gap-2">
-          <h1 className="text-3xl font-bold text-gray-900">Транзакции</h1>
-          <div className="flex gap-2">
+    <div className="min-h-full bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Транзакции</h1>
+          <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={() => setCsvImportOpen(true)}>
               Импорт CSV
             </Button>
@@ -130,12 +132,19 @@ export default function TransactionsPage() {
         />
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
-            <span>{error}</span>
-            <button onClick={clearError} className="text-red-600 hover:text-red-800">
-              ✕
-            </button>
-          </div>
+          <Card className="mb-6 border-destructive/50 bg-destructive/5">
+            <CardContent className="flex flex-row items-center justify-between py-4">
+              <span className="text-destructive">{error}</span>
+              <button
+                type="button"
+                onClick={clearError}
+                className="text-destructive hover:text-destructive/80 rounded-2xl p-1"
+                aria-label="Закрыть"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </CardContent>
+          </Card>
         )}
 
         <TransactionFilters
@@ -143,13 +152,13 @@ export default function TransactionsPage() {
           onFilterChange={handleFilterChange}
         />
 
-        <TransactionList
-          transactions={transactions}
+        <TransactionTable
+          transactions={transactions ?? []}
           loading={loading}
-          currentPage={transactionsPagination?.page || currentPage}
-          totalPages={transactionsPagination?.totalPages || 1}
-          totalItems={transactionsPagination?.totalItems || 0}
-          pageSize={transactionsPagination?.pageSize || pageSize}
+          currentPage={transactionsPagination?.page ?? currentPage}
+          totalPages={transactionsPagination?.totalPages ?? 1}
+          totalItems={transactionsPagination?.totalItems ?? 0}
+          pageSize={transactionsPagination?.pageSize ?? pageSize}
           onPageChange={setCurrentPage}
           onEdit={handleEdit}
           onDelete={handleDeleteClick}
@@ -198,15 +207,15 @@ export default function TransactionsPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-gray-700">
+            <p className="text-foreground">
               Вы уверены, что хотите удалить эту транзакцию?
             </p>
             {selectedTransaction && (
-              <div className="bg-gray-50 p-3 rounded">
-                <p className="font-medium">
+              <div className="rounded-2xl border border-border bg-muted/30 p-4">
+                <p className="font-semibold text-foreground">
                   {selectedTransaction.amount} {selectedTransaction.currency}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {selectedTransaction.description}
                 </p>
               </div>

@@ -9,12 +9,15 @@ import {
   TopCategoriesWidget,
 } from "@/components/dashboard";
 import { getDateRange, type DashboardPeriod } from "@/utils/dateRange";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/shadcn/input";
+import { X } from "lucide-react";
 
 function getDefaultDateRange(): { start: string; end: string } {
   const end = new Date();
-  const start = new Date(end.getFullYear(), end.getMonth(), 1); // 1-е число текущего месяца
+  const start = new Date(end.getFullYear(), end.getMonth(), 1);
 
-  // Форматируем в YYYY-MM-DD в локальном времени
   const formatDate = (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -60,57 +63,58 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+    <div className="min-h-full bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Дашборд</h1>
 
-          {/* Выбор периода */}
-          <div className="flex gap-4 items-center flex-wrap">
-            {/* Выбор диапазона дат */}
+          <div className="flex flex-wrap items-center gap-4">
             <div className="flex gap-2 items-center">
-              <input
+              <Input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded text-sm"
+                className="w-auto"
               />
-              <span className="text-gray-500">—</span>
-              <input
+              <span className="text-muted-foreground">—</span>
+              <Input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded text-sm"
+                className="w-auto"
               />
             </div>
 
-            {/* Группировка данных */}
             <div className="flex gap-2 items-center">
-              <span className="text-sm text-gray-600">Группировка:</span>
+              <span className="text-sm text-muted-foreground">Группировка:</span>
               {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
-                <button
+                <Button
                   key={p}
+                  variant={period === p ? "primary" : "secondary"}
+                  size="sm"
                   onClick={() => setPeriod(p)}
-                  className={`px-4 py-2 rounded text-sm font-medium ${
-                    period === p
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                  }`}
                 >
                   {PERIOD_LABELS[p]}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
-            <span>{error}</span>
-            <button onClick={clearError} className="text-red-600 hover:text-red-800">
-              ✕
-            </button>
-          </div>
+          <Card className="mb-6 border-destructive/50 bg-destructive/5">
+            <CardContent className="flex flex-row items-center justify-between py-4">
+              <span className="text-destructive">{error}</span>
+              <button
+                type="button"
+                onClick={clearError}
+                className="text-destructive hover:text-destructive/80 rounded-2xl p-1"
+                aria-label="Закрыть"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </CardContent>
+          </Card>
         )}
 
         <SummaryCards
@@ -123,7 +127,7 @@ export default function DashboardPage() {
           loading={loading}
         />
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <TrendChart
             incomeData={trends?.map((t) => ({ date: t.date, amount: t.income })) || []}
             expenseData={
@@ -137,7 +141,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="mt-6">
+        <div className="mt-8">
           <TopCategoriesWidget
             categories={topCategories || []}
             loading={loading}

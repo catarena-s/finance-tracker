@@ -89,7 +89,7 @@ export function TransactionFilters({
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 mb-6">
+    <div className="rounded-2xl border border-border bg-card shadow-fintech p-4 mb-6">
       <div className="flex flex-col sm:flex-row items-end gap-4">
         <div className="w-full sm:w-auto sm:min-w-[150px]">
           <Select
