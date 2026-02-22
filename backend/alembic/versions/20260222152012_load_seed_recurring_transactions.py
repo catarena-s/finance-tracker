@@ -5,24 +5,25 @@ Revises: a1b2c3d4e5f6
 Create Date: 2026-02-22 15:20:12.746193
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'a6c1b6352e60'
-down_revision: Union[str, None] = 'a1b2c3d4e5f6'
+revision: str = "a6c1b6352e60"
+down_revision: Union[str, None] = "a1b2c3d4e5f6"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
     # Загружаем шаблоны повторяющихся транзакций
-    
+
     # Зарплата (ежемесячно, 15-го числа)
-    op.execute("""
+    op.execute(
+        """
         INSERT INTO recurring_transactions (
             id, name, amount, currency, category_id, description, type, 
             frequency, interval, start_date, next_occurrence, 
@@ -46,10 +47,12 @@ def upgrade() -> None:
         FROM categories 
         WHERE name = 'Зарплата' AND type = 'income' 
         LIMIT 1;
-    """)
-    
+    """
+    )
+
     # Аренда квартиры (ежемесячно, 1-го числа)
-    op.execute("""
+    op.execute(
+        """
         INSERT INTO recurring_transactions (
             id, name, amount, currency, category_id, description, type, 
             frequency, interval, start_date, next_occurrence, 
@@ -73,10 +76,12 @@ def upgrade() -> None:
         FROM categories 
         WHERE name = 'Жильё' AND type = 'expense' 
         LIMIT 1;
-    """)
-    
+    """
+    )
+
     # Подписка на сервисы (ежемесячно, 5-го числа)
-    op.execute("""
+    op.execute(
+        """
         INSERT INTO recurring_transactions (
             id, name, amount, currency, category_id, description, type, 
             frequency, interval, start_date, next_occurrence, 
@@ -100,16 +105,19 @@ def upgrade() -> None:
         FROM categories 
         WHERE name = 'Связь' AND type = 'expense' 
         LIMIT 1;
-    """)
+    """
+    )
 
 
 def downgrade() -> None:
     # Удаляем загруженные шаблоны
-    op.execute("""
+    op.execute(
+        """
         DELETE FROM recurring_transactions 
         WHERE description IN (
             'Ежемесячная зарплата',
             'Аренда квартиры',
             'Подписки (Netflix, Spotify)'
         );
-    """)
+    """
+    )

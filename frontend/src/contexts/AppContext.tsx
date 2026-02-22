@@ -426,10 +426,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         startDate ||
         new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
-      const data = await analyticsApi.getSummary({ 
-        startDate: start, 
+      const data = await analyticsApi.getSummary({
+        startDate: start,
         endDate: end,
-        currency: 'RUB'
+        currency: "RUB",
       });
       setSummary(data);
     } catch (err: any) {
@@ -460,7 +460,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           period,
           startDate: start,
           endDate: end,
-          currency: 'RUB'
+          currency: "RUB",
         });
         setTrends(data);
       } catch (err: any) {
