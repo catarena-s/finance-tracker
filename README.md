@@ -124,6 +124,7 @@ finance-tracker/
 
 - [Быстрый старт](docs/QUICKSTART.md)
 - [Архитектура проекта](docs/ARCHITECTURE.md)
+- [Схема базы данных](docs/DATABASE_SCHEMA.md) - подробное описание таблиц и связей
 - [Руководство администратора](docs/ADMIN_GUIDE.md) - настройки, фоновые задачи, мониторинг
 - [Руководство по тестированию Frontend](docs/FRONTEND_TESTING_GUIDE.md)
 - [Отчет по интеграционным тестам](docs/INTEGRATION_TEST_REPORT.md)
