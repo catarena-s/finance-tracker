@@ -114,15 +114,20 @@ npm test
 finance-tracker/
 ├── backend/           # FastAPI приложение
 ├── database/          # Миграции и seed данные
-├── docs/              # 📚 Документация проекта (7 файлов)
+├── docs/              # 📚 Документация проекта
+│   ├── reports/       # Отчеты о разработке и тестировании
+│   │   ├── IMPLEMENTATION_ANALYSIS.md
+│   │   ├── INTEGRATION_TEST_REPORT.md
+│   │   ├── REFACTORING_REPORT.md
+│   │   ├── REFACTORING_SUMMARY.md
+│   │   ├── REQUIREMENTS_COMPLIANCE.md
+│   │   ├── VERIFICATION_REPORT.md
+│   │   └── WARNINGS_ANALYSIS.md
 │   ├── ADMIN_GUIDE.md
 │   ├── ARCHITECTURE.md
 │   ├── DATABASE_SCHEMA.md
 │   ├── FRONTEND_TESTING_GUIDE.md
-│   ├── INTEGRATION_TEST_REPORT.md
-│   ├── QUICKSTART.md
-│   ├── REPORT.md
-│   └── WARNINGS_ANALYSIS.md
+│   └── QUICKSTART.md
 ├── frontend/          # Next.js приложение
 ├── scripts/           # 🛠️ Утилиты и скрипты
 │   ├── manual-tests/  # Ручные тесты для проверки (8 файлов)
@@ -132,6 +137,7 @@ finance-tracker/
 ├── docker-compose.yml # Docker Compose конфигурация
 ├── CHANGELOG.md       # История изменений
 ├── CONTRIBUTING.md    # Руководство для контрибьюторов
+├── REPORT.md          # Отчет о разработке проекта
 └── README.md          # Этот файл
 ```
 
@@ -142,13 +148,20 @@ finance-tracker/
 - [Схема базы данных](docs/DATABASE_SCHEMA.md) - подробное описание таблиц и связей
 - [Руководство администратора](docs/ADMIN_GUIDE.md) - настройки, фоновые задачи, мониторинг
 - [Руководство по тестированию Frontend](docs/FRONTEND_TESTING_GUIDE.md)
-- [Отчет по интеграционным тестам](docs/INTEGRATION_TEST_REPORT.md)
-- [Технический отчет](docs/REPORT.md)
-- [Анализ warnings](docs/WARNINGS_ANALYSIS.md)
 - [История изменений](CHANGELOG.md)
 - [Руководство для контрибьюторов](CONTRIBUTING.md)
-- [Отчёт о рефакторинге](docs/REFACTORING_REPORT.md)
+- [Отчет о разработке](REPORT.md) - история создания проекта
 - [API документация](http://localhost:8000/docs) (после запуска)
+
+### Отчеты о разработке и тестировании
+
+- [Анализ реализации требований](docs/reports/REQUIREMENTS_COMPLIANCE.md)
+- [Отчет по интеграционным тестам](docs/reports/INTEGRATION_TEST_REPORT.md)
+- [Отчет о рефакторинге](docs/reports/REFACTORING_REPORT.md)
+- [Краткая сводка рефакторинга](docs/reports/REFACTORING_SUMMARY.md)
+- [Отчет о проверке](docs/reports/VERIFICATION_REPORT.md)
+- [Анализ warnings](docs/reports/WARNINGS_ANALYSIS.md)
+- [Анализ реализации](docs/reports/IMPLEMENTATION_ANALYSIS.md)
 
 ## Seed данные
 
@@ -171,7 +184,3 @@ python generate_transactions.py
 ## Лицензия
 
 MIT
-
-## Автор
-
-Katerina S. (catarena@gmail.com)
