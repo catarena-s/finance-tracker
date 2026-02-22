@@ -1,4 +1,6 @@
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
+import { Button as ShadcnButton } from "@/components/ui/shadcn/button";
+import { cn } from "@/lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
@@ -7,20 +9,24 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
+  asChild?: boolean;
   children: ReactNode;
 }
 
-const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-  secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500",
-  danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-  ghost: "bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
+const variantMap: Record<
+  ButtonVariant,
+  "default" | "secondary" | "destructive" | "ghost" | "outline" | "link"
+> = {
+  primary: "default",
+  secondary: "secondary",
+  danger: "destructive",
+  ghost: "ghost",
 };
 
-const sizeClasses: Record<ButtonSize, string> = {
-  sm: "px-3 py-1.5 text-sm",
-  md: "px-4 py-2 text-base",
-  lg: "px-6 py-3 text-lg",
+const sizeMap: Record<ButtonSize, "default" | "sm" | "lg" | "icon"> = {
+  sm: "sm",
+  md: "default",
+  lg: "lg",
 };
 
 export function Button({
@@ -28,6 +34,7 @@ export function Button({
   size = "md",
   loading = false,
   disabled,
+  asChild,
   children,
   className = "",
   ...props
@@ -35,20 +42,14 @@ export function Button({
   const isDisabled = disabled || loading;
 
   return (
-    <button
-      className={`
-        inline-flex items-center justify-center
-        font-medium rounded-lg
-        transition-colors duration-200
-        focus:outline-none focus:ring-2 focus:ring-offset-2
-        disabled:opacity-50 disabled:cursor-not-allowed
-        ${variantClasses[variant]}
-        ${sizeClasses[size]}
-        ${className}
-      `}
+    <ShadcnButton
+      variant={variantMap[variant]}
+      size={sizeMap[size]}
       disabled={isDisabled}
+      asChild={asChild}
       aria-busy={loading}
       aria-disabled={isDisabled}
+      className={cn(className)}
       {...props}
     >
       {loading && (
@@ -75,6 +76,6 @@ export function Button({
         </svg>
       )}
       {children}
-    </button>
+    </ShadcnButton>
   );
 }

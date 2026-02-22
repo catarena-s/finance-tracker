@@ -2,139 +2,108 @@
 
 import React from "react";
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { ArrowLeftRight, FolderTree, PiggyBank, Check } from "lucide-react";
+
+const linkButtonClass =
+  "inline-flex items-center justify-center rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 hover:shadow-fintech-hover transition-colors";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">Finance Tracker</h1>
-          <p className="text-xl text-gray-600 mb-12">
-            Управляйте своими финансами легко и эффективно
+    <div className="min-h-full bg-background">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-foreground mb-4 sm:text-5xl">
+            Трекер личных финансов
+          </h1>
+          <p className="text-xl text-muted-foreground mb-12">
+            Управляйте своими финансами легко и прозрачно
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="text-4xl mb-4">💰</div>
-              <h3 className="text-xl font-semibold mb-2">Транзакции</h3>
-              <p className="text-gray-600 mb-4">Отслеживайте доходы и расходы</p>
-              <Link
-                href="/transactions"
-                className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Перейти
-              </Link>
-            </div>
+          <div className="grid grid-cols-1 gap-6 mb-12 md:grid-cols-3">
+            <Card className="shadow-fintech hover:shadow-fintech-hover transition-shadow">
+              <CardContent className="p-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+                  <ArrowLeftRight className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">
+                  Транзакции
+                </h3>
+                <p className="text-muted-foreground mb-4">Учёт доходов и расходов</p>
+                <Link href="/transactions" className={linkButtonClass}>
+                  Перейти
+                </Link>
+              </CardContent>
+            </Card>
 
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="text-4xl mb-4">📊</div>
-              <h3 className="text-xl font-semibold mb-2">Категории</h3>
-              <p className="text-gray-600 mb-4">Организуйте свои финансы</p>
-              <Link
-                href="/categories"
-                className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Перейти
-              </Link>
-            </div>
+            <Card className="shadow-fintech hover:shadow-fintech-hover transition-shadow">
+              <CardContent className="p-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+                  <FolderTree className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">
+                  Категории
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Организуйте учёт по категориям
+                </p>
+                <Link href="/categories" className={linkButtonClass}>
+                  Перейти
+                </Link>
+              </CardContent>
+            </Card>
 
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              <div className="text-4xl mb-4">🎯</div>
-              <h3 className="text-xl font-semibold mb-2">Бюджеты</h3>
-              <p className="text-gray-600 mb-4">Контролируйте расходы</p>
-              <Link
-                href="/budgets"
-                className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Перейти
-              </Link>
-            </div>
+            <Card className="shadow-fintech hover:shadow-fintech-hover transition-shadow">
+              <CardContent className="p-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+                  <PiggyBank className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">Бюджеты</h3>
+                <p className="text-muted-foreground mb-4">Контроль лимитов расходов</p>
+                <Link href="/budgets" className={linkButtonClass}>
+                  Перейти
+                </Link>
+              </CardContent>
+            </Card>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-semibold mb-4">Возможности</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-              <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-green-500 flex-shrink-0 mt-1"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-                <div>
-                  <h4 className="font-medium">Учет транзакций</h4>
-                  <p className="text-sm text-gray-600">
-                    Добавляйте доходы и расходы с описанием
-                  </p>
-                </div>
+          <Card className="shadow-fintech text-left">
+            <CardContent className="p-8">
+              <h2 className="text-2xl font-semibold mb-6 text-foreground">
+                Возможности
+              </h2>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {[
+                  {
+                    title: "Учёт транзакций",
+                    desc: "Добавляйте доходы и расходы с описанием и категорией",
+                  },
+                  {
+                    title: "Категории",
+                    desc: "Создавайте категории с иконками для удобной группировки",
+                  },
+                  {
+                    title: "Бюджеты",
+                    desc: "Устанавливайте лимиты по категориям и следите за исполнением",
+                  },
+                  {
+                    title: "Фильтрация и отчёты",
+                    desc: "Фильтруйте по датам, категориям и типам операций",
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-start gap-3">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary/20 mt-0.5">
+                      <Check className="h-4 w-4 text-secondary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground">{item.title}</h4>
+                      <p className="text-sm text-muted-foreground">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-green-500 flex-shrink-0 mt-1"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-                <div>
-                  <h4 className="font-medium">Категории</h4>
-                  <p className="text-sm text-gray-600">
-                    Создавайте свои категории с иконками
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-green-500 flex-shrink-0 mt-1"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-                <div>
-                  <h4 className="font-medium">Бюджеты</h4>
-                  <p className="text-sm text-gray-600">
-                    Устанавливайте лимиты на расходы
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-green-500 flex-shrink-0 mt-1"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-                <div>
-                  <h4 className="font-medium">Фильтрация</h4>
-                  <p className="text-sm text-gray-600">
-                    Фильтруйте по датам, категориям и типам
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

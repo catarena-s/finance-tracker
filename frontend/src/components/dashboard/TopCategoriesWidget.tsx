@@ -4,13 +4,28 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
-  Legend,
+  type ChartData,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import {
+  CHART_COLORS,
+  chartGrid,
+  chartAnimation,
+  tooltipDefaults,
+  formatCurrencyTooltip,
+} from "@/lib/chartConfig";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+
+const SOFT_BAR_COLORS = [
+  "rgba(99, 102, 241, 0.75)",
+  "rgba(16, 185, 129, 0.75)",
+  "rgba(99, 102, 241, 0.55)",
+  "rgba(16, 185, 129, 0.55)",
+  "rgba(99, 102, 241, 0.4)",
+];
 
 interface TopCategory {
   categoryName: string;
@@ -29,127 +44,130 @@ export function TopCategoriesWidget({
   loading,
   limit = 5,
 }: TopCategoriesWidgetProps) {
-  const chartData = useMemo(() => {
+  const chartData = useMemo((): ChartData<"bar", number[], string> => {
     if (!categories || categories.length === 0) {
-      return {
-        labels: [],
-        datasets: [],
-      };
+      return { labels: [], datasets: [] };
     }
-
     const limitedCategories = categories.slice(0, limit);
-
     return {
       labels: limitedCategories.map((cat) => cat.categoryName),
       datasets: [
         {
           label: "Сумма",
           data: limitedCategories.map((cat) => cat.totalAmount),
-          backgroundColor: [
-            "rgba(239, 68, 68, 0.8)",
-            "rgba(249, 115, 22, 0.8)",
-            "rgba(234, 179, 8, 0.8)",
-            "rgba(34, 197, 94, 0.8)",
-            "rgba(59, 130, 246, 0.8)",
-          ],
-          borderColor: [
-            "rgb(239, 68, 68)",
-            "rgb(249, 115, 22)",
-            "rgb(234, 179, 8)",
-            "rgb(34, 197, 94)",
-            "rgb(59, 130, 246)",
-          ],
-          borderWidth: 1,
+          backgroundColor: SOFT_BAR_COLORS.slice(0, limitedCategories.length),
+          borderColor: CHART_COLORS.primary,
+          borderWidth: 0,
+          borderRadius: 6,
         },
       ],
     };
   }, [categories, limit]);
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: "y" as const,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        callbacks: {
-          label: function (context: any) {
-            const category = categories[context.dataIndex];
-            const amount = new Intl.NumberFormat("ru-RU", {
-              style: "currency",
-              currency: "RUB",
-            }).format(context.parsed.x);
-            const percentage = category?.percentage?.toFixed(1) || "0";
-            return `${amount} (${percentage}%)`;
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: "y" as const,
+      animation: chartAnimation,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: tooltipDefaults.backgroundColor,
+          titleColor: tooltipDefaults.titleColor,
+          bodyColor: tooltipDefaults.bodyColor,
+          borderColor: tooltipDefaults.borderColor,
+          borderWidth: tooltipDefaults.borderWidth,
+          padding: tooltipDefaults.padding,
+          cornerRadius: tooltipDefaults.cornerRadius,
+          callbacks: {
+            label: (context: { dataIndex: number; parsed: { x: number | null } }) => {
+              const category = categories[context.dataIndex];
+              const x = context.parsed.x;
+              const amount = x != null ? formatCurrencyTooltip(x) : "—";
+              const percentage = category?.percentage?.toFixed(1) || "0";
+              return `${amount} (${percentage}%)`;
+            },
           },
         },
       },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        ticks: {
-          callback: function (value: any) {
-            return new Intl.NumberFormat("ru-RU", {
-              style: "currency",
-              currency: "RUB",
-              minimumFractionDigits: 0,
-            }).format(value);
+      scales: {
+        x: {
+          beginAtZero: true,
+          grid: chartGrid,
+          ticks: {
+            color: CHART_COLORS.text,
+            callback: (value: unknown): string =>
+              typeof value === "number"
+                ? formatCurrencyTooltip(value)
+                : String(value ?? ""),
           },
         },
+        y: {
+          grid: { display: false },
+          ticks: { color: CHART_COLORS.text },
+        },
       },
-    },
-  };
+    }),
+    [categories]
+  );
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-6">
+          <div className="animate-pulse">
+            <div className="h-6 bg-muted rounded w-1/2 mb-4" />
+            <div className="h-64 bg-muted rounded-2xl" />
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   if (!categories || categories.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Топ категории</h2>
-        <div className="h-64 flex items-center justify-center text-gray-500">
-          Нет данных для отображения
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4 text-foreground">
+            Топ категорий расходов
+          </h2>
+          <div className="h-64 flex items-center justify-center text-muted-foreground">
+            Нет данных для отображения
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-4">Топ {limit} категорий</h2>
-      <div className="h-64 sm:h-80">
-        <Bar data={chartData} options={options} />
-      </div>
-      <div className="mt-4 space-y-2">
-        {categories.slice(0, limit).map((cat) => (
-          <div
-            key={`${cat.categoryName}-${cat.totalAmount}`}
-            className="flex justify-between items-center text-sm"
-          >
-            <span className="text-gray-700">{cat.categoryName}</span>
-            <div className="flex items-center gap-2">
-              <span className="font-medium">
-                {new Intl.NumberFormat("ru-RU", {
-                  style: "currency",
-                  currency: "RUB",
-                }).format(cat.totalAmount)}
-              </span>
-              <span className="text-gray-500">({cat.percentage.toFixed(1)}%)</span>
+    <Card>
+      <CardContent className="p-6">
+        <h2 className="text-xl font-semibold mb-4 text-foreground">
+          Топ {limit} категорий расходов
+        </h2>
+        <div className="h-64 sm:h-80">
+          <Bar data={chartData} options={options} />
+        </div>
+        <div className="mt-4 space-y-2">
+          {categories.slice(0, limit).map((cat) => (
+            <div
+              key={`${cat.categoryName}-${cat.totalAmount}`}
+              className="flex justify-between items-center text-sm"
+            >
+              <span className="text-foreground">{cat.categoryName}</span>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-foreground">
+                  {formatCurrencyTooltip(cat.totalAmount)}
+                </span>
+                <span className="text-muted-foreground">
+                  ({cat.percentage.toFixed(1)}%)
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

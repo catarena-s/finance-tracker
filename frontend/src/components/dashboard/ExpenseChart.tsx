@@ -5,19 +5,26 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
   Legend,
   Filler,
+  type ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import {
+  CHART_COLORS,
+  chartGrid,
+  chartAnimation,
+  tooltipDefaults,
+  formatCurrencyTooltip,
+} from "@/lib/chartConfig";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  Title,
   Tooltip,
   Legend,
   Filler
@@ -29,101 +36,118 @@ interface ExpenseChartProps {
 }
 
 export function ExpenseChart({ data, loading }: ExpenseChartProps) {
-  const chartData = useMemo(() => {
+  const chartData = useMemo((): ChartData<"line", number[], string> => {
     if (!data || data.length === 0) {
-      return {
-        labels: [],
-        datasets: [],
-      };
+      return { labels: [], datasets: [] };
     }
-
     return {
       labels: data.map((item) => item.date),
       datasets: [
         {
           label: "Расходы",
           data: data.map((item) => item.amount),
-          borderColor: "rgb(239, 68, 68)",
-          backgroundColor: "rgba(239, 68, 68, 0.1)",
+          borderColor: CHART_COLORS.destructive,
+          backgroundColor: CHART_COLORS.destructiveLight,
           fill: true,
           tension: 0.4,
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 4,
         },
       ],
     };
   }, [data]);
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: "top" as const,
-      },
-      tooltip: {
-        mode: "index" as const,
-        intersect: false,
-        callbacks: {
-          label: function (context: any) {
-            let label = context.dataset.label || "";
-            if (label) {
-              label += ": ";
-            }
-            if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat("ru-RU", {
-                style: "currency",
-                currency: "RUB",
-              }).format(context.parsed.y);
-            }
-            return label;
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: chartAnimation,
+      plugins: {
+        legend: {
+          display: true,
+          position: "top" as const,
+          labels: { color: CHART_COLORS.text, usePointStyle: true },
+        },
+        tooltip: {
+          mode: "index" as const,
+          intersect: false,
+          backgroundColor: tooltipDefaults.backgroundColor,
+          titleColor: tooltipDefaults.titleColor,
+          bodyColor: tooltipDefaults.bodyColor,
+          borderColor: tooltipDefaults.borderColor,
+          borderWidth: tooltipDefaults.borderWidth,
+          padding: tooltipDefaults.padding,
+          cornerRadius: tooltipDefaults.cornerRadius,
+          callbacks: {
+            label: (context: {
+              dataset: { label?: string };
+              parsed: { y: number | null };
+            }) => {
+              const label = context.dataset.label || "";
+              const value = context.parsed.y;
+              return label && value != null
+                ? `${label}: ${formatCurrencyTooltip(value)}`
+                : label || "";
+            },
           },
         },
       },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          callback: function (value: any) {
-            return new Intl.NumberFormat("ru-RU", {
-              style: "currency",
-              currency: "RUB",
-              minimumFractionDigits: 0,
-            }).format(value);
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: CHART_COLORS.text, maxTicksLimit: 8 },
+        },
+        y: {
+          beginAtZero: true,
+          grid: chartGrid,
+          ticks: {
+            color: CHART_COLORS.text,
+            callback: (value: unknown): string =>
+              typeof value === "number"
+                ? formatCurrencyTooltip(value)
+                : String(value ?? ""),
           },
         },
       },
-    },
-  };
+    }),
+    []
+  );
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-6">
+          <div className="animate-pulse">
+            <div className="h-6 bg-muted rounded w-1/3 mb-4" />
+            <div className="h-64 bg-muted rounded-2xl" />
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Тренд расходов</h2>
-        <div className="h-64 flex items-center justify-center text-gray-500">
-          Нет данных для отображения
-        </div>
-      </div>
+      <Card>
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Тренд расходов</h2>
+          <div className="h-64 flex items-center justify-center text-muted-foreground">
+            Нет данных для отображения
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-4">Тренд расходов</h2>
-      <div className="h-64 sm:h-80">
-        <Line data={chartData} options={options} />
-      </div>
-    </div>
+    <Card>
+      <CardContent className="p-6">
+        <h2 className="text-xl font-semibold mb-4 text-foreground">Тренд расходов</h2>
+        <div className="h-64 sm:h-80">
+          <Line data={chartData} options={options} />
+        </div>
+      </CardContent>
+    </Card>
   );
 }

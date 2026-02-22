@@ -48,13 +48,54 @@ export function TransactionFilters({
 
   // Применяем фильтры по умолчанию при монтировании
   useEffect(() => {
-    onFilterChange(filters);
+    // Очищаем пустые значения перед отправкой
+    const cleanedFilters: TransactionFilterValues = {};
+    if (filters.startDate) {
+      cleanedFilters.startDate = filters.startDate;
+    }
+    if (filters.endDate) {
+      cleanedFilters.endDate = filters.endDate;
+    }
+    onFilterChange(cleanedFilters);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFilterChange = (key: keyof TransactionFilterValues, value: string) => {
     const newFilters = { ...filters, [key]: value };
+
+    // Если меняется тип транзакции, сбрасываем выбранную категорию
+    if (key === "type" && filters.categoryId) {
+      const selectedCategory = categories.find((c) => c.id === filters.categoryId);
+      if (selectedCategory && value && selectedCategory.type !== value) {
+        newFilters.categoryId = "";
+      }
+    }
+
+    // Если выбирается категория, автоматически устанавливаем соответствующий тип
+    if (key === "categoryId" && value) {
+      const selectedCategory = categories.find((c) => c.id === value);
+      if (selectedCategory) {
+        newFilters.type = selectedCategory.type;
+      }
+    }
+
     setFilters(newFilters);
-    onFilterChange(newFilters);
+
+    // Очищаем пустые значения перед отправкой на backend
+    const cleanedFilters: TransactionFilterValues = {};
+    if (newFilters.type && newFilters.type !== ("" as any)) {
+      cleanedFilters.type = newFilters.type as "income" | "expense";
+    }
+    if (newFilters.categoryId && newFilters.categoryId !== "") {
+      cleanedFilters.categoryId = newFilters.categoryId;
+    }
+    if (newFilters.startDate) {
+      cleanedFilters.startDate = newFilters.startDate;
+    }
+    if (newFilters.endDate) {
+      cleanedFilters.endDate = newFilters.endDate;
+    }
+
+    onFilterChange(cleanedFilters);
   };
 
   const handleClear = () => {
@@ -65,7 +106,16 @@ export function TransactionFilters({
       endDate: defaultDates.endDate,
     };
     setFilters(clearedFilters);
-    onFilterChange(clearedFilters);
+
+    // Очищаем пустые значения перед отправкой
+    const cleanedForBackend: TransactionFilterValues = {};
+    if (clearedFilters.startDate) {
+      cleanedForBackend.startDate = clearedFilters.startDate;
+    }
+    if (clearedFilters.endDate) {
+      cleanedForBackend.endDate = clearedFilters.endDate;
+    }
+    onFilterChange(cleanedForBackend);
   };
 
   const hasActiveFilters =
@@ -82,14 +132,16 @@ export function TransactionFilters({
 
   const categoryOptions = [
     { value: "", label: "Все категории" },
-    ...(categories || []).map((cat) => ({
-      value: cat.id,
-      label: `${cat.icon} ${cat.name}`,
-    })),
+    ...(categories || [])
+      .filter((cat) => !filters.type || cat.type === filters.type)
+      .map((cat) => ({
+        value: cat.id,
+        label: `${cat.icon} ${cat.name}`,
+      })),
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 mb-6">
+    <div className="rounded-2xl border border-border bg-card shadow-fintech p-4 mb-6">
       <div className="flex flex-col sm:flex-row items-end gap-4">
         <div className="w-full sm:w-auto sm:min-w-[150px]">
           <Select
