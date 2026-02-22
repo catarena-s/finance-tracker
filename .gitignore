@@ -62,4 +62,5 @@ INTEGRATION_TEST_REPORT.md
 frontend/test-results/
 frontend/playwright-report/
 frontend/commit_msg*.txt
+frontend/coverage/
 commit_msg_pr.txt
