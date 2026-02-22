@@ -1,6 +1,10 @@
 """Тесты для динамического расписания Celery"""
 
+import pytest
 from unittest.mock import patch, MagicMock
+
+# Пропускаем тесты если Celery не установлен (локальная разработка)
+celery = pytest.importorskip("celery")
 
 
 def test_get_recurring_task_schedule_from_db():
@@ -8,7 +12,7 @@ def test_get_recurring_task_schedule_from_db():
     from app.tasks.celery_app import get_recurring_task_schedule
 
     # Мокаем подключение к БД
-    with patch("app.tasks.celery_app.create_engine") as mock_engine:
+    with patch("sqlalchemy.create_engine") as mock_engine:
         mock_conn = MagicMock()
         mock_engine.return_value.connect.return_value.__enter__.return_value = mock_conn
 
@@ -27,7 +31,7 @@ def test_get_recurring_task_schedule_default_on_error():
     from app.tasks.celery_app import get_recurring_task_schedule
 
     # Мокаем ошибку при подключении к БД
-    with patch("app.tasks.celery_app.create_engine") as mock_engine:
+    with patch("sqlalchemy.create_engine") as mock_engine:
         mock_engine.side_effect = Exception("DB connection error")
 
         schedule = get_recurring_task_schedule()
@@ -41,7 +45,7 @@ def test_get_recurring_task_schedule_validates_values():
     """Тест валидации значений часа и минуты"""
     from app.tasks.celery_app import get_recurring_task_schedule
 
-    with patch("app.tasks.celery_app.create_engine") as mock_engine:
+    with patch("sqlalchemy.create_engine") as mock_engine:
         mock_conn = MagicMock()
         mock_engine.return_value.connect.return_value.__enter__.return_value = mock_conn
 
