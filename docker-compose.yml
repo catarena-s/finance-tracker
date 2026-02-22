@@ -24,7 +24,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init:/docker-entrypoint-initdb.d
-      - ./database/seeds:/docker-entrypoint-initdb.d/../seeds
     networks:
       - app-network
     healthcheck:

@@ -61,10 +61,17 @@ cd finance-tracker
 docker-compose up -d
 ```
 
-3. Приложение будет доступно по адресам:
+3. Миграции и seed данные применяются автоматически при первом запуске backend контейнера.
+
+4. Приложение будет доступно по адресам:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000
    - API Documentation: http://localhost:8000/docs
+
+Для проверки загрузки данных:
+```bash
+docker exec finance-tracker-db psql -U postgres -d finance_tracker -c "SELECT COUNT(*) FROM transactions;"
+```
 
 ### Локальная разработка
 
@@ -145,15 +152,20 @@ finance-tracker/
 
 ## Seed данные
 
-Проект поставляется с демо-данными:
-- 200+ транзакций за последние 6 месяцев
-- 12 категорий с иконками и цветами
+Проект поставляется с демо-данными, которые загружаются автоматически при применении миграций:
+- 190+ транзакций за последние 6 месяцев (15% доходы, 85% расходы)
+- 14 категорий с иконками и цветами (9 расходов, 5 доходов)
 - 3 бюджета
 
-Для загрузки seed данных:
+Данные загружаются автоматически при выполнении:
+```bash
+docker exec finance-tracker-backend alembic upgrade head
+```
+
+Для ручной генерации новых seed данных транзакций:
 ```bash
 cd database/seeds
-python load_seeds.py
+python generate_transactions.py
 ```
 
 ## Лицензия
