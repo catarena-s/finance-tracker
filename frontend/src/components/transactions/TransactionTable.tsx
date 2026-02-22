@@ -72,12 +72,8 @@ export function TransactionTable({
                 Дата
               </TableHead>
               <TableHead className="font-semibold text-slate-500">Тип</TableHead>
-              <TableHead className="font-semibold text-slate-500">
-                Категория
-              </TableHead>
-              <TableHead className="font-semibold text-slate-500">
-                Описание
-              </TableHead>
+              <TableHead className="font-semibold text-slate-500">Категория</TableHead>
+              <TableHead className="font-semibold text-slate-500">Описание</TableHead>
               <TableHead className="text-right font-semibold text-slate-500">
                 Сумма
               </TableHead>
@@ -109,22 +105,15 @@ export function TransactionTable({
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 text-slate-700">
-                    {transaction.categoryId}
+                    {(transaction as any).category?.name || transaction.categoryId}
                   </TableCell>
                   <TableCell className="max-w-[200px] truncate px-6 py-4 text-slate-500">
                     {transaction.description || "—"}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-right font-semibold">
-                    <span
-                      className={
-                        isIncome ? "text-[#10B981]" : "text-slate-900"
-                      }
-                    >
+                    <span className={isIncome ? "text-[#10B981]" : "text-slate-900"}>
                       {isIncome ? "+" : "−"}
-                      {formatCurrency(
-                        Number(transaction.amount),
-                        transaction.currency
-                      )}
+                      {formatCurrency(Number(transaction.amount), transaction.currency)}
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 text-right">
@@ -132,7 +121,7 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                        className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
                         onClick={() => onEdit(transaction)}
                         aria-label="Редактировать"
                       >
@@ -141,7 +130,7 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-slate-500 hover:bg-red-50 hover:text-destructive"
+                        className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-destructive"
                         onClick={() => onDelete(transaction.id)}
                         aria-label="Удалить"
                       >

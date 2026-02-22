@@ -52,9 +52,7 @@ export function CategoryList({
             <FolderTree className="h-7 w-7 text-slate-400" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">
-              Нет категорий
-            </h3>
+            <h3 className="text-lg font-semibold text-slate-900">Нет категорий</h3>
             <p className="mt-1 text-sm text-slate-500">
               Начните с создания новой категории
             </p>
@@ -71,9 +69,7 @@ export function CategoryList({
     <div className="space-y-8">
       {incomeCategories.length > 0 && (
         <div>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">
-            Доходы
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-slate-900">Доходы</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {incomeCategories.map((category) => (
               <CategoryCard
@@ -89,9 +85,7 @@ export function CategoryList({
 
       {expenseCategories.length > 0 && (
         <div>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">
-            Расходы
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-slate-900">Расходы</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {expenseCategories.map((category) => (
               <CategoryCard

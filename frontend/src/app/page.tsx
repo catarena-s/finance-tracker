@@ -41,12 +41,8 @@ export default function HomePage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
                   <FolderTree className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-slate-900">
-                  Категории
-                </h3>
-                <p className="mb-4 text-slate-500">
-                  Организуйте учёт по категориям
-                </p>
+                <h3 className="mb-2 text-lg font-semibold text-slate-900">Категории</h3>
+                <p className="mb-4 text-slate-500">Организуйте учёт по категориям</p>
                 <Link href="/categories" className={linkButtonClass}>
                   Перейти
                 </Link>
@@ -58,9 +54,7 @@ export default function HomePage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
                   <PiggyBank className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-slate-900">
-                  Бюджеты
-                </h3>
+                <h3 className="mb-2 text-lg font-semibold text-slate-900">Бюджеты</h3>
                 <p className="mb-4 text-slate-500">Контроль лимитов расходов</p>
                 <Link href="/budgets" className={linkButtonClass}>
                   Перейти
@@ -71,9 +65,7 @@ export default function HomePage() {
 
           <Card className="rounded-2xl border border-slate-200 bg-white text-left shadow-sm">
             <CardContent className="p-6 md:p-8">
-              <h2 className="mb-6 text-lg font-semibold text-slate-900">
-                Возможности
-              </h2>
+              <h2 className="mb-6 text-lg font-semibold text-slate-900">Возможности</h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {[
                   {

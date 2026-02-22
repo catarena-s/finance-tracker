@@ -186,7 +186,9 @@ describe("Transaction Pagination", () => {
 
     function TestPagination() {
       const [currentPage, setCurrentPage] = React.useState(1);
-      const [filters, setFilters] = React.useState({ type: "expense" as const });
+      const [filters, setFilters] = React.useState<{ type: "expense" | "income" }>({
+        type: "expense",
+      });
       const [pagination, setPagination] = React.useState<{
         totalPages: number;
       } | null>(null);

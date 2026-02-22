@@ -69,10 +69,7 @@ export function BalanceCards({
                 {byCurrency && byCurrency.length > 1 && (
                   <div className="mt-3 space-y-1">
                     {byCurrency.map((item) => (
-                      <p
-                        key={item.currency}
-                        className="text-xs text-slate-500"
-                      >
+                      <p key={item.currency} className="text-xs text-slate-500">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -103,10 +100,7 @@ export function BalanceCards({
                 {byCurrency && byCurrency.length > 1 && (
                   <div className="mt-3 space-y-1">
                     {byCurrency.map((item) => (
-                      <p
-                        key={item.currency}
-                        className="text-xs text-slate-500"
-                      >
+                      <p key={item.currency} className="text-xs text-slate-500">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -141,10 +135,7 @@ export function BalanceCards({
                 {byCurrency && byCurrency.length > 1 && (
                   <div className="mt-3 space-y-1">
                     {byCurrency.map((item) => (
-                      <p
-                        key={item.currency}
-                        className="text-xs text-slate-500"
-                      >
+                      <p key={item.currency} className="text-xs text-slate-500">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -177,9 +168,7 @@ export function BalanceCards({
               )
               .map(([currency, rate], index) => (
                 <React.Fragment key={currency}>
-                  {index > 0 && (
-                    <span className="text-slate-400"> • </span>
-                  )}
+                  {index > 0 && <span className="text-slate-400"> • </span>}
                   <span className="text-slate-500">
                     {currency} = ₽{rate.toFixed(2)}
                   </span>

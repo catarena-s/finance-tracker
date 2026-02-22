@@ -60,16 +60,19 @@ export default function TransactionsPage() {
   useEffect(() => {
     const fetchData = async () => {
       await loadTransactions({ page: currentPage, pageSize, ...filters });
-      // Обновляем локальную пагинацию после загрузки
-      if (transactionsPagination) {
-        setLocalPagination({
-          totalPages: transactionsPagination.totalPages,
-          totalItems: transactionsPagination.totalItems,
-        });
-      }
     };
     fetchData();
-  }, [currentPage, filters, loadTransactions, transactionsPagination]);
+  }, [currentPage, filters, loadTransactions]);
+
+  // Отдельный useEffect для обновления локальной пагинации
+  useEffect(() => {
+    if (transactionsPagination) {
+      setLocalPagination({
+        totalPages: transactionsPagination.totalPages,
+        totalItems: transactionsPagination.totalItems,
+      });
+    }
+  }, [transactionsPagination]);
 
   const handleFilterChange = (newFilters: TransactionFilterValues) => {
     setFilters(newFilters);

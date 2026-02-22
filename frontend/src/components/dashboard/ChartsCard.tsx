@@ -9,11 +9,7 @@ interface ChartsCardProps {
   className?: string;
 }
 
-export function ChartsCard({
-  title,
-  children,
-  className,
-}: ChartsCardProps) {
+export function ChartsCard({ title, children, className }: ChartsCardProps) {
   return (
     <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       {title && (

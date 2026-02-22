@@ -57,7 +57,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+              className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
               onClick={() => onEdit(category)}
               aria-label="Редактировать"
             >
@@ -66,7 +66,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-xl text-slate-500 hover:bg-red-50 hover:text-destructive"
+              className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-destructive"
               onClick={() => onDelete(category.id)}
               aria-label="Удалить"
             >

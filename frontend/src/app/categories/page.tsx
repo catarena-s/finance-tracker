@@ -78,9 +78,7 @@ export default function CategoriesPage() {
           <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">
             Категории
           </h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            Добавить категорию
-          </Button>
+          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить категорию</Button>
         </div>
 
         {error && (
@@ -151,9 +149,7 @@ export default function CategoriesPage() {
               <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
                 <span className="text-2xl">{selectedCategory.icon ?? "📁"}</span>
                 <div>
-                  <p className="font-medium text-slate-900">
-                    {selectedCategory.name}
-                  </p>
+                  <p className="font-medium text-slate-900">{selectedCategory.name}</p>
                   <p className="text-sm text-slate-500">
                     {selectedCategory.type === "income" ? "Доход" : "Расход"}
                   </p>

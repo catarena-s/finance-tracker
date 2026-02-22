@@ -131,9 +131,7 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
     return (
       <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
         <CardContent className="p-6 md:p-8">
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">
-            Тренд расходов
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-slate-900">Тренд расходов</h2>
           <div className="flex h-64 items-center justify-center text-slate-500">
             Нет данных для отображения
           </div>
@@ -145,9 +143,7 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
   return (
     <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       <CardContent className="p-6 md:p-8">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900">
-          Тренд расходов
-        </h2>
+        <h2 className="mb-4 text-lg font-semibold text-slate-900">Тренд расходов</h2>
         <div className="h-64 sm:h-80">
           <Line data={chartData} options={options} />
         </div>

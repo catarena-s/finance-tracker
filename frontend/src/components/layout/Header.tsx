@@ -25,17 +25,20 @@ function getPageTitle(pathname: string): string {
 export function Header() {
   const pathname = usePathname();
   const title = getPageTitle(pathname);
-  const showAddTransaction =
-    pathname.startsWith("/transactions") || pathname === "/";
+  const showAddTransaction = pathname.startsWith("/transactions") || pathname === "/";
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white/95 px-6 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
       <span className="text-lg font-semibold text-slate-900" aria-hidden="true">
         {title}
       </span>
       <div className="flex items-center gap-3">
         {showAddTransaction && (
-          <Button asChild size="default" className="rounded-2xl shadow-sm">
+          <Button
+            asChild
+            size="default"
+            className="rounded-2xl shadow-sm transition-all duration-200 hover:shadow-md"
+          >
             <Link href="/transactions?openAdd=1">
               <Plus className="mr-2 h-4 w-4" />
               Добавить транзакцию

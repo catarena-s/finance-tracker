@@ -66,9 +66,7 @@ export default function DashboardPage() {
     <div className="min-h-full bg-[#F8FAFC]">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">
-            Обзор
-          </h1>
+          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">Обзор</h1>
 
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
@@ -130,7 +128,7 @@ export default function DashboardPage() {
           loading={loading}
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <TrendChart
             incomeData={trends?.map((t) => ({ date: t.date, amount: t.income })) || []}
             expenseData={
@@ -144,7 +142,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-10">
           <TopCategoriesWidget
             categories={topCategories || []}
             loading={loading}

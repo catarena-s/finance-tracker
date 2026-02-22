@@ -28,7 +28,7 @@ export function Sidebar() {
 
   const linkClass = (href: string) =>
     cn(
-      "flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors",
+      "flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
       isActive(href)
         ? "bg-primary text-primary-foreground shadow-sm"
         : "text-slate-500 hover:bg-white/80 hover:text-slate-900 hover:shadow-sm"
@@ -66,7 +66,7 @@ export function Sidebar() {
 
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-900/20 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-slate-900/20 backdrop-blur-sm transition-opacity duration-300 md:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden
         />
@@ -74,7 +74,7 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-full w-64 border-r border-slate-200 bg-white shadow-sm transition-transform md:translate-x-0",
+          "fixed left-0 top-0 z-40 h-full w-64 border-r border-slate-200 bg-white shadow-sm transition-transform duration-300 ease-in-out md:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

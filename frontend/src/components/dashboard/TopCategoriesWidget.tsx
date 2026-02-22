@@ -160,9 +160,7 @@ export function TopCategoriesWidget({
                 <span className="font-medium text-slate-900">
                   {formatCurrencyTooltip(cat.totalAmount)}
                 </span>
-                <span className="text-slate-500">
-                  ({cat.percentage.toFixed(1)}%)
-                </span>
+                <span className="text-slate-500">({cat.percentage.toFixed(1)}%)</span>
               </div>
             </div>
           ))}
