@@ -10,6 +10,7 @@ from app.models.exchange_rate import ExchangeRate
 from app.models.recurring_transaction import RecurringTransaction
 from app.models.task_result import TaskResult
 from app.models.transaction import Transaction
+from app.models.app_setting import AppSetting
 
 __all__ = [
     "Base",
@@ -20,4 +21,5 @@ __all__ = [
     "RecurringTransaction",
     "TaskResult",
     "Transaction",
+    "AppSetting",
 ]

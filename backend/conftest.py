@@ -57,6 +57,7 @@ async def test_db() -> AsyncGenerator[AsyncSession, None]:
     from app.models.currency import Currency  # noqa: F401
     from app.models.exchange_rate import ExchangeRate  # noqa: F401
     from app.models.task_result import TaskResult  # noqa: F401
+    from app.models.app_setting import AppSetting  # noqa: F401
 
     # Create async engine for test database
     engine = create_async_engine(
@@ -108,3 +109,43 @@ async def client(test_db: AsyncSession) -> AsyncGenerator:
         yield ac
 
     app.dependency_overrides.clear()
+
+
+@pytest_asyncio.fixture(scope="function")
+async def sample_category(test_db: AsyncSession):
+    """Создать тестовую категорию"""
+    from app.models.category import Category
+
+    category = Category(
+        name="Test Category",
+        icon="🧪",
+        type="expense",
+        color="#FF5733",
+    )
+    test_db.add(category)
+    await test_db.commit()
+    await test_db.refresh(category)
+    return category
+
+
+@pytest_asyncio.fixture(scope="function")
+async def app_settings(test_db: AsyncSession):
+    """Создать начальные настройки приложения"""
+    from app.models.app_setting import AppSetting
+
+    settings = [
+        AppSetting(
+            key="recurring_task_hour",
+            value="0",
+            description="Час запуска задачи создания повторяющихся транзакций (UTC, 0-23)",
+        ),
+        AppSetting(
+            key="recurring_task_minute",
+            value="0",
+            description="Минута запуска задачи создания повторяющихся транзакций (0-59)",
+        ),
+    ]
+    for setting in settings:
+        test_db.add(setting)
+    await test_db.commit()
+    return settings

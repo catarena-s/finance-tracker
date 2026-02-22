@@ -24,7 +24,9 @@ from app.api.routes import (
     recurring_transactions,
     currencies,
     tasks,
+    admin,
 )
+from app.api.routes import settings as settings_routes
 
 # Настройка логирования
 logging.basicConfig(
@@ -113,6 +115,8 @@ app.include_router(csv_routes.router, prefix=settings.API_V1_PREFIX)
 app.include_router(recurring_transactions.router, prefix=settings.API_V1_PREFIX)
 app.include_router(currencies.router, prefix=settings.API_V1_PREFIX)
 app.include_router(tasks.router, prefix=settings.API_V1_PREFIX)
+app.include_router(settings_routes.router, prefix=settings.API_V1_PREFIX)
+app.include_router(admin.router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/health", tags=["Health"])
