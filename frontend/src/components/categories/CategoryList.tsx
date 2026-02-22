@@ -21,19 +21,19 @@ export function CategoryList({
 }: CategoryListProps) {
   if (loading) {
     return (
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, index) => (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {[...Array(8)].map((_, index) => (
           <Card
             key={index}
             className="rounded-2xl border border-slate-200 bg-white shadow-sm"
           >
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-5">
               <div className="animate-pulse">
-                <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-slate-200" />
+                <div className="flex items-start gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-slate-200" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-5 w-24 rounded bg-slate-200" />
-                    <div className="h-4 w-16 rounded bg-slate-100" />
+                    <div className="h-4 w-24 rounded bg-slate-200" />
+                    <div className="h-3 w-16 rounded bg-slate-100" />
                   </div>
                 </div>
               </div>
@@ -66,11 +66,16 @@ export function CategoryList({
   const expenseCategories = categories.filter((cat) => cat.type === "expense");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {incomeCategories.length > 0 && (
         <div>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Доходы</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mb-5 flex items-center gap-3">
+            <h2 className="text-lg font-semibold text-slate-900">Доходы</h2>
+            <span className="flex h-6 min-w-[24px] items-center justify-center rounded-lg bg-[#10B981]/10 px-2 text-xs font-medium text-[#10B981]">
+              {incomeCategories.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {incomeCategories.map((category) => (
               <CategoryCard
                 key={category.id}
@@ -85,8 +90,13 @@ export function CategoryList({
 
       {expenseCategories.length > 0 && (
         <div>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Расходы</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mb-5 flex items-center gap-3">
+            <h2 className="text-lg font-semibold text-slate-900">Расходы</h2>
+            <span className="flex h-6 min-w-[24px] items-center justify-center rounded-lg bg-slate-100 px-2 text-xs font-medium text-slate-600">
+              {expenseCategories.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {expenseCategories.map((category) => (
               <CategoryCard
                 key={category.id}

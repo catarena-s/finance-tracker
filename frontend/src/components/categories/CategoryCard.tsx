@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { Button } from "@/components/ui/shadcn/button";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Pencil, Trash2 } from "lucide-react";
+import { CategoryIcon } from "@/utils/categoryIcons";
 
 interface CategoryCardProps {
   category: Category;
@@ -18,59 +19,61 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
   const isIncome = category.type === "income";
 
   return (
-    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <CardContent className="p-6 md:p-8">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex min-w-0 flex-1 items-center gap-4">
+    <Card className="group rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:border-slate-300">
+      <CardContent className="p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 flex-1 items-start gap-3">
             <div
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl"
+              className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105"
               style={{ backgroundColor: `${category.color}20` }}
               aria-label="Иконка категории"
             >
-              {category.icon ?? "📁"}
+              <CategoryIcon
+                icon={category.icon}
+                className="h-5 w-5"
+                style={{ color: category.color }}
+              />
+              <div
+                className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-md border-2 border-white shadow-sm"
+                style={{ backgroundColor: category.color }}
+                title={`Цвет: ${category.color}`}
+                aria-label={`Цвет категории: ${category.color}`}
+              />
             </div>
-            <div className="min-w-0 flex-1">
-              <h3 className="truncate text-lg font-semibold text-slate-900">
+            <div className="min-w-0 flex-1 pt-0.5">
+              <h3 className="truncate text-base font-semibold text-slate-900">
                 {category.name}
               </h3>
-              <div className="mt-2 flex items-center gap-2">
-                <Badge
-                  variant="secondary"
-                  className={
-                    isIncome
-                      ? "rounded-lg bg-[#10B981]/10 text-[#10B981] hover:bg-[#10B981]/20"
-                      : "rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }
-                >
-                  {typeLabel}
-                </Badge>
-                <div
-                  className="h-4 w-4 rounded-md border border-slate-200"
-                  style={{ backgroundColor: category.color }}
-                  title={`Цвет: ${category.color}`}
-                  aria-label={`Цвет категории: ${category.color}`}
-                />
-              </div>
+              <Badge
+                variant="secondary"
+                className={`mt-1.5 rounded-lg text-xs ${
+                  isIncome
+                    ? "bg-[#10B981]/10 text-[#10B981] hover:bg-[#10B981]/20"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                {typeLabel}
+              </Badge>
             </div>
           </div>
-          <div className="flex shrink-0 gap-1">
+          <div className="flex shrink-0 gap-0.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
+              className="h-8 w-8 rounded-lg text-slate-400 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
               onClick={() => onEdit(category)}
               aria-label="Редактировать"
             >
-              <Pencil className="h-4 w-4" />
+              <Pencil className="h-3.5 w-3.5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-destructive"
+              className="h-8 w-8 rounded-lg text-slate-400 transition-all duration-200 hover:bg-red-50 hover:text-destructive"
               onClick={() => onDelete(category.id)}
               aria-label="Удалить"
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
