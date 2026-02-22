@@ -25,7 +25,7 @@ export default function CategoriesPage() {
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [loadCategories]);
 
   const handleCreate = async (data: any) => {
     try {

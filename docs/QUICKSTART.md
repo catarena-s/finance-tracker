@@ -5,7 +5,7 @@
 ## Предварительные требования
 
 - Docker и Docker Compose установлены
-- Порты 3000, 8000, 5432 свободны
+- Порты 3000, 8000, 5433 свободны
 
 ## Шаг 1: Запуск контейнеров
 
@@ -13,36 +13,42 @@
 docker-compose up -d
 ```
 
-Подождите ~30 секунд, пока все контейнеры запустятся.
+Подождите ~30 секунд, пока все контейнеры запустятся. Миграции и seed данные применяются автоматически при первом запуске backend контейнера.
 
 ## Шаг 2: Инициализация базы данных
 
-### Применить миграции
+При первом запуске миграции применяются автоматически. Если нужно применить их вручную:
 
 ```bash
-docker-compose exec backend alembic upgrade head
+docker exec finance-tracker-backend alembic upgrade head
 ```
 
-Вы должны увидеть:
-```
-INFO  [alembic.runtime.migration] Running upgrade  -> 20260214185500, initial_schema
-INFO  [alembic.runtime.migration] Running upgrade 20260214185500 -> 20260214200000, add_is_recurring_field
-```
+Миграции автоматически:
+- Создают структуру БД
+- Добавляют 14 категорий (доходы и расходы)
+- Загружают 190+ тестовых транзакций за 6 месяцев
+- Создают 3 бюджета
 
-### Загрузить тестовые данные
-
+Проверить количество транзакций:
 ```bash
-docker-compose exec backend python ../database/seeds/load_seeds.py
-```
-
-Вы должны увидеть:
-```
-✓ Загружено 12 категорий
-✓ Загружено 200+ транзакций
-✓ Загружено 3 бюджета
+docker exec finance-tracker-db psql -U postgres -d finance_tracker -c "SELECT COUNT(*) FROM transactions;"
 ```
 
 ## Шаг 3: Проверка работоспособности
+
+### Проверка данных
+
+Проверьте, что транзакции загружены:
+```bash
+docker exec finance-tracker-db psql -U postgres -d finance_tracker -c "SELECT COUNT(*) FROM transactions;"
+```
+
+Должно быть ~190 транзакций.
+
+Проверьте категории:
+```bash
+docker exec finance-tracker-db psql -U postgres -d finance_tracker -c "SELECT name, type FROM categories ORDER BY type, name;"
+```
 
 ### Backend API
 
@@ -109,10 +115,11 @@ chmod +x init.sh
 ## Troubleshooting
 
 ### Порт уже занят
-Если порт 8000 или 3000 занят, измените в `docker-compose.yml`:
+Если порт 8000, 3000 или 5433 занят, измените в `docker-compose.yml`:
 ```yaml
 ports:
   - "8001:8000"  # Вместо 8000:8000
+  - "5434:5432"  # Вместо 5433:5432
 ```
 
 ### База данных не инициализируется
