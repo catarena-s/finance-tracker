@@ -2,7 +2,6 @@
 Pytest configuration and fixtures
 """
 
-import asyncio
 import os
 from typing import AsyncGenerator
 
@@ -32,16 +31,6 @@ else:
     TEST_DATABASE_URL = (
         "postgresql+asyncpg://postgres:postgres@localhost:5433/finance_tracker_test"
     )
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    """
-    Create an instance of the default event loop for the test session
-    """
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
 
 
 @pytest_asyncio.fixture(scope="function")

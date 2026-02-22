@@ -132,8 +132,8 @@ export function TopCategoriesWidget({
         <Bar data={chartData} options={options} />
       </div>
       <div className="mt-4 space-y-2">
-        {categories.slice(0, limit).map((cat, index) => (
-          <div key={index} className="flex justify-between items-center text-sm">
+        {categories.slice(0, limit).map((cat) => (
+          <div key={`${cat.categoryName}-${cat.totalAmount}`} className="flex justify-between items-center text-sm">
             <span className="text-gray-700">{cat.categoryName}</span>
             <div className="flex items-center gap-2">
               <span className="font-medium">

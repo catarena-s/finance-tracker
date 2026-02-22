@@ -33,7 +33,7 @@ export default function RecurringPage() {
   useEffect(() => {
     loadCategories();
     load();
-  }, []);
+  }, [loadCategories]);
 
   const handleCreate = async (data: RecurringTransactionCreate) => {
     await recurringTransactionsApi.create(data);

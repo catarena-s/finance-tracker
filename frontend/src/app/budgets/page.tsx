@@ -29,7 +29,7 @@ export default function BudgetsPage() {
   useEffect(() => {
     loadCategories();
     loadBudgets();
-  }, []);
+  }, [loadCategories, loadBudgets]);
 
   // TODO: Load actual budget progress from analytics API
   useEffect(() => {

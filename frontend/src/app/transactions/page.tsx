@@ -41,7 +41,7 @@ export default function TransactionsPage() {
   useEffect(() => {
     loadCategories();
     loadTransactions({ page: currentPage, pageSize, ...filters });
-  }, [currentPage, filters]);
+  }, [currentPage, filters, loadCategories, loadTransactions]);
 
   const handleFilterChange = (newFilters: TransactionFilterValues) => {
     setFilters(newFilters);
