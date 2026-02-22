@@ -107,10 +107,18 @@ npm test
 finance-tracker/
 ├── backend/           # FastAPI приложение
 ├── database/          # Миграции и seed данные
-├── docs/              # 📚 Документация проекта
+├── docs/              # 📚 Документация проекта (7 файлов)
+│   ├── ADMIN_GUIDE.md
+│   ├── ARCHITECTURE.md
+│   ├── DATABASE_SCHEMA.md
+│   ├── FRONTEND_TESTING_GUIDE.md
+│   ├── INTEGRATION_TEST_REPORT.md
+│   ├── QUICKSTART.md
+│   ├── REPORT.md
+│   └── WARNINGS_ANALYSIS.md
 ├── frontend/          # Next.js приложение
 ├── scripts/           # 🛠️ Утилиты и скрипты
-│   ├── manual-tests/  # Ручные тесты для проверки
+│   ├── manual-tests/  # Ручные тесты для проверки (8 файлов)
 │   ├── init.bat       # Инициализация (Windows)
 │   └── init.sh        # Инициализация (Linux/Mac)
 ├── .github/           # GitHub Actions workflows
@@ -129,8 +137,10 @@ finance-tracker/
 - [Руководство по тестированию Frontend](docs/FRONTEND_TESTING_GUIDE.md)
 - [Отчет по интеграционным тестам](docs/INTEGRATION_TEST_REPORT.md)
 - [Технический отчет](docs/REPORT.md)
+- [Анализ warnings](docs/WARNINGS_ANALYSIS.md)
 - [История изменений](CHANGELOG.md)
 - [Руководство для контрибьюторов](CONTRIBUTING.md)
+- [Отчёт о рефакторинге](docs/REFACTORING_REPORT.md)
 - [API документация](http://localhost:8000/docs) (после запуска)
 
 ## Seed данные

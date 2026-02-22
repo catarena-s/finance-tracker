@@ -33,9 +33,41 @@ Full-Stack приложение для трекинга личных финан�
 
 ```
 finance-tracker/
-├── frontend/          # Next.js приложение
-├── backend/           # FastAPI приложение  
+├── backend/           # FastAPI приложение
+│   ├── app/
+│   │   ├── api/       # API эндпоинты
+│   │   ├── core/      # Конфигурация и утилиты
+│   │   ├── models/    # SQLAlchemy модели
+│   │   ├── repositories/ # Data access layer
+│   │   ├── schemas/   # Pydantic схемы
+│   │   ├── services/  # Бизнес-логика
+│   │   └── tasks/     # Celery задачи
+│   └── tests/         # Тесты (unit, integration, property-based)
 ├── database/          # Миграции и seed данные
+│   ├── init/          # Инициализация БД
+│   ├── migrations/    # Alembic миграции
+│   └── seeds/         # Seed данные
+├── docs/              # 📚 Документация проекта
+│   ├── ADMIN_GUIDE.md
+│   ├── ARCHITECTURE.md
+│   ├── DATABASE_SCHEMA.md
+│   ├── FRONTEND_TESTING_GUIDE.md
+│   ├── INTEGRATION_TEST_REPORT.md
+│   ├── QUICKSTART.md
+│   ├── REPORT.md
+│   └── WARNINGS_ANALYSIS.md
+├── frontend/          # Next.js приложение
+│   ├── src/
+│   │   ├── app/       # Next.js App Router
+│   │   ├── components/ # React компоненты
+│   │   ├── contexts/  # React Context
+│   │   ├── lib/       # Утилиты
+│   │   └── types/     # TypeScript типы
+│   └── __tests__/     # Jest тесты
+├── scripts/           # 🛠️ Утилиты и скрипты
+│   ├── manual-tests/  # Ручные тесты для проверки
+│   ├── init.bat       # Инициализация (Windows)
+│   └── init.sh        # Инициализация (Linux/Mac)
 ├── .github/workflows/ # CI/CD конфигурация
 └── docker-compose.yml # Docker Compose
 ```
@@ -89,61 +121,111 @@ finance-tracker/
 
 ## Схема базы данных
 
+Проект использует PostgreSQL с 8 основными таблицами для хранения финансовых данных.
+
+> **📚 Подробное описание**: См. [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) для полной документации схемы БД с таблицами, связями, ограничениями и примерами запросов.
+
 ### Основные таблицы
 
-**transactions**
-- id (UUID, PK)
-- amount (Decimal)
-- currency (VARCHAR)
-- category_id (UUID, FK)
-- description (TEXT)
-- transaction_date (DATE)
-- type (VARCHAR: income/expense)
-- created_at, updated_at (TIMESTAMP)
+**transactions** - Транзакции (доходы и расходы)
+- id, amount, currency, category_id, description
+- transaction_date, type (income/expense)
+- is_recurring, recurring_pattern, recurring_template_id
+- created_at, updated_at
 
-**categories**
-- id (UUID, PK)
-- name (VARCHAR)
-- icon (VARCHAR)
-- color (VARCHAR)
-- type (VARCHAR: income/expense)
-- created_at, updated_at (TIMESTAMP)
+**categories** - Категории для классификации
+- id, name, icon, color, type (income/expense)
+- created_at, updated_at
 
-**budgets**
-- id (UUID, PK)
-- category_id (UUID, FK)
-- amount (Decimal)
-- period (VARCHAR: monthly/yearly)
-- start_date, end_date (DATE)
-- created_at, updated_at (TIMESTAMP)
+**budgets** - Лимиты расходов по категориям
+- id, category_id, amount, currency
+- period (monthly/yearly), start_date, end_date
+- created_at, updated_at
+
+**recurring_transactions** - Шаблоны повторяющихся транзакций
+- id, name, amount, currency, category_id
+- type, frequency, interval, start_date, end_date
+- next_occurrence, is_active
+- created_at, updated_at
+
+**currencies** - Справочник валют (ISO 4217)
+- code (PK), name, symbol, is_active
+- created_at
+
+**exchange_rates** - Курсы валют на дату
+- id, from_currency, to_currency, rate, date
+- created_at
+
+**task_results** - Результаты фоновых задач
+- id, task_id, task_type, status, result, error
+- created_at, updated_at
+
+**app_settings** - Настройки приложения
+- key (PK), value, description
+- created_at, updated_at
+
+### Связи
+
+- `transactions.category_id` → `categories.id` (RESTRICT)
+- `transactions.recurring_template_id` → `recurring_transactions.id` (SET NULL)
+- `budgets.category_id` → `categories.id` (CASCADE)
+- `recurring_transactions.category_id` → `categories.id` (RESTRICT)
+- `exchange_rates.from_currency` → `currencies.code` (RESTRICT)
+- `exchange_rates.to_currency` → `currencies.code` (RESTRICT)
 
 ## API эндпоинты
 
-### Транзакции
+### Транзакции (`/api/v1/transactions`)
 - `GET /api/v1/transactions` - Список транзакций (с фильтрами и пагинацией)
 - `POST /api/v1/transactions` - Создать транзакцию
 - `GET /api/v1/transactions/{id}` - Получить транзакцию
 - `PUT /api/v1/transactions/{id}` - Обновить транзакцию
 - `DELETE /api/v1/transactions/{id}` - Удалить транзакцию
+- `POST /api/v1/transactions/import` - Импорт из CSV
+- `GET /api/v1/transactions/export` - Экспорт в CSV
 
-### Категории
+### Категории (`/api/v1/categories`)
 - `GET /api/v1/categories` - Список категорий
 - `POST /api/v1/categories` - Создать категорию
 - `GET /api/v1/categories/{id}` - Получить категорию
 - `PUT /api/v1/categories/{id}` - Обновить категорию
 - `DELETE /api/v1/categories/{id}` - Удалить категорию
 
-### Бюджеты
+### Бюджеты (`/api/v1/budgets`)
 - `GET /api/v1/budgets` - Список бюджетов
 - `POST /api/v1/budgets` - Создать бюджет
 - `GET /api/v1/budgets/{id}` - Получить бюджет
 - `PUT /api/v1/budgets/{id}` - Обновить бюджет
 - `DELETE /api/v1/budgets/{id}` - Удалить бюджет
+- `GET /api/v1/budgets/{id}/progress` - Прогресс выполнения бюджета
 
-### Аналитика
+### Повторяющиеся транзакции (`/api/v1/recurring-transactions`)
+- `GET /api/v1/recurring-transactions` - Список шаблонов
+- `POST /api/v1/recurring-transactions` - Создать шаблон
+- `GET /api/v1/recurring-transactions/{id}` - Получить шаблон
+- `PUT /api/v1/recurring-transactions/{id}` - Обновить шаблон
+- `DELETE /api/v1/recurring-transactions/{id}` - Удалить шаблон
+
+### Валюты (`/api/v1/currencies`)
+- `GET /api/v1/currencies` - Список валют
+- `GET /api/v1/currencies/exchange-rate` - Получить курс обмена
+
+### Аналитика (`/api/v1/analytics`)
 - `GET /api/v1/analytics/summary` - Сводная статистика
 - `GET /api/v1/analytics/trends` - Тренды во времени
 - `GET /api/v1/analytics/by-category` - Расходы по категориям
+- `GET /api/v1/analytics/top-categories` - Топ категорий
+
+### Задачи (`/api/v1/tasks`)
+- `GET /api/v1/tasks/{task_id}/status` - Статус фоновой задачи
+
+### Настройки (`/api/v1/settings`)
+- `GET /api/v1/settings` - Список настроек
+- `GET /api/v1/settings/{key}` - Получить настройку
+- `PUT /api/v1/settings/{key}` - Обновить настройку
+
+### Админка (`/api/v1/admin`)
+- `POST /api/v1/admin/tasks/run-recurring` - Запустить создание повторяющихся транзакций
 
 ## Развертывание
 
@@ -156,7 +238,7 @@ docker-compose up -d
 Сервисы:
 - **frontend**: http://localhost:3000
 - **backend**: http://localhost:8000
-- **database**: PostgreSQL на порту 5432
+- **database**: PostgreSQL на порту 5433 (внутри контейнера 5432)
 - **redis**: Redis на порту 6379 (для фоновых задач)
 
 ### CI/CD

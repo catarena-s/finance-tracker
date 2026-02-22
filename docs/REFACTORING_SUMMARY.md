@@ -81,8 +81,7 @@ finance-tracker/
 ├── CHANGELOG.md       # История изменений
 ├── CONTRIBUTING.md    # Руководство для контрибьюторов
 ├── docker-compose.yml # Docker конфигурация
-├── README.md          # Главная документация
-└── VERIFICATION_REPORT.md  # Отчёт о проверке
+└── README.md          # Главная документация
 ```
 
 ## 📝 Коммиты
@@ -93,8 +92,8 @@ finance-tracker/
    - Создание README для manual-tests
 
 2. **ee15e84** - docs: добавлен отчёт о проверке после реорганизации
-   - VERIFICATION_REPORT.md
-   - WARNINGS_ANALYSIS.md
+   - docs/VERIFICATION_REPORT.md
+   - docs/WARNINGS_ANALYSIS.md
    - Исправление ссылки в ADMIN_GUIDE.md
 
 3. **5227509** - fix: исправлены warnings в тестах
@@ -130,9 +129,9 @@ finance-tracker/
 ## 📚 Документация
 
 - [VERIFICATION_REPORT.md](VERIFICATION_REPORT.md) - Полный отчёт о проверке
-- [docs/WARNINGS_ANALYSIS.md](docs/WARNINGS_ANALYSIS.md) - Анализ и решения для warnings
-- [README.md](README.md) - Обновлённая главная документация
-- [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md) - Руководство администратора
+- [WARNINGS_ANALYSIS.md](WARNINGS_ANALYSIS.md) - Анализ и решения для warnings
+- [../README.md](../README.md) - Обновлённая главная документация
+- [ADMIN_GUIDE.md](ADMIN_GUIDE.md) - Руководство администратора
 
 ## ✨ Заключение
 
