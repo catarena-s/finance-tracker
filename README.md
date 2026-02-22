@@ -117,8 +117,12 @@ finance-tracker/
 
 ## Документация
 
+- [Быстрый старт](QUICKSTART.md)
 - [Архитектура проекта](ARCHITECTURE.md)
+- [Руководство администратора](ADMIN_GUIDE.md) - настройки, фоновые задачи, мониторинг
+- [Руководство по тестированию Frontend](FRONTEND_TESTING_GUIDE.md)
 - [История изменений](CHANGELOG.md)
+- [Руководство для контрибьюторов](CONTRIBUTING.md)
 - [API документация](http://localhost:8000/docs) (после запуска)
 
 ## Seed данные
