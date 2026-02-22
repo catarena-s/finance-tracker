@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Transaction } from "@/types/api";
 import {
@@ -39,15 +40,36 @@ export default function TransactionsPage() {
   const [filters, setFilters] = useState<TransactionFilterValues>({});
   const [csvImportOpen, setCsvImportOpen] = useState(false);
   const [csvExportOpen, setCsvExportOpen] = useState(false);
+  const [localPagination, setLocalPagination] = useState<{
+    totalPages: number;
+    totalItems: number;
+  }>({ totalPages: 1, totalItems: 0 });
   const pageSize = 10;
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
 
   useEffect(() => {
-    loadTransactions({ page: currentPage, pageSize, ...filters });
-  }, [currentPage, filters, loadTransactions]);
+    if (searchParams.get("openAdd") === "1") {
+      setIsCreateModalOpen(true);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await loadTransactions({ page: currentPage, pageSize, ...filters });
+      // Обновляем локальную пагинацию после загрузки
+      if (transactionsPagination) {
+        setLocalPagination({
+          totalPages: transactionsPagination.totalPages,
+          totalItems: transactionsPagination.totalItems,
+        });
+      }
+    };
+    fetchData();
+  }, [currentPage, filters, loadTransactions, transactionsPagination]);
 
   const handleFilterChange = (newFilters: TransactionFilterValues) => {
     setFilters(newFilters);
@@ -99,10 +121,12 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="min-h-full bg-background">
+    <div className="min-h-full bg-[#F8FAFC]">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Транзакции</h1>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">
+            Транзакции
+          </h1>
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={() => setCsvImportOpen(true)}>
               Импорт CSV
@@ -132,13 +156,13 @@ export default function TransactionsPage() {
         />
 
         {error && (
-          <Card className="mb-6 border-destructive/50 bg-destructive/5">
+          <Card className="mb-6 rounded-2xl border-red-200 bg-red-50 shadow-sm">
             <CardContent className="flex flex-row items-center justify-between py-4">
-              <span className="text-destructive">{error}</span>
+              <span className="text-red-700">{error}</span>
               <button
                 type="button"
                 onClick={clearError}
-                className="text-destructive hover:text-destructive/80 rounded-2xl p-1"
+                className="rounded-2xl p-1 text-red-600 hover:text-red-800"
                 aria-label="Закрыть"
               >
                 <X className="h-5 w-5" />
@@ -156,8 +180,8 @@ export default function TransactionsPage() {
           transactions={transactions ?? []}
           loading={loading}
           currentPage={currentPage}
-          totalPages={transactionsPagination?.totalPages ?? 1}
-          totalItems={transactionsPagination?.totalItems ?? 0}
+          totalPages={localPagination.totalPages}
+          totalItems={localPagination.totalItems}
           pageSize={pageSize}
           onPageChange={setCurrentPage}
           onEdit={handleEdit}

@@ -114,11 +114,11 @@ export function TopCategoriesWidget({
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="p-6">
+      <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <CardContent className="p-6 md:p-8">
           <div className="animate-pulse">
-            <div className="h-6 bg-muted rounded w-1/2 mb-4" />
-            <div className="h-64 bg-muted rounded-2xl" />
+            <div className="mb-4 h-6 w-1/2 rounded bg-slate-200" />
+            <div className="h-64 rounded-2xl bg-slate-100" />
           </div>
         </CardContent>
       </Card>
@@ -127,12 +127,12 @@ export function TopCategoriesWidget({
 
   if (!categories || categories.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <h2 className="text-xl font-semibold mb-4 text-foreground">
+      <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <CardContent className="p-6 md:p-8">
+          <h2 className="mb-4 text-lg font-semibold text-slate-900">
             Топ категорий расходов
           </h2>
-          <div className="h-64 flex items-center justify-center text-muted-foreground">
+          <div className="flex h-64 items-center justify-center text-slate-500">
             Нет данных для отображения
           </div>
         </CardContent>
@@ -141,26 +141,26 @@ export function TopCategoriesWidget({
   }
 
   return (
-    <Card>
-      <CardContent className="p-6">
-        <h2 className="text-xl font-semibold mb-4 text-foreground">
+    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+      <CardContent className="p-6 md:p-8">
+        <h2 className="mb-4 text-lg font-semibold text-slate-900">
           Топ {limit} категорий расходов
         </h2>
         <div className="h-64 sm:h-80">
           <Bar data={chartData} options={options} />
         </div>
-        <div className="mt-4 space-y-2">
+        <div className="mt-6 space-y-3">
           {categories.slice(0, limit).map((cat) => (
             <div
               key={`${cat.categoryName}-${cat.totalAmount}`}
-              className="flex justify-between items-center text-sm"
+              className="flex items-center justify-between text-sm"
             >
-              <span className="text-foreground">{cat.categoryName}</span>
+              <span className="text-slate-900">{cat.categoryName}</span>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-foreground">
+                <span className="font-medium text-slate-900">
                   {formatCurrencyTooltip(cat.totalAmount)}
                 </span>
-                <span className="text-muted-foreground">
+                <span className="text-slate-500">
                   ({cat.percentage.toFixed(1)}%)
                 </span>
               </div>

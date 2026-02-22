@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { AppProvider } from "@/contexts/AppContext";
 import { ErrorProvider } from "@/components/error";
-import { AppSidebar, Header, Footer } from "@/components/layout";
+import { AppLayout } from "@/components/layout";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -15,15 +15,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
-      <body className={`${inter.className} min-h-screen bg-background text-foreground`}>
+      <body className={`${inter.className} min-h-screen text-slate-900 antialiased`}>
         <ErrorProvider>
           <AppProvider>
-            <AppSidebar />
-            <div className="flex flex-col min-h-screen pl-14 md:pl-64">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </div>
+            <AppLayout>{children}</AppLayout>
           </AppProvider>
         </ErrorProvider>
       </body>

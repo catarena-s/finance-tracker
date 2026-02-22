@@ -72,17 +72,25 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Категории</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить категорию</Button>
+    <div className="min-h-full bg-[#F8FAFC]">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">
+            Категории
+          </h1>
+          <Button onClick={() => setIsCreateModalOpen(true)}>
+            Добавить категорию
+          </Button>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
-            <span>{error}</span>
-            <button onClick={clearError} className="text-red-600 hover:text-red-800">
+          <div className="mb-6 flex items-center justify-between rounded-2xl border border-red-200 bg-red-50 px-4 py-3 shadow-sm">
+            <span className="text-red-700">{error}</span>
+            <button
+              onClick={clearError}
+              className="rounded-2xl p-1 text-red-600 hover:text-red-800"
+              aria-label="Закрыть"
+            >
               ✕
             </button>
           </div>
@@ -136,15 +144,17 @@ export default function CategoriesPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-gray-700">
+            <p className="text-slate-700">
               Вы уверены, что хотите удалить эту категорию?
             </p>
             {selectedCategory && (
-              <div className="bg-gray-50 p-3 rounded flex items-center gap-3">
-                <span className="text-2xl">{selectedCategory.icon}</span>
+              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+                <span className="text-2xl">{selectedCategory.icon ?? "📁"}</span>
                 <div>
-                  <p className="font-medium">{selectedCategory.name}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="font-medium text-slate-900">
+                    {selectedCategory.name}
+                  </p>
+                  <p className="text-sm text-slate-500">
                     {selectedCategory.type === "income" ? "Доход" : "Расход"}
                   </p>
                 </div>

@@ -24,13 +24,13 @@ export const chartAnimation = {
 };
 
 export const tooltipDefaults = {
-  backgroundColor: "rgba(255, 255, 255, 0.96)",
+  backgroundColor: "rgba(255, 255, 255, 0.98)",
   titleColor: "#0F172A",
-  bodyColor: "#0F172A",
+  bodyColor: "#64748B",
   borderColor: "#E2E8F0",
   borderWidth: 1,
   padding: 12,
-  cornerRadius: 8,
+  cornerRadius: 12,
   displayColors: true,
 };
 
