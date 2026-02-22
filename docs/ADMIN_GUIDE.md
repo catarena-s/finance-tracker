@@ -324,4 +324,4 @@ Invoke-WebRequest -Method POST -Uri http://localhost:8000/api/v1/admin/tasks/run
 2. Убедитесь, что все контейнеры запущены (`docker-compose ps`)
 3. Проверьте настройки в БД
 4. Используйте административный API для отладки
-5. Обратитесь к [CHANGELOG.md](CHANGELOG.md) для информации о последних изменениях
+5. Обратитесь к [CHANGELOG.md](../CHANGELOG.md) для информации о последних изменениях
