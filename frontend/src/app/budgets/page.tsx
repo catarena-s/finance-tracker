@@ -6,6 +6,7 @@ import { useApp } from "@/contexts/AppContext";
 import { Budget } from "@/types/api";
 import { BudgetList, BudgetForm } from "@/components/budgets";
 import { Modal, Button } from "@/components/ui";
+import { budgetApi } from "@/services/api";
 
 function BudgetsPageContent() {
   const {
@@ -39,16 +40,27 @@ function BudgetsPageContent() {
     }
   }, [searchParams]);
 
-  // TODO: Load actual budget progress from analytics API
+  // Load actual budget progress from analytics API
   useEffect(() => {
     if (!budgets) return;
 
-    // Mock budget progress for now
-    const progress: Record<string, number> = {};
-    budgets.forEach((budget) => {
-      progress[budget.id] = Math.random() * Number(budget.amount);
-    });
-    setBudgetProgress(progress);
+    const loadProgress = async () => {
+      const progress: Record<string, number> = {};
+
+      for (const budget of budgets) {
+        try {
+          const data = await budgetApi.getProgress(budget.id);
+          progress[budget.id] = data.spent || 0;
+        } catch {
+          // В случае ошибки показываем 0
+          progress[budget.id] = 0;
+        }
+      }
+
+      setBudgetProgress(progress);
+    };
+
+    loadProgress();
   }, [budgets]);
 
   const handleCreate = async (data: any) => {

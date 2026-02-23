@@ -197,31 +197,40 @@ npm test -- --watchAll=false
 
 ### Backend
 
-```bash
-cd backend
+**ВАЖНО: Backend тесты ВСЕГДА запускаются в Docker контейнере!**
 
-# Линтинг (Ruff)
+```bash
+# Линтинг (Ruff) - можно локально
+cd backend
 ruff check .
 
-# Форматирование (Black)
+# Форматирование (Black) - можно локально
 black --check .
 
 # Если Black находит проблемы, исправьте их:
 black .
 
-# Запуск тестов
-pytest
+# Запуск тестов - ОБЯЗАТЕЛЬНО в Docker!
+cd ..
+docker-compose exec backend pytest
 ```
+
+**Критерий успеха:**
+- ВСЕ тесты проходят (103/103 passed)
+- НЕТ пропущенных тестов (0 skipped)
+- Если видишь "X skipped" - это ОШИБКА, нужно запустить в Docker
 
 ### Быстрая проверка всего проекта
 
 ```bash
-# Backend
-cd backend && ruff check . && black --check . && pytest && cd ..
+# Backend (линтинг локально, тесты в Docker)
+cd backend && ruff check . && black --check . && cd .. && docker-compose exec backend pytest
 
 # Frontend
 cd frontend && npm run type-check && npm run lint && npm run format:check && npm test -- --watchAll=false && cd ..
 ```
+
+**ВАЖНО:** Backend тесты ВСЕГДА запускаются в Docker (`docker-compose exec backend pytest`), не локально!
 
 ## Автоматизация проверок (рекомендуется)
 

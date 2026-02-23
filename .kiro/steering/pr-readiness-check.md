@@ -51,20 +51,28 @@ npm run build
 
 #### 1.2 Backend проверки
 
-```bash
-cd backend
+**ВАЖНО: Backend тесты ВСЕГДА запускаются в Docker контейнере!**
 
-# Ruff linting
+Причина: некоторые тесты требуют Celery и другие зависимости, которые могут быть не установлены локально. В Docker все зависимости гарантированно присутствуют.
+
+```bash
+# Ruff linting (можно локально)
+cd backend
 ruff check .
 
-# Black formatting check
+# Black formatting check (можно локально)
 black --check .
 
-# Tests
-pytest
+# Tests - ОБЯЗАТЕЛЬНО в Docker!
+cd ..
+docker-compose exec backend pytest
 ```
 
-**Критерий успеха:** Все команды завершаются с exit code 0, все тесты проходят.
+**Критерий успеха:** 
+- Все команды завершаются с exit code 0
+- ВСЕ тесты проходят (103/103 passed)
+- НЕТ пропущенных тестов (0 skipped)
+- Если видишь "X skipped" - это ОШИБКА, нужно запустить в Docker
 
 ### Шаг 2: Обработка ошибок
 
