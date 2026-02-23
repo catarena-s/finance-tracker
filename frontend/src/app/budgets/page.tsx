@@ -35,10 +35,12 @@ function BudgetsPageContent() {
   }, [loadCategories, loadBudgets]);
 
   useEffect(() => {
-    if (searchParams.get("openAdd") === "1") {
+    if (searchParams.get("openAdd") === "1" && !isCreateModalOpen) {
       setIsCreateModalOpen(true);
+      // Очищаем query параметр после открытия
+      window.history.replaceState({}, "", window.location.pathname);
     }
-  }, [searchParams]);
+  }, [searchParams, isCreateModalOpen]);
 
   // Load actual budget progress from analytics API
   useEffect(() => {

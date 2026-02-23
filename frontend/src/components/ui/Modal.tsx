@@ -20,8 +20,14 @@ const sizeClasses = {
 };
 
 export function Modal({ isOpen, onClose, title, children, size = "md" }: ModalProps) {
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent
         title={title}
         showClose={true}

@@ -31,12 +31,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           type={type}
           className={`
-            block w-full px-3 py-2
-            border rounded-lg
-            text-foreground placeholder-muted-foreground
-            bg-input
+            block w-full px-3 py-2 rounded-xl border
+            text-foreground placeholder-muted-foreground bg-card
+            shadow-sm transition-colors duration-150
             focus:outline-none focus:ring-2 focus:ring-offset-0
-            transition-colors duration-200
             disabled:bg-muted disabled:cursor-not-allowed
             ${
               hasError

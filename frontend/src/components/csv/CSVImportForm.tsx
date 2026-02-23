@@ -125,7 +125,7 @@ export function CSVImportForm() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <label className="cursor-pointer">
-          <span className="inline-flex items-center px-4 py-2 rounded-lg border border-border bg-card text-sm font-medium text-foreground hover:bg-muted">
+          <span className="inline-flex items-center px-4 py-2 rounded-xl border border-border bg-card text-sm font-medium text-foreground shadow-sm transition-colors duration-150 hover:bg-muted">
             Выбрать CSV
           </span>
           <input
@@ -155,7 +155,7 @@ export function CSVImportForm() {
           <div className="flex items-center gap-2">
             <label className="text-sm text-muted-foreground">Формат даты:</label>
             <select
-              className="border border-border bg-input text-foreground rounded px-2 py-1 text-sm"
+              className="rounded-xl border border-border bg-card px-2 py-1 text-sm text-foreground shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
               value={dateFormat}
               onChange={(e) => setDateFormat(e.target.value)}
             >
@@ -185,7 +185,7 @@ export function CSVImportForm() {
 
       {importResult && (
         <div
-          className={`rounded-lg p-4 ${importResult.status === "failed" ? "bg-red-50 text-red-800" : "bg-green-50 text-green-800"}`}
+          className={`rounded-xl border p-4 ${importResult.status === "failed" ? "border-destructive/50 bg-destructive/10 text-destructive" : "border-secondary/50 bg-secondary/10 text-foreground"}`}
         >
           <p className="font-medium">
             {importResult.status === "completed"

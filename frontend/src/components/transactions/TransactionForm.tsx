@@ -51,7 +51,7 @@ export function TransactionForm({
       : {
           type: "expense",
           amount: 0,
-          currency: "USD",
+          currency: "RUB",
           categoryId: "",
           description: "",
           transactionDate: new Date().toISOString().split("T")[0],
@@ -119,6 +119,7 @@ export function TransactionForm({
       <Select
         label="Валюта"
         options={[
+          { value: "RUB", label: "RUB (₽)" },
           { value: "USD", label: "USD ($)" },
           { value: "EUR", label: "EUR (€)" },
           { value: "GBP", label: "GBP (£)" },
