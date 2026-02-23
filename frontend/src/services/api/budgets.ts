@@ -61,4 +61,12 @@ export const budgetApi = {
   async delete(id: string): Promise<void> {
     await apiClient.delete(`/budgets/${id}`);
   },
+
+  /**
+   * Получить прогресс бюджета (сколько потрачено)
+   */
+  async getProgress(id: string): Promise<{ spent: number }> {
+    const response = await apiClient.get<{ spent: number }>(`/budgets/${id}/progress`);
+    return response.data;
+  },
 };
