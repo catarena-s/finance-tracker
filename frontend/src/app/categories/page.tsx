@@ -31,10 +31,12 @@ function CategoriesPageContent() {
   }, [loadCategories]);
 
   useEffect(() => {
-    if (searchParams.get("openAdd") === "1") {
+    if (searchParams.get("openAdd") === "1" && !isCreateModalOpen) {
       setIsCreateModalOpen(true);
+      // Очищаем query параметр после открытия
+      window.history.replaceState({}, "", window.location.pathname);
     }
-  }, [searchParams]);
+  }, [searchParams, isCreateModalOpen]);
 
   const handleCreate = async (data: any) => {
     try {

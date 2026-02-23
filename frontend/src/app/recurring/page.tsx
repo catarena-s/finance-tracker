@@ -40,12 +40,12 @@ function RecurringPageContent() {
   }, [loadCategories, load]);
 
   useEffect(() => {
-    if (searchParams.get("openAdd") === "1") {
+    if (searchParams.get("openAdd") === "1" && !isCreateModalOpen) {
       setIsCreateModalOpen(true);
       // Очищаем URL после открытия модального окна
       router.replace("/recurring");
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, isCreateModalOpen]);
 
   const handleCreate = async (data: RecurringTransactionCreate) => {
     await recurringTransactionsApi.create(data);
