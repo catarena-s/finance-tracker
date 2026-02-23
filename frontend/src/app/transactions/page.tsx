@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Transaction } from "@/types/api";
@@ -15,7 +15,7 @@ import { Modal, Button } from "@/components/ui";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { X } from "lucide-react";
 
-export default function TransactionsPage() {
+function TransactionsPageContent() {
   const {
     transactions,
     transactionsPagination,
@@ -269,5 +269,13 @@ export default function TransactionsPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function TransactionsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}>
+      <TransactionsPageContent />
+    </Suspense>
   );
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Category } from "@/types/api";
 import { CategoryList, CategoryForm } from "@/components/categories";
 import { Modal, Button } from "@/components/ui";
 
-export default function CategoriesPage() {
+function CategoriesPageContent() {
   const {
     categories,
     loading,
@@ -187,5 +187,13 @@ export default function CategoriesPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function CategoriesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}>
+      <CategoriesPageContent />
+    </Suspense>
   );
 }

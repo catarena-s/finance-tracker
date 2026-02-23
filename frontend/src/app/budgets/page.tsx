@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Budget } from "@/types/api";
 import { BudgetList, BudgetForm } from "@/components/budgets";
 import { Modal, Button } from "@/components/ui";
 
-export default function BudgetsPage() {
+function BudgetsPageContent() {
   const {
     budgets,
     categories,
@@ -198,5 +198,13 @@ export default function BudgetsPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function BudgetsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background p-8">Загрузка...</div>}>
+      <BudgetsPageContent />
+    </Suspense>
   );
 }

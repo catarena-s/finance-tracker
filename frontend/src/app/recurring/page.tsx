@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { recurringTransactionsApi } from "@/services/api";
 import { useApp } from "@/contexts/AppContext";
@@ -13,7 +13,7 @@ import { Modal, Button } from "@/components/ui";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { X } from "lucide-react";
 
-export default function RecurringPage() {
+function RecurringPageContent() {
   const { categories, loadCategories } = useApp();
   const [items, setItems] = useState<RecurringTransaction[]>([]);
   const [loading, setLoading] = useState(true);
@@ -198,5 +198,13 @@ export default function RecurringPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function RecurringPage() {
+  return (
+    <Suspense fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}>
+      <RecurringPageContent />
+    </Suspense>
   );
 }
