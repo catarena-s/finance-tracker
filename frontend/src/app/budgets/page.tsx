@@ -46,7 +46,7 @@ function BudgetsPageContent() {
 
     const loadProgress = async () => {
       const progress: Record<string, number> = {};
-      
+
       for (const budget of budgets) {
         try {
           const data = await budgetApi.getProgress(budget.id);
@@ -56,7 +56,7 @@ function BudgetsPageContent() {
           progress[budget.id] = 0;
         }
       }
-      
+
       setBudgetProgress(progress);
     };
 
