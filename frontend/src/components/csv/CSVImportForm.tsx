@@ -125,7 +125,7 @@ export function CSVImportForm() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <label className="cursor-pointer">
-          <span className="inline-flex items-center px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <span className="inline-flex items-center px-4 py-2 rounded-lg border border-border bg-card text-sm font-medium text-foreground hover:bg-muted">
             Выбрать CSV
           </span>
           <input
@@ -136,7 +136,7 @@ export function CSVImportForm() {
           />
         </label>
         {file && (
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-muted-foreground">
             {file.name} ({rows.length} строк)
           </span>
         )}
@@ -153,9 +153,9 @@ export function CSVImportForm() {
       {mapping && rows.length > 0 && (
         <>
           <div className="flex items-center gap-2">
-            <label className="text-sm text-gray-600">Формат даты:</label>
+            <label className="text-sm text-muted-foreground">Формат даты:</label>
             <select
-              className="border rounded px-2 py-1 text-sm"
+              className="border border-border bg-input text-foreground rounded px-2 py-1 text-sm"
               value={dateFormat}
               onChange={(e) => setDateFormat(e.target.value)}
             >

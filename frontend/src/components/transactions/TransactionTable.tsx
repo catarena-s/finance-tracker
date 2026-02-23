@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/shadcn/table";
 import { Button } from "@/components/ui/shadcn/button";
+import { Card } from "@/components/ui/shadcn/card";
 import { Pagination } from "@/components/ui/Pagination";
 import { Pencil, Trash2 } from "lucide-react";
 
@@ -40,75 +41,91 @@ export function TransactionTable({
 }: TransactionTableProps) {
   if (loading) {
     return (
-      <div className="rounded-2xl border border-border bg-card">
-        <div className="animate-pulse p-6 space-y-4">
+      <Card className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+        <div className="animate-pulse space-y-4 p-6 md:p-8">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-12 bg-muted rounded" />
+            <div key={i} className="h-12 rounded-lg bg-muted" />
           ))}
         </div>
-      </div>
+      </Card>
     );
   }
 
   if (!transactions || transactions.length === 0) {
     return (
-      <div className="rounded-2xl border border-border bg-card p-12 text-center">
-        <p className="text-muted-foreground font-medium">Нет транзакций</p>
-        <p className="text-sm text-muted-foreground mt-1">
+      <Card className="rounded-2xl border border-border bg-card p-12 text-center shadow-sm md:p-8">
+        <p className="font-medium text-foreground">Нет транзакций</p>
+        <p className="mt-1 text-sm text-muted-foreground">
           Создайте первую транзакцию, чтобы начать учёт
         </p>
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-fintech">
+    <div className="space-y-6">
+      <Card className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[140px]">Дата</TableHead>
-              <TableHead>Тип</TableHead>
-              <TableHead>Категория</TableHead>
-              <TableHead>Описание</TableHead>
-              <TableHead className="text-right">Сумма</TableHead>
-              <TableHead className="w-[100px] text-right">Действия</TableHead>
+            <TableRow className="border-border hover:bg-transparent">
+              <TableHead className="h-12 px-6 font-semibold text-muted-foreground">
+                Дата
+              </TableHead>
+              <TableHead className="font-semibold text-muted-foreground">Тип</TableHead>
+              <TableHead className="font-semibold text-muted-foreground">
+                Категория
+              </TableHead>
+              <TableHead className="font-semibold text-muted-foreground">
+                Описание
+              </TableHead>
+              <TableHead className="text-right font-semibold text-muted-foreground">
+                Сумма
+              </TableHead>
+              <TableHead className="w-[100px] text-right font-semibold text-muted-foreground">
+                Действия
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {transactions.map((transaction) => {
               const isIncome = transaction.type === "income";
               return (
-                <TableRow key={transaction.id}>
-                  <TableCell className="text-muted-foreground font-medium">
+                <TableRow
+                  key={transaction.id}
+                  className="border-border transition-colors hover:bg-muted/50"
+                >
+                  <TableCell className="px-6 py-4 font-medium text-muted-foreground">
                     {formatDate(transaction.transactionDate)}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="px-6 py-4">
                     <span
                       className={
                         isIncome
-                          ? "text-secondary font-medium"
-                          : "text-destructive font-medium"
+                          ? "font-medium text-secondary"
+                          : "font-medium text-foreground"
                       }
                     >
                       {isIncome ? "Доход" : "Расход"}
                     </span>
                   </TableCell>
-                  <TableCell>{transaction.categoryId}</TableCell>
-                  <TableCell className="max-w-[200px] truncate text-muted-foreground">
+                  <TableCell className="px-6 py-4 text-foreground">
+                    {(transaction as any).category?.name || transaction.categoryId}
+                  </TableCell>
+                  <TableCell className="max-w-[200px] truncate px-6 py-4 text-muted-foreground">
                     {transaction.description || "—"}
                   </TableCell>
-                  <TableCell className="text-right font-semibold">
-                    <span className={isIncome ? "text-secondary" : "text-destructive"}>
+                  <TableCell className="px-6 py-4 text-right font-semibold">
+                    <span className={isIncome ? "text-secondary" : "text-foreground"}>
                       {isIncome ? "+" : "−"}
                       {formatCurrency(Number(transaction.amount), transaction.currency)}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-1">
                       <Button
                         variant="ghost"
                         size="icon"
+                        className="h-9 w-9 rounded-xl text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
                         onClick={() => onEdit(transaction)}
                         aria-label="Редактировать"
                       >
@@ -117,8 +134,8 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
+                        className="h-9 w-9 rounded-xl text-muted-foreground transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
                         onClick={() => onDelete(transaction.id)}
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
                         aria-label="Удалить"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -130,7 +147,7 @@ export function TransactionTable({
             })}
           </TableBody>
         </Table>
-      </div>
+      </Card>
 
       {totalPages > 1 && (
         <Pagination

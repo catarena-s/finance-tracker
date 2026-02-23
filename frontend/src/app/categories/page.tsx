@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Category } from "@/types/api";
 import { CategoryList, CategoryForm } from "@/components/categories";
 import { Modal, Button } from "@/components/ui";
 
-export default function CategoriesPage() {
+function CategoriesPageContent() {
   const {
     categories,
     loading,
@@ -23,9 +24,17 @@ export default function CategoriesPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
+
+  useEffect(() => {
+    if (searchParams.get("openAdd") === "1") {
+      setIsCreateModalOpen(true);
+    }
+  }, [searchParams]);
 
   const handleCreate = async (data: any) => {
     try {
@@ -72,17 +81,22 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Категории</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить категорию</Button>
+    <div className="min-h-full bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
+            Категории
+          </h1>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
-            <span>{error}</span>
-            <button onClick={clearError} className="text-red-600 hover:text-red-800">
+          <div className="mb-6 flex items-center justify-between rounded-2xl border border-destructive/50 bg-destructive/10 px-4 py-3 shadow-sm">
+            <span className="text-destructive">{error}</span>
+            <button
+              onClick={clearError}
+              className="rounded-2xl p-1 text-destructive hover:text-destructive/80"
+              aria-label="Закрыть"
+            >
               ✕
             </button>
           </div>
@@ -136,21 +150,21 @@ export default function CategoriesPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-gray-700">
+            <p className="text-foreground">
               Вы уверены, что хотите удалить эту категорию?
             </p>
             {selectedCategory && (
-              <div className="bg-gray-50 p-3 rounded flex items-center gap-3">
-                <span className="text-2xl">{selectedCategory.icon}</span>
+              <div className="flex items-center gap-3 rounded-2xl border border-border bg-muted/30 p-4">
+                <span className="text-2xl">{selectedCategory.icon ?? "📁"}</span>
                 <div>
-                  <p className="font-medium">{selectedCategory.name}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="font-medium text-foreground">{selectedCategory.name}</p>
+                  <p className="text-sm text-muted-foreground">
                     {selectedCategory.type === "income" ? "Доход" : "Расход"}
                   </p>
                 </div>
               </div>
             )}
-            <p className="text-sm text-amber-600">
+            <p className="text-sm text-amber-500">
               ⚠️ Внимание: Если у категории есть связанные транзакции, удаление будет
               невозможно.
             </p>
@@ -173,5 +187,15 @@ export default function CategoriesPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function CategoriesPage() {
+  return (
+    <Suspense
+      fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}
+    >
+      <CategoriesPageContent />
+    </Suspense>
   );
 }

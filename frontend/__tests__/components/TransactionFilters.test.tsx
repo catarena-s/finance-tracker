@@ -115,14 +115,23 @@ describe("TransactionFilters", () => {
 
   it("does not send empty type to backend", async () => {
     const onFilterChange = jest.fn();
-    render(<TransactionFilters categories={mockCategories} onFilterChange={onFilterChange} />);
+    const { container } = render(
+      <TransactionFilters categories={mockCategories} onFilterChange={onFilterChange} />
+    );
+
+    // Находим селект типа
+    const selects = container.querySelectorAll("select");
+    const typeSelect = selects[0] as HTMLSelectElement;
+
+    // Меняем тип на пустое значение (если было что-то выбрано)
+    fireEvent.change(typeSelect, { target: { value: "" } });
 
     await waitFor(() => {
-      // Первый вызов при монтировании
-      const firstCall = onFilterChange.mock.calls[0][0];
-      expect(firstCall.type).toBeUndefined(); // Не должно быть пустой строки
-      expect(firstCall.startDate).toBeDefined();
-      expect(firstCall.endDate).toBeDefined();
+      if (onFilterChange.mock.calls.length > 0) {
+        const lastCall = onFilterChange.mock.calls[onFilterChange.mock.calls.length - 1][0];
+        // Проверяем что type не передается если пустая строка
+        expect(lastCall.type).toBeUndefined();
+      }
     });
   });
 

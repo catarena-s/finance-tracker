@@ -9,6 +9,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { CategoryIcon } from "@/utils/categoryIcons";
 import {
   CHART_COLORS,
   chartGrid,
@@ -29,6 +30,7 @@ const SOFT_BAR_COLORS = [
 
 interface TopCategory {
   categoryName: string;
+  categoryIcon?: string;
   totalAmount: number;
   percentage: number;
 }
@@ -114,11 +116,11 @@ export function TopCategoriesWidget({
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="p-6">
+      <Card className="rounded-2xl border border-border bg-card shadow-sm">
+        <CardContent className="p-6 md:p-8">
           <div className="animate-pulse">
-            <div className="h-6 bg-muted rounded w-1/2 mb-4" />
-            <div className="h-64 bg-muted rounded-2xl" />
+            <div className="mb-4 h-6 w-1/2 rounded bg-muted" />
+            <div className="h-64 rounded-2xl bg-muted/50" />
           </div>
         </CardContent>
       </Card>
@@ -127,12 +129,12 @@ export function TopCategoriesWidget({
 
   if (!categories || categories.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <h2 className="text-xl font-semibold mb-4 text-foreground">
+      <Card className="rounded-2xl border border-border bg-card shadow-sm">
+        <CardContent className="p-6 md:p-8">
+          <h2 className="mb-4 text-lg font-semibold text-foreground">
             Топ категорий расходов
           </h2>
-          <div className="h-64 flex items-center justify-center text-muted-foreground">
+          <div className="flex h-64 items-center justify-center text-muted-foreground">
             Нет данных для отображения
           </div>
         </CardContent>
@@ -141,21 +143,31 @@ export function TopCategoriesWidget({
   }
 
   return (
-    <Card>
-      <CardContent className="p-6">
-        <h2 className="text-xl font-semibold mb-4 text-foreground">
+    <Card className="rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
+      <CardContent className="p-6 md:p-8">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
           Топ {limit} категорий расходов
         </h2>
         <div className="h-64 sm:h-80">
           <Bar data={chartData} options={options} />
         </div>
-        <div className="mt-4 space-y-2">
+        <div className="mt-6 space-y-3">
           {categories.slice(0, limit).map((cat) => (
             <div
               key={`${cat.categoryName}-${cat.totalAmount}`}
-              className="flex justify-between items-center text-sm"
+              className="flex items-center justify-between text-sm"
             >
-              <span className="text-foreground">{cat.categoryName}</span>
+              <div className="flex items-center gap-2">
+                {cat.categoryIcon && (
+                  <div className="flex h-6 w-6 items-center justify-center">
+                    <CategoryIcon
+                      icon={cat.categoryIcon}
+                      className="h-4 w-4 text-foreground"
+                    />
+                  </div>
+                )}
+                <span className="text-foreground">{cat.categoryName}</span>
+              </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground">
                   {formatCurrencyTooltip(cat.totalAmount)}

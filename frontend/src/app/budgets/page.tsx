@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Budget } from "@/types/api";
 import { BudgetList, BudgetForm } from "@/components/budgets";
 import { Modal, Button } from "@/components/ui";
 
-export default function BudgetsPage() {
+function BudgetsPageContent() {
   const {
     budgets,
     categories,
@@ -25,11 +26,18 @@ export default function BudgetsPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
   const [budgetProgress, setBudgetProgress] = useState<Record<string, number>>({});
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     loadCategories();
     loadBudgets();
   }, [loadCategories, loadBudgets]);
+
+  useEffect(() => {
+    if (searchParams.get("openAdd") === "1") {
+      setIsCreateModalOpen(true);
+    }
+  }, [searchParams]);
 
   // TODO: Load actual budget progress from analytics API
   useEffect(() => {
@@ -88,17 +96,19 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Бюджеты</h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить бюджет</Button>
+          <h1 className="text-3xl font-bold text-foreground">Бюджеты</h1>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
+          <div className="bg-destructive/10 border border-destructive/50 text-destructive px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
             <span>{error}</span>
-            <button onClick={clearError} className="text-red-600 hover:text-red-800">
+            <button
+              onClick={clearError}
+              className="text-destructive hover:text-destructive/80"
+            >
               ✕
             </button>
           </div>
@@ -156,11 +166,15 @@ export default function BudgetsPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-gray-700">Вы уверены, что хотите удалить этот бюджет?</p>
+            <p className="text-foreground">
+              Вы уверены, что хотите удалить этот бюджет?
+            </p>
             {selectedBudget && (
-              <div className="bg-gray-50 p-3 rounded">
-                <p className="font-medium">{selectedBudget.amount} USD</p>
-                <p className="text-sm text-gray-600">
+              <div className="bg-muted/30 p-3 rounded">
+                <p className="font-medium text-foreground">
+                  {selectedBudget.amount} USD
+                </p>
+                <p className="text-sm text-muted-foreground">
                   {selectedBudget.period === "monthly" ? "Месячный" : "Годовой"}
                 </p>
               </div>
@@ -184,5 +198,15 @@ export default function BudgetsPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function BudgetsPage() {
+  return (
+    <Suspense
+      fallback={<div className="min-h-screen bg-background p-8">Загрузка...</div>}
+    >
+      <BudgetsPageContent />
+    </Suspense>
   );
 }

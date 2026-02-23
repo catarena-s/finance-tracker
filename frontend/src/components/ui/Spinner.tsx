@@ -15,7 +15,7 @@ export function Spinner({ size = "md", className = "" }: SpinnerProps) {
 
   return (
     <div
-      className={`inline-block ${sizeClasses[size]} border-gray-300 border-t-blue-600 rounded-full animate-spin ${className}`}
+      className={`inline-block ${sizeClasses[size]} border-muted border-t-primary rounded-full animate-spin ${className}`}
       role="status"
       aria-label="Загрузка"
     >

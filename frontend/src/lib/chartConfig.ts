@@ -1,17 +1,17 @@
 /**
- * Общая конфигурация Chart.js в стиле light fintech:
- * мягкая палитра (primary/secondary), тонкие сетки, плавная анимация, чистые тултипы.
+ * Dark modern dashboard Chart.js configuration
  */
 
 export const CHART_COLORS = {
-  primary: "rgba(99, 102, 241, 0.9)",
-  primaryLight: "rgba(99, 102, 241, 0.15)",
-  secondary: "rgba(16, 185, 129, 0.9)",
-  secondaryLight: "rgba(16, 185, 129, 0.15)",
-  destructive: "rgba(239, 68, 68, 0.9)",
+  primary: "rgba(59, 130, 246, 0.9)", // #3B82F6
+  primaryLight: "rgba(59, 130, 246, 0.15)",
+  secondary: "rgba(6, 182, 212, 0.9)", // #06B6D4
+  secondaryLight: "rgba(6, 182, 212, 0.15)",
+  destructive: "rgba(239, 68, 68, 0.9)", // #EF4444
   destructiveLight: "rgba(239, 68, 68, 0.12)",
-  grid: "#E2E8F0",
-  text: "#64748B",
+  grid: "#374151",
+  text: "#9CA3AF",
+  background: "#1F2933",
 } as const;
 
 export const chartGrid = {
@@ -21,16 +21,17 @@ export const chartGrid = {
 
 export const chartAnimation = {
   duration: 600,
+  easing: "easeInOutQuart" as const,
 };
 
 export const tooltipDefaults = {
-  backgroundColor: "rgba(255, 255, 255, 0.96)",
-  titleColor: "#0F172A",
-  bodyColor: "#0F172A",
-  borderColor: "#E2E8F0",
+  backgroundColor: "rgba(31, 41, 51, 0.98)",
+  titleColor: "#E5E7EB",
+  bodyColor: "#9CA3AF",
+  borderColor: "#374151",
   borderWidth: 1,
   padding: 12,
-  cornerRadius: 8,
+  cornerRadius: 12,
   displayColors: true,
 };
 

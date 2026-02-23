@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Category } from "@/types/api";
 import { Input, Select, Button } from "@/components/ui";
 import { validateString, validateHexColor } from "@/utils/validation";
+import { availableIcons, CategoryIcon } from "@/utils/categoryIcons";
 
 interface CategoryFormProps {
   category?: Category;
@@ -16,24 +17,6 @@ export interface CategoryFormData {
   color: string;
   type: "income" | "expense";
 }
-
-const commonIcons = [
-  "💰",
-  "💼",
-  "📈",
-  "🎁",
-  "💵", // Income
-  "🛒",
-  "🚗",
-  "🏠",
-  "🎬",
-  "⚕️",
-  "📚",
-  "👔",
-  "🍽️",
-  "📦",
-  "✈️", // Expense
-];
 
 const commonColors = [
   "#4CAF50",
@@ -113,48 +96,50 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Иконка</label>
-        <div className="flex items-center gap-3 mb-2">
+        <label className="block text-sm font-medium text-foreground mb-2">Иконка</label>
+        <div className="flex items-center gap-3 mb-3">
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center text-2xl border-2 border-gray-300"
+            className="w-12 h-12 rounded-xl flex items-center justify-center border-2 border-border"
             style={{ backgroundColor: `${selectedColor}20` }}
           >
-            {selectedIcon}
+            <CategoryIcon
+              icon={selectedIcon}
+              className="h-6 w-6"
+              style={{ color: selectedColor }}
+            />
           </div>
-          <Input
-            type="text"
-            placeholder="Введите эмодзи"
-            error={errors.icon?.message}
-            {...register("icon", {
-              required: "Выберите иконку",
-              validate: (value) =>
-                validateString(value, { minLength: 1, maxLength: 10 }) || true,
-            })}
-          />
+          <span className="text-sm text-foreground">
+            {availableIcons.find((i) => i.emoji === selectedIcon)?.name ||
+              "Выберите иконку"}
+          </span>
         </div>
         <div className="grid grid-cols-10 gap-2">
-          {commonIcons.map((icon) => (
-            <button
-              key={icon}
-              type="button"
-              onClick={() => setValue("icon", icon)}
-              className={`w-10 h-10 rounded flex items-center justify-center text-xl hover:bg-gray-100 transition-colors ${
-                selectedIcon === icon
-                  ? "bg-blue-100 ring-2 ring-blue-500"
-                  : "bg-gray-50"
-              }`}
-            >
-              {icon}
-            </button>
-          ))}
+          {availableIcons.map((iconItem) => {
+            const IconComponent = iconItem.icon;
+            return (
+              <button
+                key={iconItem.emoji}
+                type="button"
+                onClick={() => setValue("icon", iconItem.emoji)}
+                className={`w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-all ${
+                  selectedIcon === iconItem.emoji
+                    ? "bg-primary/10 ring-2 ring-primary"
+                    : "bg-muted/50"
+                }`}
+                title={iconItem.name}
+              >
+                <IconComponent className="h-5 w-5 text-foreground" />
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Цвет</label>
+        <label className="block text-sm font-medium text-foreground mb-2">Цвет</label>
         <div className="flex items-center gap-3 mb-2">
           <div
-            className="w-12 h-12 rounded border-2 border-gray-300"
+            className="w-12 h-12 rounded border-2 border-border"
             style={{ backgroundColor: selectedColor }}
           />
           <Input
@@ -175,8 +160,8 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
               onClick={() => setValue("color", color)}
               className={`w-8 h-8 rounded border-2 transition-all ${
                 selectedColor === color
-                  ? "border-gray-900 scale-110"
-                  : "border-gray-300"
+                  ? "border-foreground scale-110"
+                  : "border-border"
               }`}
               style={{ backgroundColor: color }}
               aria-label={`Select color ${color}`}

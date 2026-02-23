@@ -194,12 +194,30 @@ class AnalyticsService:
         self, start_date: date, end_date: date, limit: int = 5
     ) -> Dict:
         """Получить топ категорий по расходам"""
-        breakdown = await self.get_category_breakdown(start_date, end_date)
+        transactions = await self.transaction_repo.get_by_date_range(
+            start_date, end_date
+        )
+
+        category_data = defaultdict(
+            lambda: {"amount": Decimal(0), "icon": None, "name": None}
+        )
+
+        for t in transactions:
+            if t.type == "expense" and t.category:
+                amount = convert_to_rub(t.amount, t.currency)
+                category_data[t.category.id]["amount"] += amount
+                category_data[t.category.id]["icon"] = t.category.icon
+                category_data[t.category.id]["name"] = t.category.name
+
+        # Преобразовать в список
+        breakdown = [
+            {"category": data["name"], "icon": data["icon"], "amount": data["amount"]}
+            for cat_id, data in category_data.items()
+            if data["name"] is not None
+        ]
 
         # Сортировать по сумме и взять топ
-        sorted_breakdown = sorted(
-            breakdown["breakdown"], key=lambda x: x["amount"], reverse=True
-        )
+        sorted_breakdown = sorted(breakdown, key=lambda x: x["amount"], reverse=True)
         top = sorted_breakdown[:limit]
 
         # Вычислить общую сумму для процентов
@@ -209,6 +227,7 @@ class AnalyticsService:
         top_with_percentage = [
             {
                 "category": item["category"],
+                "icon": item["icon"],
                 "amount": item["amount"],
                 "percentage": (
                     float(item["amount"] / total_amount * 100)

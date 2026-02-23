@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Transaction, Category } from "@/types/api";
-import { Input, Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { Input, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { CategorySelect } from "@/components/ui/CategorySelect";
+import { Select } from "@/components/ui/Select";
 import { validateAmount, validateDate, validateString } from "@/utils/validation";
+import { CategoryIcon } from "@/utils/categoryIcons";
 
 interface TransactionFormProps {
   transaction?: Transaction;
@@ -88,7 +91,8 @@ export function TransactionForm({
 
   const categoryOptions = filteredCategories.map((cat) => ({
     value: cat.id,
-    label: `${cat.icon} ${cat.name}`,
+    label: cat.name,
+    icon: cat.icon,
   }));
 
   return (
@@ -103,7 +107,7 @@ export function TransactionForm({
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Сумма</label>
+        <label className="block text-sm font-medium text-foreground mb-1">Сумма</label>
         <CurrencyInput
           value={watch("amount")}
           onChange={(value) => setValue("amount", value)}
@@ -126,18 +130,19 @@ export function TransactionForm({
         })}
       />
 
-      <Select
+      <CategorySelect
         label="Категория"
         options={categoryOptions}
         placeholder="Выберите категорию"
         error={errors.categoryId?.message}
+        value={watch("categoryId")}
         {...register("categoryId", {
           required: "Выберите категорию",
         })}
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-foreground mb-1">
           Дата транзакции
         </label>
         <DatePicker
@@ -165,10 +170,10 @@ export function TransactionForm({
         <input
           type="checkbox"
           id="isRecurring"
-          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          className="w-4 h-4 text-primary border-border rounded focus:ring-primary"
           {...register("isRecurring")}
         />
-        <label htmlFor="isRecurring" className="text-sm text-gray-700">
+        <label htmlFor="isRecurring" className="text-sm text-foreground">
           Повторяющаяся транзакция
         </label>
       </div>

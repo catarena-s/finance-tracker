@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
 import { Category } from "@/types/api";
 import { CategoryCard } from "./CategoryCard";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { FolderTree } from "lucide-react";
 
 interface CategoryListProps {
   categories: Category[];
@@ -17,22 +21,24 @@ export function CategoryList({
 }: CategoryListProps) {
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {[...Array(6)].map((_, index) => (
-          <div
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {[...Array(8)].map((_, index) => (
+          <Card
             key={index}
-            className="bg-white rounded-lg shadow p-4 animate-pulse"
-            role="status"
-            aria-label="Loading"
+            className="rounded-2xl border border-border bg-card shadow-sm"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
-              <div className="flex-1">
-                <div className="h-5 bg-gray-200 rounded w-24 mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-16"></div>
+            <CardContent className="p-5">
+              <div className="animate-pulse">
+                <div className="flex items-start gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-muted" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-24 rounded bg-muted" />
+                    <div className="h-3 w-16 rounded bg-muted/50" />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     );
@@ -40,21 +46,19 @@ export function CategoryList({
 
   if (!categories || categories.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-12 text-center">
-        <svg
-          className="mx-auto h-12 w-12 text-gray-400"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-        </svg>
-        <h3 className="mt-2 text-sm font-medium text-gray-900">Нет категорий</h3>
-        <p className="mt-1 text-sm text-gray-500">Начните с создания новой категории</p>
-      </div>
+      <Card className="rounded-2xl border border-border bg-card p-12 text-center shadow-sm md:p-8">
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
+            <FolderTree className="h-7 w-7 text-muted-foreground" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">Нет категорий</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Начните с создания новой категории
+            </p>
+          </div>
+        </div>
+      </Card>
     );
   }
 
@@ -62,11 +66,16 @@ export function CategoryList({
   const expenseCategories = categories.filter((cat) => cat.type === "expense");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {incomeCategories.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Доходы</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="mb-5 flex items-center gap-3">
+            <h2 className="text-lg font-semibold text-foreground">Доходы</h2>
+            <span className="flex h-6 min-w-[24px] items-center justify-center rounded-lg bg-secondary/10 px-2 text-xs font-medium text-secondary">
+              {incomeCategories.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {incomeCategories.map((category) => (
               <CategoryCard
                 key={category.id}
@@ -81,8 +90,13 @@ export function CategoryList({
 
       {expenseCategories.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Расходы</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="mb-5 flex items-center gap-3">
+            <h2 className="text-lg font-semibold text-foreground">Расходы</h2>
+            <span className="flex h-6 min-w-[24px] items-center justify-center rounded-lg bg-muted px-2 text-xs font-medium text-muted-foreground">
+              {expenseCategories.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {expenseCategories.map((category) => (
               <CategoryCard
                 key={category.id}

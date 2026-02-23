@@ -87,6 +87,7 @@ export interface TrendData {
 export interface CategorySpending {
   categoryId: string;
   categoryName: string;
+  categoryIcon?: string;
   categoryColor: string;
   totalAmount: number;
   transactionCount: number;

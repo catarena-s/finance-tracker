@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Transaction } from "@/types/api";
 import {
@@ -14,7 +15,7 @@ import { Modal, Button } from "@/components/ui";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { X } from "lucide-react";
 
-export default function TransactionsPage() {
+function TransactionsPageContent() {
   const {
     transactions,
     transactionsPagination,
@@ -36,18 +37,48 @@ export default function TransactionsPage() {
     null
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState<TransactionFilterValues>({});
+
+  // Инициализируем фильтры с датами по умолчанию
+  const getDefaultFilters = (): TransactionFilterValues => {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    return {
+      startDate: formatDate(firstDayOfMonth),
+      endDate: formatDate(today),
+    };
+  };
+
+  const [filters, setFilters] = useState<TransactionFilterValues>(getDefaultFilters());
   const [csvImportOpen, setCsvImportOpen] = useState(false);
   const [csvExportOpen, setCsvExportOpen] = useState(false);
   const pageSize = 10;
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
 
   useEffect(() => {
-    loadTransactions({ page: currentPage, pageSize, ...filters });
-  }, [currentPage, filters, loadTransactions]);
+    if (searchParams.get("openAdd") === "1") {
+      setIsCreateModalOpen(true);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await loadTransactions({ page: currentPage, pageSize, ...filters });
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, filters]);
 
   const handleFilterChange = (newFilters: TransactionFilterValues) => {
     setFilters(newFilters);
@@ -101,17 +132,16 @@ export default function TransactionsPage() {
   return (
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Транзакции</h1>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
+            Транзакции
+          </h1>
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={() => setCsvImportOpen(true)}>
               Импорт CSV
             </Button>
             <Button variant="secondary" onClick={() => setCsvExportOpen(true)}>
               Экспорт CSV
-            </Button>
-            <Button onClick={() => setIsCreateModalOpen(true)}>
-              Добавить транзакцию
             </Button>
           </div>
         </div>
@@ -132,13 +162,13 @@ export default function TransactionsPage() {
         />
 
         {error && (
-          <Card className="mb-6 border-destructive/50 bg-destructive/5">
+          <Card className="mb-6 rounded-2xl border-destructive/50 bg-destructive/10 shadow-sm">
             <CardContent className="flex flex-row items-center justify-between py-4">
               <span className="text-destructive">{error}</span>
               <button
                 type="button"
                 onClick={clearError}
-                className="text-destructive hover:text-destructive/80 rounded-2xl p-1"
+                className="rounded-2xl p-1 text-destructive hover:text-destructive/80"
                 aria-label="Закрыть"
               >
                 <X className="h-5 w-5" />
@@ -239,5 +269,15 @@ export default function TransactionsPage() {
         </Modal>
       </div>
     </div>
+  );
+}
+
+export default function TransactionsPage() {
+  return (
+    <Suspense
+      fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}
+    >
+      <TransactionsPageContent />
+    </Suspense>
   );
 }
