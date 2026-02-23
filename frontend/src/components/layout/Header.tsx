@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/shadcn/button";
 import { Plus } from "lucide-react";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 const pathTitles: Record<string, string> = {
   "/dashboard": "Обзор",
@@ -36,6 +37,7 @@ export function Header() {
         {title}
       </span>
       <div className="flex items-center gap-3">
+        <ThemeSwitcher />
         {showAddTransaction && (
           <Button
             asChild
