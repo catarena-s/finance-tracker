@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { recurringTransactionsApi } from "@/services/api";
 import { useApp } from "@/contexts/AppContext";
 import type { RecurringTransaction, RecurringTransactionCreate } from "@/types/api";
@@ -23,7 +23,6 @@ function RecurringPageContent() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selected, setSelected] = useState<RecurringTransaction | null>(null);
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const load = useCallback(() => {
     setLoading(true);
@@ -42,10 +41,10 @@ function RecurringPageContent() {
   useEffect(() => {
     if (searchParams.get("openAdd") === "1" && !isCreateModalOpen) {
       setIsCreateModalOpen(true);
-      // Очищаем URL после открытия модального окна
-      router.replace("/recurring");
+      // Очищаем query параметр после открытия
+      window.history.replaceState({}, "", window.location.pathname);
     }
-  }, [searchParams, router, isCreateModalOpen]);
+  }, [searchParams, isCreateModalOpen]);
 
   const handleCreate = async (data: RecurringTransactionCreate) => {
     await recurringTransactionsApi.create(data);
