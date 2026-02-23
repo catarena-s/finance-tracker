@@ -8,7 +8,7 @@ import {
   TrendChart,
   TopCategoriesWidget,
 } from "@/components/dashboard";
-import { getDateRange, type DashboardPeriod } from "@/utils/dateRange";
+import { type DashboardPeriod } from "@/utils/dateRange";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { Button } from "@/components/ui/shadcn/button";
 import { Input } from "@/components/ui/shadcn/input";
@@ -46,7 +46,7 @@ export default function DashboardPage() {
 
   const defaultDates = useMemo(() => getDefaultDateRange(), []);
 
-  const [period, setPeriod] = useState<DashboardPeriod>("month");
+  const [period, setPeriod] = useState<DashboardPeriod>("day");
   const [startDate, setStartDate] = useState(defaultDates.start);
   const [endDate, setEndDate] = useState(defaultDates.end);
 
@@ -63,10 +63,10 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#F8FAFC]">
+    <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">Обзор</h1>
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
 
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
@@ -74,19 +74,19 @@ export default function DashboardPage() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-auto rounded-2xl border-slate-200"
+                className="w-auto rounded-2xl bg-input text-foreground"
               />
-              <span className="text-slate-500">—</span>
+              <span className="text-muted-foreground">—</span>
               <Input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-auto rounded-2xl border-slate-200"
+                className="w-auto rounded-2xl bg-input text-foreground"
               />
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-500">Группировка:</span>
+              <span className="text-sm text-muted-foreground">Группировка:</span>
               {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
                 <Button
                   key={p}
@@ -103,13 +103,13 @@ export default function DashboardPage() {
         </div>
 
         {error && (
-          <Card className="mb-6 rounded-2xl border-red-200 bg-red-50 shadow-sm">
+          <Card className="mb-6 rounded-2xl border-destructive/50 bg-destructive/10 shadow-sm">
             <CardContent className="flex flex-row items-center justify-between py-4">
-              <span className="text-red-700">{error}</span>
+              <span className="text-destructive">{error}</span>
               <button
                 type="button"
                 onClick={clearError}
-                className="rounded-2xl p-1 text-red-600 hover:text-red-800"
+                className="rounded-2xl p-1 text-destructive hover:text-destructive/80"
                 aria-label="Закрыть"
               >
                 <X className="h-5 w-5" />
