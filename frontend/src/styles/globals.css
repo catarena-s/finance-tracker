@@ -61,13 +61,20 @@ html.light {
 
 html {
   scroll-behavior: smooth;
-  transition: background-color 150ms ease, color 150ms ease;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
-  transition: background-color 150ms ease, color 150ms ease;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Плавные переходы для всех элементов при смене темы */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
 }
 
 @keyframes slide-in {

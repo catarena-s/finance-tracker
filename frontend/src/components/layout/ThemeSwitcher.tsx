@@ -19,9 +19,9 @@ export function ThemeSwitcher({ className }: { className?: string }) {
       )}
     >
       {theme === "dark" ? (
-        <Sun className="h-4 w-4" />
+        <Sun className="h-4 w-4 transition-transform duration-150 hover:rotate-12" />
       ) : (
-        <Moon className="h-4 w-4" />
+        <Moon className="h-4 w-4 transition-transform duration-150 hover:-rotate-12" />
       )}
     </button>
   );

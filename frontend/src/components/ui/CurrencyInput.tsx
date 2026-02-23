@@ -22,7 +22,7 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
       helperText,
       value,
       onChange,
-      currency = "USD",
+      currency = "RUB",
       disabled,
       required,
       id,

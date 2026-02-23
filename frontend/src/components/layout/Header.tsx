@@ -26,7 +26,7 @@ function getPageTitle(pathname: string): string {
 export function Header() {
   const pathname = usePathname();
   const title = getPageTitle(pathname);
-  const showAddTransaction = pathname.startsWith("/transactions") || pathname === "/";
+  const showAddTransaction = pathname.startsWith("/transactions");
   const showAddCategory = pathname.startsWith("/categories");
   const showAddBudget = pathname.startsWith("/budgets");
   const showAddRecurring = pathname.startsWith("/recurring");

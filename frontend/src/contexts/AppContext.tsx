@@ -131,7 +131,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const apiData: Record<string, unknown> = {
           type: data.type,
           amount: data.amount,
-          currency: data.currency ?? "USD",
+          currency: data.currency ?? "RUB",
           categoryId: data.categoryId,
           description: data.description || "",
           transactionDate: data.transactionDate,

@@ -14,6 +14,7 @@ interface BudgetFormProps {
 }
 
 const CURRENCY_OPTIONS = [
+  { value: "RUB", label: "RUB (₽)" },
   { value: "USD", label: "USD ($)" },
   { value: "EUR", label: "EUR (€)" },
   { value: "GBP", label: "GBP (£)" },
@@ -46,7 +47,7 @@ export function BudgetForm({
       ? {
           categoryId: budget.categoryId,
           amount: Number(budget.amount),
-          currency: budget.currency ?? "USD",
+          currency: budget.currency ?? "RUB",
           period: budget.period,
           startDate: budget.startDate,
           endDate: budget.endDate,
@@ -54,7 +55,7 @@ export function BudgetForm({
       : {
           categoryId: "",
           amount: 0,
-          currency: "USD",
+          currency: "RUB",
           period: "monthly",
           startDate: new Date().toISOString().split("T")[0],
           endDate: "",

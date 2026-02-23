@@ -36,7 +36,7 @@ export function BudgetCard({
   };
 
   const periodLabel = budget.period === "monthly" ? "Месячный" : "Годовой";
-  const currency = budget.currency ?? "USD";
+  const currency = budget.currency ?? "RUB";
 
   return (
     <div className="bg-card rounded-lg shadow p-4 hover:shadow-md transition-shadow">
