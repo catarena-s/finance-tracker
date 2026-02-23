@@ -105,7 +105,10 @@ export default function BudgetsPage() {
         {error && (
           <div className="bg-destructive/10 border border-destructive/50 text-destructive px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
             <span>{error}</span>
-            <button onClick={clearError} className="text-destructive hover:text-destructive/80">
+            <button
+              onClick={clearError}
+              className="text-destructive hover:text-destructive/80"
+            >
               ✕
             </button>
           </div>
@@ -163,10 +166,14 @@ export default function BudgetsPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-foreground">Вы уверены, что хотите удалить этот бюджет?</p>
+            <p className="text-foreground">
+              Вы уверены, что хотите удалить этот бюджет?
+            </p>
             {selectedBudget && (
               <div className="bg-muted/30 p-3 rounded">
-                <p className="font-medium text-foreground">{selectedBudget.amount} USD</p>
+                <p className="font-medium text-foreground">
+                  {selectedBudget.amount} USD
+                </p>
                 <p className="text-sm text-muted-foreground">
                   {selectedBudget.period === "monthly" ? "Месячный" : "Годовой"}
                 </p>

@@ -102,10 +102,15 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             className="w-12 h-12 rounded-xl flex items-center justify-center border-2 border-border"
             style={{ backgroundColor: `${selectedColor}20` }}
           >
-            <CategoryIcon icon={selectedIcon} className="h-6 w-6" style={{ color: selectedColor }} />
+            <CategoryIcon
+              icon={selectedIcon}
+              className="h-6 w-6"
+              style={{ color: selectedColor }}
+            />
           </div>
           <span className="text-sm text-foreground">
-            {availableIcons.find((i) => i.emoji === selectedIcon)?.name || "Выберите иконку"}
+            {availableIcons.find((i) => i.emoji === selectedIcon)?.name ||
+              "Выберите иконку"}
           </span>
         </div>
         <div className="grid grid-cols-10 gap-2">

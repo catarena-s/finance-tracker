@@ -72,8 +72,12 @@ export function TransactionTable({
                 Дата
               </TableHead>
               <TableHead className="font-semibold text-muted-foreground">Тип</TableHead>
-              <TableHead className="font-semibold text-muted-foreground">Категория</TableHead>
-              <TableHead className="font-semibold text-muted-foreground">Описание</TableHead>
+              <TableHead className="font-semibold text-muted-foreground">
+                Категория
+              </TableHead>
+              <TableHead className="font-semibold text-muted-foreground">
+                Описание
+              </TableHead>
               <TableHead className="text-right font-semibold text-muted-foreground">
                 Сумма
               </TableHead>

@@ -160,7 +160,10 @@ export function TopCategoriesWidget({
               <div className="flex items-center gap-2">
                 {cat.categoryIcon && (
                   <div className="flex h-6 w-6 items-center justify-center">
-                    <CategoryIcon icon={cat.categoryIcon} className="h-4 w-4 text-foreground" />
+                    <CategoryIcon
+                      icon={cat.categoryIcon}
+                      className="h-4 w-4 text-foreground"
+                    />
                   </div>
                 )}
                 <span className="text-foreground">{cat.categoryName}</span>
@@ -169,7 +172,9 @@ export function TopCategoriesWidget({
                 <span className="font-medium text-foreground">
                   {formatCurrencyTooltip(cat.totalAmount)}
                 </span>
-                <span className="text-muted-foreground">({cat.percentage.toFixed(1)}%)</span>
+                <span className="text-muted-foreground">
+                  ({cat.percentage.toFixed(1)}%)
+                </span>
               </div>
             </div>
           ))}

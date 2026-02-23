@@ -41,8 +41,12 @@ export default function HomePage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
                   <FolderTree className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">Категории</h3>
-                <p className="mb-4 text-muted-foreground">Организуйте учёт по категориям</p>
+                <h3 className="mb-2 text-lg font-semibold text-foreground">
+                  Категории
+                </h3>
+                <p className="mb-4 text-muted-foreground">
+                  Организуйте учёт по категориям
+                </p>
                 <Link href="/categories" className={linkButtonClass}>
                   Перейти
                 </Link>
@@ -65,7 +69,9 @@ export default function HomePage() {
 
           <Card className="rounded-2xl border-border bg-card text-left shadow-sm">
             <CardContent className="p-6 md:p-8">
-              <h2 className="mb-6 text-lg font-semibold text-foreground">Возможности</h2>
+              <h2 className="mb-6 text-lg font-semibold text-foreground">
+                Возможности
+              </h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {[
                   {

@@ -101,7 +101,9 @@ export function BudgetCard({
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Бюджет:</span>
-          <span className="font-medium text-foreground">{formatCurrency(budgetAmount, currency)}</span>
+          <span className="font-medium text-foreground">
+            {formatCurrency(budgetAmount, currency)}
+          </span>
         </div>
 
         <div className="flex justify-between text-sm">

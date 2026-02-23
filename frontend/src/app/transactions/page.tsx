@@ -37,7 +37,7 @@ export default function TransactionsPage() {
     null
   );
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   // Инициализируем фильтры с датами по умолчанию
   const getDefaultFilters = (): TransactionFilterValues => {
     const today = new Date();

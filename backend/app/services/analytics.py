@@ -198,7 +198,9 @@ class AnalyticsService:
             start_date, end_date
         )
 
-        category_data = defaultdict(lambda: {"amount": Decimal(0), "icon": None, "name": None})
+        category_data = defaultdict(
+            lambda: {"amount": Decimal(0), "icon": None, "name": None}
+        )
 
         for t in transactions:
             if t.type == "expense" and t.category:
@@ -209,19 +211,13 @@ class AnalyticsService:
 
         # Преобразовать в список
         breakdown = [
-            {
-                "category": data["name"],
-                "icon": data["icon"],
-                "amount": data["amount"]
-            }
+            {"category": data["name"], "icon": data["icon"], "amount": data["amount"]}
             for cat_id, data in category_data.items()
             if data["name"] is not None
         ]
 
         # Сортировать по сумме и взять топ
-        sorted_breakdown = sorted(
-            breakdown, key=lambda x: x["amount"], reverse=True
-        )
+        sorted_breakdown = sorted(breakdown, key=lambda x: x["amount"], reverse=True)
         top = sorted_breakdown[:limit]
 
         # Вычислить общую сумму для процентов

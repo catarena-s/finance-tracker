@@ -10,7 +10,6 @@ import type {
   RecurringTransactionCreate,
   Category,
 } from "@/types/api";
-import { getCategoryIcon } from "@/utils/categoryIcons";
 
 interface RecurringTransactionFormProps {
   item?: RecurringTransaction | null;
@@ -107,7 +106,9 @@ export function RecurringTransactionForm({
           />
         </div>
         <div className="w-32">
-          <label className="block text-sm font-medium text-foreground mb-1">Валюта</label>
+          <label className="block text-sm font-medium text-foreground mb-1">
+            Валюта
+          </label>
           <select
             className="w-full border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             value={watch("currency")}
@@ -149,7 +150,7 @@ export function RecurringTransactionForm({
             options={filteredCategories.map((c) => ({
               value: c.id,
               label: c.name,
-              icon: getCategoryIcon(c.icon),
+              icon: c.icon,
             }))}
             {...field}
             error={errors.categoryId?.message}
@@ -192,7 +193,12 @@ export function RecurringTransactionForm({
         onChange={(v) => setValue("endDate", v || undefined)}
       />
       <div className="flex justify-end gap-3 pt-2">
-        <Button type="button" variant="secondary" onClick={onCancel} className="rounded-2xl">
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onCancel}
+          className="rounded-2xl"
+        >
           Отмена
         </Button>
         <Button type="submit" disabled={isSubmitting} className="rounded-2xl">

@@ -51,7 +51,10 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
         <div className="relative">
           {selectedOption?.icon && (
             <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 z-10">
-              <CategoryIcon icon={selectedOption.icon} className="h-4 w-4 text-muted-foreground" />
+              <CategoryIcon
+                icon={selectedOption.icon}
+                className="h-4 w-4 text-muted-foreground"
+              />
             </div>
           )}
           <select
@@ -76,7 +79,9 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
               ${className}
             `}
             aria-invalid={hasError}
-            aria-describedby={[errorId, helperId].filter(Boolean).join(" ") || undefined}
+            aria-describedby={
+              [errorId, helperId].filter(Boolean).join(" ") || undefined
+            }
             {...props}
           >
             {placeholder && (

@@ -89,7 +89,9 @@ export function CSVMappingDialog({
         <div className="space-y-3">
           {requiredFields.map(({ key, label }) => (
             <div key={key} className="flex items-center gap-2">
-              <label className="w-48 text-sm font-medium text-foreground">{label}</label>
+              <label className="w-48 text-sm font-medium text-foreground">
+                {label}
+              </label>
               <select
                 className="flex-1 border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
                 value={mapping[key] ?? ""}
