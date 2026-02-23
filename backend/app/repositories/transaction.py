@@ -72,15 +72,19 @@ class TransactionRepository(BaseRepository[Transaction]):
         if max_amount:
             filters.append(Transaction.amount <= max_amount)
 
-        # Построить базовый запрос с eager loading категории
+        # Построить базовый запрос для подсчета
+        count_query = select(func.count(Transaction.id))
+        if filters:
+            count_query = count_query.where(and_(*filters))
+
+        # Получить общее количество
+        count_result = await self.session.execute(count_query)
+        total = count_result.scalar() or 0
+
+        # Построить запрос для получения данных с eager loading категории
         query = select(Transaction).options(selectinload(Transaction.category))
         if filters:
             query = query.where(and_(*filters))
-
-        # Получить общее количество
-        count_query = select(func.count()).select_from(query.subquery())
-        count_result = await self.session.execute(count_query)
-        total = count_result.scalar()
 
         # Получить данные с пагинацией
         query = (

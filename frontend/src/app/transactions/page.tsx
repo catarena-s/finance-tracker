@@ -37,13 +37,28 @@ export default function TransactionsPage() {
     null
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState<TransactionFilterValues>({});
+  
+  // Инициализируем фильтры с датами по умолчанию
+  const getDefaultFilters = (): TransactionFilterValues => {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    return {
+      startDate: formatDate(firstDayOfMonth),
+      endDate: formatDate(today),
+    };
+  };
+
+  const [filters, setFilters] = useState<TransactionFilterValues>(getDefaultFilters());
   const [csvImportOpen, setCsvImportOpen] = useState(false);
   const [csvExportOpen, setCsvExportOpen] = useState(false);
-  const [localPagination, setLocalPagination] = useState<{
-    totalPages: number;
-    totalItems: number;
-  }>({ totalPages: 1, totalItems: 0 });
   const pageSize = 10;
   const searchParams = useSearchParams();
 
@@ -62,17 +77,8 @@ export default function TransactionsPage() {
       await loadTransactions({ page: currentPage, pageSize, ...filters });
     };
     fetchData();
-  }, [currentPage, filters, loadTransactions]);
-
-  // Отдельный useEffect для обновления локальной пагинации
-  useEffect(() => {
-    if (transactionsPagination) {
-      setLocalPagination({
-        totalPages: transactionsPagination.totalPages,
-        totalItems: transactionsPagination.totalItems,
-      });
-    }
-  }, [transactionsPagination]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, filters]);
 
   const handleFilterChange = (newFilters: TransactionFilterValues) => {
     setFilters(newFilters);
@@ -180,8 +186,8 @@ export default function TransactionsPage() {
           transactions={transactions ?? []}
           loading={loading}
           currentPage={currentPage}
-          totalPages={localPagination.totalPages}
-          totalItems={localPagination.totalItems}
+          totalPages={transactionsPagination?.totalPages ?? 1}
+          totalItems={transactionsPagination?.totalItems ?? 0}
           pageSize={pageSize}
           onPageChange={setCurrentPage}
           onEdit={handleEdit}

@@ -46,19 +46,6 @@ export function TransactionFilters({
     endDate: defaultDates.endDate,
   });
 
-  // Применяем фильтры по умолчанию при монтировании
-  useEffect(() => {
-    // Очищаем пустые значения перед отправкой
-    const cleanedFilters: TransactionFilterValues = {};
-    if (filters.startDate) {
-      cleanedFilters.startDate = filters.startDate;
-    }
-    if (filters.endDate) {
-      cleanedFilters.endDate = filters.endDate;
-    }
-    onFilterChange(cleanedFilters);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleFilterChange = (key: keyof TransactionFilterValues, value: string) => {
     const newFilters = { ...filters, [key]: value };
 
