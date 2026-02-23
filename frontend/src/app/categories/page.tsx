@@ -192,7 +192,9 @@ function CategoriesPageContent() {
 
 export default function CategoriesPage() {
   return (
-    <Suspense fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}>
+    <Suspense
+      fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}
+    >
       <CategoriesPageContent />
     </Suspense>
   );

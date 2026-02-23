@@ -203,7 +203,9 @@ function RecurringPageContent() {
 
 export default function RecurringPage() {
   return (
-    <Suspense fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}>
+    <Suspense
+      fallback={<div className="min-h-full bg-background p-8">Загрузка...</div>}
+    >
       <RecurringPageContent />
     </Suspense>
   );

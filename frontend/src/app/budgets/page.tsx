@@ -203,7 +203,9 @@ function BudgetsPageContent() {
 
 export default function BudgetsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background p-8">Загрузка...</div>}>
+    <Suspense
+      fallback={<div className="min-h-screen bg-background p-8">Загрузка...</div>}
+    >
       <BudgetsPageContent />
     </Suspense>
   );
