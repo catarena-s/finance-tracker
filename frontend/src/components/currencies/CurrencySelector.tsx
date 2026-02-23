@@ -21,7 +21,9 @@ export function CurrencySelector({
   return (
     <div className={className}>
       {label && (
-        <label className="block text-sm font-medium text-foreground mb-1">{label}</label>
+        <label className="block text-sm font-medium text-foreground mb-1">
+          {label}
+        </label>
       )}
       <select
         className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"

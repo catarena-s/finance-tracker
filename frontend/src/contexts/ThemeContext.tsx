@@ -26,7 +26,7 @@ function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "dark";
   const stored = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
   if (stored === "light" || stored === "dark") return stored;
-  
+
   // Определяем системную тему если нет сохраненной
   if (window.matchMedia("(prefers-color-scheme: light)").matches) {
     return "light";
@@ -76,11 +76,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     [theme, setTheme, toggleTheme]
   );
 
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme(): ThemeContextValue {
