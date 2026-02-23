@@ -181,3 +181,19 @@ docker exec finance-tracker-backend alembic upgrade head
 cd database/seeds
 python generate_transactions.py
 ```
+
+## 📸 Скриншоты
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3 align="center">Светлая тема</h3>
+      <img src="docs/screenshots/light-theme.png" alt="Светлая тема" />
+    </td>
+    <td width="50%">
+      <h3 align="center">Темная тема</h3>
+      <img src="docs/screenshots/dark-theme.png" alt="Темная тема" />
+    </td>
+  </tr>
+</table>
+
