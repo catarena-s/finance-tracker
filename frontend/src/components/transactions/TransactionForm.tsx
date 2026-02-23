@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Transaction, Category } from "@/types/api";
-import { Input, Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { Input, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { CategorySelect } from "@/components/ui/CategorySelect";
+import { Select } from "@/components/ui/Select";
 import { validateAmount, validateDate, validateString } from "@/utils/validation";
+import { CategoryIcon } from "@/utils/categoryIcons";
 
 interface TransactionFormProps {
   transaction?: Transaction;
@@ -88,7 +91,8 @@ export function TransactionForm({
 
   const categoryOptions = filteredCategories.map((cat) => ({
     value: cat.id,
-    label: `${cat.icon} ${cat.name}`,
+    label: cat.name,
+    icon: cat.icon,
   }));
 
   return (
@@ -126,11 +130,12 @@ export function TransactionForm({
         })}
       />
 
-      <Select
+      <CategorySelect
         label="Категория"
         options={categoryOptions}
         placeholder="Выберите категорию"
         error={errors.categoryId?.message}
+        value={watch("categoryId")}
         {...register("categoryId", {
           required: "Выберите категорию",
         })}

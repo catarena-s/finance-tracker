@@ -1,7 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Budget, Category } from "@/types/api";
-import { Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { CategorySelect } from "@/components/ui/CategorySelect";
+import { Select } from "@/components/ui/Select";
 import { validateAmount, validateDate, validateDateRange } from "@/utils/validation";
 
 interface BudgetFormProps {
@@ -74,7 +76,8 @@ export function BudgetForm({
   const expenseCategories = (categories || []).filter((cat) => cat.type === "expense");
   const categoryOptions = expenseCategories.map((cat) => ({
     value: cat.id,
-    label: `${cat.icon} ${cat.name}`,
+    label: cat.name,
+    icon: cat.icon,
   }));
 
   const periodOptions = [
@@ -84,11 +87,12 @@ export function BudgetForm({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-      <Select
+      <CategorySelect
         label="Категория"
         options={categoryOptions}
         placeholder="Выберите категорию"
         error={errors.categoryId?.message}
+        value={watch("categoryId")}
         {...register("categoryId", {
           required: "Выберите категорию",
         })}
