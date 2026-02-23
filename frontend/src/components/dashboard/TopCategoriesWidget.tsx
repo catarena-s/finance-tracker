@@ -9,6 +9,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { CategoryIcon } from "@/utils/categoryIcons";
 import {
   CHART_COLORS,
   chartGrid,
@@ -29,6 +30,7 @@ const SOFT_BAR_COLORS = [
 
 interface TopCategory {
   categoryName: string;
+  categoryIcon?: string;
   totalAmount: number;
   percentage: number;
 }
@@ -155,7 +157,14 @@ export function TopCategoriesWidget({
               key={`${cat.categoryName}-${cat.totalAmount}`}
               className="flex items-center justify-between text-sm"
             >
-              <span className="text-foreground">{cat.categoryName}</span>
+              <div className="flex items-center gap-2">
+                {cat.categoryIcon && (
+                  <div className="flex h-6 w-6 items-center justify-center">
+                    <CategoryIcon icon={cat.categoryIcon} className="h-4 w-4 text-foreground" />
+                  </div>
+                )}
+                <span className="text-foreground">{cat.categoryName}</span>
+              </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground">
                   {formatCurrencyTooltip(cat.totalAmount)}

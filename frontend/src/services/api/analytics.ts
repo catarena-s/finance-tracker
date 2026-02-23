@@ -74,8 +74,8 @@ export const analyticsApi = {
     if (params.type) queryParams.append("type", params.type);
 
     const response = await apiClient.get<{
-      top_categories?: Array<{ category: string; amount: string }>;
-      topCategories?: Array<{ category: string; amount: string }>;
+      top_categories?: Array<{ category: string; icon?: string; amount: string }>;
+      topCategories?: Array<{ category: string; icon?: string; amount: string }>;
     }>(`/analytics/top-categories?${queryParams.toString()}`);
 
     // Backend возвращает top_categories, но axios может конвертировать в topCategories
@@ -86,6 +86,7 @@ export const analyticsApi = {
       return {
         categoryId: `cat-${index}`,
         categoryName: cat.category,
+        categoryIcon: cat.icon,
         categoryColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
         totalAmount,
         transactionCount: 0,
