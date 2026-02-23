@@ -2,12 +2,15 @@
 
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Select, DatePicker, CurrencyInput, Button } from "@/components/ui";
+import { Input, DatePicker, CurrencyInput } from "@/components/ui";
+import { Button } from "@/components/ui/shadcn/button";
+import { CategorySelect } from "@/components/ui/CategorySelect";
 import type {
   RecurringTransaction,
   RecurringTransactionCreate,
   Category,
 } from "@/types/api";
+import { getCategoryIcon } from "@/utils/categoryIcons";
 
 interface RecurringTransactionFormProps {
   item?: RecurringTransaction | null;
@@ -57,7 +60,7 @@ export function RecurringTransactionForm({
       : {
           name: "",
           amount: 0,
-          currency: "USD",
+          currency: "RUB",
           description: "",
           type: "expense",
           frequency: "monthly",
@@ -79,7 +82,6 @@ export function RecurringTransactionForm({
   }, [selectedType, filteredCategories, setValue, watch]);
 
   const handleFormSubmit = async (data: RecurringFormData) => {
-    // Проверяем, что categoryId не пустая строка и не undefined
     if (!data.categoryId || data.categoryId.trim() === "") {
       setError("categoryId", { type: "required", message: "Выберите категорию" });
       return;
@@ -105,9 +107,9 @@ export function RecurringTransactionForm({
           />
         </div>
         <div className="w-32">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Валюта</label>
+          <label className="block text-sm font-medium text-foreground mb-1">Валюта</label>
           <select
-            className="w-full border rounded px-2 py-1.5"
+            className="w-full border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             value={watch("currency")}
             onChange={(e) => setValue("currency", e.target.value)}
           >
@@ -118,9 +120,9 @@ export function RecurringTransactionForm({
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Тип</label>
+        <label className="block text-sm font-medium text-foreground mb-1">Тип</label>
         <select
-          className="w-full border rounded px-2 py-1.5"
+          className="w-full border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           value={watch("type")}
           onChange={(e) => setValue("type", e.target.value as "income" | "expense")}
         >
@@ -141,10 +143,14 @@ export function RecurringTransactionForm({
           },
         }}
         render={({ field }) => (
-          <Select
+          <CategorySelect
             label="Категория"
             placeholder="Выберите категорию"
-            options={filteredCategories.map((c) => ({ value: c.id, label: c.name }))}
+            options={filteredCategories.map((c) => ({
+              value: c.id,
+              label: c.name,
+              icon: getCategoryIcon(c.icon),
+            }))}
             {...field}
             error={errors.categoryId?.message}
           />
@@ -152,10 +158,10 @@ export function RecurringTransactionForm({
       />
       <Input label="Описание" {...register("description")} />
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Повтор</label>
+        <label className="block text-sm font-medium text-foreground mb-1">Повтор</label>
         <div className="flex gap-2">
           <select
-            className="flex-1 border rounded px-2 py-1.5"
+            className="flex-1 border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             value={watch("frequency")}
             onChange={(e) =>
               setValue("frequency", e.target.value as RecurringFormData["frequency"])
@@ -170,7 +176,7 @@ export function RecurringTransactionForm({
           <input
             type="number"
             min={1}
-            className="w-20 border rounded px-2 py-1.5"
+            className="w-20 border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             {...register("interval", { valueAsNumber: true, min: 1 })}
           />
         </div>
@@ -185,11 +191,11 @@ export function RecurringTransactionForm({
         value={watch("endDate") ?? ""}
         onChange={(v) => setValue("endDate", v || undefined)}
       />
-      <div className="flex justify-end gap-2">
-        <Button type="button" variant="secondary" onClick={onCancel}>
+      <div className="flex justify-end gap-3 pt-2">
+        <Button type="button" variant="secondary" onClick={onCancel} className="rounded-2xl">
           Отмена
         </Button>
-        <Button type="submit" loading={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting} className="rounded-2xl">
           {item ? "Сохранить" : "Создать"}
         </Button>
       </div>

@@ -41,10 +41,10 @@ export function TransactionTable({
 }: TransactionTableProps) {
   if (loading) {
     return (
-      <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <Card className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         <div className="animate-pulse space-y-4 p-6 md:p-8">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-12 rounded-lg bg-slate-100" />
+            <div key={i} className="h-12 rounded-lg bg-muted" />
           ))}
         </div>
       </Card>
@@ -53,9 +53,9 @@ export function TransactionTable({
 
   if (!transactions || transactions.length === 0) {
     return (
-      <Card className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm md:p-8">
-        <p className="font-medium text-slate-900">Нет транзакций</p>
-        <p className="mt-1 text-sm text-slate-500">
+      <Card className="rounded-2xl border border-border bg-card p-12 text-center shadow-sm md:p-8">
+        <p className="font-medium text-foreground">Нет транзакций</p>
+        <p className="mt-1 text-sm text-muted-foreground">
           Создайте первую транзакцию, чтобы начать учёт
         </p>
       </Card>
@@ -64,20 +64,20 @@ export function TransactionTable({
 
   return (
     <div className="space-y-6">
-      <Card className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+      <Card className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
         <Table>
           <TableHeader>
-            <TableRow className="border-slate-200 hover:bg-transparent">
-              <TableHead className="h-12 px-6 font-semibold text-slate-500">
+            <TableRow className="border-border hover:bg-transparent">
+              <TableHead className="h-12 px-6 font-semibold text-muted-foreground">
                 Дата
               </TableHead>
-              <TableHead className="font-semibold text-slate-500">Тип</TableHead>
-              <TableHead className="font-semibold text-slate-500">Категория</TableHead>
-              <TableHead className="font-semibold text-slate-500">Описание</TableHead>
-              <TableHead className="text-right font-semibold text-slate-500">
+              <TableHead className="font-semibold text-muted-foreground">Тип</TableHead>
+              <TableHead className="font-semibold text-muted-foreground">Категория</TableHead>
+              <TableHead className="font-semibold text-muted-foreground">Описание</TableHead>
+              <TableHead className="text-right font-semibold text-muted-foreground">
                 Сумма
               </TableHead>
-              <TableHead className="w-[100px] text-right font-semibold text-slate-500">
+              <TableHead className="w-[100px] text-right font-semibold text-muted-foreground">
                 Действия
               </TableHead>
             </TableRow>
@@ -88,30 +88,30 @@ export function TransactionTable({
               return (
                 <TableRow
                   key={transaction.id}
-                  className="border-slate-200 transition-colors hover:bg-slate-50/80"
+                  className="border-border transition-colors hover:bg-muted/50"
                 >
-                  <TableCell className="px-6 py-4 font-medium text-slate-600">
+                  <TableCell className="px-6 py-4 font-medium text-muted-foreground">
                     {formatDate(transaction.transactionDate)}
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <span
                       className={
                         isIncome
-                          ? "font-medium text-[#10B981]"
-                          : "font-medium text-slate-700"
+                          ? "font-medium text-secondary"
+                          : "font-medium text-foreground"
                       }
                     >
                       {isIncome ? "Доход" : "Расход"}
                     </span>
                   </TableCell>
-                  <TableCell className="px-6 py-4 text-slate-700">
+                  <TableCell className="px-6 py-4 text-foreground">
                     {(transaction as any).category?.name || transaction.categoryId}
                   </TableCell>
-                  <TableCell className="max-w-[200px] truncate px-6 py-4 text-slate-500">
+                  <TableCell className="max-w-[200px] truncate px-6 py-4 text-muted-foreground">
                     {transaction.description || "—"}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-right font-semibold">
-                    <span className={isIncome ? "text-[#10B981]" : "text-slate-900"}>
+                    <span className={isIncome ? "text-secondary" : "text-foreground"}>
                       {isIncome ? "+" : "−"}
                       {formatCurrency(Number(transaction.amount), transaction.currency)}
                     </span>
@@ -121,7 +121,7 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
+                        className="h-9 w-9 rounded-xl text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
                         onClick={() => onEdit(transaction)}
                         aria-label="Редактировать"
                       >
@@ -130,7 +130,7 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-destructive"
+                        className="h-9 w-9 rounded-xl text-muted-foreground transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
                         onClick={() => onDelete(transaction.id)}
                         aria-label="Удалить"
                       >

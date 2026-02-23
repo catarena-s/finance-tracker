@@ -43,7 +43,7 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
         {label && (
           <label
             htmlFor={selectId}
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             {label}
           </label>
@@ -51,7 +51,7 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
         <div className="relative">
           {selectedOption?.icon && (
             <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 z-10">
-              <CategoryIcon icon={selectedOption.icon} className="h-4 w-4 text-gray-600" />
+              <CategoryIcon icon={selectedOption.icon} className="h-4 w-4 text-muted-foreground" />
             </div>
           )}
           <select
@@ -62,16 +62,16 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
               block w-full py-2
               ${selectedOption?.icon ? "pl-10 pr-10" : "px-3 pr-10"}
               border rounded-lg
-              text-gray-900
-              bg-white
+              text-foreground
+              bg-input
               focus:outline-none focus:ring-2 focus:ring-offset-0
               transition-colors duration-200
-              disabled:bg-gray-100 disabled:cursor-not-allowed
+              disabled:bg-muted disabled:cursor-not-allowed
               appearance-none
               ${
                 hasError
-                  ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                  : "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                  ? "border-destructive focus:ring-destructive focus:border-destructive"
+                  : "border-border focus:ring-primary focus:border-primary"
               }
               ${className}
             `}
@@ -92,7 +92,7 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
           </select>
           <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
             <svg
-              className="h-4 w-4 text-gray-400"
+              className="h-4 w-4 text-muted-foreground"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -107,12 +107,12 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
           </div>
         </div>
         {error && (
-          <p id={errorId} className="mt-1 text-sm text-red-600" role="alert">
+          <p id={errorId} className="mt-1 text-sm text-destructive" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={helperId} className="mt-1 text-sm text-gray-500">
+          <p id={helperId} className="mt-1 text-sm text-muted-foreground">
             {helperText}
           </p>
         )}

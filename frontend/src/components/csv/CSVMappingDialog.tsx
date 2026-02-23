@@ -83,15 +83,15 @@ export function CSVMappingDialog({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Настройка колонок CSV" size="lg">
       <form onSubmit={handleSubmit}>
-        <p className="text-gray-600 text-sm mb-4">
+        <p className="text-muted-foreground text-sm mb-4">
           Укажите, какая колонка файла соответствует каждому полю.
         </p>
         <div className="space-y-3">
           {requiredFields.map(({ key, label }) => (
             <div key={key} className="flex items-center gap-2">
-              <label className="w-48 text-sm font-medium text-gray-700">{label}</label>
+              <label className="w-48 text-sm font-medium text-foreground">{label}</label>
               <select
-                className="flex-1 border rounded px-2 py-1.5 text-sm"
+                className="flex-1 border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
                 value={mapping[key] ?? ""}
                 onChange={(e) => setMapping((m) => ({ ...m, [key]: e.target.value }))}
                 required
@@ -107,9 +107,9 @@ export function CSVMappingDialog({
           ))}
           {optionalFields.map(({ key, label }) => (
             <div key={key} className="flex items-center gap-2">
-              <label className="w-48 text-sm text-gray-600">{label}</label>
+              <label className="w-48 text-sm text-muted-foreground">{label}</label>
               <select
-                className="flex-1 border rounded px-2 py-1.5 text-sm"
+                className="flex-1 border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
                 value={mapping[key] ?? ""}
                 onChange={(e) => setMapping((m) => ({ ...m, [key]: e.target.value }))}
               >

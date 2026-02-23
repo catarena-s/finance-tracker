@@ -39,7 +39,7 @@ export function BudgetCard({
   const currency = budget.currency ?? "USD";
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+    <div className="bg-card rounded-lg shadow p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
@@ -50,11 +50,11 @@ export function BudgetCard({
                 aria-hidden="true"
               />
             )}
-            <h3 className="text-lg font-semibold text-gray-900 truncate">
+            <h3 className="text-lg font-semibold text-foreground truncate">
               {category ? category.name : budget.categoryId}
             </h3>
           </div>
-          <p className="text-sm text-gray-500">{periodLabel}</p>
+          <p className="text-sm text-muted-foreground">{periodLabel}</p>
         </div>
 
         <div className="flex gap-2 flex-shrink-0">
@@ -81,7 +81,7 @@ export function BudgetCard({
             size="sm"
             onClick={() => onDelete(budget.id)}
             aria-label="Delete budget"
-            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            className="text-destructive hover:text-destructive/80 hover:bg-destructive/10"
           >
             <svg
               className="w-4 h-4"
@@ -100,21 +100,21 @@ export function BudgetCard({
 
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Бюджет:</span>
-          <span className="font-medium">{formatCurrency(budgetAmount, currency)}</span>
+          <span className="text-muted-foreground">Бюджет:</span>
+          <span className="font-medium text-foreground">{formatCurrency(budgetAmount, currency)}</span>
         </div>
 
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Потрачено:</span>
+          <span className="text-muted-foreground">Потрачено:</span>
           <span className={`font-medium ${getTextColor()}`}>
             {formatCurrency(spentAmount, currency)}
           </span>
         </div>
 
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Осталось:</span>
+          <span className="text-muted-foreground">Осталось:</span>
           <span
-            className={`font-medium ${remaining >= 0 ? "text-gray-900" : "text-red-600"}`}
+            className={`font-medium ${remaining >= 0 ? "text-foreground" : "text-destructive"}`}
           >
             {formatCurrency(Math.abs(remaining), currency)}
             {remaining < 0 && " (превышение)"}
@@ -123,12 +123,12 @@ export function BudgetCard({
 
         <div className="pt-2">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-gray-500">Использовано</span>
+            <span className="text-xs text-muted-foreground">Использовано</span>
             <span className={`text-sm font-semibold ${getTextColor()}`}>
               {percentage.toFixed(1)}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-300 ${getProgressColor()}`}
               style={{ width: `${Math.min(percentage, 100)}%` }}
@@ -141,7 +141,7 @@ export function BudgetCard({
           </div>
         </div>
 
-        <div className="pt-2 text-xs text-gray-500 flex items-center gap-2">
+        <div className="pt-2 text-xs text-muted-foreground flex items-center gap-2">
           <svg
             className="w-4 h-4"
             fill="none"

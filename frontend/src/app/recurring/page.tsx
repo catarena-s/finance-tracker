@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { recurringTransactionsApi } from "@/services/api";
 import { useApp } from "@/contexts/AppContext";
 import type { RecurringTransaction, RecurringTransactionCreate } from "@/types/api";
@@ -9,7 +10,8 @@ import {
   RecurringTransactionForm,
 } from "@/components/recurring";
 import { Modal, Button } from "@/components/ui";
-import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
+import { X } from "lucide-react";
 
 export default function RecurringPage() {
   const { categories, loadCategories } = useApp();
@@ -20,20 +22,30 @@ export default function RecurringPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selected, setSelected] = useState<RecurringTransaction | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     recurringTransactionsApi
       .getAll()
       .then(setItems)
       .catch((e) => setError(e?.message ?? "Ошибка загрузки"))
       .finally(() => setLoading(false));
-  };
+  }, []);
 
   useEffect(() => {
     loadCategories();
     load();
-  }, [loadCategories]);
+  }, [loadCategories, load]);
+
+  useEffect(() => {
+    if (searchParams.get("openAdd") === "1") {
+      setIsCreateModalOpen(true);
+      // Очищаем URL после открытия модального окна
+      router.replace("/recurring");
+    }
+  }, [searchParams, router]);
 
   const handleCreate = async (data: RecurringTransactionCreate) => {
     await recurringTransactionsApi.create(data);
@@ -73,100 +85,118 @@ export default function RecurringPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Повторяющиеся транзакции</h1>
-        <div className="flex gap-2">
-          <Link
-            href="/transactions"
-            className="text-blue-600 hover:underline text-sm self-center"
-          >
-            К транзакциям
-          </Link>
-          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить шаблон</Button>
+    <div className="min-h-full bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl mb-2">
+            Повторяющиеся транзакции
+          </h1>
+          <p className="text-muted-foreground">
+            Шаблоны для автоматического создания транзакций (подписки, зарплата и т.д.).
+          </p>
         </div>
-      </div>
-      <p className="text-gray-600 mb-4">
-        Шаблоны для автоматического создания транзакций (подписки, зарплата и т.д.).
-      </p>
 
-      {loading && items.length === 0 && <p className="text-gray-600">Загрузка...</p>}
+        {error && (
+          <Card className="mb-6 rounded-2xl border-destructive/50 bg-destructive/10 shadow-sm">
+            <CardContent className="flex flex-row items-center justify-between py-4">
+              <span className="text-destructive">{error}</span>
+              <button
+                type="button"
+                onClick={() => setError(null)}
+                className="rounded-2xl p-1 text-destructive hover:text-destructive/80"
+                aria-label="Закрыть"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </CardContent>
+          </Card>
+        )}
 
-      {error && (
-        <div className="bg-red-50 text-red-800 px-4 py-2 rounded mb-4">{error}</div>
-      )}
+        {loading && items.length === 0 && (
+          <Card className="rounded-2xl shadow-sm">
+            <CardContent className="py-8 text-center">
+              <p className="text-muted-foreground">Загрузка...</p>
+            </CardContent>
+          </Card>
+        )}
 
-      {(!loading || items.length > 0) && (
-        <RecurringTransactionList
-          items={items}
-          onEdit={handleEdit}
-          onDelete={(id) => {
-            const item = items.find((r) => r.id === id);
-            if (item) handleDeleteClick(item);
-          }}
-          onToggleActive={handleToggleActive}
-        />
-      )}
-
-      <Modal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        title="Создать шаблон"
-        size="lg"
-      >
-        <RecurringTransactionForm
-          categories={categories ?? []}
-          onSubmit={handleCreate}
-          onCancel={() => setIsCreateModalOpen(false)}
-        />
-      </Modal>
-
-      <Modal
-        isOpen={isEditModalOpen}
-        onClose={() => {
-          setIsEditModalOpen(false);
-          setSelected(null);
-        }}
-        title="Редактировать шаблон"
-        size="lg"
-      >
-        {selected && (
-          <RecurringTransactionForm
-            item={selected}
-            categories={categories ?? []}
-            onSubmit={handleUpdate}
-            onCancel={() => {
-              setIsEditModalOpen(false);
-              setSelected(null);
+        {(!loading || items.length > 0) && (
+          <RecurringTransactionList
+            items={items}
+            onEdit={handleEdit}
+            onDelete={(id) => {
+              const item = items.find((r) => r.id === id);
+              if (item) handleDeleteClick(item);
             }}
+            onToggleActive={handleToggleActive}
           />
         )}
-      </Modal>
 
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => {
-          setIsDeleteModalOpen(false);
-          setSelected(null);
-        }}
-        title="Удалить шаблон"
-        size="sm"
-      >
-        <div className="space-y-4">
-          <p className="text-gray-700">
-            Удалить шаблон &quot;{selected?.name}&quot;? Созданные транзакции
-            сохранятся.
-          </p>
-          <div className="flex gap-2">
-            <Button variant="danger" onClick={handleDeleteConfirm}>
-              Удалить
-            </Button>
-            <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
-              Отмена
-            </Button>
+        <Modal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          title="Создать шаблон"
+        >
+          <RecurringTransactionForm
+            categories={categories ?? []}
+            onSubmit={handleCreate}
+            onCancel={() => setIsCreateModalOpen(false)}
+          />
+        </Modal>
+
+        <Modal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelected(null);
+          }}
+          title="Редактировать шаблон"
+        >
+          {selected && (
+            <RecurringTransactionForm
+              item={selected}
+              categories={categories ?? []}
+              onSubmit={handleUpdate}
+              onCancel={() => {
+                setIsEditModalOpen(false);
+                setSelected(null);
+              }}
+            />
+          )}
+        </Modal>
+
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onClose={() => {
+            setIsDeleteModalOpen(false);
+            setSelected(null);
+          }}
+          title="Удалить шаблон"
+          size="sm"
+        >
+          <div className="space-y-4">
+            <p className="text-foreground">
+              Удалить шаблон &quot;{selected?.name}&quot;? Созданные транзакции
+              сохранятся.
+            </p>
+            <div className="flex gap-3">
+              <Button variant="danger" onClick={handleDeleteConfirm} className="flex-1">
+                Удалить
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  setSelected(null);
+                }}
+                className="flex-1"
+              >
+                Отмена
+              </Button>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   );
 }

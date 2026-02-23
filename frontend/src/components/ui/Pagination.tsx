@@ -60,7 +60,7 @@ export function Pagination({
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
-      <div className="text-sm text-gray-700">
+      <div className="text-sm text-muted-foreground">
         Показано <span className="font-medium">{startItem}</span> -{" "}
         <span className="font-medium">{endItem}</span> из{" "}
         <span className="font-medium">{totalItems}</span> записей
@@ -90,7 +90,7 @@ export function Pagination({
         {getPageNumbers().map((page, index) => {
           if (page === "...") {
             return (
-              <span key={`ellipsis-${index}`} className="px-2 text-gray-500">
+              <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
                 ...
               </span>
             );

@@ -124,10 +124,10 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#F8FAFC]">
+    <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
             Транзакции
           </h1>
           <div className="flex flex-wrap gap-2">
@@ -136,9 +136,6 @@ export default function TransactionsPage() {
             </Button>
             <Button variant="secondary" onClick={() => setCsvExportOpen(true)}>
               Экспорт CSV
-            </Button>
-            <Button onClick={() => setIsCreateModalOpen(true)}>
-              Добавить транзакцию
             </Button>
           </div>
         </div>
@@ -159,13 +156,13 @@ export default function TransactionsPage() {
         />
 
         {error && (
-          <Card className="mb-6 rounded-2xl border-red-200 bg-red-50 shadow-sm">
+          <Card className="mb-6 rounded-2xl border-destructive/50 bg-destructive/10 shadow-sm">
             <CardContent className="flex flex-row items-center justify-between py-4">
-              <span className="text-red-700">{error}</span>
+              <span className="text-destructive">{error}</span>
               <button
                 type="button"
                 onClick={clearError}
-                className="rounded-2xl p-1 text-red-600 hover:text-red-800"
+                className="rounded-2xl p-1 text-destructive hover:text-destructive/80"
                 aria-label="Закрыть"
               >
                 <X className="h-5 w-5" />

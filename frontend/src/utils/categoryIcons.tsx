@@ -62,7 +62,7 @@ interface CategoryIconProps {
 
 export function CategoryIcon({
   icon,
-  className = "h-5 w-5",
+  className = "h-5 w-5 text-muted-foreground",
   style,
 }: CategoryIconProps) {
   if (!icon) {
@@ -103,3 +103,19 @@ export const availableIcons = [
   { emoji: "🔧", name: "Ремонт", icon: Wrench },
   { emoji: "📦", name: "Прочее", icon: Package },
 ];
+
+// Функция для получения иконки по строке (эмодзи или название)
+export function getCategoryIcon(icon?: string): LucideIcon {
+  if (!icon) {
+    return Package;
+  }
+
+  // Если это эмодзи, используем маппинг
+  const IconComponent = emojiToIconMap[icon];
+  if (IconComponent) {
+    return IconComponent;
+  }
+
+  // Возвращаем дефолтную иконку
+  return Package;
+}

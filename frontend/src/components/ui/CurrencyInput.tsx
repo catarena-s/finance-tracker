@@ -101,7 +101,7 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
           className="pl-8"
         />
         <span
-          className={`absolute left-3 text-gray-500 pointer-events-none ${
+          className={`absolute left-3 text-muted-foreground pointer-events-none ${
             label ? "top-[2.125rem]" : "top-[0.625rem]"
           }`}
         >

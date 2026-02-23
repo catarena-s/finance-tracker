@@ -107,7 +107,7 @@ export function TransactionForm({
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Сумма</label>
+        <label className="block text-sm font-medium text-foreground mb-1">Сумма</label>
         <CurrencyInput
           value={watch("amount")}
           onChange={(value) => setValue("amount", value)}
@@ -142,7 +142,7 @@ export function TransactionForm({
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-foreground mb-1">
           Дата транзакции
         </label>
         <DatePicker
@@ -170,10 +170,10 @@ export function TransactionForm({
         <input
           type="checkbox"
           id="isRecurring"
-          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          className="w-4 h-4 text-primary border-border rounded focus:ring-primary"
           {...register("isRecurring")}
         />
-        <label htmlFor="isRecurring" className="text-sm text-gray-700">
+        <label htmlFor="isRecurring" className="text-sm text-foreground">
           Повторяющаяся транзакция
         </label>
       </div>

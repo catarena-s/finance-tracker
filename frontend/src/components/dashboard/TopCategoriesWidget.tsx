@@ -114,11 +114,11 @@ export function TopCategoriesWidget({
 
   if (loading) {
     return (
-      <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <Card className="rounded-2xl border border-border bg-card shadow-sm">
         <CardContent className="p-6 md:p-8">
           <div className="animate-pulse">
-            <div className="mb-4 h-6 w-1/2 rounded bg-slate-200" />
-            <div className="h-64 rounded-2xl bg-slate-100" />
+            <div className="mb-4 h-6 w-1/2 rounded bg-muted" />
+            <div className="h-64 rounded-2xl bg-muted/50" />
           </div>
         </CardContent>
       </Card>
@@ -127,12 +127,12 @@ export function TopCategoriesWidget({
 
   if (!categories || categories.length === 0) {
     return (
-      <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <Card className="rounded-2xl border border-border bg-card shadow-sm">
         <CardContent className="p-6 md:p-8">
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">
+          <h2 className="mb-4 text-lg font-semibold text-foreground">
             Топ категорий расходов
           </h2>
-          <div className="flex h-64 items-center justify-center text-slate-500">
+          <div className="flex h-64 items-center justify-center text-muted-foreground">
             Нет данных для отображения
           </div>
         </CardContent>
@@ -141,9 +141,9 @@ export function TopCategoriesWidget({
   }
 
   return (
-    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <Card className="rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
       <CardContent className="p-6 md:p-8">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
           Топ {limit} категорий расходов
         </h2>
         <div className="h-64 sm:h-80">
@@ -155,12 +155,12 @@ export function TopCategoriesWidget({
               key={`${cat.categoryName}-${cat.totalAmount}`}
               className="flex items-center justify-between text-sm"
             >
-              <span className="text-slate-900">{cat.categoryName}</span>
+              <span className="text-foreground">{cat.categoryName}</span>
               <div className="flex items-center gap-2">
-                <span className="font-medium text-slate-900">
+                <span className="font-medium text-foreground">
                   {formatCurrencyTooltip(cat.totalAmount)}
                 </span>
-                <span className="text-slate-500">({cat.percentage.toFixed(1)}%)</span>
+                <span className="text-muted-foreground">({cat.percentage.toFixed(1)}%)</span>
               </div>
             </div>
           ))}

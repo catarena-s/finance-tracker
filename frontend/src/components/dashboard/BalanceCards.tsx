@@ -43,7 +43,7 @@ export function BalanceCards({
         {[...Array(3)].map((_, index) => (
           <Card
             key={index}
-            className="rounded-2xl border border-slate-200 bg-white shadow-sm"
+            className="rounded-2xl border border-border bg-card shadow-sm"
           >
             <CardContent className="p-6 md:p-8">
               <Skeleton className="mb-4 h-4 w-24" />
@@ -58,18 +58,18 @@ export function BalanceCards({
   return (
     <>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <Card className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="text-sm font-medium text-slate-500">Доходы</p>
-                <p className="mt-1 text-3xl font-semibold text-[#0F172A] md:text-4xl">
+                <p className="text-sm font-medium text-muted-foreground">Доходы</p>
+                <p className="mt-1 text-3xl font-semibold text-foreground md:text-4xl">
                   {formatAmount(totalIncome)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
                   <div className="mt-3 space-y-1">
                     {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-slate-500">
+                      <p key={item.currency} className="text-xs text-muted-foreground">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -82,25 +82,25 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#10B981]/10">
-                <TrendingUp className="h-6 w-6 text-[#10B981]" />
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary/10">
+                <TrendingUp className="h-6 w-6 text-secondary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="text-sm font-medium text-slate-500">Расходы</p>
-                <p className="mt-1 text-3xl font-semibold text-[#0F172A] md:text-4xl">
+                <p className="text-sm font-medium text-muted-foreground">Расходы</p>
+                <p className="mt-1 text-3xl font-semibold text-foreground md:text-4xl">
                   {formatAmount(totalExpense)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
                   <div className="mt-3 space-y-1">
                     {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-slate-500">
+                      <p key={item.currency} className="text-xs text-muted-foreground">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -113,18 +113,18 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-100">
-                <TrendingDown className="h-6 w-6 text-slate-600" />
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-muted">
+                <TrendingDown className="h-6 w-6 text-muted-foreground" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="text-sm font-medium text-slate-500">Баланс</p>
+                <p className="text-sm font-medium text-muted-foreground">Баланс</p>
                 <p
                   className={`mt-1 text-3xl font-semibold md:text-4xl ${
                     balance >= 0 ? "text-primary" : "text-destructive"
@@ -135,7 +135,7 @@ export function BalanceCards({
                 {byCurrency && byCurrency.length > 1 && (
                   <div className="mt-3 space-y-1">
                     {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-slate-500">
+                      <p key={item.currency} className="text-xs text-muted-foreground">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -157,8 +157,8 @@ export function BalanceCards({
       </div>
 
       {currencyRates && byCurrency && byCurrency.length > 1 && (
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <div className="flex flex-wrap items-center gap-2 text-sm text-slate-700">
+        <div className="mt-6 rounded-2xl border border-border bg-card p-4 shadow-sm">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-foreground">
             <span className="font-medium">Курсы валют к RUB:</span>
             {Object.entries(currencyRates)
               .filter(
@@ -168,8 +168,8 @@ export function BalanceCards({
               )
               .map(([currency, rate], index) => (
                 <React.Fragment key={currency}>
-                  {index > 0 && <span className="text-slate-400"> • </span>}
-                  <span className="text-slate-500">
+                  {index > 0 && <span className="text-muted-foreground/60"> • </span>}
+                  <span className="text-muted-foreground">
                     {currency} = ₽{rate.toFixed(2)}
                   </span>
                 </React.Fragment>

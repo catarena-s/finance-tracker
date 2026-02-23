@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Category } from "@/types/api";
 import { CategoryList, CategoryForm } from "@/components/categories";
@@ -23,9 +24,17 @@ export default function CategoriesPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
+
+  useEffect(() => {
+    if (searchParams.get("openAdd") === "1") {
+      setIsCreateModalOpen(true);
+    }
+  }, [searchParams]);
 
   const handleCreate = async (data: any) => {
     try {
@@ -72,21 +81,20 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#F8FAFC]">
+    <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-slate-900 md:text-3xl">
+          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
             Категории
           </h1>
-          <Button onClick={() => setIsCreateModalOpen(true)}>Добавить категорию</Button>
         </div>
 
         {error && (
-          <div className="mb-6 flex items-center justify-between rounded-2xl border border-red-200 bg-red-50 px-4 py-3 shadow-sm">
-            <span className="text-red-700">{error}</span>
+          <div className="mb-6 flex items-center justify-between rounded-2xl border border-destructive/50 bg-destructive/10 px-4 py-3 shadow-sm">
+            <span className="text-destructive">{error}</span>
             <button
               onClick={clearError}
-              className="rounded-2xl p-1 text-red-600 hover:text-red-800"
+              className="rounded-2xl p-1 text-destructive hover:text-destructive/80"
               aria-label="Закрыть"
             >
               ✕
@@ -142,21 +150,21 @@ export default function CategoriesPage() {
           size="sm"
         >
           <div className="space-y-4">
-            <p className="text-slate-700">
+            <p className="text-foreground">
               Вы уверены, что хотите удалить эту категорию?
             </p>
             {selectedCategory && (
-              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+              <div className="flex items-center gap-3 rounded-2xl border border-border bg-muted/30 p-4">
                 <span className="text-2xl">{selectedCategory.icon ?? "📁"}</span>
                 <div>
-                  <p className="font-medium text-slate-900">{selectedCategory.name}</p>
-                  <p className="text-sm text-slate-500">
+                  <p className="font-medium text-foreground">{selectedCategory.name}</p>
+                  <p className="text-sm text-muted-foreground">
                     {selectedCategory.type === "income" ? "Доход" : "Расход"}
                   </p>
                 </div>
               </div>
             )}
-            <p className="text-sm text-amber-600">
+            <p className="text-sm text-amber-500">
               ⚠️ Внимание: Если у категории есть связанные транзакции, удаление будет
               невозможно.
             </p>

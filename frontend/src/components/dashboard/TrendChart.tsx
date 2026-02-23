@@ -128,11 +128,11 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
 
   if (loading) {
     return (
-      <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <Card className="rounded-2xl border border-border bg-card shadow-sm">
         <CardContent className="p-6 md:p-8">
           <div className="animate-pulse">
-            <div className="mb-4 h-6 w-1/3 rounded bg-slate-200" />
-            <div className="h-64 rounded-2xl bg-slate-100" />
+            <div className="mb-4 h-6 w-1/3 rounded bg-muted" />
+            <div className="h-64 rounded-2xl bg-muted/50" />
           </div>
         </CardContent>
       </Card>
@@ -144,12 +144,12 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
     (!expenseData || expenseData.length === 0)
   ) {
     return (
-      <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <Card className="rounded-2xl border border-border bg-card shadow-sm">
         <CardContent className="p-6 md:p-8">
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">
+          <h2 className="mb-4 text-lg font-semibold text-foreground">
             Доходы и расходы
           </h2>
-          <div className="flex h-64 items-center justify-center text-slate-500">
+          <div className="flex h-64 items-center justify-center text-muted-foreground">
             Нет данных для отображения
           </div>
         </CardContent>
@@ -158,9 +158,9 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
   }
 
   return (
-    <Card className="rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <Card className="rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
       <CardContent className="p-6 md:p-8">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900">Доходы и расходы</h2>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Доходы и расходы</h2>
         <div className="h-64 sm:h-80">
           <Line data={chartData} options={options} />
         </div>

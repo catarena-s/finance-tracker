@@ -3,6 +3,7 @@
 import React from "react";
 import { RecurringTransaction } from "@/types/api";
 import { RecurringTransactionCard } from "./RecurringTransactionCard";
+import { Card, CardContent } from "@/components/ui/shadcn/card";
 
 interface RecurringTransactionListProps {
   items: RecurringTransaction[];
@@ -19,9 +20,13 @@ export function RecurringTransactionList({
 }: RecurringTransactionListProps) {
   if (items.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-        Нет шаблонов повторяющихся транзакций. Создайте первый.
-      </div>
+      <Card className="rounded-2xl shadow-sm">
+        <CardContent className="py-12 text-center">
+          <p className="text-muted-foreground">
+            Нет шаблонов повторяющихся транзакций. Создайте первый.
+          </p>
+        </CardContent>
+      </Card>
     );
   }
 

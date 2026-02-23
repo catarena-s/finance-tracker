@@ -106,7 +106,7 @@ export function BudgetForm({
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-foreground mb-1">
           Сумма бюджета
         </label>
         <CurrencyInput
@@ -127,7 +127,7 @@ export function BudgetForm({
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-foreground mb-1">
           Дата начала
         </label>
         <DatePicker
@@ -139,7 +139,7 @@ export function BudgetForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-foreground mb-1">
           Дата окончания
         </label>
         <DatePicker

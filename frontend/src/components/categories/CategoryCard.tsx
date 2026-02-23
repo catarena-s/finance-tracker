@@ -19,7 +19,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
   const isIncome = category.type === "income";
 
   return (
-    <Card className="group rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:border-slate-300">
+    <Card className="group rounded-2xl border border-border bg-card shadow-sm transition-all duration-200 hover:shadow-md hover:border-border/80">
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 flex-1 items-start gap-3">
@@ -34,22 +34,22 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
                 style={{ color: category.color }}
               />
               <div
-                className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-md border-2 border-white shadow-sm"
+                className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-md border-2 border-card shadow-sm"
                 style={{ backgroundColor: category.color }}
                 title={`Цвет: ${category.color}`}
                 aria-label={`Цвет категории: ${category.color}`}
               />
             </div>
             <div className="min-w-0 flex-1 pt-0.5">
-              <h3 className="truncate text-base font-semibold text-slate-900">
+              <h3 className="truncate text-base font-semibold text-foreground">
                 {category.name}
               </h3>
               <Badge
                 variant="secondary"
                 className={`mt-1.5 rounded-lg text-xs ${
                   isIncome
-                    ? "bg-[#10B981]/10 text-[#10B981] hover:bg-[#10B981]/20"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? "bg-secondary/10 text-secondary hover:bg-secondary/20"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
                 }`}
               >
                 {typeLabel}
@@ -60,7 +60,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-lg text-slate-400 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
+              className="h-8 w-8 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
               onClick={() => onEdit(category)}
               aria-label="Редактировать"
             >
@@ -69,7 +69,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-lg text-slate-400 transition-all duration-200 hover:bg-red-50 hover:text-destructive"
+              className="h-8 w-8 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
               onClick={() => onDelete(category.id)}
               aria-label="Удалить"
             >

@@ -62,34 +62,34 @@ export function CSVExportDialog({
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Дата с
             </label>
             <input
               type="date"
-              className="w-full border rounded px-2 py-1.5 text-sm"
+              className="w-full border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Дата по
             </label>
             <input
               type="date"
-              className="w-full border rounded px-2 py-1.5 text-sm"
+              className="w-full border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-foreground mb-1">
             Категория
           </label>
           <select
-            className="w-full border rounded px-2 py-1.5 text-sm"
+            className="w-full border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
           >
@@ -102,7 +102,7 @@ export function CSVExportDialog({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-foreground mb-2">
             Колонки
           </label>
           <div className="flex flex-wrap gap-2">
@@ -116,17 +116,17 @@ export function CSVExportDialog({
                   checked={selectedColumns.includes(c.id)}
                   onChange={() => toggleColumn(c.id)}
                 />
-                <span className="text-sm">{c.label}</span>
+                <span className="text-sm text-foreground">{c.label}</span>
               </label>
             ))}
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-foreground mb-1">
             Формат даты
           </label>
           <select
-            className="w-full border rounded px-2 py-1.5 text-sm"
+            className="w-full border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
             value={dateFormat}
             onChange={(e) => setDateFormat(e.target.value)}
           >

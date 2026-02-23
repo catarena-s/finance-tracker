@@ -25,19 +25,19 @@ export function BudgetList({
         {[...Array(3)].map((_, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow p-4 animate-pulse"
+            className="bg-card rounded-lg shadow p-4 animate-pulse"
             role="status"
             aria-label="Loading"
           >
             <div className="space-y-3">
-              <div className="h-6 bg-gray-200 rounded w-32"></div>
-              <div className="h-4 bg-gray-200 rounded w-24"></div>
+              <div className="h-6 bg-muted rounded w-32"></div>
+              <div className="h-4 bg-muted rounded w-24"></div>
               <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded"></div>
+                <div className="h-4 bg-muted rounded"></div>
+                <div className="h-4 bg-muted rounded"></div>
+                <div className="h-4 bg-muted rounded"></div>
               </div>
-              <div className="h-2 bg-gray-200 rounded"></div>
+              <div className="h-2 bg-muted rounded"></div>
             </div>
           </div>
         ))}
@@ -47,9 +47,9 @@ export function BudgetList({
 
   if (!budgets || budgets.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow p-12 text-center">
+      <div className="bg-card rounded-lg shadow p-12 text-center">
         <svg
-          className="mx-auto h-12 w-12 text-gray-400"
+          className="mx-auto h-12 w-12 text-muted-foreground"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -59,8 +59,8 @@ export function BudgetList({
         >
           <path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
         </svg>
-        <h3 className="mt-2 text-sm font-medium text-gray-900">Нет бюджетов</h3>
-        <p className="mt-1 text-sm text-gray-500">Начните с создания нового бюджета</p>
+        <h3 className="mt-2 text-sm font-medium text-foreground">Нет бюджетов</h3>
+        <p className="mt-1 text-sm text-muted-foreground">Начните с создания нового бюджета</p>
       </div>
     );
   }
