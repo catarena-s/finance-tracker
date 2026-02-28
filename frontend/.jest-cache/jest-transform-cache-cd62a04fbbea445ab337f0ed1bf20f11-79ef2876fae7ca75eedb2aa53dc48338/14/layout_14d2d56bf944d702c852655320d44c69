@@ -1,0 +1,410 @@
+745a3366123198e4cabb2e16a59d7ff3
+"use strict";
+
+/* istanbul ignore next */
+function cov_ntd1wkijv() {
+  var path = "E:\\my\\otus\\finance_tracker\\frontend\\src\\app\\layout.tsx";
+  var hash = "78560f7e97fd5f92f27bc0c09d3fd497360226a7";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "E:\\my\\otus\\finance_tracker\\frontend\\src\\app\\layout.tsx",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 4,
+          column: 3
+        }
+      },
+      "1": {
+        start: {
+          line: 6,
+          column: 4
+        },
+        end: {
+          line: 9,
+          column: 7
+        }
+      },
+      "2": {
+        start: {
+          line: 6,
+          column: 24
+        },
+        end: {
+          line: 9,
+          column: 7
+        }
+      },
+      "3": {
+        start: {
+          line: 11,
+          column: 0
+        },
+        end: {
+          line: 18,
+          column: 3
+        }
+      },
+      "4": {
+        start: {
+          line: 13,
+          column: 8
+        },
+        end: {
+          line: 13,
+          column: 26
+        }
+      },
+      "5": {
+        start: {
+          line: 16,
+          column: 8
+        },
+        end: {
+          line: 16,
+          column: 24
+        }
+      },
+      "6": {
+        start: {
+          line: 19,
+          column: 20
+        },
+        end: {
+          line: 19,
+          column: 48
+        }
+      },
+      "7": {
+        start: {
+          line: 20,
+          column: 16
+        },
+        end: {
+          line: 20,
+          column: 43
+        }
+      },
+      "8": {
+        start: {
+          line: 21,
+          column: 0
+        },
+        end: {
+          line: 21,
+          column: 33
+        }
+      },
+      "9": {
+        start: {
+          line: 22,
+          column: 22
+        },
+        end: {
+          line: 22,
+          column: 57
+        }
+      },
+      "10": {
+        start: {
+          line: 23,
+          column: 20
+        },
+        end: {
+          line: 23,
+          column: 53
+        }
+      },
+      "11": {
+        start: {
+          line: 24,
+          column: 15
+        },
+        end: {
+          line: 24,
+          column: 45
+        }
+      },
+      "12": {
+        start: {
+          line: 25,
+          column: 16
+        },
+        end: {
+          line: 25,
+          column: 47
+        }
+      },
+      "13": {
+        start: {
+          line: 26,
+          column: 14
+        },
+        end: {
+          line: 31,
+          column: 2
+        }
+      },
+      "14": {
+        start: {
+          line: 32,
+          column: 17
+        },
+        end: {
+          line: 35,
+          column: 1
+        }
+      },
+      "15": {
+        start: {
+          line: 37,
+          column: 4
+        },
+        end: {
+          line: 52,
+          column: 7
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "_export",
+        decl: {
+          start: {
+            line: 5,
+            column: 9
+          },
+          end: {
+            line: 5,
+            column: 16
+          }
+        },
+        loc: {
+          start: {
+            line: 5,
+            column: 30
+          },
+          end: {
+            line: 10,
+            column: 1
+          }
+        },
+        line: 5
+      },
+      "1": {
+        name: "(anonymous_1)",
+        decl: {
+          start: {
+            line: 12,
+            column: 13
+          },
+          end: {
+            line: 12,
+            column: 14
+          }
+        },
+        loc: {
+          start: {
+            line: 12,
+            column: 24
+          },
+          end: {
+            line: 14,
+            column: 5
+          }
+        },
+        line: 12
+      },
+      "2": {
+        name: "(anonymous_2)",
+        decl: {
+          start: {
+            line: 15,
+            column: 14
+          },
+          end: {
+            line: 15,
+            column: 15
+          }
+        },
+        loc: {
+          start: {
+            line: 15,
+            column: 25
+          },
+          end: {
+            line: 17,
+            column: 5
+          }
+        },
+        line: 15
+      },
+      "3": {
+        name: "RootLayout",
+        decl: {
+          start: {
+            line: 36,
+            column: 9
+          },
+          end: {
+            line: 36,
+            column: 19
+          }
+        },
+        loc: {
+          start: {
+            line: 36,
+            column: 34
+          },
+          end: {
+            line: 53,
+            column: 1
+          }
+        },
+        line: 36
+      }
+    },
+    branchMap: {},
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0,
+      "13": 0,
+      "14": 0,
+      "15": 0
+    },
+    f: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    b: {},
+    inputSourceMap: {
+      version: 3,
+      sources: ["E:\\my\\otus\\finance_tracker\\frontend\\src\\app\\layout.tsx"],
+      sourcesContent: ["import type { Metadata } from \"next\";\nimport { Inter } from \"next/font/google\";\nimport \"@/styles/globals.css\";\nimport { ThemeProvider } from \"@/contexts/ThemeContext\";\nimport { AppProvider } from \"@/contexts/AppContext\";\nimport { ErrorProvider } from \"@/components/error\";\nimport { AppLayout } from \"@/components/layout\";\n\nconst inter = Inter({ subsets: [\"latin\", \"cyrillic\"] });\n\nexport const metadata: Metadata = {\n  title: \"\u0422\u0440\u0435\u043A\u0435\u0440 \u043B\u0438\u0447\u043D\u044B\u0445 \u0444\u0438\u043D\u0430\u043D\u0441\u043E\u0432\",\n  description: \"\u0422\u0440\u0435\u043A\u0435\u0440 \u043B\u0438\u0447\u043D\u044B\u0445 \u0444\u0438\u043D\u0430\u043D\u0441\u043E\u0432\",\n};\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"ru\" suppressHydrationWarning>\n      <body className={`${inter.className} min-h-screen antialiased`}>\n        <ThemeProvider>\n          <ErrorProvider>\n            <AppProvider>\n              <AppLayout>{children}</AppLayout>\n            </AppProvider>\n          </ErrorProvider>\n        </ThemeProvider>\n      </body>\n    </html>\n  );\n}\n"],
+      names: ["RootLayout", "metadata", "inter", "Inter", "subsets", "title", "description", "children", "html", "lang", "suppressHydrationWarning", "body", "className", "ThemeProvider", "ErrorProvider", "AppProvider", "AppLayout"],
+      mappings: ";;;;;;;;;;;IAeA,OAcC;eAduBA;;IALXC,QAAQ;eAARA;;;;wBATS;QACf;8BACuB;4BACF;uBACE;wBACJ;AAE1B,MAAMC,QAAQC,IAAAA,aAAK,EAAC;IAAEC,SAAS;QAAC;QAAS;KAAW;AAAC;AAE9C,MAAMH,WAAqB;IAChCI,OAAO;IACPC,aAAa;AACf;AAEe,SAASN,WAAW,EAAEO,QAAQ,EAAiC;IAC5E,qBACE,qBAACC;QAAKC,MAAK;QAAKC,wBAAwB;kBACtC,cAAA,qBAACC;YAAKC,WAAW,CAAC,EAAEV,MAAMU,SAAS,CAAC,yBAAyB,CAAC;sBAC5D,cAAA,qBAACC,2BAAa;0BACZ,cAAA,qBAACC,oBAAa;8BACZ,cAAA,qBAACC,uBAAW;kCACV,cAAA,qBAACC,iBAAS;sCAAET;;;;;;;AAO1B"
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "78560f7e97fd5f92f27bc0c09d3fd497360226a7"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_ntd1wkijv = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_ntd1wkijv();
+cov_ntd1wkijv().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function _export(target, all) {
+  /* istanbul ignore next */
+  cov_ntd1wkijv().f[0]++;
+  cov_ntd1wkijv().s[1]++;
+  for (var name in all) {
+    /* istanbul ignore next */
+    cov_ntd1wkijv().s[2]++;
+    Object.defineProperty(target, name, {
+      enumerable: true,
+      get: all[name]
+    });
+  }
+}
+/* istanbul ignore next */
+cov_ntd1wkijv().s[3]++;
+_export(exports, {
+  default: function () {
+    /* istanbul ignore next */
+    cov_ntd1wkijv().f[1]++;
+    cov_ntd1wkijv().s[4]++;
+    return RootLayout;
+  },
+  metadata: function () {
+    /* istanbul ignore next */
+    cov_ntd1wkijv().f[2]++;
+    cov_ntd1wkijv().s[5]++;
+    return metadata;
+  }
+});
+const _jsxruntime =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[6]++, require("react/jsx-runtime"));
+const _google =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[7]++, require("next/font/google"));
+/* istanbul ignore next */
+cov_ntd1wkijv().s[8]++;
+require("../styles/globals.css");
+const _ThemeContext =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[9]++, require("../contexts/ThemeContext"));
+const _AppContext =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[10]++, require("../contexts/AppContext"));
+const _error =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[11]++, require("../components/error"));
+const _layout =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[12]++, require("../components/layout"));
+const inter =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[13]++, (0, _google.Inter)({
+  subsets: ["latin", "cyrillic"]
+}));
+const metadata =
+/* istanbul ignore next */
+(cov_ntd1wkijv().s[14]++, {
+  title: "Трекер личных финансов",
+  description: "Трекер личных финансов"
+});
+function RootLayout({
+  children
+}) {
+  /* istanbul ignore next */
+  cov_ntd1wkijv().f[3]++;
+  cov_ntd1wkijv().s[15]++;
+  return /*#__PURE__*/(0, _jsxruntime.jsx)("html", {
+    lang: "ru",
+    suppressHydrationWarning: true,
+    children: /*#__PURE__*/(0, _jsxruntime.jsx)("body", {
+      className: `${inter.className} min-h-screen antialiased`,
+      children: /*#__PURE__*/(0, _jsxruntime.jsx)(_ThemeContext.ThemeProvider, {
+        children: /*#__PURE__*/(0, _jsxruntime.jsx)(_error.ErrorProvider, {
+          children: /*#__PURE__*/(0, _jsxruntime.jsx)(_AppContext.AppProvider, {
+            children: /*#__PURE__*/(0, _jsxruntime.jsx)(_layout.AppLayout, {
+              children: children
+            })
+          })
+        })
+      })
+    })
+  });
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJkZWZhdWx0IiwiY292X250ZDF3a2lqdiIsImYiLCJzIiwiUm9vdExheW91dCIsIm1ldGFkYXRhIiwiaW50ZXIiLCJfZ29vZ2xlIiwiSW50ZXIiLCJzdWJzZXRzIiwidGl0bGUiLCJkZXNjcmlwdGlvbiIsImNoaWxkcmVuIiwiX2pzeHJ1bnRpbWUiLCJqc3giLCJsYW5nIiwic3VwcHJlc3NIeWRyYXRpb25XYXJuaW5nIiwiY2xhc3NOYW1lIiwiX1RoZW1lQ29udGV4dCIsIlRoZW1lUHJvdmlkZXIiLCJfZXJyb3IiLCJFcnJvclByb3ZpZGVyIiwiX0FwcENvbnRleHQiLCJBcHBQcm92aWRlciIsIl9sYXlvdXQiLCJBcHBMYXlvdXQiXSwic291cmNlcyI6WyJFOlxcbXlcXG90dXNcXGZpbmFuY2VfdHJhY2tlclxcZnJvbnRlbmRcXHNyY1xcYXBwXFxsYXlvdXQudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgTWV0YWRhdGEgfSBmcm9tIFwibmV4dFwiO1xuaW1wb3J0IHsgSW50ZXIgfSBmcm9tIFwibmV4dC9mb250L2dvb2dsZVwiO1xuaW1wb3J0IFwiQC9zdHlsZXMvZ2xvYmFscy5jc3NcIjtcbmltcG9ydCB7IFRoZW1lUHJvdmlkZXIgfSBmcm9tIFwiQC9jb250ZXh0cy9UaGVtZUNvbnRleHRcIjtcbmltcG9ydCB7IEFwcFByb3ZpZGVyIH0gZnJvbSBcIkAvY29udGV4dHMvQXBwQ29udGV4dFwiO1xuaW1wb3J0IHsgRXJyb3JQcm92aWRlciB9IGZyb20gXCJAL2NvbXBvbmVudHMvZXJyb3JcIjtcbmltcG9ydCB7IEFwcExheW91dCB9IGZyb20gXCJAL2NvbXBvbmVudHMvbGF5b3V0XCI7XG5cbmNvbnN0IGludGVyID0gSW50ZXIoeyBzdWJzZXRzOiBbXCJsYXRpblwiLCBcImN5cmlsbGljXCJdIH0pO1xuXG5leHBvcnQgY29uc3QgbWV0YWRhdGE6IE1ldGFkYXRhID0ge1xuICB0aXRsZTogXCLQotGA0LXQutC10YAg0LvQuNGH0L3Ri9GFINGE0LjQvdCw0L3RgdC+0LJcIixcbiAgZGVzY3JpcHRpb246IFwi0KLRgNC10LrQtdGAINC70LjRh9C90YvRhSDRhNC40L3QsNC90YHQvtCyXCIsXG59O1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBSb290TGF5b3V0KHsgY2hpbGRyZW4gfTogeyBjaGlsZHJlbjogUmVhY3QuUmVhY3ROb2RlIH0pIHtcbiAgcmV0dXJuIChcbiAgICA8aHRtbCBsYW5nPVwicnVcIiBzdXBwcmVzc0h5ZHJhdGlvbldhcm5pbmc+XG4gICAgICA8Ym9keSBjbGFzc05hbWU9e2Ake2ludGVyLmNsYXNzTmFtZX0gbWluLWgtc2NyZWVuIGFudGlhbGlhc2VkYH0+XG4gICAgICAgIDxUaGVtZVByb3ZpZGVyPlxuICAgICAgICAgIDxFcnJvclByb3ZpZGVyPlxuICAgICAgICAgICAgPEFwcFByb3ZpZGVyPlxuICAgICAgICAgICAgICA8QXBwTGF5b3V0PntjaGlsZHJlbn08L0FwcExheW91dD5cbiAgICAgICAgICAgIDwvQXBwUHJvdmlkZXI+XG4gICAgICAgICAgPC9FcnJvclByb3ZpZGVyPlxuICAgICAgICA8L1RoZW1lUHJvdmlkZXI+XG4gICAgICA8L2JvZHk+XG4gICAgPC9odG1sPlxuICApO1xufVxuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0VBZUFBLE9BY0MsV0FBQUEsQ0FBQTtJQUFBO0lBQUFDLGFBQUEsR0FBQUMsQ0FBQTtJQUFBRCxhQUFBLEdBQUFFLENBQUE7V0FkdUJDLFVBQUE7O0VBTFhDLFFBQVEsV0FBQUEsQ0FBQTtJQUFBO0lBQUFKLGFBQUEsR0FBQUMsQ0FBQTtJQUFBRCxhQUFBLEdBQUFFLENBQUE7V0FBUkUsUUFBQTs7Ozs7Ozs7aUNBVFM7QUFBQTtBQUFBSixhQUFBLEdBQUFFLENBQUE7UUFDZjs7O2lDQUN1Qjs7O2tDQUNGOzs7a0NBQ0U7OztrQ0FDSjtBQUUxQixNQUFNRyxLQUFBO0FBQUE7QUFBQSxDQUFBTCxhQUFBLEdBQUFFLENBQUEsUUFBUSxJQUFBSSxPQUFBLENBQUFDLEtBQUssRUFBQztFQUFFQyxPQUFBLEVBQVMsQ0FBQyxTQUFTO0FBQVk7QUFFOUMsTUFBTUosUUFBQTtBQUFBO0FBQUEsQ0FBQUosYUFBQSxHQUFBRSxDQUFBLFFBQXFCO0VBQ2hDTyxLQUFBLEVBQU87RUFDUEMsV0FBQSxFQUFhO0FBQ2Y7QUFFZSxTQUFTUCxXQUFXO0VBQUVRO0FBQVEsQ0FBaUM7RUFBQTtFQUFBWCxhQUFBLEdBQUFDLENBQUE7RUFBQUQsYUFBQSxHQUFBRSxDQUFBO0VBQzVFLG9CQUNFLElBQUFVLFdBQUEsQ0FBQUMsR0FBQSxFQUFDO0lBQUtDLElBQUEsRUFBSztJQUFLQyx3QkFBd0I7Y0FDdEMsaUJBQUFILFdBQUEsQ0FBQUMsR0FBQSxFQUFDO01BQUtHLFNBQUEsRUFBVyxHQUFHWCxLQUFBLENBQU1XLFNBQVMsMkJBQTJCO2dCQUM1RCxpQkFBQUosV0FBQSxDQUFBQyxHQUFBLEVBQUNJLGFBQUEsQ0FBQUMsYUFBYTtrQkFDWixpQkFBQU4sV0FBQSxDQUFBQyxHQUFBLEVBQUNNLE1BQUEsQ0FBQUMsYUFBYTtvQkFDWixpQkFBQVIsV0FBQSxDQUFBQyxHQUFBLEVBQUNRLFdBQUEsQ0FBQUMsV0FBVztzQkFDVixpQkFBQVYsV0FBQSxDQUFBQyxHQUFBLEVBQUNVLE9BQUEsQ0FBQUMsU0FBUzt3QkFBRWI7Ozs7Ozs7QUFPMUIiLCJpZ25vcmVMaXN0IjpbXX0=

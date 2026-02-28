@@ -12,6 +12,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import fc from "fast-check";
 import { BalanceCards } from "@/components/dashboard/BalanceCards";
+import { getNumRuns, getTimeout } from "./property-test-config";
 
 // Tailwind font size mappings (in pixels at base 16px)
 const tailwindFontSizes = {
@@ -107,7 +108,7 @@ describe("Property: Adaptive Font Sizes", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -150,7 +151,7 @@ describe("Property: Adaptive Font Sizes", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
@@ -197,7 +198,7 @@ describe("Property: Adaptive Font Sizes", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
@@ -297,7 +298,7 @@ describe("Property: Adaptive Font Sizes", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });

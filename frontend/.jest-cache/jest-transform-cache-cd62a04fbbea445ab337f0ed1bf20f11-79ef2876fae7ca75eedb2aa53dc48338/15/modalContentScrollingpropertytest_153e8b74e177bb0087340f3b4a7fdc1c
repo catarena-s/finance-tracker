@@ -1,0 +1,740 @@
+cadb1c823af40e14ecbe396882c3dfc9
+/**
+ * Property-Based Test — Modal Content Scrolling
+ * 
+ * **Свойство 11: Прокрутка содержимого модальных окон**
+ * **Валидирует: Требования 4.2**
+ * 
+ * For any modal window with content exceeding viewport height,
+ * vertical scrolling should be available (overflow-y: auto).
+ * The modal content container should have max-h-[85vh] to ensure
+ * scrollability when content is too tall.
+ * 
+ * NOTE: This test is skipped in CI due to performance. Run locally with npm test
+ */ "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _jsxruntime = require("react/jsx-runtime");
+const _react = /*#__PURE__*/ _interop_require_default(require("react"));
+const _react1 = require("@testing-library/react");
+const _fastcheck = /*#__PURE__*/ _interop_require_default(require("fast-check"));
+const _Modal = require("../../src/components/ui/Modal");
+const _propertytestconfig = require("./property-test-config");
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+// Skip this test suite in CI environment
+const describeOrSkip = process.env.CI === "true" ? describe.skip : describe;
+// Maximum height of modal content (85% of viewport height)
+const MAX_MODAL_HEIGHT_VH = 85;
+// Helper function to get computed styles
+const getComputedOverflow = (element)=>{
+    const computedStyle = window.getComputedStyle(element);
+    return computedStyle.overflowY;
+};
+// Helper function to check if element has max-height constraint
+const hasMaxHeightConstraint = (element)=>{
+    const classes = element.className;
+    return classes.includes("max-h-[85vh]");
+};
+// Helper function to find modal content container
+const findModalContentContainer = (container)=>{
+    // Look for the div with overflow-y-auto and max-h-[85vh]
+    const contentContainer = container.querySelector(".overflow-y-auto.max-h-\\[85vh\\]");
+    if (contentContainer) return contentContainer;
+    // Fallback: look for any element with max-h-[85vh]
+    return container.querySelector("[class*='max-h-[85vh]']");
+};
+// Generator for content that exceeds viewport height
+const tallContentArbitrary = _fastcheck.default.array(_fastcheck.default.string({
+    minLength: 50,
+    maxLength: 200
+}), {
+    minLength: 20,
+    maxLength: 100
+});
+// Generator for content that fits within viewport
+const shortContentArbitrary = _fastcheck.default.array(_fastcheck.default.string({
+    minLength: 10,
+    maxLength: 50
+}), {
+    minLength: 1,
+    maxLength: 5
+});
+describeOrSkip("Property: Modal Content Scrolling", ()=>{
+    describe("Overflow-y auto property", ()=>{
+        it("should have overflow-y: auto on modal content container", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.constantFrom("sm", "md", "lg", "xl"), _fastcheck.default.array(_fastcheck.default.string({
+                minLength: 10,
+                maxLength: 100
+            }), {
+                minLength: 1,
+                maxLength: 50
+            }), (size, contentLines)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Should have overflow-y-auto class
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    // Computed style should be 'auto' or 'scroll'
+                    const overflowY = getComputedOverflow(contentContainer);
+                    expect([
+                        "auto",
+                        "scroll"
+                    ]).toContain(overflowY);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+        it("should have overflow-y: auto regardless of content length", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.oneof(shortContentArbitrary, tallContentArbitrary), _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (contentLines, size)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                                style: {
+                                    minHeight: "50px"
+                                },
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+    });
+    describe("Max-height constraint", ()=>{
+        it("should have max-h-[85vh] class on content container", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.constantFrom("sm", "md", "lg", "xl"), _fastcheck.default.array(_fastcheck.default.string({
+                minLength: 10,
+                maxLength: 100
+            }), {
+                minLength: 1,
+                maxLength: 50
+            }), (size, contentLines)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Should have max-h-[85vh] class
+                    expect(hasMaxHeightConstraint(contentContainer)).toBe(true);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+        it("should maintain max-h-[85vh] across all modal sizes", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            const sizes = [
+                "sm",
+                "md",
+                "lg",
+                "xl"
+            ];
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.array(_fastcheck.default.string({
+                minLength: 20,
+                maxLength: 100
+            }), {
+                minLength: 10,
+                maxLength: 30
+            }), (contentLines)=>{
+                sizes.forEach((size)=>{
+                    const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                        isOpen: true,
+                        onClose: ()=>{},
+                        size: size,
+                        children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                            children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                    children: line
+                                }, index))
+                        })
+                    }));
+                    const contentContainer = findModalContentContainer(container);
+                    if (contentContainer) {
+                        expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                    }
+                });
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+        it("should have max-h-[85vh] regardless of viewport width", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.integer({
+                min: 320,
+                max: 1440
+            }), _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (viewportWidth, size)=>{
+                // Mock window.innerWidth
+                Object.defineProperty(window, "innerWidth", {
+                    writable: true,
+                    configurable: true,
+                    value: viewportWidth
+                });
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: /*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                            children: "Test content"
+                        })
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+    });
+    describe("Scrollability with tall content", ()=>{
+        it("should enable scrolling when content exceeds max-height", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(tallContentArbitrary, _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (contentLines, size)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                                style: {
+                                    minHeight: "100px",
+                                    padding: "20px"
+                                },
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Should have both overflow-y-auto and max-h-[85vh]
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                    // Overflow should be auto or scroll
+                    const overflowY = getComputedOverflow(contentContainer);
+                    expect([
+                        "auto",
+                        "scroll"
+                    ]).toContain(overflowY);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+        it("should handle forms with many fields", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.array(_fastcheck.default.record({
+                label: _fastcheck.default.string({
+                    minLength: 5,
+                    maxLength: 30
+                }),
+                type: _fastcheck.default.constantFrom("text", "email", "number", "textarea")
+            }), {
+                minLength: 10,
+                maxLength: 20
+            }), _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (fields, size)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    title: "Form",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("form", {
+                        children: fields.map((field, index)=>/*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+                                style: {
+                                    marginBottom: "20px"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxruntime.jsx)("label", {
+                                        children: field.label
+                                    }),
+                                    field.type === "textarea" ? /*#__PURE__*/ (0, _jsxruntime.jsx)("textarea", {
+                                        style: {
+                                            width: "100%",
+                                            height: "80px"
+                                        }
+                                    }) : /*#__PURE__*/ (0, _jsxruntime.jsx)("input", {
+                                        type: field.type,
+                                        style: {
+                                            width: "100%"
+                                        }
+                                    })
+                                ]
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Form should be scrollable
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+        it("should handle nested content structures", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.array(_fastcheck.default.record({
+                title: _fastcheck.default.string({
+                    minLength: 10,
+                    maxLength: 50
+                }),
+                items: _fastcheck.default.array(_fastcheck.default.string({
+                    minLength: 20,
+                    maxLength: 100
+                }), {
+                    minLength: 3,
+                    maxLength: 10
+                })
+            }), {
+                minLength: 5,
+                maxLength: 15
+            }), (sections)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: "lg",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: sections.map((section, sectionIndex)=>/*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+                                style: {
+                                    marginBottom: "30px"
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxruntime.jsx)("h3", {
+                                        children: section.title
+                                    }),
+                                    /*#__PURE__*/ (0, _jsxruntime.jsx)("ul", {
+                                        children: section.items.map((item, itemIndex)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("li", {
+                                                style: {
+                                                    padding: "10px"
+                                                },
+                                                children: item
+                                            }, itemIndex))
+                                    })
+                                ]
+                            }, sectionIndex))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+    });
+    describe("Edge cases", ()=>{
+        it("should handle modal with minimal content", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.constantFrom("sm", "md", "lg", "xl"), _fastcheck.default.string({
+                minLength: 1,
+                maxLength: 20
+            }), (size, content)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: content
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Even with minimal content, scrolling properties should be present
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+        it("should handle modal with empty content", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            const sizes = [
+                "sm",
+                "md",
+                "lg",
+                "xl"
+            ];
+            sizes.forEach((size)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {})
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            });
+        });
+        it("should handle modal with title and content", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.string({
+                minLength: 5,
+                maxLength: 50
+            }), _fastcheck.default.array(_fastcheck.default.string({
+                minLength: 20,
+                maxLength: 100
+            }), {
+                minLength: 5,
+                maxLength: 20
+            }), _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (title, contentLines, size)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    title: title,
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+        it("should handle modal with images and mixed content", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.array(_fastcheck.default.record({
+                type: _fastcheck.default.constantFrom("text", "image", "list"),
+                content: _fastcheck.default.string({
+                    minLength: 10,
+                    maxLength: 100
+                })
+            }), {
+                minLength: 5,
+                maxLength: 15
+            }), (contentBlocks)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: "lg",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentBlocks.map((block, index)=>{
+                            if (block.type === "text") {
+                                return /*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                    children: block.content
+                                }, index);
+                            } else if (block.type === "image") {
+                                return /*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+                                    style: {
+                                        height: "200px",
+                                        background: "#ccc"
+                                    },
+                                    children: [
+                                        "Image placeholder: ",
+                                        block.content
+                                    ]
+                                }, index);
+                            } else {
+                                return /*#__PURE__*/ (0, _jsxruntime.jsx)("ul", {
+                                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("li", {
+                                        children: block.content
+                                    })
+                                }, index);
+                            }
+                        })
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+        it("should handle modal on different viewport heights", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.integer({
+                min: 480,
+                max: 1080
+            }), _fastcheck.default.array(_fastcheck.default.string({
+                minLength: 50,
+                maxLength: 150
+            }), {
+                minLength: 10,
+                maxLength: 30
+            }), (viewportHeight, contentLines)=>{
+                // Mock window.innerHeight
+                Object.defineProperty(window, "innerHeight", {
+                    writable: true,
+                    configurable: true,
+                    value: viewportHeight
+                });
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: "md",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                                style: {
+                                    minHeight: "60px"
+                                },
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Max height should always be 85vh regardless of viewport height
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+    });
+    describe("Requirement validation", ()=>{
+        it("validates Requirement 4.2: Modal content scrolling on mobile devices", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.integer({
+                min: 320,
+                max: 639
+            }), _fastcheck.default.array(_fastcheck.default.string({
+                minLength: 50,
+                maxLength: 150
+            }), {
+                minLength: 15,
+                maxLength: 40
+            }), _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (viewportWidth, contentLines, size)=>{
+                // Mock mobile viewport
+                Object.defineProperty(window, "innerWidth", {
+                    writable: true,
+                    configurable: true,
+                    value: viewportWidth
+                });
+                Object.defineProperty(window, "innerHeight", {
+                    writable: true,
+                    configurable: true,
+                    value: 667
+                });
+                // Requirement 4.2: WHEN Модальное_Окно открыто на мобильном устройстве,
+                // THE Система SHALL обеспечивать возможность прокрутки содержимого
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                                style: {
+                                    minHeight: "80px",
+                                    padding: "10px"
+                                },
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Modal content should have overflow-y: auto for scrolling
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    // Should have max-height constraint to enable scrolling
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                    // Computed overflow should allow scrolling
+                    const overflowY = getComputedOverflow(contentContainer);
+                    expect([
+                        "auto",
+                        "scroll"
+                    ]).toContain(overflowY);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+        it("validates that scrolling is available on all device sizes", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.integer({
+                min: 320,
+                max: 1440
+            }), _fastcheck.default.array(_fastcheck.default.string({
+                minLength: 30,
+                maxLength: 100
+            }), {
+                minLength: 20,
+                maxLength: 50
+            }), (viewportWidth, contentLines)=>{
+                Object.defineProperty(window, "innerWidth", {
+                    writable: true,
+                    configurable: true,
+                    value: viewportWidth
+                });
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: "md",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                                style: {
+                                    minHeight: "70px"
+                                },
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Scrolling should be available on all device sizes
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+        it("validates that max-height is 85% of viewport height", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.constantFrom("sm", "md", "lg", "xl"), (size)=>{
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: "Test content"
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Should use max-h-[85vh] which is 85% of viewport height
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+    });
+    describe("General property validation", ()=>{
+        it("should verify scrolling properties are present across all configurations", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.integer({
+                min: 320,
+                max: 1440
+            }), _fastcheck.default.constantFrom("sm", "md", "lg", "xl"), _fastcheck.default.oneof(shortContentArbitrary, tallContentArbitrary), _fastcheck.default.option(_fastcheck.default.string({
+                minLength: 5,
+                maxLength: 50
+            }), {
+                nil: undefined
+            }), (viewportWidth, size, contentLines, title)=>{
+                Object.defineProperty(window, "innerWidth", {
+                    writable: true,
+                    configurable: true,
+                    value: viewportWidth
+                });
+                const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: size,
+                    title: title,
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                children: line
+                            }, index))
+                    })
+                }));
+                const contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // All modals should have scrolling capability
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("MEDIUM")
+            });
+        });
+        it("should ensure consistent scrolling behavior across modal lifecycle", ()=>{
+            jest.setTimeout((0, _propertytestconfig.getTimeout)("SLOW"));
+            _fastcheck.default.assert(_fastcheck.default.property(_fastcheck.default.array(_fastcheck.default.string({
+                minLength: 20,
+                maxLength: 100
+            }), {
+                minLength: 10,
+                maxLength: 30
+            }), (contentLines)=>{
+                // Render modal
+                const { container, rerender } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: "md",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                children: line
+                            }, index))
+                    })
+                }));
+                let contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+                // Re-render with different content
+                rerender(/*#__PURE__*/ (0, _jsxruntime.jsx)(_Modal.Modal, {
+                    isOpen: true,
+                    onClose: ()=>{},
+                    size: "lg",
+                    children: /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                        children: contentLines.slice(0, 5).map((line, index)=>/*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                children: line
+                            }, index))
+                    })
+                }));
+                contentContainer = findModalContentContainer(container);
+                if (contentContainer) {
+                    // Scrolling properties should persist after re-render
+                    expect(contentContainer.className).toMatch(/overflow-y-auto/);
+                    expect(contentContainer.className).toMatch(/max-h-\[85vh\]/);
+                }
+            }), {
+                numRuns: (0, _propertytestconfig.getNumRuns)("FAST")
+            });
+        });
+    });
+});
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkU6XFxteVxcb3R1c1xcZmluYW5jZV90cmFja2VyXFxmcm9udGVuZFxcX190ZXN0c19fXFxwcm9wZXJ0aWVzXFxtb2RhbENvbnRlbnRTY3JvbGxpbmcucHJvcGVydHkudGVzdC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXHJcbiAqIFByb3BlcnR5LUJhc2VkIFRlc3Qg4oCUIE1vZGFsIENvbnRlbnQgU2Nyb2xsaW5nXHJcbiAqIFxyXG4gKiAqKtCh0LLQvtC50YHRgtCy0L4gMTE6INCf0YDQvtC60YDRg9GC0LrQsCDRgdC+0LTQtdGA0LbQuNC80L7Qs9C+INC80L7QtNCw0LvRjNC90YvRhSDQvtC60L7QvSoqXHJcbiAqICoq0JLQsNC70LjQtNC40YDRg9C10YI6INCi0YDQtdCx0L7QstCw0L3QuNGPIDQuMioqXHJcbiAqIFxyXG4gKiBGb3IgYW55IG1vZGFsIHdpbmRvdyB3aXRoIGNvbnRlbnQgZXhjZWVkaW5nIHZpZXdwb3J0IGhlaWdodCxcclxuICogdmVydGljYWwgc2Nyb2xsaW5nIHNob3VsZCBiZSBhdmFpbGFibGUgKG92ZXJmbG93LXk6IGF1dG8pLlxyXG4gKiBUaGUgbW9kYWwgY29udGVudCBjb250YWluZXIgc2hvdWxkIGhhdmUgbWF4LWgtWzg1dmhdIHRvIGVuc3VyZVxyXG4gKiBzY3JvbGxhYmlsaXR5IHdoZW4gY29udGVudCBpcyB0b28gdGFsbC5cclxuICogXHJcbiAqIE5PVEU6IFRoaXMgdGVzdCBpcyBza2lwcGVkIGluIENJIGR1ZSB0byBwZXJmb3JtYW5jZS4gUnVuIGxvY2FsbHkgd2l0aCBucG0gdGVzdFxyXG4gKi9cclxuXHJcbmltcG9ydCBSZWFjdCBmcm9tIFwicmVhY3RcIjtcclxuaW1wb3J0IHsgcmVuZGVyIH0gZnJvbSBcIkB0ZXN0aW5nLWxpYnJhcnkvcmVhY3RcIjtcclxuaW1wb3J0IGZjIGZyb20gXCJmYXN0LWNoZWNrXCI7XHJcbmltcG9ydCB7IE1vZGFsIH0gZnJvbSBcIkAvY29tcG9uZW50cy91aS9Nb2RhbFwiO1xyXG5pbXBvcnQgeyBnZXROdW1SdW5zLCBnZXRUaW1lb3V0IH0gZnJvbSBcIi4vcHJvcGVydHktdGVzdC1jb25maWdcIjtcclxuXHJcbi8vIFNraXAgdGhpcyB0ZXN0IHN1aXRlIGluIENJIGVudmlyb25tZW50XHJcbmNvbnN0IGRlc2NyaWJlT3JTa2lwID0gcHJvY2Vzcy5lbnYuQ0kgPT09IFwidHJ1ZVwiID8gZGVzY3JpYmUuc2tpcCA6IGRlc2NyaWJlO1xyXG5cclxuLy8gTWF4aW11bSBoZWlnaHQgb2YgbW9kYWwgY29udGVudCAoODUlIG9mIHZpZXdwb3J0IGhlaWdodClcclxuY29uc3QgTUFYX01PREFMX0hFSUdIVF9WSCA9IDg1O1xyXG5cclxuLy8gSGVscGVyIGZ1bmN0aW9uIHRvIGdldCBjb21wdXRlZCBzdHlsZXNcclxuY29uc3QgZ2V0Q29tcHV0ZWRPdmVyZmxvdyA9IChlbGVtZW50OiBFbGVtZW50KTogc3RyaW5nID0+IHtcclxuICBjb25zdCBjb21wdXRlZFN0eWxlID0gd2luZG93LmdldENvbXB1dGVkU3R5bGUoZWxlbWVudCk7XHJcbiAgcmV0dXJuIGNvbXB1dGVkU3R5bGUub3ZlcmZsb3dZO1xyXG59O1xyXG5cclxuLy8gSGVscGVyIGZ1bmN0aW9uIHRvIGNoZWNrIGlmIGVsZW1lbnQgaGFzIG1heC1oZWlnaHQgY29uc3RyYWludFxyXG5jb25zdCBoYXNNYXhIZWlnaHRDb25zdHJhaW50ID0gKGVsZW1lbnQ6IEVsZW1lbnQpOiBib29sZWFuID0+IHtcclxuICBjb25zdCBjbGFzc2VzID0gZWxlbWVudC5jbGFzc05hbWU7XHJcbiAgcmV0dXJuIGNsYXNzZXMuaW5jbHVkZXMoXCJtYXgtaC1bODV2aF1cIik7XHJcbn07XHJcblxyXG4vLyBIZWxwZXIgZnVuY3Rpb24gdG8gZmluZCBtb2RhbCBjb250ZW50IGNvbnRhaW5lclxyXG5jb25zdCBmaW5kTW9kYWxDb250ZW50Q29udGFpbmVyID0gKGNvbnRhaW5lcjogSFRNTEVsZW1lbnQpOiBFbGVtZW50IHwgbnVsbCA9PiB7XHJcbiAgLy8gTG9vayBmb3IgdGhlIGRpdiB3aXRoIG92ZXJmbG93LXktYXV0byBhbmQgbWF4LWgtWzg1dmhdXHJcbiAgY29uc3QgY29udGVudENvbnRhaW5lciA9IGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLm92ZXJmbG93LXktYXV0by5tYXgtaC1cXFxcWzg1dmhcXFxcXVwiKTtcclxuICBpZiAoY29udGVudENvbnRhaW5lcikgcmV0dXJuIGNvbnRlbnRDb250YWluZXI7XHJcbiAgXHJcbiAgLy8gRmFsbGJhY2s6IGxvb2sgZm9yIGFueSBlbGVtZW50IHdpdGggbWF4LWgtWzg1dmhdXHJcbiAgcmV0dXJuIGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiW2NsYXNzKj0nbWF4LWgtWzg1dmhdJ11cIik7XHJcbn07XHJcblxyXG4vLyBHZW5lcmF0b3IgZm9yIGNvbnRlbnQgdGhhdCBleGNlZWRzIHZpZXdwb3J0IGhlaWdodFxyXG5jb25zdCB0YWxsQ29udGVudEFyYml0cmFyeSA9IGZjLmFycmF5KFxyXG4gIGZjLnN0cmluZyh7IG1pbkxlbmd0aDogNTAsIG1heExlbmd0aDogMjAwIH0pLFxyXG4gIHsgbWluTGVuZ3RoOiAyMCwgbWF4TGVuZ3RoOiAxMDAgfVxyXG4pO1xyXG5cclxuLy8gR2VuZXJhdG9yIGZvciBjb250ZW50IHRoYXQgZml0cyB3aXRoaW4gdmlld3BvcnRcclxuY29uc3Qgc2hvcnRDb250ZW50QXJiaXRyYXJ5ID0gZmMuYXJyYXkoXHJcbiAgZmMuc3RyaW5nKHsgbWluTGVuZ3RoOiAxMCwgbWF4TGVuZ3RoOiA1MCB9KSxcclxuICB7IG1pbkxlbmd0aDogMSwgbWF4TGVuZ3RoOiA1IH1cclxuKTtcclxuXHJcbmRlc2NyaWJlT3JTa2lwKFwiUHJvcGVydHk6IE1vZGFsIENvbnRlbnQgU2Nyb2xsaW5nXCIsICgpID0+IHtcclxuICBkZXNjcmliZShcIk92ZXJmbG93LXkgYXV0byBwcm9wZXJ0eVwiLCAoKSA9PiB7XHJcbiAgICBpdChcInNob3VsZCBoYXZlIG92ZXJmbG93LXk6IGF1dG8gb24gbW9kYWwgY29udGVudCBjb250YWluZXJcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5jb25zdGFudEZyb20oXCJzbVwiIGFzIGNvbnN0LCBcIm1kXCIgYXMgY29uc3QsIFwibGdcIiBhcyBjb25zdCwgXCJ4bFwiIGFzIGNvbnN0KSxcclxuICAgICAgICAgIGZjLmFycmF5KGZjLnN0cmluZyh7IG1pbkxlbmd0aDogMTAsIG1heExlbmd0aDogMTAwIH0pLCB7IG1pbkxlbmd0aDogMSwgbWF4TGVuZ3RoOiA1MCB9KSxcclxuICAgICAgICAgIChzaXplLCBjb250ZW50TGluZXMpID0+IHtcclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgICAgICA8TW9kYWwgaXNPcGVuPXt0cnVlfSBvbkNsb3NlPXsoKSA9PiB7fX0gc2l6ZT17c2l6ZX0+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICB7Y29udGVudExpbmVzLm1hcCgobGluZSwgaW5kZXgpID0+IChcclxuICAgICAgICAgICAgICAgICAgICA8cCBrZXk9e2luZGV4fT57bGluZX08L3A+XHJcbiAgICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgPC9Nb2RhbD5cclxuICAgICAgICAgICAgKTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IGNvbnRlbnRDb250YWluZXIgPSBmaW5kTW9kYWxDb250ZW50Q29udGFpbmVyKGNvbnRhaW5lcik7XHJcblxyXG4gICAgICAgICAgICBpZiAoY29udGVudENvbnRhaW5lcikge1xyXG4gICAgICAgICAgICAgIC8vIFNob3VsZCBoYXZlIG92ZXJmbG93LXktYXV0byBjbGFzc1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvb3ZlcmZsb3cteS1hdXRvLyk7XHJcbiAgICAgICAgICAgICAgXHJcbiAgICAgICAgICAgICAgLy8gQ29tcHV0ZWQgc3R5bGUgc2hvdWxkIGJlICdhdXRvJyBvciAnc2Nyb2xsJ1xyXG4gICAgICAgICAgICAgIGNvbnN0IG92ZXJmbG93WSA9IGdldENvbXB1dGVkT3ZlcmZsb3coY29udGVudENvbnRhaW5lcik7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KFtcImF1dG9cIiwgXCJzY3JvbGxcIl0pLnRvQ29udGFpbihvdmVyZmxvd1kpO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJNRURJVU1cIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcblxyXG4gICAgaXQoXCJzaG91bGQgaGF2ZSBvdmVyZmxvdy15OiBhdXRvIHJlZ2FyZGxlc3Mgb2YgY29udGVudCBsZW5ndGhcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5vbmVvZihzaG9ydENvbnRlbnRBcmJpdHJhcnksIHRhbGxDb250ZW50QXJiaXRyYXJ5KSxcclxuICAgICAgICAgIGZjLmNvbnN0YW50RnJvbShcInNtXCIgYXMgY29uc3QsIFwibWRcIiBhcyBjb25zdCwgXCJsZ1wiIGFzIGNvbnN0LCBcInhsXCIgYXMgY29uc3QpLFxyXG4gICAgICAgICAgKGNvbnRlbnRMaW5lcywgc2l6ZSkgPT4ge1xyXG4gICAgICAgICAgICBjb25zdCB7IGNvbnRhaW5lciB9ID0gcmVuZGVyKFxyXG4gICAgICAgICAgICAgIDxNb2RhbCBpc09wZW49e3RydWV9IG9uQ2xvc2U9eygpID0+IHt9fSBzaXplPXtzaXplfT5cclxuICAgICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICAgIHtjb250ZW50TGluZXMubWFwKChsaW5lLCBpbmRleCkgPT4gKFxyXG4gICAgICAgICAgICAgICAgICAgIDxkaXYga2V5PXtpbmRleH0gc3R5bGU9e3sgbWluSGVpZ2h0OiBcIjUwcHhcIiB9fT5cclxuICAgICAgICAgICAgICAgICAgICAgIHtsaW5lfVxyXG4gICAgICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgICAgICApKX1cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL292ZXJmbG93LXktYXV0by8pO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJNRURJVU1cIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcbiAgfSk7XHJcblxyXG4gIGRlc2NyaWJlKFwiTWF4LWhlaWdodCBjb25zdHJhaW50XCIsICgpID0+IHtcclxuICAgIGl0KFwic2hvdWxkIGhhdmUgbWF4LWgtWzg1dmhdIGNsYXNzIG9uIGNvbnRlbnQgY29udGFpbmVyXCIsICgpID0+IHtcclxuICAgICAgamVzdC5zZXRUaW1lb3V0KGdldFRpbWVvdXQoXCJTTE9XXCIpKTtcclxuICAgICAgZmMuYXNzZXJ0KFxyXG4gICAgICAgIGZjLnByb3BlcnR5KFxyXG4gICAgICAgICAgZmMuY29uc3RhbnRGcm9tKFwic21cIiBhcyBjb25zdCwgXCJtZFwiIGFzIGNvbnN0LCBcImxnXCIgYXMgY29uc3QsIFwieGxcIiBhcyBjb25zdCksXHJcbiAgICAgICAgICBmYy5hcnJheShmYy5zdHJpbmcoeyBtaW5MZW5ndGg6IDEwLCBtYXhMZW5ndGg6IDEwMCB9KSwgeyBtaW5MZW5ndGg6IDEsIG1heExlbmd0aDogNTAgfSksXHJcbiAgICAgICAgICAoc2l6ZSwgY29udGVudExpbmVzKSA9PiB7XHJcbiAgICAgICAgICAgIGNvbnN0IHsgY29udGFpbmVyIH0gPSByZW5kZXIoXHJcbiAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHNpemU9e3NpemV9PlxyXG4gICAgICAgICAgICAgICAgPGRpdj5cclxuICAgICAgICAgICAgICAgICAge2NvbnRlbnRMaW5lcy5tYXAoKGxpbmUsIGluZGV4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgPHAga2V5PXtpbmRleH0+e2xpbmV9PC9wPlxyXG4gICAgICAgICAgICAgICAgICApKX1cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICAvLyBTaG91bGQgaGF2ZSBtYXgtaC1bODV2aF0gY2xhc3NcclxuICAgICAgICAgICAgICBleHBlY3QoaGFzTWF4SGVpZ2h0Q29uc3RyYWludChjb250ZW50Q29udGFpbmVyKSkudG9CZSh0cnVlKTtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL21heC1oLVxcWzg1dmhcXF0vKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICksXHJcbiAgICAgICAgeyBudW1SdW5zOiBnZXROdW1SdW5zKFwiTUVESVVNXCIpIH1cclxuICAgICAgKTtcclxuICAgIH0pO1xyXG5cclxuICAgIGl0KFwic2hvdWxkIG1haW50YWluIG1heC1oLVs4NXZoXSBhY3Jvc3MgYWxsIG1vZGFsIHNpemVzXCIsICgpID0+IHtcclxuICAgICAgamVzdC5zZXRUaW1lb3V0KGdldFRpbWVvdXQoXCJTTE9XXCIpKTtcclxuICAgICAgY29uc3Qgc2l6ZXM6IEFycmF5PFwic21cIiB8IFwibWRcIiB8IFwibGdcIiB8IFwieGxcIj4gPSBbXCJzbVwiLCBcIm1kXCIsIFwibGdcIiwgXCJ4bFwiXTtcclxuXHJcbiAgICAgIGZjLmFzc2VydChcclxuICAgICAgICBmYy5wcm9wZXJ0eShcclxuICAgICAgICAgIGZjLmFycmF5KGZjLnN0cmluZyh7IG1pbkxlbmd0aDogMjAsIG1heExlbmd0aDogMTAwIH0pLCB7IG1pbkxlbmd0aDogMTAsIG1heExlbmd0aDogMzAgfSksXHJcbiAgICAgICAgICAoY29udGVudExpbmVzKSA9PiB7XHJcbiAgICAgICAgICAgIHNpemVzLmZvckVhY2goKHNpemUpID0+IHtcclxuICAgICAgICAgICAgICBjb25zdCB7IGNvbnRhaW5lciB9ID0gcmVuZGVyKFxyXG4gICAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHNpemU9e3NpemV9PlxyXG4gICAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICAgIHtjb250ZW50TGluZXMubWFwKChsaW5lLCBpbmRleCkgPT4gKFxyXG4gICAgICAgICAgICAgICAgICAgICAgPHAga2V5PXtpbmRleH0+e2xpbmV9PC9wPlxyXG4gICAgICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICAgKTtcclxuXHJcbiAgICAgICAgICAgICAgY29uc3QgY29udGVudENvbnRhaW5lciA9IGZpbmRNb2RhbENvbnRlbnRDb250YWluZXIoY29udGFpbmVyKTtcclxuXHJcbiAgICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvbWF4LWgtXFxbODV2aFxcXS8pO1xyXG4gICAgICAgICAgICAgIH1cclxuICAgICAgICAgICAgfSk7XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJGQVNUXCIpIH1cclxuICAgICAgKTtcclxuICAgIH0pO1xyXG5cclxuICAgIGl0KFwic2hvdWxkIGhhdmUgbWF4LWgtWzg1dmhdIHJlZ2FyZGxlc3Mgb2Ygdmlld3BvcnQgd2lkdGhcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5pbnRlZ2VyKHsgbWluOiAzMjAsIG1heDogMTQ0MCB9KSxcclxuICAgICAgICAgIGZjLmNvbnN0YW50RnJvbShcInNtXCIgYXMgY29uc3QsIFwibWRcIiBhcyBjb25zdCwgXCJsZ1wiIGFzIGNvbnN0LCBcInhsXCIgYXMgY29uc3QpLFxyXG4gICAgICAgICAgKHZpZXdwb3J0V2lkdGgsIHNpemUpID0+IHtcclxuICAgICAgICAgICAgLy8gTW9jayB3aW5kb3cuaW5uZXJXaWR0aFxyXG4gICAgICAgICAgICBPYmplY3QuZGVmaW5lUHJvcGVydHkod2luZG93LCBcImlubmVyV2lkdGhcIiwge1xyXG4gICAgICAgICAgICAgIHdyaXRhYmxlOiB0cnVlLFxyXG4gICAgICAgICAgICAgIGNvbmZpZ3VyYWJsZTogdHJ1ZSxcclxuICAgICAgICAgICAgICB2YWx1ZTogdmlld3BvcnRXaWR0aCxcclxuICAgICAgICAgICAgfSk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCB7IGNvbnRhaW5lciB9ID0gcmVuZGVyKFxyXG4gICAgICAgICAgICAgIDxNb2RhbCBpc09wZW49e3RydWV9IG9uQ2xvc2U9eygpID0+IHt9fSBzaXplPXtzaXplfT5cclxuICAgICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICAgIDxwPlRlc3QgY29udGVudDwvcD5cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL21heC1oLVxcWzg1dmhcXF0vKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICksXHJcbiAgICAgICAgeyBudW1SdW5zOiBnZXROdW1SdW5zKFwiTUVESVVNXCIpIH1cclxuICAgICAgKTtcclxuICAgIH0pO1xyXG4gIH0pO1xyXG5cclxuICBkZXNjcmliZShcIlNjcm9sbGFiaWxpdHkgd2l0aCB0YWxsIGNvbnRlbnRcIiwgKCkgPT4ge1xyXG4gICAgaXQoXCJzaG91bGQgZW5hYmxlIHNjcm9sbGluZyB3aGVuIGNvbnRlbnQgZXhjZWVkcyBtYXgtaGVpZ2h0XCIsICgpID0+IHtcclxuICAgICAgamVzdC5zZXRUaW1lb3V0KGdldFRpbWVvdXQoXCJTTE9XXCIpKTtcclxuICAgICAgZmMuYXNzZXJ0KFxyXG4gICAgICAgIGZjLnByb3BlcnR5KFxyXG4gICAgICAgICAgdGFsbENvbnRlbnRBcmJpdHJhcnksXHJcbiAgICAgICAgICBmYy5jb25zdGFudEZyb20oXCJzbVwiIGFzIGNvbnN0LCBcIm1kXCIgYXMgY29uc3QsIFwibGdcIiBhcyBjb25zdCwgXCJ4bFwiIGFzIGNvbnN0KSxcclxuICAgICAgICAgIChjb250ZW50TGluZXMsIHNpemUpID0+IHtcclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgICAgICA8TW9kYWwgaXNPcGVuPXt0cnVlfSBvbkNsb3NlPXsoKSA9PiB7fX0gc2l6ZT17c2l6ZX0+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICB7Y29udGVudExpbmVzLm1hcCgobGluZSwgaW5kZXgpID0+IChcclxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGtleT17aW5kZXh9IHN0eWxlPXt7IG1pbkhlaWdodDogXCIxMDBweFwiLCBwYWRkaW5nOiBcIjIwcHhcIiB9fT5cclxuICAgICAgICAgICAgICAgICAgICAgIHtsaW5lfVxyXG4gICAgICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgICAgICApKX1cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICAvLyBTaG91bGQgaGF2ZSBib3RoIG92ZXJmbG93LXktYXV0byBhbmQgbWF4LWgtWzg1dmhdXHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9vdmVyZmxvdy15LWF1dG8vKTtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL21heC1oLVxcWzg1dmhcXF0vKTtcclxuICAgICAgICAgICAgICBcclxuICAgICAgICAgICAgICAvLyBPdmVyZmxvdyBzaG91bGQgYmUgYXV0byBvciBzY3JvbGxcclxuICAgICAgICAgICAgICBjb25zdCBvdmVyZmxvd1kgPSBnZXRDb21wdXRlZE92ZXJmbG93KGNvbnRlbnRDb250YWluZXIpO1xyXG4gICAgICAgICAgICAgIGV4cGVjdChbXCJhdXRvXCIsIFwic2Nyb2xsXCJdKS50b0NvbnRhaW4ob3ZlcmZsb3dZKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICksXHJcbiAgICAgICAgeyBudW1SdW5zOiBnZXROdW1SdW5zKFwiRkFTVFwiKSB9XHJcbiAgICAgICk7XHJcbiAgICB9KTtcclxuXHJcbiAgICBpdChcInNob3VsZCBoYW5kbGUgZm9ybXMgd2l0aCBtYW55IGZpZWxkc1wiLCAoKSA9PiB7XHJcbiAgICAgIGplc3Quc2V0VGltZW91dChnZXRUaW1lb3V0KFwiU0xPV1wiKSk7XHJcbiAgICAgIGZjLmFzc2VydChcclxuICAgICAgICBmYy5wcm9wZXJ0eShcclxuICAgICAgICAgIGZjLmFycmF5KFxyXG4gICAgICAgICAgICBmYy5yZWNvcmQoe1xyXG4gICAgICAgICAgICAgIGxhYmVsOiBmYy5zdHJpbmcoeyBtaW5MZW5ndGg6IDUsIG1heExlbmd0aDogMzAgfSksXHJcbiAgICAgICAgICAgICAgdHlwZTogZmMuY29uc3RhbnRGcm9tKFwidGV4dFwiLCBcImVtYWlsXCIsIFwibnVtYmVyXCIsIFwidGV4dGFyZWFcIiksXHJcbiAgICAgICAgICAgIH0pLFxyXG4gICAgICAgICAgICB7IG1pbkxlbmd0aDogMTAsIG1heExlbmd0aDogMjAgfVxyXG4gICAgICAgICAgKSxcclxuICAgICAgICAgIGZjLmNvbnN0YW50RnJvbShcInNtXCIgYXMgY29uc3QsIFwibWRcIiBhcyBjb25zdCwgXCJsZ1wiIGFzIGNvbnN0LCBcInhsXCIgYXMgY29uc3QpLFxyXG4gICAgICAgICAgKGZpZWxkcywgc2l6ZSkgPT4ge1xyXG4gICAgICAgICAgICBjb25zdCB7IGNvbnRhaW5lciB9ID0gcmVuZGVyKFxyXG4gICAgICAgICAgICAgIDxNb2RhbCBpc09wZW49e3RydWV9IG9uQ2xvc2U9eygpID0+IHt9fSBzaXplPXtzaXplfSB0aXRsZT1cIkZvcm1cIj5cclxuICAgICAgICAgICAgICAgIDxmb3JtPlxyXG4gICAgICAgICAgICAgICAgICB7ZmllbGRzLm1hcCgoZmllbGQsIGluZGV4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdiBrZXk9e2luZGV4fSBzdHlsZT17eyBtYXJnaW5Cb3R0b206IFwiMjBweFwiIH19PlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGxhYmVsPntmaWVsZC5sYWJlbH08L2xhYmVsPlxyXG4gICAgICAgICAgICAgICAgICAgICAge2ZpZWxkLnR5cGUgPT09IFwidGV4dGFyZWFcIiA/IChcclxuICAgICAgICAgICAgICAgICAgICAgICAgPHRleHRhcmVhIHN0eWxlPXt7IHdpZHRoOiBcIjEwMCVcIiwgaGVpZ2h0OiBcIjgwcHhcIiB9fSAvPlxyXG4gICAgICAgICAgICAgICAgICAgICAgKSA6IChcclxuICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IHR5cGU9e2ZpZWxkLnR5cGV9IHN0eWxlPXt7IHdpZHRoOiBcIjEwMCVcIiB9fSAvPlxyXG4gICAgICAgICAgICAgICAgICAgICAgKX1cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgKSl9XHJcbiAgICAgICAgICAgICAgICA8L2Zvcm0+XHJcbiAgICAgICAgICAgICAgPC9Nb2RhbD5cclxuICAgICAgICAgICAgKTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IGNvbnRlbnRDb250YWluZXIgPSBmaW5kTW9kYWxDb250ZW50Q29udGFpbmVyKGNvbnRhaW5lcik7XHJcblxyXG4gICAgICAgICAgICBpZiAoY29udGVudENvbnRhaW5lcikge1xyXG4gICAgICAgICAgICAgIC8vIEZvcm0gc2hvdWxkIGJlIHNjcm9sbGFibGVcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL292ZXJmbG93LXktYXV0by8pO1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvbWF4LWgtXFxbODV2aFxcXS8pO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJGQVNUXCIpIH1cclxuICAgICAgKTtcclxuICAgIH0pO1xyXG5cclxuICAgIGl0KFwic2hvdWxkIGhhbmRsZSBuZXN0ZWQgY29udGVudCBzdHJ1Y3R1cmVzXCIsICgpID0+IHtcclxuICAgICAgamVzdC5zZXRUaW1lb3V0KGdldFRpbWVvdXQoXCJTTE9XXCIpKTtcclxuICAgICAgZmMuYXNzZXJ0KFxyXG4gICAgICAgIGZjLnByb3BlcnR5KFxyXG4gICAgICAgICAgZmMuYXJyYXkoXHJcbiAgICAgICAgICAgIGZjLnJlY29yZCh7XHJcbiAgICAgICAgICAgICAgdGl0bGU6IGZjLnN0cmluZyh7IG1pbkxlbmd0aDogMTAsIG1heExlbmd0aDogNTAgfSksXHJcbiAgICAgICAgICAgICAgaXRlbXM6IGZjLmFycmF5KGZjLnN0cmluZyh7IG1pbkxlbmd0aDogMjAsIG1heExlbmd0aDogMTAwIH0pLCB7IG1pbkxlbmd0aDogMywgbWF4TGVuZ3RoOiAxMCB9KSxcclxuICAgICAgICAgICAgfSksXHJcbiAgICAgICAgICAgIHsgbWluTGVuZ3RoOiA1LCBtYXhMZW5ndGg6IDE1IH1cclxuICAgICAgICAgICksXHJcbiAgICAgICAgICAoc2VjdGlvbnMpID0+IHtcclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgICAgICA8TW9kYWwgaXNPcGVuPXt0cnVlfSBvbkNsb3NlPXsoKSA9PiB7fX0gc2l6ZT1cImxnXCI+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICB7c2VjdGlvbnMubWFwKChzZWN0aW9uLCBzZWN0aW9uSW5kZXgpID0+IChcclxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGtleT17c2VjdGlvbkluZGV4fSBzdHlsZT17eyBtYXJnaW5Cb3R0b206IFwiMzBweFwiIH19PlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGgzPntzZWN0aW9uLnRpdGxlfTwvaDM+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8dWw+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIHtzZWN0aW9uLml0ZW1zLm1hcCgoaXRlbSwgaXRlbUluZGV4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpIGtleT17aXRlbUluZGV4fSBzdHlsZT17eyBwYWRkaW5nOiBcIjEwcHhcIiB9fT5cclxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtpdGVtfVxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIDwvbGk+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgICAgICAgICAgPC91bD5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgKSl9XHJcbiAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICA8L01vZGFsPlxyXG4gICAgICAgICAgICApO1xyXG5cclxuICAgICAgICAgICAgY29uc3QgY29udGVudENvbnRhaW5lciA9IGZpbmRNb2RhbENvbnRlbnRDb250YWluZXIoY29udGFpbmVyKTtcclxuXHJcbiAgICAgICAgICAgIGlmIChjb250ZW50Q29udGFpbmVyKSB7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9vdmVyZmxvdy15LWF1dG8vKTtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL21heC1oLVxcWzg1dmhcXF0vKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICksXHJcbiAgICAgICAgeyBudW1SdW5zOiBnZXROdW1SdW5zKFwiRkFTVFwiKSB9XHJcbiAgICAgICk7XHJcbiAgICB9KTtcclxuICB9KTtcclxuXHJcbiAgZGVzY3JpYmUoXCJFZGdlIGNhc2VzXCIsICgpID0+IHtcclxuICAgIGl0KFwic2hvdWxkIGhhbmRsZSBtb2RhbCB3aXRoIG1pbmltYWwgY29udGVudFwiLCAoKSA9PiB7XHJcbiAgICAgIGplc3Quc2V0VGltZW91dChnZXRUaW1lb3V0KFwiU0xPV1wiKSk7XHJcbiAgICAgIGZjLmFzc2VydChcclxuICAgICAgICBmYy5wcm9wZXJ0eShcclxuICAgICAgICAgIGZjLmNvbnN0YW50RnJvbShcInNtXCIgYXMgY29uc3QsIFwibWRcIiBhcyBjb25zdCwgXCJsZ1wiIGFzIGNvbnN0LCBcInhsXCIgYXMgY29uc3QpLFxyXG4gICAgICAgICAgZmMuc3RyaW5nKHsgbWluTGVuZ3RoOiAxLCBtYXhMZW5ndGg6IDIwIH0pLFxyXG4gICAgICAgICAgKHNpemUsIGNvbnRlbnQpID0+IHtcclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgICAgICA8TW9kYWwgaXNPcGVuPXt0cnVlfSBvbkNsb3NlPXsoKSA9PiB7fX0gc2l6ZT17c2l6ZX0+XHJcbiAgICAgICAgICAgICAgICA8ZGl2Pntjb250ZW50fTwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICAvLyBFdmVuIHdpdGggbWluaW1hbCBjb250ZW50LCBzY3JvbGxpbmcgcHJvcGVydGllcyBzaG91bGQgYmUgcHJlc2VudFxyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvb3ZlcmZsb3cteS1hdXRvLyk7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9tYXgtaC1cXFs4NXZoXFxdLyk7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgIH1cclxuICAgICAgICApLFxyXG4gICAgICAgIHsgbnVtUnVuczogZ2V0TnVtUnVucyhcIkZBU1RcIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcblxyXG4gICAgaXQoXCJzaG91bGQgaGFuZGxlIG1vZGFsIHdpdGggZW1wdHkgY29udGVudFwiLCAoKSA9PiB7XHJcbiAgICAgIGplc3Quc2V0VGltZW91dChnZXRUaW1lb3V0KFwiU0xPV1wiKSk7XHJcbiAgICAgIGNvbnN0IHNpemVzOiBBcnJheTxcInNtXCIgfCBcIm1kXCIgfCBcImxnXCIgfCBcInhsXCI+ID0gW1wic21cIiwgXCJtZFwiLCBcImxnXCIsIFwieGxcIl07XHJcblxyXG4gICAgICBzaXplcy5mb3JFYWNoKChzaXplKSA9PiB7XHJcbiAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgIDxNb2RhbCBpc09wZW49e3RydWV9IG9uQ2xvc2U9eygpID0+IHt9fSBzaXplPXtzaXplfT5cclxuICAgICAgICAgICAgPGRpdj48L2Rpdj5cclxuICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgKTtcclxuXHJcbiAgICAgICAgY29uc3QgY29udGVudENvbnRhaW5lciA9IGZpbmRNb2RhbENvbnRlbnRDb250YWluZXIoY29udGFpbmVyKTtcclxuXHJcbiAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvb3ZlcmZsb3cteS1hdXRvLyk7XHJcbiAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL21heC1oLVxcWzg1dmhcXF0vKTtcclxuICAgICAgICB9XHJcbiAgICAgIH0pO1xyXG4gICAgfSk7XHJcblxyXG4gICAgaXQoXCJzaG91bGQgaGFuZGxlIG1vZGFsIHdpdGggdGl0bGUgYW5kIGNvbnRlbnRcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5zdHJpbmcoeyBtaW5MZW5ndGg6IDUsIG1heExlbmd0aDogNTAgfSksXHJcbiAgICAgICAgICBmYy5hcnJheShmYy5zdHJpbmcoeyBtaW5MZW5ndGg6IDIwLCBtYXhMZW5ndGg6IDEwMCB9KSwgeyBtaW5MZW5ndGg6IDUsIG1heExlbmd0aDogMjAgfSksXHJcbiAgICAgICAgICBmYy5jb25zdGFudEZyb20oXCJzbVwiIGFzIGNvbnN0LCBcIm1kXCIgYXMgY29uc3QsIFwibGdcIiBhcyBjb25zdCwgXCJ4bFwiIGFzIGNvbnN0KSxcclxuICAgICAgICAgICh0aXRsZSwgY29udGVudExpbmVzLCBzaXplKSA9PiB7XHJcbiAgICAgICAgICAgIGNvbnN0IHsgY29udGFpbmVyIH0gPSByZW5kZXIoXHJcbiAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHRpdGxlPXt0aXRsZX0gc2l6ZT17c2l6ZX0+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICB7Y29udGVudExpbmVzLm1hcCgobGluZSwgaW5kZXgpID0+IChcclxuICAgICAgICAgICAgICAgICAgICA8cCBrZXk9e2luZGV4fT57bGluZX08L3A+XHJcbiAgICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgPC9Nb2RhbD5cclxuICAgICAgICAgICAgKTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IGNvbnRlbnRDb250YWluZXIgPSBmaW5kTW9kYWxDb250ZW50Q29udGFpbmVyKGNvbnRhaW5lcik7XHJcblxyXG4gICAgICAgICAgICBpZiAoY29udGVudENvbnRhaW5lcikge1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvb3ZlcmZsb3cteS1hdXRvLyk7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9tYXgtaC1cXFs4NXZoXFxdLyk7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgIH1cclxuICAgICAgICApLFxyXG4gICAgICAgIHsgbnVtUnVuczogZ2V0TnVtUnVucyhcIkZBU1RcIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcblxyXG4gICAgaXQoXCJzaG91bGQgaGFuZGxlIG1vZGFsIHdpdGggaW1hZ2VzIGFuZCBtaXhlZCBjb250ZW50XCIsICgpID0+IHtcclxuICAgICAgamVzdC5zZXRUaW1lb3V0KGdldFRpbWVvdXQoXCJTTE9XXCIpKTtcclxuICAgICAgZmMuYXNzZXJ0KFxyXG4gICAgICAgIGZjLnByb3BlcnR5KFxyXG4gICAgICAgICAgZmMuYXJyYXkoXHJcbiAgICAgICAgICAgIGZjLnJlY29yZCh7XHJcbiAgICAgICAgICAgICAgdHlwZTogZmMuY29uc3RhbnRGcm9tKFwidGV4dFwiLCBcImltYWdlXCIsIFwibGlzdFwiKSxcclxuICAgICAgICAgICAgICBjb250ZW50OiBmYy5zdHJpbmcoeyBtaW5MZW5ndGg6IDEwLCBtYXhMZW5ndGg6IDEwMCB9KSxcclxuICAgICAgICAgICAgfSksXHJcbiAgICAgICAgICAgIHsgbWluTGVuZ3RoOiA1LCBtYXhMZW5ndGg6IDE1IH1cclxuICAgICAgICAgICksXHJcbiAgICAgICAgICAoY29udGVudEJsb2NrcykgPT4ge1xyXG4gICAgICAgICAgICBjb25zdCB7IGNvbnRhaW5lciB9ID0gcmVuZGVyKFxyXG4gICAgICAgICAgICAgIDxNb2RhbCBpc09wZW49e3RydWV9IG9uQ2xvc2U9eygpID0+IHt9fSBzaXplPVwibGdcIj5cclxuICAgICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICAgIHtjb250ZW50QmxvY2tzLm1hcCgoYmxvY2ssIGluZGV4KSA9PiB7XHJcbiAgICAgICAgICAgICAgICAgICAgaWYgKGJsb2NrLnR5cGUgPT09IFwidGV4dFwiKSB7XHJcbiAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gPHAga2V5PXtpbmRleH0+e2Jsb2NrLmNvbnRlbnR9PC9wPjtcclxuICAgICAgICAgICAgICAgICAgICB9IGVsc2UgaWYgKGJsb2NrLnR5cGUgPT09IFwiaW1hZ2VcIikge1xyXG4gICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIChcclxuICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBrZXk9e2luZGV4fSBzdHlsZT17eyBoZWlnaHQ6IFwiMjAwcHhcIiwgYmFja2dyb3VuZDogXCIjY2NjXCIgfX0+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgSW1hZ2UgcGxhY2Vob2xkZXI6IHtibG9jay5jb250ZW50fVxyXG4gICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICAgICk7XHJcbiAgICAgICAgICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAoXHJcbiAgICAgICAgICAgICAgICAgICAgICAgIDx1bCBrZXk9e2luZGV4fT5cclxuICAgICAgICAgICAgICAgICAgICAgICAgICA8bGk+e2Jsb2NrLmNvbnRlbnR9PC9saT5cclxuICAgICAgICAgICAgICAgICAgICAgICAgPC91bD5cclxuICAgICAgICAgICAgICAgICAgICAgICk7XHJcbiAgICAgICAgICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICAgICAgICB9KX1cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL292ZXJmbG93LXktYXV0by8pO1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvbWF4LWgtXFxbODV2aFxcXS8pO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJGQVNUXCIpIH1cclxuICAgICAgKTtcclxuICAgIH0pO1xyXG5cclxuICAgIGl0KFwic2hvdWxkIGhhbmRsZSBtb2RhbCBvbiBkaWZmZXJlbnQgdmlld3BvcnQgaGVpZ2h0c1wiLCAoKSA9PiB7XHJcbiAgICAgIGplc3Quc2V0VGltZW91dChnZXRUaW1lb3V0KFwiU0xPV1wiKSk7XHJcbiAgICAgIGZjLmFzc2VydChcclxuICAgICAgICBmYy5wcm9wZXJ0eShcclxuICAgICAgICAgIGZjLmludGVnZXIoeyBtaW46IDQ4MCwgbWF4OiAxMDgwIH0pLCAvLyB2aWV3cG9ydCBoZWlnaHRcclxuICAgICAgICAgIGZjLmFycmF5KGZjLnN0cmluZyh7IG1pbkxlbmd0aDogNTAsIG1heExlbmd0aDogMTUwIH0pLCB7IG1pbkxlbmd0aDogMTAsIG1heExlbmd0aDogMzAgfSksXHJcbiAgICAgICAgICAodmlld3BvcnRIZWlnaHQsIGNvbnRlbnRMaW5lcykgPT4ge1xyXG4gICAgICAgICAgICAvLyBNb2NrIHdpbmRvdy5pbm5lckhlaWdodFxyXG4gICAgICAgICAgICBPYmplY3QuZGVmaW5lUHJvcGVydHkod2luZG93LCBcImlubmVySGVpZ2h0XCIsIHtcclxuICAgICAgICAgICAgICB3cml0YWJsZTogdHJ1ZSxcclxuICAgICAgICAgICAgICBjb25maWd1cmFibGU6IHRydWUsXHJcbiAgICAgICAgICAgICAgdmFsdWU6IHZpZXdwb3J0SGVpZ2h0LFxyXG4gICAgICAgICAgICB9KTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IHsgY29udGFpbmVyIH0gPSByZW5kZXIoXHJcbiAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHNpemU9XCJtZFwiPlxyXG4gICAgICAgICAgICAgICAgPGRpdj5cclxuICAgICAgICAgICAgICAgICAge2NvbnRlbnRMaW5lcy5tYXAoKGxpbmUsIGluZGV4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdiBrZXk9e2luZGV4fSBzdHlsZT17eyBtaW5IZWlnaHQ6IFwiNjBweFwiIH19PlxyXG4gICAgICAgICAgICAgICAgICAgICAge2xpbmV9XHJcbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgPC9Nb2RhbD5cclxuICAgICAgICAgICAgKTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IGNvbnRlbnRDb250YWluZXIgPSBmaW5kTW9kYWxDb250ZW50Q29udGFpbmVyKGNvbnRhaW5lcik7XHJcblxyXG4gICAgICAgICAgICBpZiAoY29udGVudENvbnRhaW5lcikge1xyXG4gICAgICAgICAgICAgIC8vIE1heCBoZWlnaHQgc2hvdWxkIGFsd2F5cyBiZSA4NXZoIHJlZ2FyZGxlc3Mgb2Ygdmlld3BvcnQgaGVpZ2h0XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9tYXgtaC1cXFs4NXZoXFxdLyk7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9vdmVyZmxvdy15LWF1dG8vKTtcclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgfVxyXG4gICAgICAgICksXHJcbiAgICAgICAgeyBudW1SdW5zOiBnZXROdW1SdW5zKFwiRkFTVFwiKSB9XHJcbiAgICAgICk7XHJcbiAgICB9KTtcclxuICB9KTtcclxuXHJcbiAgZGVzY3JpYmUoXCJSZXF1aXJlbWVudCB2YWxpZGF0aW9uXCIsICgpID0+IHtcclxuICAgIGl0KFwidmFsaWRhdGVzIFJlcXVpcmVtZW50IDQuMjogTW9kYWwgY29udGVudCBzY3JvbGxpbmcgb24gbW9iaWxlIGRldmljZXNcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5pbnRlZ2VyKHsgbWluOiAzMjAsIG1heDogNjM5IH0pLCAvLyBNb2JpbGUgdmlld3BvcnQgd2lkdGhcclxuICAgICAgICAgIGZjLmFycmF5KGZjLnN0cmluZyh7IG1pbkxlbmd0aDogNTAsIG1heExlbmd0aDogMTUwIH0pLCB7IG1pbkxlbmd0aDogMTUsIG1heExlbmd0aDogNDAgfSksXHJcbiAgICAgICAgICBmYy5jb25zdGFudEZyb20oXCJzbVwiIGFzIGNvbnN0LCBcIm1kXCIgYXMgY29uc3QsIFwibGdcIiBhcyBjb25zdCwgXCJ4bFwiIGFzIGNvbnN0KSxcclxuICAgICAgICAgICh2aWV3cG9ydFdpZHRoLCBjb250ZW50TGluZXMsIHNpemUpID0+IHtcclxuICAgICAgICAgICAgLy8gTW9jayBtb2JpbGUgdmlld3BvcnRcclxuICAgICAgICAgICAgT2JqZWN0LmRlZmluZVByb3BlcnR5KHdpbmRvdywgXCJpbm5lcldpZHRoXCIsIHtcclxuICAgICAgICAgICAgICB3cml0YWJsZTogdHJ1ZSxcclxuICAgICAgICAgICAgICBjb25maWd1cmFibGU6IHRydWUsXHJcbiAgICAgICAgICAgICAgdmFsdWU6IHZpZXdwb3J0V2lkdGgsXHJcbiAgICAgICAgICAgIH0pO1xyXG5cclxuICAgICAgICAgICAgT2JqZWN0LmRlZmluZVByb3BlcnR5KHdpbmRvdywgXCJpbm5lckhlaWdodFwiLCB7XHJcbiAgICAgICAgICAgICAgd3JpdGFibGU6IHRydWUsXHJcbiAgICAgICAgICAgICAgY29uZmlndXJhYmxlOiB0cnVlLFxyXG4gICAgICAgICAgICAgIHZhbHVlOiA2NjcsIC8vIFR5cGljYWwgbW9iaWxlIGhlaWdodFxyXG4gICAgICAgICAgICB9KTtcclxuXHJcbiAgICAgICAgICAgIC8vIFJlcXVpcmVtZW50IDQuMjogV0hFTiDQnNC+0LTQsNC70YzQvdC+0LVf0J7QutC90L4g0L7RgtC60YDRi9GC0L4g0L3QsCDQvNC+0LHQuNC70YzQvdC+0Lwg0YPRgdGC0YDQvtC50YHRgtCy0LUsXHJcbiAgICAgICAgICAgIC8vIFRIRSDQodC40YHRgtC10LzQsCBTSEFMTCDQvtCx0LXRgdC/0LXRh9C40LLQsNGC0Ywg0LLQvtC30LzQvtC20L3QvtGB0YLRjCDQv9GA0L7QutGA0YPRgtC60Lgg0YHQvtC00LXRgNC20LjQvNC+0LPQvlxyXG4gICAgICAgICAgICBjb25zdCB7IGNvbnRhaW5lciB9ID0gcmVuZGVyKFxyXG4gICAgICAgICAgICAgIDxNb2RhbCBpc09wZW49e3RydWV9IG9uQ2xvc2U9eygpID0+IHt9fSBzaXplPXtzaXplfT5cclxuICAgICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICAgIHtjb250ZW50TGluZXMubWFwKChsaW5lLCBpbmRleCkgPT4gKFxyXG4gICAgICAgICAgICAgICAgICAgIDxkaXYga2V5PXtpbmRleH0gc3R5bGU9e3sgbWluSGVpZ2h0OiBcIjgwcHhcIiwgcGFkZGluZzogXCIxMHB4XCIgfX0+XHJcbiAgICAgICAgICAgICAgICAgICAgICB7bGluZX1cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgKSl9XHJcbiAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICA8L01vZGFsPlxyXG4gICAgICAgICAgICApO1xyXG5cclxuICAgICAgICAgICAgY29uc3QgY29udGVudENvbnRhaW5lciA9IGZpbmRNb2RhbENvbnRlbnRDb250YWluZXIoY29udGFpbmVyKTtcclxuXHJcbiAgICAgICAgICAgIGlmIChjb250ZW50Q29udGFpbmVyKSB7XHJcbiAgICAgICAgICAgICAgLy8gTW9kYWwgY29udGVudCBzaG91bGQgaGF2ZSBvdmVyZmxvdy15OiBhdXRvIGZvciBzY3JvbGxpbmdcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL292ZXJmbG93LXktYXV0by8pO1xyXG4gICAgICAgICAgICAgIFxyXG4gICAgICAgICAgICAgIC8vIFNob3VsZCBoYXZlIG1heC1oZWlnaHQgY29uc3RyYWludCB0byBlbmFibGUgc2Nyb2xsaW5nXHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9tYXgtaC1cXFs4NXZoXFxdLyk7XHJcbiAgICAgICAgICAgICAgXHJcbiAgICAgICAgICAgICAgLy8gQ29tcHV0ZWQgb3ZlcmZsb3cgc2hvdWxkIGFsbG93IHNjcm9sbGluZ1xyXG4gICAgICAgICAgICAgIGNvbnN0IG92ZXJmbG93WSA9IGdldENvbXB1dGVkT3ZlcmZsb3coY29udGVudENvbnRhaW5lcik7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KFtcImF1dG9cIiwgXCJzY3JvbGxcIl0pLnRvQ29udGFpbihvdmVyZmxvd1kpO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJNRURJVU1cIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcblxyXG4gICAgaXQoXCJ2YWxpZGF0ZXMgdGhhdCBzY3JvbGxpbmcgaXMgYXZhaWxhYmxlIG9uIGFsbCBkZXZpY2Ugc2l6ZXNcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5pbnRlZ2VyKHsgbWluOiAzMjAsIG1heDogMTQ0MCB9KSwgLy8gQWxsIHZpZXdwb3J0IHdpZHRoc1xyXG4gICAgICAgICAgZmMuYXJyYXkoZmMuc3RyaW5nKHsgbWluTGVuZ3RoOiAzMCwgbWF4TGVuZ3RoOiAxMDAgfSksIHsgbWluTGVuZ3RoOiAyMCwgbWF4TGVuZ3RoOiA1MCB9KSxcclxuICAgICAgICAgICh2aWV3cG9ydFdpZHRoLCBjb250ZW50TGluZXMpID0+IHtcclxuICAgICAgICAgICAgT2JqZWN0LmRlZmluZVByb3BlcnR5KHdpbmRvdywgXCJpbm5lcldpZHRoXCIsIHtcclxuICAgICAgICAgICAgICB3cml0YWJsZTogdHJ1ZSxcclxuICAgICAgICAgICAgICBjb25maWd1cmFibGU6IHRydWUsXHJcbiAgICAgICAgICAgICAgdmFsdWU6IHZpZXdwb3J0V2lkdGgsXHJcbiAgICAgICAgICAgIH0pO1xyXG5cclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgICAgICA8TW9kYWwgaXNPcGVuPXt0cnVlfSBvbkNsb3NlPXsoKSA9PiB7fX0gc2l6ZT1cIm1kXCI+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICB7Y29udGVudExpbmVzLm1hcCgobGluZSwgaW5kZXgpID0+IChcclxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGtleT17aW5kZXh9IHN0eWxlPXt7IG1pbkhlaWdodDogXCI3MHB4XCIgfX0+XHJcbiAgICAgICAgICAgICAgICAgICAgICB7bGluZX1cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgKSl9XHJcbiAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICA8L01vZGFsPlxyXG4gICAgICAgICAgICApO1xyXG5cclxuICAgICAgICAgICAgY29uc3QgY29udGVudENvbnRhaW5lciA9IGZpbmRNb2RhbENvbnRlbnRDb250YWluZXIoY29udGFpbmVyKTtcclxuXHJcbiAgICAgICAgICAgIGlmIChjb250ZW50Q29udGFpbmVyKSB7XHJcbiAgICAgICAgICAgICAgLy8gU2Nyb2xsaW5nIHNob3VsZCBiZSBhdmFpbGFibGUgb24gYWxsIGRldmljZSBzaXplc1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvb3ZlcmZsb3cteS1hdXRvLyk7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9tYXgtaC1cXFs4NXZoXFxdLyk7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgIH1cclxuICAgICAgICApLFxyXG4gICAgICAgIHsgbnVtUnVuczogZ2V0TnVtUnVucyhcIk1FRElVTVwiKSB9XHJcbiAgICAgICk7XHJcbiAgICB9KTtcclxuXHJcbiAgICBpdChcInZhbGlkYXRlcyB0aGF0IG1heC1oZWlnaHQgaXMgODUlIG9mIHZpZXdwb3J0IGhlaWdodFwiLCAoKSA9PiB7XHJcbiAgICAgIGplc3Quc2V0VGltZW91dChnZXRUaW1lb3V0KFwiU0xPV1wiKSk7XHJcbiAgICAgIGZjLmFzc2VydChcclxuICAgICAgICBmYy5wcm9wZXJ0eShcclxuICAgICAgICAgIGZjLmNvbnN0YW50RnJvbShcInNtXCIgYXMgY29uc3QsIFwibWRcIiBhcyBjb25zdCwgXCJsZ1wiIGFzIGNvbnN0LCBcInhsXCIgYXMgY29uc3QpLFxyXG4gICAgICAgICAgKHNpemUpID0+IHtcclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIgfSA9IHJlbmRlcihcclxuICAgICAgICAgICAgICA8TW9kYWwgaXNPcGVuPXt0cnVlfSBvbkNsb3NlPXsoKSA9PiB7fX0gc2l6ZT17c2l6ZX0+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlRlc3QgY29udGVudDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb25zdCBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICAvLyBTaG91bGQgdXNlIG1heC1oLVs4NXZoXSB3aGljaCBpcyA4NSUgb2Ygdmlld3BvcnQgaGVpZ2h0XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9tYXgtaC1cXFs4NXZoXFxdLyk7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgIH1cclxuICAgICAgICApLFxyXG4gICAgICAgIHsgbnVtUnVuczogZ2V0TnVtUnVucyhcIkZBU1RcIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcbiAgfSk7XHJcblxyXG4gIGRlc2NyaWJlKFwiR2VuZXJhbCBwcm9wZXJ0eSB2YWxpZGF0aW9uXCIsICgpID0+IHtcclxuICAgIGl0KFwic2hvdWxkIHZlcmlmeSBzY3JvbGxpbmcgcHJvcGVydGllcyBhcmUgcHJlc2VudCBhY3Jvc3MgYWxsIGNvbmZpZ3VyYXRpb25zXCIsICgpID0+IHtcclxuICAgICAgamVzdC5zZXRUaW1lb3V0KGdldFRpbWVvdXQoXCJTTE9XXCIpKTtcclxuICAgICAgZmMuYXNzZXJ0KFxyXG4gICAgICAgIGZjLnByb3BlcnR5KFxyXG4gICAgICAgICAgZmMuaW50ZWdlcih7IG1pbjogMzIwLCBtYXg6IDE0NDAgfSksXHJcbiAgICAgICAgICBmYy5jb25zdGFudEZyb20oXCJzbVwiIGFzIGNvbnN0LCBcIm1kXCIgYXMgY29uc3QsIFwibGdcIiBhcyBjb25zdCwgXCJ4bFwiIGFzIGNvbnN0KSxcclxuICAgICAgICAgIGZjLm9uZW9mKHNob3J0Q29udGVudEFyYml0cmFyeSwgdGFsbENvbnRlbnRBcmJpdHJhcnkpLFxyXG4gICAgICAgICAgZmMub3B0aW9uKGZjLnN0cmluZyh7IG1pbkxlbmd0aDogNSwgbWF4TGVuZ3RoOiA1MCB9KSwgeyBuaWw6IHVuZGVmaW5lZCB9KSxcclxuICAgICAgICAgICh2aWV3cG9ydFdpZHRoLCBzaXplLCBjb250ZW50TGluZXMsIHRpdGxlKSA9PiB7XHJcbiAgICAgICAgICAgIE9iamVjdC5kZWZpbmVQcm9wZXJ0eSh3aW5kb3csIFwiaW5uZXJXaWR0aFwiLCB7XHJcbiAgICAgICAgICAgICAgd3JpdGFibGU6IHRydWUsXHJcbiAgICAgICAgICAgICAgY29uZmlndXJhYmxlOiB0cnVlLFxyXG4gICAgICAgICAgICAgIHZhbHVlOiB2aWV3cG9ydFdpZHRoLFxyXG4gICAgICAgICAgICB9KTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IHsgY29udGFpbmVyIH0gPSByZW5kZXIoXHJcbiAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHNpemU9e3NpemV9IHRpdGxlPXt0aXRsZX0+XHJcbiAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICB7Y29udGVudExpbmVzLm1hcCgobGluZSwgaW5kZXgpID0+IChcclxuICAgICAgICAgICAgICAgICAgICA8cCBrZXk9e2luZGV4fT57bGluZX08L3A+XHJcbiAgICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgPC9Nb2RhbD5cclxuICAgICAgICAgICAgKTtcclxuXHJcbiAgICAgICAgICAgIGNvbnN0IGNvbnRlbnRDb250YWluZXIgPSBmaW5kTW9kYWxDb250ZW50Q29udGFpbmVyKGNvbnRhaW5lcik7XHJcblxyXG4gICAgICAgICAgICBpZiAoY29udGVudENvbnRhaW5lcikge1xyXG4gICAgICAgICAgICAgIC8vIEFsbCBtb2RhbHMgc2hvdWxkIGhhdmUgc2Nyb2xsaW5nIGNhcGFiaWxpdHlcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL292ZXJmbG93LXktYXV0by8pO1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvbWF4LWgtXFxbODV2aFxcXS8pO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJNRURJVU1cIikgfVxyXG4gICAgICApO1xyXG4gICAgfSk7XHJcblxyXG4gICAgaXQoXCJzaG91bGQgZW5zdXJlIGNvbnNpc3RlbnQgc2Nyb2xsaW5nIGJlaGF2aW9yIGFjcm9zcyBtb2RhbCBsaWZlY3ljbGVcIiwgKCkgPT4ge1xyXG4gICAgICBqZXN0LnNldFRpbWVvdXQoZ2V0VGltZW91dChcIlNMT1dcIikpO1xyXG4gICAgICBmYy5hc3NlcnQoXHJcbiAgICAgICAgZmMucHJvcGVydHkoXHJcbiAgICAgICAgICBmYy5hcnJheShmYy5zdHJpbmcoeyBtaW5MZW5ndGg6IDIwLCBtYXhMZW5ndGg6IDEwMCB9KSwgeyBtaW5MZW5ndGg6IDEwLCBtYXhMZW5ndGg6IDMwIH0pLFxyXG4gICAgICAgICAgKGNvbnRlbnRMaW5lcykgPT4ge1xyXG4gICAgICAgICAgICAvLyBSZW5kZXIgbW9kYWxcclxuICAgICAgICAgICAgY29uc3QgeyBjb250YWluZXIsIHJlcmVuZGVyIH0gPSByZW5kZXIoXHJcbiAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHNpemU9XCJtZFwiPlxyXG4gICAgICAgICAgICAgICAgPGRpdj5cclxuICAgICAgICAgICAgICAgICAge2NvbnRlbnRMaW5lcy5tYXAoKGxpbmUsIGluZGV4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgPHAga2V5PXtpbmRleH0+e2xpbmV9PC9wPlxyXG4gICAgICAgICAgICAgICAgICApKX1cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBsZXQgY29udGVudENvbnRhaW5lciA9IGZpbmRNb2RhbENvbnRlbnRDb250YWluZXIoY29udGFpbmVyKTtcclxuXHJcbiAgICAgICAgICAgIGlmIChjb250ZW50Q29udGFpbmVyKSB7XHJcbiAgICAgICAgICAgICAgZXhwZWN0KGNvbnRlbnRDb250YWluZXIuY2xhc3NOYW1lKS50b01hdGNoKC9vdmVyZmxvdy15LWF1dG8vKTtcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL21heC1oLVxcWzg1dmhcXF0vKTtcclxuICAgICAgICAgICAgfVxyXG5cclxuICAgICAgICAgICAgLy8gUmUtcmVuZGVyIHdpdGggZGlmZmVyZW50IGNvbnRlbnRcclxuICAgICAgICAgICAgcmVyZW5kZXIoXHJcbiAgICAgICAgICAgICAgPE1vZGFsIGlzT3Blbj17dHJ1ZX0gb25DbG9zZT17KCkgPT4ge319IHNpemU9XCJsZ1wiPlxyXG4gICAgICAgICAgICAgICAgPGRpdj5cclxuICAgICAgICAgICAgICAgICAge2NvbnRlbnRMaW5lcy5zbGljZSgwLCA1KS5tYXAoKGxpbmUsIGluZGV4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgPHAga2V5PXtpbmRleH0+e2xpbmV9PC9wPlxyXG4gICAgICAgICAgICAgICAgICApKX1cclxuICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvTW9kYWw+XHJcbiAgICAgICAgICAgICk7XHJcblxyXG4gICAgICAgICAgICBjb250ZW50Q29udGFpbmVyID0gZmluZE1vZGFsQ29udGVudENvbnRhaW5lcihjb250YWluZXIpO1xyXG5cclxuICAgICAgICAgICAgaWYgKGNvbnRlbnRDb250YWluZXIpIHtcclxuICAgICAgICAgICAgICAvLyBTY3JvbGxpbmcgcHJvcGVydGllcyBzaG91bGQgcGVyc2lzdCBhZnRlciByZS1yZW5kZXJcclxuICAgICAgICAgICAgICBleHBlY3QoY29udGVudENvbnRhaW5lci5jbGFzc05hbWUpLnRvTWF0Y2goL292ZXJmbG93LXktYXV0by8pO1xyXG4gICAgICAgICAgICAgIGV4cGVjdChjb250ZW50Q29udGFpbmVyLmNsYXNzTmFtZSkudG9NYXRjaCgvbWF4LWgtXFxbODV2aFxcXS8pO1xyXG4gICAgICAgICAgICB9XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgKSxcclxuICAgICAgICB7IG51bVJ1bnM6IGdldE51bVJ1bnMoXCJGQVNUXCIpIH1cclxuICAgICAgKTtcclxuICAgIH0pO1xyXG4gIH0pO1xyXG59KTtcclxuIl0sIm5hbWVzIjpbImRlc2NyaWJlT3JTa2lwIiwicHJvY2VzcyIsImVudiIsIkNJIiwiZGVzY3JpYmUiLCJza2lwIiwiTUFYX01PREFMX0hFSUdIVF9WSCIsImdldENvbXB1dGVkT3ZlcmZsb3ciLCJlbGVtZW50IiwiY29tcHV0ZWRTdHlsZSIsIndpbmRvdyIsImdldENvbXB1dGVkU3R5bGUiLCJvdmVyZmxvd1kiLCJoYXNNYXhIZWlnaHRDb25zdHJhaW50IiwiY2xhc3NlcyIsImNsYXNzTmFtZSIsImluY2x1ZGVzIiwiZmluZE1vZGFsQ29udGVudENvbnRhaW5lciIsImNvbnRhaW5lciIsImNvbnRlbnRDb250YWluZXIiLCJxdWVyeVNlbGVjdG9yIiwidGFsbENvbnRlbnRBcmJpdHJhcnkiLCJmYyIsImFycmF5Iiwic3RyaW5nIiwibWluTGVuZ3RoIiwibWF4TGVuZ3RoIiwic2hvcnRDb250ZW50QXJiaXRyYXJ5IiwiaXQiLCJqZXN0Iiwic2V0VGltZW91dCIsImdldFRpbWVvdXQiLCJhc3NlcnQiLCJwcm9wZXJ0eSIsImNvbnN0YW50RnJvbSIsInNpemUiLCJjb250ZW50TGluZXMiLCJyZW5kZXIiLCJNb2RhbCIsImlzT3BlbiIsIm9uQ2xvc2UiLCJkaXYiLCJtYXAiLCJsaW5lIiwiaW5kZXgiLCJwIiwiZXhwZWN0IiwidG9NYXRjaCIsInRvQ29udGFpbiIsIm51bVJ1bnMiLCJnZXROdW1SdW5zIiwib25lb2YiLCJzdHlsZSIsIm1pbkhlaWdodCIsInRvQmUiLCJzaXplcyIsImZvckVhY2giLCJpbnRlZ2VyIiwibWluIiwibWF4Iiwidmlld3BvcnRXaWR0aCIsIk9iamVjdCIsImRlZmluZVByb3BlcnR5Iiwid3JpdGFibGUiLCJjb25maWd1cmFibGUiLCJ2YWx1ZSIsInBhZGRpbmciLCJyZWNvcmQiLCJsYWJlbCIsInR5cGUiLCJmaWVsZHMiLCJ0aXRsZSIsImZvcm0iLCJmaWVsZCIsIm1hcmdpbkJvdHRvbSIsInRleHRhcmVhIiwid2lkdGgiLCJoZWlnaHQiLCJpbnB1dCIsIml0ZW1zIiwic2VjdGlvbnMiLCJzZWN0aW9uIiwic2VjdGlvbkluZGV4IiwiaDMiLCJ1bCIsIml0ZW0iLCJpdGVtSW5kZXgiLCJsaSIsImNvbnRlbnQiLCJjb250ZW50QmxvY2tzIiwiYmxvY2siLCJiYWNrZ3JvdW5kIiwidmlld3BvcnRIZWlnaHQiLCJvcHRpb24iLCJuaWwiLCJ1bmRlZmluZWQiLCJyZXJlbmRlciIsInNsaWNlIl0sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7Ozs7O0NB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

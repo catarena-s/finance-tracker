@@ -14,6 +14,7 @@ import fc from "fast-check";
 import { BalanceCards } from "@/components/dashboard/BalanceCards";
 import { CategoryCard } from "@/components/categories/CategoryCard";
 import type { Category } from "@/types/api";
+import { getNumRuns, getTimeout } from "./property-test-config";
 
 // Helper function to extract icon size classes
 const extractIconSizeClasses = (element: Element): {
@@ -71,6 +72,7 @@ const setViewportWidth = (width: number) => {
 describe("Property: Icon Proportions", () => {
   describe("BalanceCards icon proportions", () => {
     it("should maintain 1:1 aspect ratio for all icons at any viewport width", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }), // Viewport width
@@ -121,7 +123,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -166,7 +168,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -215,7 +217,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
@@ -226,7 +228,7 @@ describe("Property: Icon Proportions", () => {
       id: fc.uuid(),
       name: fc.string({ minLength: 1, maxLength: 50 }),
       type: fc.constantFrom("income" as const, "expense" as const),
-      color: fc.hexaString({ minLength: 6, maxLength: 6 }).map(hex => `#${hex}`),
+      color: fc.hexaString().map(hex => `#${hex.slice(0, 6).padEnd(6, '0')}`),
       icon: fc.string({ minLength: 1, maxLength: 2 }), // Emoji
       createdAt: fc.constant(new Date().toISOString()),
       updatedAt: fc.constant(new Date().toISOString()),
@@ -271,7 +273,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -305,7 +307,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -343,7 +345,7 @@ describe("Property: Icon Proportions", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
@@ -413,7 +415,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -446,7 +448,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -484,7 +486,7 @@ describe("Property: Icon Proportions", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });

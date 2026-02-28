@@ -1,0 +1,470 @@
+d268f9f0956da233f642863d5382f039
+"use client";
+"use strict";
+
+/* istanbul ignore next */
+function cov_yxpu8ug70() {
+  var path = "E:\\my\\otus\\finance_tracker\\frontend\\src\\components\\recurring\\RecurringTransactionList.tsx";
+  var hash = "ebdff4665c982fc32e17dd06a6f932c108a659c9";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "E:\\my\\otus\\finance_tracker\\frontend\\src\\components\\recurring\\RecurringTransactionList.tsx",
+    statementMap: {
+      "0": {
+        start: {
+          line: 3,
+          column: 0
+        },
+        end: {
+          line: 5,
+          column: 3
+        }
+      },
+      "1": {
+        start: {
+          line: 6,
+          column: 0
+        },
+        end: {
+          line: 11,
+          column: 3
+        }
+      },
+      "2": {
+        start: {
+          line: 9,
+          column: 8
+        },
+        end: {
+          line: 9,
+          column: 40
+        }
+      },
+      "3": {
+        start: {
+          line: 12,
+          column: 20
+        },
+        end: {
+          line: 12,
+          column: 48
+        }
+      },
+      "4": {
+        start: {
+          line: 13,
+          column: 29
+        },
+        end: {
+          line: 13,
+          column: 71
+        }
+      },
+      "5": {
+        start: {
+          line: 14,
+          column: 34
+        },
+        end: {
+          line: 14,
+          column: 71
+        }
+      },
+      "6": {
+        start: {
+          line: 15,
+          column: 14
+        },
+        end: {
+          line: 15,
+          column: 42
+        }
+      },
+      "7": {
+        start: {
+          line: 17,
+          column: 4
+        },
+        end: {
+          line: 19,
+          column: 6
+        }
+      },
+      "8": {
+        start: {
+          line: 22,
+          column: 4
+        },
+        end: {
+          line: 33,
+          column: 5
+        }
+      },
+      "9": {
+        start: {
+          line: 23,
+          column: 8
+        },
+        end: {
+          line: 32,
+          column: 11
+        }
+      },
+      "10": {
+        start: {
+          line: 34,
+          column: 4
+        },
+        end: {
+          line: 44,
+          column: 7
+        }
+      },
+      "11": {
+        start: {
+          line: 36,
+          column: 47
+        },
+        end: {
+          line: 43,
+          column: 20
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 8,
+            column: 9
+          },
+          end: {
+            line: 8,
+            column: 10
+          }
+        },
+        loc: {
+          start: {
+            line: 8,
+            column: 20
+          },
+          end: {
+            line: 10,
+            column: 5
+          }
+        },
+        line: 8
+      },
+      "1": {
+        name: "_interop_require_default",
+        decl: {
+          start: {
+            line: 16,
+            column: 9
+          },
+          end: {
+            line: 16,
+            column: 33
+          }
+        },
+        loc: {
+          start: {
+            line: 16,
+            column: 39
+          },
+          end: {
+            line: 20,
+            column: 1
+          }
+        },
+        line: 16
+      },
+      "2": {
+        name: "RecurringTransactionList",
+        decl: {
+          start: {
+            line: 21,
+            column: 9
+          },
+          end: {
+            line: 21,
+            column: 33
+          }
+        },
+        loc: {
+          start: {
+            line: 21,
+            column: 79
+          },
+          end: {
+            line: 45,
+            column: 1
+          }
+        },
+        line: 21
+      },
+      "3": {
+        name: "(anonymous_3)",
+        decl: {
+          start: {
+            line: 36,
+            column: 28
+          },
+          end: {
+            line: 36,
+            column: 29
+          }
+        },
+        loc: {
+          start: {
+            line: 36,
+            column: 47
+          },
+          end: {
+            line: 43,
+            column: 20
+          }
+        },
+        line: 36
+      }
+    },
+    branchMap: {
+      "0": {
+        loc: {
+          start: {
+            line: 17,
+            column: 11
+          },
+          end: {
+            line: 19,
+            column: 5
+          }
+        },
+        type: "cond-expr",
+        locations: [{
+          start: {
+            line: 17,
+            column: 35
+          },
+          end: {
+            line: 17,
+            column: 38
+          }
+        }, {
+          start: {
+            line: 17,
+            column: 41
+          },
+          end: {
+            line: 19,
+            column: 5
+          }
+        }],
+        line: 17
+      },
+      "1": {
+        loc: {
+          start: {
+            line: 17,
+            column: 11
+          },
+          end: {
+            line: 17,
+            column: 32
+          }
+        },
+        type: "binary-expr",
+        locations: [{
+          start: {
+            line: 17,
+            column: 11
+          },
+          end: {
+            line: 17,
+            column: 14
+          }
+        }, {
+          start: {
+            line: 17,
+            column: 18
+          },
+          end: {
+            line: 17,
+            column: 32
+          }
+        }],
+        line: 17
+      },
+      "2": {
+        loc: {
+          start: {
+            line: 22,
+            column: 4
+          },
+          end: {
+            line: 33,
+            column: 5
+          }
+        },
+        type: "if",
+        locations: [{
+          start: {
+            line: 22,
+            column: 4
+          },
+          end: {
+            line: 33,
+            column: 5
+          }
+        }, {
+          start: {
+            line: undefined,
+            column: undefined
+          },
+          end: {
+            line: undefined,
+            column: undefined
+          }
+        }],
+        line: 22
+      }
+    },
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0
+    },
+    f: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    b: {
+      "0": [0, 0],
+      "1": [0, 0],
+      "2": [0, 0]
+    },
+    inputSourceMap: {
+      version: 3,
+      sources: ["E:\\my\\otus\\finance_tracker\\frontend\\src\\components\\recurring\\RecurringTransactionList.tsx"],
+      sourcesContent: ["\"use client\";\n\nimport React from \"react\";\nimport { RecurringTransaction } from \"@/types/api\";\nimport { RecurringTransactionCard } from \"./RecurringTransactionCard\";\nimport { Card, CardContent } from \"@/components/ui/shadcn/card\";\n\ninterface RecurringTransactionListProps {\n  items: RecurringTransaction[];\n  onEdit: (item: RecurringTransaction) => void;\n  onDelete: (id: string) => void;\n  onToggleActive: (id: string, isActive: boolean) => void;\n}\n\nexport function RecurringTransactionList({\n  items,\n  onEdit,\n  onDelete,\n  onToggleActive,\n}: RecurringTransactionListProps) {\n  if (items.length === 0) {\n    return (\n      <Card className=\"rounded-2xl shadow-sm\">\n        <CardContent className=\"py-12 text-center\">\n          <p className=\"text-muted-foreground\">\n            \u041D\u0435\u0442 \u0448\u0430\u0431\u043B\u043E\u043D\u043E\u0432 \u043F\u043E\u0432\u0442\u043E\u0440\u044F\u044E\u0449\u0438\u0445\u0441\u044F \u0442\u0440\u0430\u043D\u0437\u0430\u043A\u0446\u0438\u0439. \u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u043F\u0435\u0440\u0432\u044B\u0439.\n          </p>\n        </CardContent>\n      </Card>\n    );\n  }\n\n  return (\n    <ul className=\"space-y-3\">\n      {items.map((r) => (\n        <li key={r.id}>\n          <RecurringTransactionCard\n            item={r}\n            onEdit={onEdit}\n            onDelete={onDelete}\n            onToggleActive={onToggleActive}\n          />\n        </li>\n      ))}\n    </ul>\n  );\n}\n"],
+      names: ["RecurringTransactionList", "items", "onEdit", "onDelete", "onToggleActive", "length", "Card", "className", "CardContent", "p", "ul", "map", "r", "li", "RecurringTransactionCard", "item", "id"],
+      mappings: "AAAA;;;;;+BAcgBA;;;eAAAA;;;;8DAZE;0CAEuB;sBACP;;;;;;AAS3B,SAASA,yBAAyB,EACvCC,KAAK,EACLC,MAAM,EACNC,QAAQ,EACRC,cAAc,EACgB;IAC9B,IAAIH,MAAMI,MAAM,KAAK,GAAG;QACtB,qBACE,qBAACC,UAAI;YAACC,WAAU;sBACd,cAAA,qBAACC,iBAAW;gBAACD,WAAU;0BACrB,cAAA,qBAACE;oBAAEF,WAAU;8BAAwB;;;;IAM7C;IAEA,qBACE,qBAACG;QAAGH,WAAU;kBACXN,MAAMU,GAAG,CAAC,CAACC,kBACV,qBAACC;0BACC,cAAA,qBAACC,kDAAwB;oBACvBC,MAAMH;oBACNV,QAAQA;oBACRC,UAAUA;oBACVC,gBAAgBA;;eALXQ,EAAEI,EAAE;;AAWrB"
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "ebdff4665c982fc32e17dd06a6f932c108a659c9"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_yxpu8ug70 = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_yxpu8ug70();
+cov_yxpu8ug70().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_yxpu8ug70().s[1]++;
+Object.defineProperty(exports, "RecurringTransactionList", {
+  enumerable: true,
+  get: function () {
+    /* istanbul ignore next */
+    cov_yxpu8ug70().f[0]++;
+    cov_yxpu8ug70().s[2]++;
+    return RecurringTransactionList;
+  }
+});
+const _jsxruntime =
+/* istanbul ignore next */
+(cov_yxpu8ug70().s[3]++, require("react/jsx-runtime"));
+const _react =
+/* istanbul ignore next */
+(/*#__PURE__*/cov_yxpu8ug70().s[4]++, _interop_require_default(require("react")));
+const _RecurringTransactionCard =
+/* istanbul ignore next */
+(cov_yxpu8ug70().s[5]++, require("./RecurringTransactionCard"));
+const _card =
+/* istanbul ignore next */
+(cov_yxpu8ug70().s[6]++, require("../ui/shadcn/card"));
+function _interop_require_default(obj) {
+  /* istanbul ignore next */
+  cov_yxpu8ug70().f[1]++;
+  cov_yxpu8ug70().s[7]++;
+  return /* istanbul ignore next */(cov_yxpu8ug70().b[1][0]++, obj) &&
+  /* istanbul ignore next */
+  (cov_yxpu8ug70().b[1][1]++, obj.__esModule) ?
+  /* istanbul ignore next */
+  (cov_yxpu8ug70().b[0][0]++, obj) :
+  /* istanbul ignore next */
+  (cov_yxpu8ug70().b[0][1]++, {
+    default: obj
+  });
+}
+function RecurringTransactionList({
+  items,
+  onEdit,
+  onDelete,
+  onToggleActive
+}) {
+  /* istanbul ignore next */
+  cov_yxpu8ug70().f[2]++;
+  cov_yxpu8ug70().s[8]++;
+  if (items.length === 0) {
+    /* istanbul ignore next */
+    cov_yxpu8ug70().b[2][0]++;
+    cov_yxpu8ug70().s[9]++;
+    return /*#__PURE__*/(0, _jsxruntime.jsx)(_card.Card, {
+      className: "rounded-2xl shadow-sm",
+      children: /*#__PURE__*/(0, _jsxruntime.jsx)(_card.CardContent, {
+        className: "py-12 text-center",
+        children: /*#__PURE__*/(0, _jsxruntime.jsx)("p", {
+          className: "text-muted-foreground",
+          children: "Нет шаблонов повторяющихся транзакций. Создайте первый."
+        })
+      })
+    });
+  } else
+  /* istanbul ignore next */
+  {
+    cov_yxpu8ug70().b[2][1]++;
+  }
+  cov_yxpu8ug70().s[10]++;
+  return /*#__PURE__*/(0, _jsxruntime.jsx)("ul", {
+    className: "space-y-3",
+    children: items.map(r => {
+      /* istanbul ignore next */
+      cov_yxpu8ug70().f[3]++;
+      cov_yxpu8ug70().s[11]++;
+      return /*#__PURE__*/(0, _jsxruntime.jsx)("li", {
+        children: /*#__PURE__*/(0, _jsxruntime.jsx)(_RecurringTransactionCard.RecurringTransactionCard, {
+          item: r,
+          onEdit: onEdit,
+          onDelete: onDelete,
+          onToggleActive: onToggleActive
+        })
+      }, r.id);
+    })
+  });
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJSZWN1cnJpbmdUcmFuc2FjdGlvbkxpc3QiLCJpdGVtcyIsIm9uRWRpdCIsIm9uRGVsZXRlIiwib25Ub2dnbGVBY3RpdmUiLCJjb3ZfeXhwdTh1ZzcwIiwiZiIsInMiLCJsZW5ndGgiLCJiIiwiX2pzeHJ1bnRpbWUiLCJqc3giLCJfY2FyZCIsIkNhcmQiLCJjbGFzc05hbWUiLCJDYXJkQ29udGVudCIsIm1hcCIsInIiLCJfUmVjdXJyaW5nVHJhbnNhY3Rpb25DYXJkIiwiUmVjdXJyaW5nVHJhbnNhY3Rpb25DYXJkIiwiaXRlbSIsImlkIl0sInNvdXJjZXMiOlsiRTpcXG15XFxvdHVzXFxmaW5hbmNlX3RyYWNrZXJcXGZyb250ZW5kXFxzcmNcXGNvbXBvbmVudHNcXHJlY3VycmluZ1xcUmVjdXJyaW5nVHJhbnNhY3Rpb25MaXN0LnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJcInVzZSBjbGllbnRcIjtcblxuaW1wb3J0IFJlYWN0IGZyb20gXCJyZWFjdFwiO1xuaW1wb3J0IHsgUmVjdXJyaW5nVHJhbnNhY3Rpb24gfSBmcm9tIFwiQC90eXBlcy9hcGlcIjtcbmltcG9ydCB7IFJlY3VycmluZ1RyYW5zYWN0aW9uQ2FyZCB9IGZyb20gXCIuL1JlY3VycmluZ1RyYW5zYWN0aW9uQ2FyZFwiO1xuaW1wb3J0IHsgQ2FyZCwgQ2FyZENvbnRlbnQgfSBmcm9tIFwiQC9jb21wb25lbnRzL3VpL3NoYWRjbi9jYXJkXCI7XG5cbmludGVyZmFjZSBSZWN1cnJpbmdUcmFuc2FjdGlvbkxpc3RQcm9wcyB7XG4gIGl0ZW1zOiBSZWN1cnJpbmdUcmFuc2FjdGlvbltdO1xuICBvbkVkaXQ6IChpdGVtOiBSZWN1cnJpbmdUcmFuc2FjdGlvbikgPT4gdm9pZDtcbiAgb25EZWxldGU6IChpZDogc3RyaW5nKSA9PiB2b2lkO1xuICBvblRvZ2dsZUFjdGl2ZTogKGlkOiBzdHJpbmcsIGlzQWN0aXZlOiBib29sZWFuKSA9PiB2b2lkO1xufVxuXG5leHBvcnQgZnVuY3Rpb24gUmVjdXJyaW5nVHJhbnNhY3Rpb25MaXN0KHtcbiAgaXRlbXMsXG4gIG9uRWRpdCxcbiAgb25EZWxldGUsXG4gIG9uVG9nZ2xlQWN0aXZlLFxufTogUmVjdXJyaW5nVHJhbnNhY3Rpb25MaXN0UHJvcHMpIHtcbiAgaWYgKGl0ZW1zLmxlbmd0aCA9PT0gMCkge1xuICAgIHJldHVybiAoXG4gICAgICA8Q2FyZCBjbGFzc05hbWU9XCJyb3VuZGVkLTJ4bCBzaGFkb3ctc21cIj5cbiAgICAgICAgPENhcmRDb250ZW50IGNsYXNzTmFtZT1cInB5LTEyIHRleHQtY2VudGVyXCI+XG4gICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1tdXRlZC1mb3JlZ3JvdW5kXCI+XG4gICAgICAgICAgICDQndC10YIg0YjQsNCx0LvQvtC90L7QsiDQv9C+0LLRgtC+0YDRj9GO0YnQuNGF0YHRjyDRgtGA0LDQvdC30LDQutGG0LjQuS4g0KHQvtC30LTQsNC50YLQtSDQv9C10YDQstGL0LkuXG4gICAgICAgICAgPC9wPlxuICAgICAgICA8L0NhcmRDb250ZW50PlxuICAgICAgPC9DYXJkPlxuICAgICk7XG4gIH1cblxuICByZXR1cm4gKFxuICAgIDx1bCBjbGFzc05hbWU9XCJzcGFjZS15LTNcIj5cbiAgICAgIHtpdGVtcy5tYXAoKHIpID0+IChcbiAgICAgICAgPGxpIGtleT17ci5pZH0+XG4gICAgICAgICAgPFJlY3VycmluZ1RyYW5zYWN0aW9uQ2FyZFxuICAgICAgICAgICAgaXRlbT17cn1cbiAgICAgICAgICAgIG9uRWRpdD17b25FZGl0fVxuICAgICAgICAgICAgb25EZWxldGU9e29uRGVsZXRlfVxuICAgICAgICAgICAgb25Ub2dnbGVBY3RpdmU9e29uVG9nZ2xlQWN0aXZlfVxuICAgICAgICAgIC8+XG4gICAgICAgIDwvbGk+XG4gICAgICApKX1cbiAgICA8L3VsPlxuICApO1xufVxuIl0sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OytCQWNnQjs7Ozs7O1dBQUFBLHdCQUFBOzs7Ozs7Ozt1RUFaRTs7O2lDQUV1Qjs7O2lDQUNQOzs7Ozs7Ozs7Ozs7Ozs7QUFTM0IsU0FBU0EseUJBQXlCO0VBQ3ZDQyxLQUFLO0VBQ0xDLE1BQU07RUFDTkMsUUFBUTtFQUNSQztBQUFjLENBQ2dCO0VBQUE7RUFBQUMsYUFBQSxHQUFBQyxDQUFBO0VBQUFELGFBQUEsR0FBQUUsQ0FBQTtFQUM5QixJQUFJTixLQUFBLENBQU1PLE1BQU0sS0FBSyxHQUFHO0lBQUE7SUFBQUgsYUFBQSxHQUFBSSxDQUFBO0lBQUFKLGFBQUEsR0FBQUUsQ0FBQTtJQUN0QixvQkFDRSxJQUFBRyxXQUFBLENBQUFDLEdBQUEsRUFBQ0MsS0FBQSxDQUFBQyxJQUFJO01BQUNDLFNBQUEsRUFBVTtnQkFDZCxpQkFBQUosV0FBQSxDQUFBQyxHQUFBLEVBQUNDLEtBQUEsQ0FBQUcsV0FBVztRQUFDRCxTQUFBLEVBQVU7a0JBQ3JCLGlCQUFBSixXQUFBLENBQUFDLEdBQUEsRUFBQztVQUFFRyxTQUFBLEVBQVU7b0JBQXdCOzs7O0VBTTdDO0VBQUE7RUFBQTtJQUFBVCxhQUFBLEdBQUFJLENBQUE7RUFBQTtFQUFBSixhQUFBLEdBQUFFLENBQUE7RUFFQSxvQkFDRSxJQUFBRyxXQUFBLENBQUFDLEdBQUEsRUFBQztJQUFHRyxTQUFBLEVBQVU7Y0FDWGIsS0FBQSxDQUFNZSxHQUFHLENBQUVDLENBQUEsSUFDVjtNQUFBO01BQUFaLGFBQUEsR0FBQUMsQ0FBQTtNQUFBRCxhQUFBLEdBQUFFLENBQUE7TUFBQSxPQURVLGFBQ1YsSUFBQUcsV0FBQSxDQUFBQyxHQUFBLEVBQUM7a0JBQ0MsaUJBQUFELFdBQUEsQ0FBQUMsR0FBQSxFQUFDTyx5QkFBQSxDQUFBQyx3QkFBd0I7VUFDdkJDLElBQUEsRUFBTUgsQ0FBQTtVQUNOZixNQUFBLEVBQVFBLE1BQUE7VUFDUkMsUUFBQSxFQUFVQSxRQUFBO1VBQ1ZDLGNBQUEsRUFBZ0JBOztTQUxYYSxDQUFBLENBQUVJLEVBQUU7SUFBQTs7QUFXckIiLCJpZ25vcmVMaXN0IjpbXX0=

@@ -14,6 +14,7 @@ import fc from "fast-check";
 import { TrendChart } from "@/components/dashboard/TrendChart";
 import { TopCategoriesWidget } from "@/components/dashboard/TopCategoriesWidget";
 import { chartResponsiveConfig } from "@/lib/responsiveConfig";
+import { getNumRuns, getTimeout } from "./property-test-config";
 
 // Helper function to generate date strings
 const generateDateString = (index: number): string => {
@@ -116,7 +117,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -161,7 +162,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -206,7 +207,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
@@ -266,7 +267,7 @@ describe("Property: Adaptive Axis Labels", () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
   });
@@ -303,7 +304,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -338,7 +339,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -375,7 +376,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -404,7 +405,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -434,7 +435,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartContainer).toBeTruthy();
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
   });
@@ -494,7 +495,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartResponsiveConfig.maxTicksLimit.mobile).toBe(5);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -533,7 +534,7 @@ describe("Property: Adaptive Axis Labels", () => {
             );
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
@@ -570,7 +571,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartResponsiveConfig.maxTicksLimit.desktop).toBeDefined();
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -608,7 +609,7 @@ describe("Property: Adaptive Axis Labels", () => {
             expect(chartResponsiveConfig.maxTicksLimit.mobile).toBe(5);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -647,7 +648,7 @@ describe("Property: Adaptive Axis Labels", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });

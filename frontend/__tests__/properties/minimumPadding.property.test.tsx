@@ -12,6 +12,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import fc from "fast-check";
 import { BalanceCards } from "@/components/dashboard/BalanceCards";
+import { getNumRuns, getTimeout } from "./property-test-config";
 
 // Helper function to get computed padding from an element
 const getPaddingValues = (element: Element): {
@@ -96,7 +97,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -129,7 +130,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -164,7 +165,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
@@ -248,7 +249,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
@@ -279,7 +280,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -313,7 +314,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -343,7 +344,7 @@ describe("Property: Minimum Padding/Margins", () => {
             expect(elementsWithPadding.length).toBeGreaterThan(0);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -378,7 +379,7 @@ describe("Property: Minimum Padding/Margins", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });

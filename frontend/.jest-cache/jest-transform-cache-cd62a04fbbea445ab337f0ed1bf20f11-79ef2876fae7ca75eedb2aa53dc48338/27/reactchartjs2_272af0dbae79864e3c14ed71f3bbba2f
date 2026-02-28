@@ -1,0 +1,93 @@
+f8e0bd6655acfc61a06b0ad6435a3b83
+/**
+ * Мок для react-chartjs-2
+ * Используется в тестах для предотвращения зависания из-за Canvas API
+ */ "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    Bar: function() {
+        return Bar;
+    },
+    Doughnut: function() {
+        return Doughnut;
+    },
+    Line: function() {
+        return Line;
+    },
+    Pie: function() {
+        return Pie;
+    }
+});
+const _jsxruntime = require("react/jsx-runtime");
+const _react = /*#__PURE__*/ _interop_require_default(require("react"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+const Line = ({ data, options })=>/*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+        "data-testid": "mock-line-chart",
+        "data-chart-type": "line",
+        children: [
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-labels",
+                children: JSON.stringify(data?.labels || [])
+            }),
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-datasets",
+                children: JSON.stringify(data?.datasets || [])
+            })
+        ]
+    });
+const Bar = ({ data, options })=>/*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+        "data-testid": "mock-bar-chart",
+        "data-chart-type": "bar",
+        children: [
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-labels",
+                children: JSON.stringify(data?.labels || [])
+            }),
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-datasets",
+                children: JSON.stringify(data?.datasets || [])
+            })
+        ]
+    });
+const Doughnut = ({ data, options })=>/*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+        "data-testid": "mock-doughnut-chart",
+        "data-chart-type": "doughnut",
+        children: [
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-labels",
+                children: JSON.stringify(data?.labels || [])
+            }),
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-datasets",
+                children: JSON.stringify(data?.datasets || [])
+            })
+        ]
+    });
+const Pie = ({ data, options })=>/*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+        "data-testid": "mock-pie-chart",
+        "data-chart-type": "pie",
+        children: [
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-labels",
+                children: JSON.stringify(data?.labels || [])
+            }),
+            /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                "data-testid": "chart-datasets",
+                children: JSON.stringify(data?.datasets || [])
+            })
+        ]
+    });
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkU6XFxteVxcb3R1c1xcZmluYW5jZV90cmFja2VyXFxmcm9udGVuZFxcX19tb2Nrc19fXFxyZWFjdC1jaGFydGpzLTIudHN4Il0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxyXG4gKiDQnNC+0Log0LTQu9GPIHJlYWN0LWNoYXJ0anMtMlxyXG4gKiDQmNGB0L/QvtC70YzQt9GD0LXRgtGB0Y8g0LIg0YLQtdGB0YLQsNGFINC00LvRjyDQv9GA0LXQtNC+0YLQstGA0LDRidC10L3QuNGPINC30LDQstC40YHQsNC90LjRjyDQuNC3LdC30LAgQ2FudmFzIEFQSVxyXG4gKi9cclxuaW1wb3J0IFJlYWN0IGZyb20gXCJyZWFjdFwiO1xyXG5cclxuZXhwb3J0IGNvbnN0IExpbmUgPSAoeyBkYXRhLCBvcHRpb25zIH06IGFueSkgPT4gKFxyXG4gIDxkaXYgZGF0YS10ZXN0aWQ9XCJtb2NrLWxpbmUtY2hhcnRcIiBkYXRhLWNoYXJ0LXR5cGU9XCJsaW5lXCI+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtbGFiZWxzXCI+e0pTT04uc3RyaW5naWZ5KGRhdGE/LmxhYmVscyB8fCBbXSl9PC9kaXY+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtZGF0YXNldHNcIj57SlNPTi5zdHJpbmdpZnkoZGF0YT8uZGF0YXNldHMgfHwgW10pfTwvZGl2PlxyXG4gIDwvZGl2PlxyXG4pO1xyXG5cclxuZXhwb3J0IGNvbnN0IEJhciA9ICh7IGRhdGEsIG9wdGlvbnMgfTogYW55KSA9PiAoXHJcbiAgPGRpdiBkYXRhLXRlc3RpZD1cIm1vY2stYmFyLWNoYXJ0XCIgZGF0YS1jaGFydC10eXBlPVwiYmFyXCI+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtbGFiZWxzXCI+e0pTT04uc3RyaW5naWZ5KGRhdGE/LmxhYmVscyB8fCBbXSl9PC9kaXY+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtZGF0YXNldHNcIj57SlNPTi5zdHJpbmdpZnkoZGF0YT8uZGF0YXNldHMgfHwgW10pfTwvZGl2PlxyXG4gIDwvZGl2PlxyXG4pO1xyXG5cclxuZXhwb3J0IGNvbnN0IERvdWdobnV0ID0gKHsgZGF0YSwgb3B0aW9ucyB9OiBhbnkpID0+IChcclxuICA8ZGl2IGRhdGEtdGVzdGlkPVwibW9jay1kb3VnaG51dC1jaGFydFwiIGRhdGEtY2hhcnQtdHlwZT1cImRvdWdobnV0XCI+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtbGFiZWxzXCI+e0pTT04uc3RyaW5naWZ5KGRhdGE/LmxhYmVscyB8fCBbXSl9PC9kaXY+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtZGF0YXNldHNcIj57SlNPTi5zdHJpbmdpZnkoZGF0YT8uZGF0YXNldHMgfHwgW10pfTwvZGl2PlxyXG4gIDwvZGl2PlxyXG4pO1xyXG5cclxuZXhwb3J0IGNvbnN0IFBpZSA9ICh7IGRhdGEsIG9wdGlvbnMgfTogYW55KSA9PiAoXHJcbiAgPGRpdiBkYXRhLXRlc3RpZD1cIm1vY2stcGllLWNoYXJ0XCIgZGF0YS1jaGFydC10eXBlPVwicGllXCI+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtbGFiZWxzXCI+e0pTT04uc3RyaW5naWZ5KGRhdGE/LmxhYmVscyB8fCBbXSl9PC9kaXY+XHJcbiAgICA8ZGl2IGRhdGEtdGVzdGlkPVwiY2hhcnQtZGF0YXNldHNcIj57SlNPTi5zdHJpbmdpZnkoZGF0YT8uZGF0YXNldHMgfHwgW10pfTwvZGl2PlxyXG4gIDwvZGl2PlxyXG4pO1xyXG4iXSwibmFtZXMiOlsiQmFyIiwiRG91Z2hudXQiLCJMaW5lIiwiUGllIiwiZGF0YSIsIm9wdGlvbnMiLCJkaXYiLCJkYXRhLXRlc3RpZCIsImRhdGEtY2hhcnQtdHlwZSIsIkpTT04iLCJzdHJpbmdpZnkiLCJsYWJlbHMiLCJkYXRhc2V0cyJdLCJtYXBwaW5ncyI6IkFBQUE7OztDQUdDOzs7Ozs7Ozs7OztJQVVZQSxHQUFHO2VBQUhBOztJQU9BQyxRQUFRO2VBQVJBOztJQWRBQyxJQUFJO2VBQUpBOztJQXFCQUMsR0FBRztlQUFIQTs7Ozs4REF2Qks7Ozs7OztBQUVYLE1BQU1ELE9BQU8sQ0FBQyxFQUFFRSxJQUFJLEVBQUVDLE9BQU8sRUFBTyxpQkFDekMsc0JBQUNDO1FBQUlDLGVBQVk7UUFBa0JDLG1CQUFnQjs7MEJBQ2pELHFCQUFDRjtnQkFBSUMsZUFBWTswQkFBZ0JFLEtBQUtDLFNBQVMsQ0FBQ04sTUFBTU8sVUFBVSxFQUFFOzswQkFDbEUscUJBQUNMO2dCQUFJQyxlQUFZOzBCQUFrQkUsS0FBS0MsU0FBUyxDQUFDTixNQUFNUSxZQUFZLEVBQUU7Ozs7QUFJbkUsTUFBTVosTUFBTSxDQUFDLEVBQUVJLElBQUksRUFBRUMsT0FBTyxFQUFPLGlCQUN4QyxzQkFBQ0M7UUFBSUMsZUFBWTtRQUFpQkMsbUJBQWdCOzswQkFDaEQscUJBQUNGO2dCQUFJQyxlQUFZOzBCQUFnQkUsS0FBS0MsU0FBUyxDQUFDTixNQUFNTyxVQUFVLEVBQUU7OzBCQUNsRSxxQkFBQ0w7Z0JBQUlDLGVBQVk7MEJBQWtCRSxLQUFLQyxTQUFTLENBQUNOLE1BQU1RLFlBQVksRUFBRTs7OztBQUluRSxNQUFNWCxXQUFXLENBQUMsRUFBRUcsSUFBSSxFQUFFQyxPQUFPLEVBQU8saUJBQzdDLHNCQUFDQztRQUFJQyxlQUFZO1FBQXNCQyxtQkFBZ0I7OzBCQUNyRCxxQkFBQ0Y7Z0JBQUlDLGVBQVk7MEJBQWdCRSxLQUFLQyxTQUFTLENBQUNOLE1BQU1PLFVBQVUsRUFBRTs7MEJBQ2xFLHFCQUFDTDtnQkFBSUMsZUFBWTswQkFBa0JFLEtBQUtDLFNBQVMsQ0FBQ04sTUFBTVEsWUFBWSxFQUFFOzs7O0FBSW5FLE1BQU1ULE1BQU0sQ0FBQyxFQUFFQyxJQUFJLEVBQUVDLE9BQU8sRUFBTyxpQkFDeEMsc0JBQUNDO1FBQUlDLGVBQVk7UUFBaUJDLG1CQUFnQjs7MEJBQ2hELHFCQUFDRjtnQkFBSUMsZUFBWTswQkFBZ0JFLEtBQUtDLFNBQVMsQ0FBQ04sTUFBTU8sVUFBVSxFQUFFOzswQkFDbEUscUJBQUNMO2dCQUFJQyxlQUFZOzBCQUFrQkUsS0FBS0MsU0FBUyxDQUFDTixNQUFNUSxZQUFZLEVBQUUifQ==

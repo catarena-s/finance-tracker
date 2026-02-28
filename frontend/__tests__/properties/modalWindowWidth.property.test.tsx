@@ -13,6 +13,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import fc from "fast-check";
 import { Modal } from "@/components/ui/Modal";
+import { getNumRuns, getTimeout } from "./property-test-config";
 
 // Mobile breakpoint (sm in Tailwind)
 const MOBILE_BREAKPOINT = 640;
@@ -50,6 +51,7 @@ const findModalContent = (container: HTMLElement): Element | null => {
 describe("Property: Modal Window Width", () => {
   describe("Modal width on mobile viewports", () => {
     it("should have 95% width on mobile viewports (< 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }), // Mobile viewport range
@@ -93,11 +95,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("should verify all modal sizes use 95% width on mobile", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const sizes: Array<"sm" | "md" | "lg" | "xl"> = ["sm", "md", "lg", "xl"];
 
       fc.assert(
@@ -139,11 +142,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("should maintain 95% width at exactly 320px (minimum supported width)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 320;
 
       Object.defineProperty(window, "innerWidth", {
@@ -169,11 +173,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should maintain 95% width at 639px (just below sm breakpoint)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 639;
 
       Object.defineProperty(window, "innerWidth", {
@@ -199,13 +204,14 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Modal width on desktop viewports", () => {
     it("should use max-w-{size} classes on desktop viewports (>= 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }), // Desktop viewport range
@@ -255,11 +261,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("should verify each modal size has correct max-width class", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const sizeToMaxWidth = {
         sm: "sm:max-w-md",
         md: "sm:max-w-lg",
@@ -290,6 +297,7 @@ describe("Property: Modal Window Width", () => {
     });
 
     it("should switch to max-width at exactly 640px (sm breakpoint)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 640;
 
       Object.defineProperty(window, "innerWidth", {
@@ -325,13 +333,14 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Modal size variants", () => {
     it("should verify sm modal has max-w-md on desktop", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -355,11 +364,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should verify md modal has max-w-lg on desktop", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -383,11 +393,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should verify lg modal has max-w-2xl on desktop", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -411,11 +422,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should verify xl modal has max-w-4xl on desktop", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -439,13 +451,14 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Edge cases", () => {
     it("should handle modal with very long content", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -471,11 +484,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
     it("should handle modal with minimal content", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -501,11 +515,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
     it("should handle modal with nested elements", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -537,11 +552,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
     it("should handle modal with title", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -567,11 +583,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
     it("should handle modal without title", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -596,13 +613,14 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 30 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
   });
 
   describe("Requirement validation", () => {
     it("validates Requirement 4.1: Modal occupies 95% width on mobile (< 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }), // Mobile viewport (< 640px as per requirement)
@@ -645,11 +663,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("validates that modal width is consistent across all sizes on mobile", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const sizes: Array<"sm" | "md" | "lg" | "xl"> = ["sm", "md", "lg", "xl"];
 
       fc.assert(
@@ -678,11 +697,12 @@ describe("Property: Modal Window Width", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("validates that modal uses max-width constraints on desktop", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -717,13 +737,14 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
 
   describe("General property validation", () => {
     it("should verify modal width adapts correctly across all viewport sizes", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -755,11 +776,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("should ensure modal follows mobile-first responsive design", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.constantFrom("sm" as const, "md" as const, "lg" as const, "xl" as const),
@@ -783,11 +805,12 @@ describe("Property: Modal Window Width", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should verify modal width classes are applied consistently", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const testCases = [
         { viewport: 320, size: "sm" as const, expectMobile: true },
         { viewport: 480, size: "md" as const, expectMobile: true },

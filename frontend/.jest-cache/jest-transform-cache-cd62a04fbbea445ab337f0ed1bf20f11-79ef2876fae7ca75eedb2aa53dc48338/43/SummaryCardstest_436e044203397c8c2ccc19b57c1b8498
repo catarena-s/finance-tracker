@@ -1,0 +1,83 @@
+2d56b4ec8c150176262b02177f67b4be
+/**
+ * Unit tests — SummaryCards
+ * Рендер сводки, блок «По валютам» (byCurrency).
+ */ "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _jsxruntime = require("react/jsx-runtime");
+const _react = /*#__PURE__*/ _interop_require_default(require("react"));
+const _react1 = require("@testing-library/react");
+const _SummaryCards = require("../../src/components/dashboard/SummaryCards");
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+describe("SummaryCards", ()=>{
+    it("renders total income, expense and balance", ()=>{
+        (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_SummaryCards.SummaryCards, {
+            totalIncome: 1000,
+            totalExpense: 300,
+            balance: 700
+        }));
+        expect(_react1.screen.getByText("Доходы")).toBeInTheDocument();
+        expect(_react1.screen.getByText("Расходы")).toBeInTheDocument();
+        expect(_react1.screen.getByText("Баланс")).toBeInTheDocument();
+    });
+    it("renders byCurrency breakdown when multiple currencies are provided", ()=>{
+        (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_SummaryCards.SummaryCards, {
+            totalIncome: 1000,
+            totalExpense: 300,
+            balance: 700,
+            byCurrency: [
+                {
+                    currency: "USD",
+                    totalIncome: 500,
+                    totalExpense: 200,
+                    balance: 300
+                },
+                {
+                    currency: "EUR",
+                    totalIncome: 500,
+                    totalExpense: 100,
+                    balance: 400
+                }
+            ]
+        }));
+        // Проверяем что валюты отображаются в карточках
+        const usdElements = _react1.screen.getAllByText(/USD/);
+        const eurElements = _react1.screen.getAllByText(/EUR/);
+        expect(usdElements.length).toBeGreaterThan(0);
+        expect(eurElements.length).toBeGreaterThan(0);
+    });
+    it("does not render byCurrency breakdown when only one currency", ()=>{
+        (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_SummaryCards.SummaryCards, {
+            totalIncome: 1000,
+            totalExpense: 300,
+            balance: 700,
+            byCurrency: [
+                {
+                    currency: "RUB",
+                    totalIncome: 1000,
+                    totalExpense: 300,
+                    balance: 700
+                }
+            ]
+        }));
+        // Когда только одна валюта, разбивка не отображается
+        expect(_react1.screen.queryByText(/RUB:/)).not.toBeInTheDocument();
+    });
+    it("shows loading state when loading is true", ()=>{
+        const { container } = (0, _react1.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_SummaryCards.SummaryCards, {
+            totalIncome: 0,
+            totalExpense: 0,
+            balance: 0,
+            loading: true
+        }));
+        expect(container.querySelector('[role="status"]')).toBeInTheDocument();
+    });
+});
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkU6XFxteVxcb3R1c1xcZmluYW5jZV90cmFja2VyXFxmcm9udGVuZFxcX190ZXN0c19fXFxjb21wb25lbnRzXFxTdW1tYXJ5Q2FyZHMudGVzdC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXHJcbiAqIFVuaXQgdGVzdHMg4oCUIFN1bW1hcnlDYXJkc1xyXG4gKiDQoNC10L3QtNC10YAg0YHQstC+0LTQutC4LCDQsdC70L7QuiDCq9Cf0L4g0LLQsNC70Y7RgtCw0LzCuyAoYnlDdXJyZW5jeSkuXHJcbiAqL1xyXG5pbXBvcnQgUmVhY3QgZnJvbSBcInJlYWN0XCI7XHJcbmltcG9ydCB7IHJlbmRlciwgc2NyZWVuIH0gZnJvbSBcIkB0ZXN0aW5nLWxpYnJhcnkvcmVhY3RcIjtcclxuaW1wb3J0IHsgU3VtbWFyeUNhcmRzIH0gZnJvbSBcIkAvY29tcG9uZW50cy9kYXNoYm9hcmQvU3VtbWFyeUNhcmRzXCI7XHJcblxyXG5kZXNjcmliZShcIlN1bW1hcnlDYXJkc1wiLCAoKSA9PiB7XHJcbiAgaXQoXCJyZW5kZXJzIHRvdGFsIGluY29tZSwgZXhwZW5zZSBhbmQgYmFsYW5jZVwiLCAoKSA9PiB7XHJcbiAgICByZW5kZXIoXHJcbiAgICAgIDxTdW1tYXJ5Q2FyZHNcclxuICAgICAgICB0b3RhbEluY29tZT17MTAwMH1cclxuICAgICAgICB0b3RhbEV4cGVuc2U9ezMwMH1cclxuICAgICAgICBiYWxhbmNlPXs3MDB9XHJcbiAgICAgIC8+XHJcbiAgICApO1xyXG4gICAgZXhwZWN0KHNjcmVlbi5nZXRCeVRleHQoXCLQlNC+0YXQvtC00YtcIikpLnRvQmVJblRoZURvY3VtZW50KCk7XHJcbiAgICBleHBlY3Qoc2NyZWVuLmdldEJ5VGV4dChcItCg0LDRgdGF0L7QtNGLXCIpKS50b0JlSW5UaGVEb2N1bWVudCgpO1xyXG4gICAgZXhwZWN0KHNjcmVlbi5nZXRCeVRleHQoXCLQkdCw0LvQsNC90YFcIikpLnRvQmVJblRoZURvY3VtZW50KCk7XHJcbiAgfSk7XHJcblxyXG4gIGl0KFwicmVuZGVycyBieUN1cnJlbmN5IGJyZWFrZG93biB3aGVuIG11bHRpcGxlIGN1cnJlbmNpZXMgYXJlIHByb3ZpZGVkXCIsICgpID0+IHtcclxuICAgIHJlbmRlcihcclxuICAgICAgPFN1bW1hcnlDYXJkc1xyXG4gICAgICAgIHRvdGFsSW5jb21lPXsxMDAwfVxyXG4gICAgICAgIHRvdGFsRXhwZW5zZT17MzAwfVxyXG4gICAgICAgIGJhbGFuY2U9ezcwMH1cclxuICAgICAgICBieUN1cnJlbmN5PXtbXHJcbiAgICAgICAgICB7IGN1cnJlbmN5OiBcIlVTRFwiLCB0b3RhbEluY29tZTogNTAwLCB0b3RhbEV4cGVuc2U6IDIwMCwgYmFsYW5jZTogMzAwIH0sXHJcbiAgICAgICAgICB7IGN1cnJlbmN5OiBcIkVVUlwiLCB0b3RhbEluY29tZTogNTAwLCB0b3RhbEV4cGVuc2U6IDEwMCwgYmFsYW5jZTogNDAwIH0sXHJcbiAgICAgICAgXX1cclxuICAgICAgLz5cclxuICAgICk7XHJcbiAgICAvLyDQn9GA0L7QstC10YDRj9C10Lwg0YfRgtC+INCy0LDQu9GO0YLRiyDQvtGC0L7QsdGA0LDQttCw0Y7RgtGB0Y8g0LIg0LrQsNGA0YLQvtGH0LrQsNGFXHJcbiAgICBjb25zdCB1c2RFbGVtZW50cyA9IHNjcmVlbi5nZXRBbGxCeVRleHQoL1VTRC8pO1xyXG4gICAgY29uc3QgZXVyRWxlbWVudHMgPSBzY3JlZW4uZ2V0QWxsQnlUZXh0KC9FVVIvKTtcclxuICAgIGV4cGVjdCh1c2RFbGVtZW50cy5sZW5ndGgpLnRvQmVHcmVhdGVyVGhhbigwKTtcclxuICAgIGV4cGVjdChldXJFbGVtZW50cy5sZW5ndGgpLnRvQmVHcmVhdGVyVGhhbigwKTtcclxuICB9KTtcclxuXHJcbiAgaXQoXCJkb2VzIG5vdCByZW5kZXIgYnlDdXJyZW5jeSBicmVha2Rvd24gd2hlbiBvbmx5IG9uZSBjdXJyZW5jeVwiLCAoKSA9PiB7XHJcbiAgICByZW5kZXIoXHJcbiAgICAgIDxTdW1tYXJ5Q2FyZHNcclxuICAgICAgICB0b3RhbEluY29tZT17MTAwMH1cclxuICAgICAgICB0b3RhbEV4cGVuc2U9ezMwMH1cclxuICAgICAgICBiYWxhbmNlPXs3MDB9XHJcbiAgICAgICAgYnlDdXJyZW5jeT17W1xyXG4gICAgICAgICAgeyBjdXJyZW5jeTogXCJSVUJcIiwgdG90YWxJbmNvbWU6IDEwMDAsIHRvdGFsRXhwZW5zZTogMzAwLCBiYWxhbmNlOiA3MDAgfSxcclxuICAgICAgICBdfVxyXG4gICAgICAvPlxyXG4gICAgKTtcclxuICAgIC8vINCa0L7Qs9C00LAg0YLQvtC70YzQutC+INC+0LTQvdCwINCy0LDQu9GO0YLQsCwg0YDQsNC30LHQuNCy0LrQsCDQvdC1INC+0YLQvtCx0YDQsNC20LDQtdGC0YHRj1xyXG4gICAgZXhwZWN0KHNjcmVlbi5xdWVyeUJ5VGV4dCgvUlVCOi8pKS5ub3QudG9CZUluVGhlRG9jdW1lbnQoKTtcclxuICB9KTtcclxuXHJcbiAgaXQoXCJzaG93cyBsb2FkaW5nIHN0YXRlIHdoZW4gbG9hZGluZyBpcyB0cnVlXCIsICgpID0+IHtcclxuICAgIGNvbnN0IHsgY29udGFpbmVyIH0gPSByZW5kZXIoXHJcbiAgICAgIDxTdW1tYXJ5Q2FyZHNcclxuICAgICAgICB0b3RhbEluY29tZT17MH1cclxuICAgICAgICB0b3RhbEV4cGVuc2U9ezB9XHJcbiAgICAgICAgYmFsYW5jZT17MH1cclxuICAgICAgICBsb2FkaW5nXHJcbiAgICAgIC8+XHJcbiAgICApO1xyXG4gICAgZXhwZWN0KGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKCdbcm9sZT1cInN0YXR1c1wiXScpKS50b0JlSW5UaGVEb2N1bWVudCgpO1xyXG4gIH0pO1xyXG59KTtcclxuIl0sIm5hbWVzIjpbImRlc2NyaWJlIiwiaXQiLCJyZW5kZXIiLCJTdW1tYXJ5Q2FyZHMiLCJ0b3RhbEluY29tZSIsInRvdGFsRXhwZW5zZSIsImJhbGFuY2UiLCJleHBlY3QiLCJzY3JlZW4iLCJnZXRCeVRleHQiLCJ0b0JlSW5UaGVEb2N1bWVudCIsImJ5Q3VycmVuY3kiLCJjdXJyZW5jeSIsInVzZEVsZW1lbnRzIiwiZ2V0QWxsQnlUZXh0IiwiZXVyRWxlbWVudHMiLCJsZW5ndGgiLCJ0b0JlR3JlYXRlclRoYW4iLCJxdWVyeUJ5VGV4dCIsIm5vdCIsImNvbnRhaW5lciIsImxvYWRpbmciLCJxdWVyeVNlbGVjdG9yIl0sIm1hcHBpbmdzIjoiQUFBQTs7O0NBR0M7Ozs7OzhEQUNpQjt3QkFDYTs4QkFDRjs7Ozs7O0FBRTdCQSxTQUFTLGdCQUFnQjtJQUN2QkMsR0FBRyw2Q0FBNkM7UUFDOUNDLElBQUFBLGNBQU0sZ0JBQ0oscUJBQUNDLDBCQUFZO1lBQ1hDLGFBQWE7WUFDYkMsY0FBYztZQUNkQyxTQUFTOztRQUdiQyxPQUFPQyxjQUFNLENBQUNDLFNBQVMsQ0FBQyxXQUFXQyxpQkFBaUI7UUFDcERILE9BQU9DLGNBQU0sQ0FBQ0MsU0FBUyxDQUFDLFlBQVlDLGlCQUFpQjtRQUNyREgsT0FBT0MsY0FBTSxDQUFDQyxTQUFTLENBQUMsV0FBV0MsaUJBQWlCO0lBQ3REO0lBRUFULEdBQUcsc0VBQXNFO1FBQ3ZFQyxJQUFBQSxjQUFNLGdCQUNKLHFCQUFDQywwQkFBWTtZQUNYQyxhQUFhO1lBQ2JDLGNBQWM7WUFDZEMsU0FBUztZQUNUSyxZQUFZO2dCQUNWO29CQUFFQyxVQUFVO29CQUFPUixhQUFhO29CQUFLQyxjQUFjO29CQUFLQyxTQUFTO2dCQUFJO2dCQUNyRTtvQkFBRU0sVUFBVTtvQkFBT1IsYUFBYTtvQkFBS0MsY0FBYztvQkFBS0MsU0FBUztnQkFBSTthQUN0RTs7UUFHTCxnREFBZ0Q7UUFDaEQsTUFBTU8sY0FBY0wsY0FBTSxDQUFDTSxZQUFZLENBQUM7UUFDeEMsTUFBTUMsY0FBY1AsY0FBTSxDQUFDTSxZQUFZLENBQUM7UUFDeENQLE9BQU9NLFlBQVlHLE1BQU0sRUFBRUMsZUFBZSxDQUFDO1FBQzNDVixPQUFPUSxZQUFZQyxNQUFNLEVBQUVDLGVBQWUsQ0FBQztJQUM3QztJQUVBaEIsR0FBRywrREFBK0Q7UUFDaEVDLElBQUFBLGNBQU0sZ0JBQ0oscUJBQUNDLDBCQUFZO1lBQ1hDLGFBQWE7WUFDYkMsY0FBYztZQUNkQyxTQUFTO1lBQ1RLLFlBQVk7Z0JBQ1Y7b0JBQUVDLFVBQVU7b0JBQU9SLGFBQWE7b0JBQU1DLGNBQWM7b0JBQUtDLFNBQVM7Z0JBQUk7YUFDdkU7O1FBR0wscURBQXFEO1FBQ3JEQyxPQUFPQyxjQUFNLENBQUNVLFdBQVcsQ0FBQyxTQUFTQyxHQUFHLENBQUNULGlCQUFpQjtJQUMxRDtJQUVBVCxHQUFHLDRDQUE0QztRQUM3QyxNQUFNLEVBQUVtQixTQUFTLEVBQUUsR0FBR2xCLElBQUFBLGNBQU0sZ0JBQzFCLHFCQUFDQywwQkFBWTtZQUNYQyxhQUFhO1lBQ2JDLGNBQWM7WUFDZEMsU0FBUztZQUNUZSxPQUFPOztRQUdYZCxPQUFPYSxVQUFVRSxhQUFhLENBQUMsb0JBQW9CWixpQkFBaUI7SUFDdEU7QUFDRiJ9

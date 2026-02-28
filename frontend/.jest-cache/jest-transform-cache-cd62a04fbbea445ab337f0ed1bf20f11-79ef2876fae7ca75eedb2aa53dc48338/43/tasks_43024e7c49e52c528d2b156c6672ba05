@@ -1,0 +1,205 @@
+b6cae2996364d1fc223498b2ddc969cc
+"use strict";
+
+/* istanbul ignore next */
+function cov_1gekjnk2pt() {
+  var path = "E:\\my\\otus\\finance_tracker\\frontend\\src\\services\\api\\tasks.ts";
+  var hash = "2af89ec8aacad9183bd6ee3611f62edb6c9af2e6";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "E:\\my\\otus\\finance_tracker\\frontend\\src\\services\\api\\tasks.ts",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 4,
+          column: 3
+        }
+      },
+      "1": {
+        start: {
+          line: 5,
+          column: 0
+        },
+        end: {
+          line: 10,
+          column: 3
+        }
+      },
+      "2": {
+        start: {
+          line: 8,
+          column: 8
+        },
+        end: {
+          line: 8,
+          column: 24
+        }
+      },
+      "3": {
+        start: {
+          line: 11,
+          column: 16
+        },
+        end: {
+          line: 11,
+          column: 35
+        }
+      },
+      "4": {
+        start: {
+          line: 12,
+          column: 17
+        },
+        end: {
+          line: 17,
+          column: 1
+        }
+      },
+      "5": {
+        start: {
+          line: 14,
+          column: 20
+        },
+        end: {
+          line: 14,
+          column: 74
+        }
+      },
+      "6": {
+        start: {
+          line: 15,
+          column: 8
+        },
+        end: {
+          line: 15,
+          column: 24
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 7,
+            column: 9
+          },
+          end: {
+            line: 7,
+            column: 10
+          }
+        },
+        loc: {
+          start: {
+            line: 7,
+            column: 20
+          },
+          end: {
+            line: 9,
+            column: 5
+          }
+        },
+        line: 7
+      },
+      "1": {
+        name: "(anonymous_1)",
+        decl: {
+          start: {
+            line: 13,
+            column: 4
+          },
+          end: {
+            line: 13,
+            column: 5
+          }
+        },
+        loc: {
+          start: {
+            line: 13,
+            column: 29
+          },
+          end: {
+            line: 16,
+            column: 5
+          }
+        },
+        line: 13
+      }
+    },
+    branchMap: {},
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0
+    },
+    f: {
+      "0": 0,
+      "1": 0
+    },
+    b: {},
+    inputSourceMap: {
+      version: 3,
+      sources: ["E:\\my\\otus\\finance_tracker\\frontend\\src\\services\\api\\tasks.ts"],
+      sourcesContent: ["import { apiClient } from \"./client\";\nimport type { TaskStatusResponse } from \"@/types/api\";\n\nexport const tasksApi = {\n  async getStatus(taskId: string): Promise<TaskStatusResponse> {\n    const res = await apiClient.get<TaskStatusResponse>(`/tasks/${taskId}/status`);\n    return res.data;\n  },\n};\n"],
+      names: ["tasksApi", "getStatus", "taskId", "res", "apiClient", "get", "data"],
+      mappings: ";;;;+BAGaA;;;eAAAA;;;wBAHa;AAGnB,MAAMA,WAAW;IACtB,MAAMC,WAAUC,MAAc;QAC5B,MAAMC,MAAM,MAAMC,iBAAS,CAACC,GAAG,CAAqB,CAAC,OAAO,EAAEH,OAAO,OAAO,CAAC;QAC7E,OAAOC,IAAIG,IAAI;IACjB;AACF"
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "2af89ec8aacad9183bd6ee3611f62edb6c9af2e6"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_1gekjnk2pt = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_1gekjnk2pt();
+cov_1gekjnk2pt().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_1gekjnk2pt().s[1]++;
+Object.defineProperty(exports, "tasksApi", {
+  enumerable: true,
+  get: function () {
+    /* istanbul ignore next */
+    cov_1gekjnk2pt().f[0]++;
+    cov_1gekjnk2pt().s[2]++;
+    return tasksApi;
+  }
+});
+const _client =
+/* istanbul ignore next */
+(cov_1gekjnk2pt().s[3]++, require("./client"));
+const tasksApi =
+/* istanbul ignore next */
+(cov_1gekjnk2pt().s[4]++, {
+  async getStatus(taskId) {
+    /* istanbul ignore next */
+    cov_1gekjnk2pt().f[1]++;
+    const res =
+    /* istanbul ignore next */
+    (cov_1gekjnk2pt().s[5]++, await _client.apiClient.get(`/tasks/${taskId}/status`));
+    /* istanbul ignore next */
+    cov_1gekjnk2pt().s[6]++;
+    return res.data;
+  }
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjb3ZfMWdla2puazJwdCIsImFjdHVhbENvdmVyYWdlIiwicyIsInRhc2tzQXBpIiwiZ2V0U3RhdHVzIiwidGFza0lkIiwiZiIsInJlcyIsIl9jbGllbnQiLCJhcGlDbGllbnQiLCJnZXQiLCJkYXRhIl0sInNvdXJjZXMiOlsiRTpcXG15XFxvdHVzXFxmaW5hbmNlX3RyYWNrZXJcXGZyb250ZW5kXFxzcmNcXHNlcnZpY2VzXFxhcGlcXHRhc2tzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGFwaUNsaWVudCB9IGZyb20gXCIuL2NsaWVudFwiO1xuaW1wb3J0IHR5cGUgeyBUYXNrU3RhdHVzUmVzcG9uc2UgfSBmcm9tIFwiQC90eXBlcy9hcGlcIjtcblxuZXhwb3J0IGNvbnN0IHRhc2tzQXBpID0ge1xuICBhc3luYyBnZXRTdGF0dXModGFza0lkOiBzdHJpbmcpOiBQcm9taXNlPFRhc2tTdGF0dXNSZXNwb25zZT4ge1xuICAgIGNvbnN0IHJlcyA9IGF3YWl0IGFwaUNsaWVudC5nZXQ8VGFza1N0YXR1c1Jlc3BvbnNlPihgL3Rhc2tzLyR7dGFza0lkfS9zdGF0dXNgKTtcbiAgICByZXR1cm4gcmVzLmRhdGE7XG4gIH0sXG59O1xuIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0lBT0U7SUFBQUEsY0FBQSxZQUFBQSxDQUFBO01BQUEsT0FBQUMsY0FBQTtJQUFBO0VBQUE7RUFBQSxPQUFBQSxjQUFBO0FBQUE7QUFBQUQsY0FBQTtBQUFBQSxjQUFBLEdBQUFFLENBQUE7Ozs7OzsrQkFKVzs7Ozs7O1dBQUFDLFFBQUE7Ozs7O2tDQUhhO0FBR25CLE1BQU1BLFFBQUE7QUFBQTtBQUFBLENBQUFILGNBQUEsR0FBQUUsQ0FBQSxPQUFXO0VBQ3RCLE1BQU1FLFVBQVVDLE1BQWM7SUFBQTtJQUFBTCxjQUFBLEdBQUFNLENBQUE7SUFDNUIsTUFBTUMsR0FBQTtJQUFBO0lBQUEsQ0FBQVAsY0FBQSxHQUFBRSxDQUFBLE9BQU0sTUFBTU0sT0FBQSxDQUFBQyxTQUFTLENBQUNDLEdBQUcsQ0FBcUIsVUFBVUwsTUFBQSxTQUFlO0lBQUE7SUFBQUwsY0FBQSxHQUFBRSxDQUFBO0lBQzdFLE9BQU9LLEdBQUEsQ0FBSUksSUFBSTtFQUNqQjtBQUNGIiwiaWdub3JlTGlzdCI6W119

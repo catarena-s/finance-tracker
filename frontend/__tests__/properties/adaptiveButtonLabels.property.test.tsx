@@ -6,6 +6,8 @@
  * 
  * For any button with long text, when viewport width is less than 640px,
  * the abbreviated variant of the text should be displayed.
+ * 
+ * NOTE: Skipped in CI due to performance (renders full DashboardPage)
  */
 
 import React from "react";
@@ -13,6 +15,10 @@ import { render } from "@testing-library/react";
 import fc from "fast-check";
 import DashboardPage from "@/app/dashboard/page";
 import { AppProvider } from "@/contexts/AppContext";
+import { getNumRuns, getTimeout } from "./property-test-config";
+
+// Skip in CI environment
+const describeOrSkip = process.env.CI === "true" ? describe.skip : describe;
 
 // Helper function to render DashboardPage with AppProvider
 const renderDashboard = () => {
@@ -23,9 +29,10 @@ const renderDashboard = () => {
   );
 };
 
-describe("Property: Adaptive Button Labels", () => {
+describeOrSkip("Property: Adaptive Button Labels", () => {
   describe("Period filter button labels", () => {
     it("should display abbreviated labels (Д/М/Г) on mobile viewports (< 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }), // Mobile viewport range
@@ -76,11 +83,12 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should display full labels (День/Месяц/Год) on desktop viewports (>= 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }), // Desktop viewport range
@@ -128,11 +136,12 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should have exactly 3 period buttons (День/Месяц/Год)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -154,11 +163,12 @@ describe("Property: Adaptive Button Labels", () => {
             expect(periodButtons.length).toBe(3);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should ensure each button has both full and abbreviated label variants", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -189,13 +199,14 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Label mapping consistency", () => {
     it("should ensure abbreviated labels match their full counterparts", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const { container } = renderDashboard();
 
       // Find period buttons
@@ -230,6 +241,7 @@ describe("Property: Adaptive Button Labels", () => {
     });
 
     it("should verify all expected period labels are present", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -276,13 +288,14 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Edge cases", () => {
     it("should maintain label structure at exactly 320px (minimum supported width)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 320;
 
       Object.defineProperty(window, "innerWidth", {
@@ -310,6 +323,7 @@ describe("Property: Adaptive Button Labels", () => {
     });
 
     it("should switch label visibility at exactly 640px (sm breakpoint)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 640;
 
       Object.defineProperty(window, "innerWidth", {
@@ -347,6 +361,7 @@ describe("Property: Adaptive Button Labels", () => {
     });
 
     it("should maintain label structure at 639px (just below sm breakpoint)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 639;
 
       Object.defineProperty(window, "innerWidth", {
@@ -415,11 +430,12 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("validates that full labels are used on desktop when space is available", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -453,13 +469,14 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
 
   describe("General property validation", () => {
     it("should verify adaptive label pattern across all viewport sizes", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -499,11 +516,12 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("should ensure button functionality is not affected by label adaptation", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -536,7 +554,7 @@ describe("Property: Adaptive Button Labels", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });

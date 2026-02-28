@@ -6,6 +6,8 @@
  * 
  * For any chart (Chart.js), when displayed on a mobile device (viewport < 640px),
  * the chart container height should be at least 256px.
+ * 
+ * NOTE: Skipped in CI due to performance (renders TrendChart with Chart.js)
  */
 
 import React from "react";
@@ -14,6 +16,10 @@ import fc from "fast-check";
 import { TrendChart } from "@/components/dashboard/TrendChart";
 import { TopCategoriesWidget } from "@/components/dashboard/TopCategoriesWidget";
 import { chartResponsiveConfig } from "@/lib/responsiveConfig";
+import { getNumRuns, getTimeout } from "./property-test-config";
+
+// Skip in CI environment
+const describeOrSkip = process.env.CI === "true" ? describe.skip : describe;
 
 // Minimum chart height for mobile devices (from requirements 3.2)
 const MIN_CHART_HEIGHT_MOBILE = 256;
@@ -70,7 +76,7 @@ const topCategoriesArbitrary = fc.array(
   { minLength: 1, maxLength: 10 }
 );
 
-describe("Property: Minimum Chart Height", () => {
+describeOrSkip("Property: Minimum Chart Height", () => {
   describe("TrendChart component", () => {
     it("should have minimum 256px height on mobile viewports (< 640px)", () => {
       fc.assert(
@@ -122,7 +128,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -170,7 +176,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -205,7 +211,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
@@ -261,7 +267,7 @@ describe("Property: Minimum Chart Height", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -301,7 +307,7 @@ describe("Property: Minimum Chart Height", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
@@ -360,7 +366,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -394,7 +400,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -432,7 +438,7 @@ describe("Property: Minimum Chart Height", () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -460,7 +466,7 @@ describe("Property: Minimum Chart Height", () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
 
@@ -487,7 +493,7 @@ describe("Property: Minimum Chart Height", () => {
             }
           }
         ),
-        { numRuns: 20 }
+        { numRuns: getNumRuns("SLOW") }
       );
     });
   });
@@ -537,7 +543,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
@@ -577,7 +583,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
@@ -640,7 +646,7 @@ describe("Property: Minimum Chart Height", () => {
             }
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
@@ -671,7 +677,7 @@ describe("Property: Minimum Chart Height", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });

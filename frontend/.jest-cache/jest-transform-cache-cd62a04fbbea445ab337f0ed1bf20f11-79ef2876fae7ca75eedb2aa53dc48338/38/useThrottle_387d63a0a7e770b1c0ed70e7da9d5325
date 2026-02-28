@@ -1,0 +1,508 @@
+bc9cc0517482e721c26b292bcd6505df
+"use strict";
+
+/* istanbul ignore next */
+function cov_u7y3akz0o() {
+  var path = "E:\\my\\otus\\finance_tracker\\frontend\\src\\hooks\\useThrottle.ts";
+  var hash = "92f85c08253067e899a835e0445bc5b504ad757c";
+  var global = new Function("return this")();
+  var gcv = "__coverage__";
+  var coverageData = {
+    path: "E:\\my\\otus\\finance_tracker\\frontend\\src\\hooks\\useThrottle.ts",
+    statementMap: {
+      "0": {
+        start: {
+          line: 2,
+          column: 0
+        },
+        end: {
+          line: 4,
+          column: 3
+        }
+      },
+      "1": {
+        start: {
+          line: 5,
+          column: 0
+        },
+        end: {
+          line: 10,
+          column: 3
+        }
+      },
+      "2": {
+        start: {
+          line: 8,
+          column: 8
+        },
+        end: {
+          line: 8,
+          column: 27
+        }
+      },
+      "3": {
+        start: {
+          line: 11,
+          column: 15
+        },
+        end: {
+          line: 11,
+          column: 31
+        }
+      },
+      "4": {
+        start: {
+          line: 13,
+          column: 48
+        },
+        end: {
+          line: 13,
+          column: 75
+        }
+      },
+      "5": {
+        start: {
+          line: 14,
+          column: 25
+        },
+        end: {
+          line: 14,
+          column: 55
+        }
+      },
+      "6": {
+        start: {
+          line: 15,
+          column: 4
+        },
+        end: {
+          line: 31,
+          column: 7
+        }
+      },
+      "7": {
+        start: {
+          line: 16,
+          column: 20
+        },
+        end: {
+          line: 16,
+          column: 30
+        }
+      },
+      "8": {
+        start: {
+          line: 17,
+          column: 39
+        },
+        end: {
+          line: 17,
+          column: 65
+        }
+      },
+      "9": {
+        start: {
+          line: 18,
+          column: 8
+        },
+        end: {
+          line: 27,
+          column: 9
+        }
+      },
+      "10": {
+        start: {
+          line: 19,
+          column: 12
+        },
+        end: {
+          line: 19,
+          column: 39
+        }
+      },
+      "11": {
+        start: {
+          line: 20,
+          column: 12
+        },
+        end: {
+          line: 20,
+          column: 37
+        }
+      },
+      "12": {
+        start: {
+          line: 22,
+          column: 26
+        },
+        end: {
+          line: 25,
+          column: 49
+        }
+      },
+      "13": {
+        start: {
+          line: 23,
+          column: 16
+        },
+        end: {
+          line: 23,
+          column: 50
+        }
+      },
+      "14": {
+        start: {
+          line: 24,
+          column: 16
+        },
+        end: {
+          line: 24,
+          column: 41
+        }
+      },
+      "15": {
+        start: {
+          line: 26,
+          column: 12
+        },
+        end: {
+          line: 26,
+          column: 43
+        }
+      },
+      "16": {
+        start: {
+          line: 26,
+          column: 23
+        },
+        end: {
+          line: 26,
+          column: 42
+        }
+      },
+      "17": {
+        start: {
+          line: 32,
+          column: 4
+        },
+        end: {
+          line: 32,
+          column: 26
+        }
+      }
+    },
+    fnMap: {
+      "0": {
+        name: "(anonymous_0)",
+        decl: {
+          start: {
+            line: 7,
+            column: 9
+          },
+          end: {
+            line: 7,
+            column: 10
+          }
+        },
+        loc: {
+          start: {
+            line: 7,
+            column: 20
+          },
+          end: {
+            line: 9,
+            column: 5
+          }
+        },
+        line: 7
+      },
+      "1": {
+        name: "useThrottle",
+        decl: {
+          start: {
+            line: 12,
+            column: 9
+          },
+          end: {
+            line: 12,
+            column: 20
+          }
+        },
+        loc: {
+          start: {
+            line: 12,
+            column: 44
+          },
+          end: {
+            line: 33,
+            column: 1
+          }
+        },
+        line: 12
+      },
+      "2": {
+        name: "(anonymous_2)",
+        decl: {
+          start: {
+            line: 15,
+            column: 26
+          },
+          end: {
+            line: 15,
+            column: 27
+          }
+        },
+        loc: {
+          start: {
+            line: 15,
+            column: 30
+          },
+          end: {
+            line: 28,
+            column: 5
+          }
+        },
+        line: 15
+      },
+      "3": {
+        name: "(anonymous_3)",
+        decl: {
+          start: {
+            line: 22,
+            column: 37
+          },
+          end: {
+            line: 22,
+            column: 38
+          }
+        },
+        loc: {
+          start: {
+            line: 22,
+            column: 41
+          },
+          end: {
+            line: 25,
+            column: 13
+          }
+        },
+        line: 22
+      },
+      "4": {
+        name: "(anonymous_4)",
+        decl: {
+          start: {
+            line: 26,
+            column: 19
+          },
+          end: {
+            line: 26,
+            column: 20
+          }
+        },
+        loc: {
+          start: {
+            line: 26,
+            column: 23
+          },
+          end: {
+            line: 26,
+            column: 42
+          }
+        },
+        line: 26
+      }
+    },
+    branchMap: {
+      "0": {
+        loc: {
+          start: {
+            line: 12,
+            column: 28
+          },
+          end: {
+            line: 12,
+            column: 42
+          }
+        },
+        type: "default-arg",
+        locations: [{
+          start: {
+            line: 12,
+            column: 39
+          },
+          end: {
+            line: 12,
+            column: 42
+          }
+        }],
+        line: 12
+      },
+      "1": {
+        loc: {
+          start: {
+            line: 18,
+            column: 8
+          },
+          end: {
+            line: 27,
+            column: 9
+          }
+        },
+        type: "if",
+        locations: [{
+          start: {
+            line: 18,
+            column: 8
+          },
+          end: {
+            line: 27,
+            column: 9
+          }
+        }, {
+          start: {
+            line: 21,
+            column: 15
+          },
+          end: {
+            line: 27,
+            column: 9
+          }
+        }],
+        line: 18
+      }
+    },
+    s: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 0,
+      "8": 0,
+      "9": 0,
+      "10": 0,
+      "11": 0,
+      "12": 0,
+      "13": 0,
+      "14": 0,
+      "15": 0,
+      "16": 0,
+      "17": 0
+    },
+    f: {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0
+    },
+    b: {
+      "0": [0],
+      "1": [0, 0]
+    },
+    inputSourceMap: {
+      version: 3,
+      sources: ["E:\\my\\otus\\finance_tracker\\frontend\\src\\hooks\\useThrottle.ts"],
+      sourcesContent: ["import { useEffect, useRef, useState } from \"react\";\n\n/**\n * \u0425\u0443\u043A \u0434\u043B\u044F throttle \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F\n * @param value - \u0417\u043D\u0430\u0447\u0435\u043D\u0438\u0435 \u0434\u043B\u044F throttle\n * @param interval - \u0418\u043D\u0442\u0435\u0440\u0432\u0430\u043B \u0432 \u043C\u0438\u043B\u043B\u0438\u0441\u0435\u043A\u0443\u043D\u0434\u0430\u0445\n */\nexport function useThrottle<T>(value: T, interval: number = 500): T {\n  const [throttledValue, setThrottledValue] = useState<T>(value);\n  const lastExecuted = useRef<number>(Date.now());\n\n  useEffect(() => {\n    const now = Date.now();\n    const timeSinceLastExecution = now - lastExecuted.current;\n\n    if (timeSinceLastExecution >= interval) {\n      lastExecuted.current = now;\n      setThrottledValue(value);\n    } else {\n      const timer = setTimeout(() => {\n        lastExecuted.current = Date.now();\n        setThrottledValue(value);\n      }, interval - timeSinceLastExecution);\n\n      return () => clearTimeout(timer);\n    }\n  }, [value, interval]);\n\n  return throttledValue;\n}\n"],
+      names: ["useThrottle", "value", "interval", "throttledValue", "setThrottledValue", "useState", "lastExecuted", "useRef", "Date", "now", "useEffect", "timeSinceLastExecution", "current", "timer", "setTimeout", "clearTimeout"],
+      mappings: ";;;;+BAOgBA;;;eAAAA;;;uBAP4B;AAOrC,SAASA,YAAeC,KAAQ,EAAEC,WAAmB,GAAG;IAC7D,MAAM,CAACC,gBAAgBC,kBAAkB,GAAGC,IAAAA,eAAQ,EAAIJ;IACxD,MAAMK,eAAeC,IAAAA,aAAM,EAASC,KAAKC,GAAG;IAE5CC,IAAAA,gBAAS,EAAC;QACR,MAAMD,MAAMD,KAAKC,GAAG;QACpB,MAAME,yBAAyBF,MAAMH,aAAaM,OAAO;QAEzD,IAAID,0BAA0BT,UAAU;YACtCI,aAAaM,OAAO,GAAGH;YACvBL,kBAAkBH;QACpB,OAAO;YACL,MAAMY,QAAQC,WAAW;gBACvBR,aAAaM,OAAO,GAAGJ,KAAKC,GAAG;gBAC/BL,kBAAkBH;YACpB,GAAGC,WAAWS;YAEd,OAAO,IAAMI,aAAaF;QAC5B;IACF,GAAG;QAACZ;QAAOC;KAAS;IAEpB,OAAOC;AACT"
+    },
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "92f85c08253067e899a835e0445bc5b504ad757c"
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+  if (!coverage[path] || coverage[path].hash !== hash) {
+    coverage[path] = coverageData;
+  }
+  var actualCoverage = coverage[path];
+  {
+    // @ts-ignore
+    cov_u7y3akz0o = function () {
+      return actualCoverage;
+    };
+  }
+  return actualCoverage;
+}
+cov_u7y3akz0o();
+cov_u7y3akz0o().s[0]++;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* istanbul ignore next */
+cov_u7y3akz0o().s[1]++;
+Object.defineProperty(exports, "useThrottle", {
+  enumerable: true,
+  get: function () {
+    /* istanbul ignore next */
+    cov_u7y3akz0o().f[0]++;
+    cov_u7y3akz0o().s[2]++;
+    return useThrottle;
+  }
+});
+const _react =
+/* istanbul ignore next */
+(cov_u7y3akz0o().s[3]++, require("react"));
+function useThrottle(value, interval =
+/* istanbul ignore next */
+(cov_u7y3akz0o().b[0][0]++, 500)) {
+  /* istanbul ignore next */
+  cov_u7y3akz0o().f[1]++;
+  const [throttledValue, setThrottledValue] =
+  /* istanbul ignore next */
+  (cov_u7y3akz0o().s[4]++, (0, _react.useState)(value));
+  const lastExecuted =
+  /* istanbul ignore next */
+  (cov_u7y3akz0o().s[5]++, (0, _react.useRef)(Date.now()));
+  /* istanbul ignore next */
+  cov_u7y3akz0o().s[6]++;
+  (0, _react.useEffect)(() => {
+    /* istanbul ignore next */
+    cov_u7y3akz0o().f[2]++;
+    const now =
+    /* istanbul ignore next */
+    (cov_u7y3akz0o().s[7]++, Date.now());
+    const timeSinceLastExecution =
+    /* istanbul ignore next */
+    (cov_u7y3akz0o().s[8]++, now - lastExecuted.current);
+    /* istanbul ignore next */
+    cov_u7y3akz0o().s[9]++;
+    if (timeSinceLastExecution >= interval) {
+      /* istanbul ignore next */
+      cov_u7y3akz0o().b[1][0]++;
+      cov_u7y3akz0o().s[10]++;
+      lastExecuted.current = now;
+      /* istanbul ignore next */
+      cov_u7y3akz0o().s[11]++;
+      setThrottledValue(value);
+    } else {
+      /* istanbul ignore next */
+      cov_u7y3akz0o().b[1][1]++;
+      const timer =
+      /* istanbul ignore next */
+      (cov_u7y3akz0o().s[12]++, setTimeout(() => {
+        /* istanbul ignore next */
+        cov_u7y3akz0o().f[3]++;
+        cov_u7y3akz0o().s[13]++;
+        lastExecuted.current = Date.now();
+        /* istanbul ignore next */
+        cov_u7y3akz0o().s[14]++;
+        setThrottledValue(value);
+      }, interval - timeSinceLastExecution));
+      /* istanbul ignore next */
+      cov_u7y3akz0o().s[15]++;
+      return () => {
+        /* istanbul ignore next */
+        cov_u7y3akz0o().f[4]++;
+        cov_u7y3akz0o().s[16]++;
+        return clearTimeout(timer);
+      };
+    }
+  }, [value, interval]);
+  /* istanbul ignore next */
+  cov_u7y3akz0o().s[17]++;
+  return throttledValue;
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJjb3ZfdTd5M2FrejBvIiwiYWN0dWFsQ292ZXJhZ2UiLCJzIiwidXNlVGhyb3R0bGUiLCJ2YWx1ZSIsImludGVydmFsIiwiYiIsImYiLCJ0aHJvdHRsZWRWYWx1ZSIsInNldFRocm90dGxlZFZhbHVlIiwiX3JlYWN0IiwidXNlU3RhdGUiLCJsYXN0RXhlY3V0ZWQiLCJ1c2VSZWYiLCJEYXRlIiwibm93IiwidXNlRWZmZWN0IiwidGltZVNpbmNlTGFzdEV4ZWN1dGlvbiIsImN1cnJlbnQiLCJ0aW1lciIsInNldFRpbWVvdXQiLCJjbGVhclRpbWVvdXQiXSwic291cmNlcyI6WyJFOlxcbXlcXG90dXNcXGZpbmFuY2VfdHJhY2tlclxcZnJvbnRlbmRcXHNyY1xcaG9va3NcXHVzZVRocm90dGxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHVzZUVmZmVjdCwgdXNlUmVmLCB1c2VTdGF0ZSB9IGZyb20gXCJyZWFjdFwiO1xuXG4vKipcbiAqINCl0YPQuiDQtNC70Y8gdGhyb3R0bGUg0LfQvdCw0YfQtdC90LjRj1xuICogQHBhcmFtIHZhbHVlIC0g0JfQvdCw0YfQtdC90LjQtSDQtNC70Y8gdGhyb3R0bGVcbiAqIEBwYXJhbSBpbnRlcnZhbCAtINCY0L3RgtC10YDQstCw0Lsg0LIg0LzQuNC70LvQuNGB0LXQutGD0L3QtNCw0YVcbiAqL1xuZXhwb3J0IGZ1bmN0aW9uIHVzZVRocm90dGxlPFQ+KHZhbHVlOiBULCBpbnRlcnZhbDogbnVtYmVyID0gNTAwKTogVCB7XG4gIGNvbnN0IFt0aHJvdHRsZWRWYWx1ZSwgc2V0VGhyb3R0bGVkVmFsdWVdID0gdXNlU3RhdGU8VD4odmFsdWUpO1xuICBjb25zdCBsYXN0RXhlY3V0ZWQgPSB1c2VSZWY8bnVtYmVyPihEYXRlLm5vdygpKTtcblxuICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgIGNvbnN0IG5vdyA9IERhdGUubm93KCk7XG4gICAgY29uc3QgdGltZVNpbmNlTGFzdEV4ZWN1dGlvbiA9IG5vdyAtIGxhc3RFeGVjdXRlZC5jdXJyZW50O1xuXG4gICAgaWYgKHRpbWVTaW5jZUxhc3RFeGVjdXRpb24gPj0gaW50ZXJ2YWwpIHtcbiAgICAgIGxhc3RFeGVjdXRlZC5jdXJyZW50ID0gbm93O1xuICAgICAgc2V0VGhyb3R0bGVkVmFsdWUodmFsdWUpO1xuICAgIH0gZWxzZSB7XG4gICAgICBjb25zdCB0aW1lciA9IHNldFRpbWVvdXQoKCkgPT4ge1xuICAgICAgICBsYXN0RXhlY3V0ZWQuY3VycmVudCA9IERhdGUubm93KCk7XG4gICAgICAgIHNldFRocm90dGxlZFZhbHVlKHZhbHVlKTtcbiAgICAgIH0sIGludGVydmFsIC0gdGltZVNpbmNlTGFzdEV4ZWN1dGlvbik7XG5cbiAgICAgIHJldHVybiAoKSA9PiBjbGVhclRpbWVvdXQodGltZXIpO1xuICAgIH1cbiAgfSwgW3ZhbHVlLCBpbnRlcnZhbF0pO1xuXG4gIHJldHVybiB0aHJvdHRsZWRWYWx1ZTtcbn1cbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0lBWUk7SUFBQUEsYUFBQSxZQUFBQSxDQUFBO01BQUEsT0FBQUMsY0FBQTtJQUFBO0VBQUE7RUFBQSxPQUFBQSxjQUFBO0FBQUE7QUFBQUQsYUFBQTtBQUFBQSxhQUFBLEdBQUFFLENBQUE7Ozs7OzsrQkFMWTs7Ozs7O1dBQUFDLFdBQUE7Ozs7O2lDQVA0QjtBQU9yQyxTQUFTQSxZQUFlQyxLQUFRLEVBQUVDLFFBQUE7QUFBQTtBQUFBLENBQUFMLGFBQUEsR0FBQU0sQ0FBQSxVQUFtQixHQUFHO0VBQUE7RUFBQU4sYUFBQSxHQUFBTyxDQUFBO0VBQzdELE1BQU0sQ0FBQ0MsY0FBQSxFQUFnQkMsaUJBQUEsQ0FBa0I7RUFBQTtFQUFBLENBQUFULGFBQUEsR0FBQUUsQ0FBQSxPQUFHLElBQUFRLE1BQUEsQ0FBQUMsUUFBUSxFQUFJUCxLQUFBO0VBQ3hELE1BQU1RLFlBQUE7RUFBQTtFQUFBLENBQUFaLGFBQUEsR0FBQUUsQ0FBQSxPQUFlLElBQUFRLE1BQUEsQ0FBQUcsTUFBTSxFQUFTQyxJQUFBLENBQUtDLEdBQUc7RUFBQTtFQUFBZixhQUFBLEdBQUFFLENBQUE7RUFFNUMsSUFBQVEsTUFBQSxDQUFBTSxTQUFTLEVBQUM7SUFBQTtJQUFBaEIsYUFBQSxHQUFBTyxDQUFBO0lBQ1IsTUFBTVEsR0FBQTtJQUFBO0lBQUEsQ0FBQWYsYUFBQSxHQUFBRSxDQUFBLE9BQU1ZLElBQUEsQ0FBS0MsR0FBRztJQUNwQixNQUFNRSxzQkFBQTtJQUFBO0lBQUEsQ0FBQWpCLGFBQUEsR0FBQUUsQ0FBQSxPQUF5QmEsR0FBQSxHQUFNSCxZQUFBLENBQWFNLE9BQU87SUFBQTtJQUFBbEIsYUFBQSxHQUFBRSxDQUFBO0lBRXpELElBQUllLHNCQUFBLElBQTBCWixRQUFBLEVBQVU7TUFBQTtNQUFBTCxhQUFBLEdBQUFNLENBQUE7TUFBQU4sYUFBQSxHQUFBRSxDQUFBO01BQ3RDVSxZQUFBLENBQWFNLE9BQU8sR0FBR0gsR0FBQTtNQUFBO01BQUFmLGFBQUEsR0FBQUUsQ0FBQTtNQUN2Qk8saUJBQUEsQ0FBa0JMLEtBQUE7SUFDcEIsT0FBTztNQUFBO01BQUFKLGFBQUEsR0FBQU0sQ0FBQTtNQUNMLE1BQU1hLEtBQUE7TUFBQTtNQUFBLENBQUFuQixhQUFBLEdBQUFFLENBQUEsUUFBUWtCLFVBQUEsQ0FBVztRQUFBO1FBQUFwQixhQUFBLEdBQUFPLENBQUE7UUFBQVAsYUFBQSxHQUFBRSxDQUFBO1FBQ3ZCVSxZQUFBLENBQWFNLE9BQU8sR0FBR0osSUFBQSxDQUFLQyxHQUFHO1FBQUE7UUFBQWYsYUFBQSxHQUFBRSxDQUFBO1FBQy9CTyxpQkFBQSxDQUFrQkwsS0FBQTtNQUNwQixHQUFHQyxRQUFBLEdBQVdZLHNCQUFBO01BQUE7TUFBQWpCLGFBQUEsR0FBQUUsQ0FBQTtNQUVkLE9BQU8sTUFBTTtRQUFBO1FBQUFGLGFBQUEsR0FBQU8sQ0FBQTtRQUFBUCxhQUFBLEdBQUFFLENBQUE7UUFBQSxPQUFBbUIsWUFBQSxDQUFhRixLQUFBO01BQUE7SUFDNUI7RUFDRixHQUFHLENBQUNmLEtBQUEsRUFBT0MsUUFBQSxDQUFTO0VBQUE7RUFBQUwsYUFBQSxHQUFBRSxDQUFBO0VBRXBCLE9BQU9NLGNBQUE7QUFDVCIsImlnbm9yZUxpc3QiOltdfQ==

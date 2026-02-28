@@ -13,6 +13,7 @@ import { render } from "@testing-library/react";
 import fc from "fast-check";
 import DashboardPage from "@/app/dashboard/page";
 import { AppProvider } from "@/contexts/AppContext";
+import { getNumRuns, getTimeout } from "./property-test-config";
 
 // Helper function to render DashboardPage with AppProvider
 const renderDashboard = () => {
@@ -26,6 +27,7 @@ const renderDashboard = () => {
 describe("Property: Vertical Filter Layout", () => {
   describe("Dashboard filter controls", () => {
     it("should render period buttons on mobile viewports (< 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }), // Mobile viewport range
@@ -48,11 +50,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(periodButtons.length).toBe(3);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should render period buttons on desktop viewports (>= 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }), // Desktop viewport range
@@ -75,11 +78,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(periodButtons.length).toBe(3);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should render date inputs on mobile", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -99,11 +103,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(dateInputs.length).toBe(2);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should render date inputs on desktop", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -123,13 +128,14 @@ describe("Property: Vertical Filter Layout", () => {
             expect(dateInputs.length).toBe(2);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Page header layout", () => {
     it("should render page title on mobile (< 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -149,11 +155,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(title?.textContent).toBe("Обзор");
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should render page title on desktop (>= 640px)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 640, max: 1440 }),
@@ -173,13 +180,14 @@ describe("Property: Vertical Filter Layout", () => {
             expect(title?.textContent).toBe("Обзор");
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Edge cases", () => {
     it("should render all controls at exactly 320px (minimum supported width)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 320;
 
       Object.defineProperty(window, "innerWidth", {
@@ -200,6 +208,7 @@ describe("Property: Vertical Filter Layout", () => {
     });
 
     it("should render all controls at exactly 640px (sm breakpoint)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 640;
 
       Object.defineProperty(window, "innerWidth", {
@@ -220,6 +229,7 @@ describe("Property: Vertical Filter Layout", () => {
     });
 
     it("should render all controls at 639px (just below sm breakpoint)", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       const viewportWidth = 639;
 
       Object.defineProperty(window, "innerWidth", {
@@ -242,6 +252,7 @@ describe("Property: Vertical Filter Layout", () => {
 
   describe("General property validation", () => {
     it("should render all filter controls across all viewport sizes", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -266,11 +277,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(title).not.toBeNull();
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("should maintain consistent control count across viewports", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -291,11 +303,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(periodButtons.length).toBe(3);
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
 
     it("should render date inputs with proper attributes", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 1440 }),
@@ -318,13 +331,14 @@ describe("Property: Vertical Filter Layout", () => {
             });
           }
         ),
-        { numRuns: 50 }
+        { numRuns: getNumRuns("FAST") }
       );
     });
   });
 
   describe("Requirement validation", () => {
     it("validates Requirement 2.1: Filter controls present on mobile below 640px", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -347,11 +361,12 @@ describe("Property: Vertical Filter Layout", () => {
             expect(dateInputs.length).toBeGreaterThan(0);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
 
     it("validates Requirement 6.2: Page header elements present below 640px", () => {
+      jest.setTimeout(getTimeout("SLOW"));
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 639 }),
@@ -374,7 +389,7 @@ describe("Property: Vertical Filter Layout", () => {
             expect(periodButtons.length).toBe(3);
           }
         ),
-        { numRuns: 100 }
+        { numRuns: getNumRuns("MEDIUM") }
       );
     });
   });
