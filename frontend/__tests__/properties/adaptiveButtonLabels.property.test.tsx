@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Property-Based Test — Adaptive Button Labels
  * 
  * **Свойство 7: Адаптивные метки кнопок**
@@ -23,12 +23,6 @@ const renderDashboard = () => {
   );
 };
 
-// Helper function to check if element is visible
-const isElementVisible = (element: Element): boolean => {
-  const computedStyle = window.getComputedStyle(element);
-  return computedStyle.display !== "none" && computedStyle.visibility !== "hidden";
-};
-
 describe("Property: Adaptive Button Labels", () => {
   describe("Period filter button labels", () => {
     it("should display abbreviated labels (Д/М/Г) on mobile viewports (< 640px)", () => {
@@ -43,26 +37,11 @@ describe("Property: Adaptive Button Labels", () => {
               value: viewportWidth,
             });
 
-            // Mock matchMedia for Tailwind's sm breakpoint (640px)
-            Object.defineProperty(window, "matchMedia", {
-              writable: true,
-              value: jest.fn().mockImplementation((query) => ({
-                matches: query.includes("640px") ? false : true,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-              })),
-            });
-
             const { container } = renderDashboard();
 
-            // Find period buttons
+            // Find period buttons - they now use h-9 min-w-[36px] classes
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBeGreaterThan(0);
@@ -113,26 +92,11 @@ describe("Property: Adaptive Button Labels", () => {
               value: viewportWidth,
             });
 
-            // Mock matchMedia for Tailwind's sm breakpoint (640px)
-            Object.defineProperty(window, "matchMedia", {
-              writable: true,
-              value: jest.fn().mockImplementation((query) => ({
-                matches: query.includes("640px") ? true : false,
-                media: query,
-                onchange: null,
-                addListener: jest.fn(),
-                removeListener: jest.fn(),
-                addEventListener: jest.fn(),
-                removeEventListener: jest.fn(),
-                dispatchEvent: jest.fn(),
-              })),
-            });
-
             const { container } = renderDashboard();
 
             // Find period buttons
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBeGreaterThan(0);
@@ -183,7 +147,7 @@ describe("Property: Adaptive Button Labels", () => {
 
             // Find period buttons
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             // Should have exactly 3 period buttons (day, month, year)
@@ -209,7 +173,7 @@ describe("Property: Adaptive Button Labels", () => {
 
             // Find period buttons
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBeGreaterThan(0);
@@ -236,7 +200,7 @@ describe("Property: Adaptive Button Labels", () => {
 
       // Find period buttons
       const periodButtons = container.querySelectorAll(
-        "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+        "button.h-9.min-w-\\[36px\\]"
       );
 
       expect(periodButtons.length).toBe(3);
@@ -286,12 +250,12 @@ describe("Property: Adaptive Button Labels", () => {
 
             // Find all full labels
             const fullLabels = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\] span.hidden.sm\\:inline"
+              "button.h-9.min-w-\\[36px\\] span.hidden.sm\\:inline"
             );
 
             // Find all short labels
             const shortLabels = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\] span.sm\\:hidden"
+              "button.h-9.min-w-\\[36px\\] span.sm\\:hidden"
             );
 
             // Collect actual labels
@@ -330,7 +294,7 @@ describe("Property: Adaptive Button Labels", () => {
       const { container } = renderDashboard();
 
       const periodButtons = container.querySelectorAll(
-        "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+        "button.h-9.min-w-\\[36px\\]"
       );
 
       expect(periodButtons.length).toBe(3);
@@ -357,7 +321,7 @@ describe("Property: Adaptive Button Labels", () => {
       const { container } = renderDashboard();
 
       const periodButtons = container.querySelectorAll(
-        "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+        "button.h-9.min-w-\\[36px\\]"
       );
 
       expect(periodButtons.length).toBe(3);
@@ -394,7 +358,7 @@ describe("Property: Adaptive Button Labels", () => {
       const { container } = renderDashboard();
 
       const periodButtons = container.querySelectorAll(
-        "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+        "button.h-9.min-w-\\[36px\\]"
       );
 
       expect(periodButtons.length).toBe(3);
@@ -432,7 +396,7 @@ describe("Property: Adaptive Button Labels", () => {
             // Requirement 2.5: WHEN текст на кнопках не помещается,
             // THE Система SHALL использовать сокращенные варианты меток (Д/М/Г)
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBeGreaterThan(0);
@@ -470,7 +434,7 @@ describe("Property: Adaptive Button Labels", () => {
 
             // On desktop, full labels should be available
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBeGreaterThan(0);
@@ -510,7 +474,7 @@ describe("Property: Adaptive Button Labels", () => {
 
             // Find all period buttons
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBe(3);
@@ -554,7 +518,7 @@ describe("Property: Adaptive Button Labels", () => {
 
             // Find all period buttons
             const periodButtons = container.querySelectorAll(
-              "button.min-h-\\[44px\\].min-w-\\[44px\\]"
+              "button.h-9.min-w-\\[36px\\]"
             );
 
             expect(periodButtons.length).toBe(3);
@@ -567,8 +531,8 @@ describe("Property: Adaptive Button Labels", () => {
               expect(button.tagName).toBe("BUTTON");
               
               // Should have minimum touch target size classes
-              expect(button).toHaveClass("min-h-[44px]");
-              expect(button).toHaveClass("min-w-[44px]");
+              expect(button).toHaveClass("h-9");
+              expect(button).toHaveClass("min-w-[36px]");
             });
           }
         ),
