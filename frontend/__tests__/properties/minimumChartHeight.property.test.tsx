@@ -16,7 +16,7 @@ import fc from "fast-check";
 import { TrendChart } from "@/components/dashboard/TrendChart";
 import { TopCategoriesWidget } from "@/components/dashboard/TopCategoriesWidget";
 import { chartResponsiveConfig } from "@/lib/responsiveConfig";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Skip in CI environment
 const describeOrSkip = process.env.CI === "true" ? describe.skip : describe;

@@ -17,7 +17,7 @@ import { Modal } from "@/components/ui/Modal";
 import { CategoryForm } from "@/components/categories/CategoryForm";
 import { TransactionForm } from "@/components/transactions/TransactionForm";
 import { Category } from "@/types/api";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Skip in CI environment
 const describeOrSkip = process.env.CI === "true" ? describe.skip : describe;

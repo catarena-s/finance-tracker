@@ -13,7 +13,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import fc from "fast-check";
 import { Modal } from "@/components/ui/Modal";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Mobile breakpoint (sm in Tailwind)
 const MOBILE_BREAKPOINT = 640;

@@ -2,9 +2,15 @@ name: Optimized Tests CI/CD
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: 
+      - main
+      - develop
+      - 'feature/**'
+      - 'bugfix/**'
   pull_request:
-    branches: [ main, develop ]
+    branches: 
+      - main
+      - develop
 
 env:
   CI: true

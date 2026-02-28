@@ -15,7 +15,7 @@ import { render } from "@testing-library/react";
 import fc from "fast-check";
 import DashboardPage from "@/app/dashboard/page";
 import { AppProvider } from "@/contexts/AppContext";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Skip in CI environment
 const describeOrSkip = process.env.CI === "true" ? describe.skip : describe;

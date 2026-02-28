@@ -12,7 +12,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import fc from "fast-check";
 import { BalanceCards } from "@/components/dashboard/BalanceCards";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Helper function to get computed padding from an element
 const getPaddingValues = (element: Element): {

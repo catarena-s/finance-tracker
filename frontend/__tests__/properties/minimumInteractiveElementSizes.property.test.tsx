@@ -12,7 +12,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import fc from "fast-check";
 import { BalanceCards } from "@/components/dashboard/BalanceCards";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Tailwind font size mappings (in pixels at base 16px)
 const tailwindFontSizes = {

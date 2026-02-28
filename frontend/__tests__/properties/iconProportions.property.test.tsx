@@ -14,7 +14,7 @@ import fc from "fast-check";
 import { BalanceCards } from "@/components/dashboard/BalanceCards";
 import { CategoryCard } from "@/components/categories/CategoryCard";
 import type { Category } from "@/types/api";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Helper function to extract icon size classes
 const extractIconSizeClasses = (element: Element): {

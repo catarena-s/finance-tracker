@@ -14,7 +14,7 @@ import fc from "fast-check";
 import { TrendChart } from "@/components/dashboard/TrendChart";
 import { TopCategoriesWidget } from "@/components/dashboard/TopCategoriesWidget";
 import { chartResponsiveConfig } from "@/lib/responsiveConfig";
-import { getNumRuns, getTimeout } from "./property-test-config";
+import { getNumRuns, getTimeout } from "./propertyTestConfig";
 
 // Helper function to generate date strings
 const generateDateString = (index: number): string => {

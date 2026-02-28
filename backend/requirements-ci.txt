@@ -1,4 +1,5 @@
 # CI/CD зависимости для тестирования
+-r requirements.txt
 -r requirements-dev.txt
 
 # Дополнительные инструменты для CI/CD
