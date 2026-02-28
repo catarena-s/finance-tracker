@@ -1,0 +1,8 @@
+# CI/CD зависимости для тестирования
+-r requirements.txt
+-r requirements-dev.txt
+
+# Дополнительные инструменты для CI/CD
+pytest-timeout==2.2.0
+pytest-xdist==3.5.0
+pytest-rerunfailures==13.0

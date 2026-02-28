@@ -132,8 +132,8 @@ export function BudgetCard({
           </div>
           <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
             <div
-              className={`h-full rounded-full transition-all duration-300 ${getProgressColor()}`}
-              style={{ width: `${Math.min(percentage, 100)}%` }}
+              className={`h-full rounded-full origin-left transition-transform duration-300 ${getProgressColor()}`}
+              style={{ transform: `scaleX(${Math.min(percentage, 100) / 100})` }}
               role="progressbar"
               aria-valuenow={percentage}
               aria-valuemin={0}

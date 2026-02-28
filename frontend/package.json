@@ -11,7 +11,11 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:ci": "cross-env CI=true jest --config=jest.config.ci.js --coverage --maxWorkers=50%",
+    "test:fast": "cross-env FAST_TESTS=true jest --maxWorkers=2",
+    "test:property": "jest --testPathPattern=properties --maxWorkers=2",
+    "test:unit": "jest --testPathIgnorePatterns=properties --maxWorkers=50%"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -43,6 +47,7 @@
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.17",
+    "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.1.0",
     "fast-check": "^3.15.0",

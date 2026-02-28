@@ -34,7 +34,7 @@ export function RecurringTransactionCard({
       : "bg-destructive/20 text-destructive border-destructive/30";
 
   return (
-    <Card className="rounded-2xl shadow-sm transition-all duration-200 hover:shadow-md border-border">
+    <Card className="rounded-2xl shadow-sm transition-[box-shadow] duration-200 hover:shadow-md border-border">
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">

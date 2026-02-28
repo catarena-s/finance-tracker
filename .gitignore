@@ -63,4 +63,5 @@ frontend/test-results/
 frontend/playwright-report/
 frontend/commit_msg*.txt
 frontend/coverage/
+frontend/.jest-cache/
 commit_msg_pr.txt

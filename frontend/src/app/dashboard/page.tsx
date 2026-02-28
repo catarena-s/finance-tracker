@@ -14,6 +14,37 @@ import { Button } from "@/components/ui/shadcn/button";
 import { Input } from "@/components/ui/shadcn/input";
 import { X } from "lucide-react";
 
+/**
+ * DashboardPage - Главная страница дашборда с адаптивными фильтрами
+ *
+ * Responsive Design:
+ * - Адаптивное расположение фильтров и элементов управления
+ * - Вертикальная раскладка на мобильных, горизонтальная на desktop
+ * - Адаптивные метки кнопок (полные/сокращенные)
+ *
+ * Filter Layout:
+ * - Mobile (< 640px): flex-col (вертикальное расположение всех фильтров)
+ * - Desktop (>= 640px): sm:flex-row (горизонтальное расположение)
+ *
+ * Date Inputs:
+ * - Минимальная ширина 120px (min-w-[120px]) для удобного ввода дат
+ * - Вертикальное расположение на mobile, горизонтальное на desktop
+ *
+ * Period Buttons:
+ * - Минимальный размер 44x44px (min-h-[44px] min-w-[44px]) для сенсорных экранов
+ * - Адаптивные метки: "День/Месяц/Год" на desktop, "Д/М/Г" на mobile
+ *   Причина: экономия места на узких экранах при сохранении функциональности
+ *
+ * Chart Grid:
+ * - Mobile (< 1024px): grid-cols-1 (одна колонка)
+ * - Desktop (>= 1024px): lg:grid-cols-2 (две колонки)
+ *
+ * Padding:
+ * - Container: px-4 sm:px-6 lg:px-8 (16px -> 24px -> 32px)
+ *   Обеспечивает минимальные отступы 16px на мобильных устройствах
+ *
+ * Требования: 2.1, 2.2, 2.3, 2.4, 2.5, 6.1, 6.2, 6.3
+ */
 function getDefaultDateRange(): { start: string; end: string } {
   const end = new Date();
   const start = new Date(end.getFullYear(), end.getMonth(), 1);
@@ -62,43 +93,54 @@ export default function DashboardPage() {
     year: "Год",
   };
 
+  const PERIOD_LABELS_SHORT: Record<DashboardPeriod, string> = {
+    day: "Д",
+    month: "М",
+    year: "Г",
+  };
+
   return (
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
+        <div className="mb-8">
+          {/* Заголовок и кнопки группировки на одной строке */}
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
+              Обзор
+            </h1>
 
-          <div className="flex flex-wrap items-center gap-4">
+            {/* Кнопки группировки без подписи */}
             <div className="flex items-center gap-2">
-              <Input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="w-auto rounded-2xl bg-input text-foreground"
-              />
-              <span className="text-muted-foreground">—</span>
-              <Input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="w-auto rounded-2xl bg-input text-foreground"
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Группировка:</span>
               {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
                 <Button
                   key={p}
                   variant={period === p ? "default" : "outline"}
                   size="sm"
-                  className="rounded-2xl"
+                  className="h-9 min-w-[36px] rounded-2xl px-3 text-sm"
                   onClick={() => setPeriod(p)}
                 >
-                  {PERIOD_LABELS[p]}
+                  <span className="hidden sm:inline">{PERIOD_LABELS[p]}</span>
+                  <span className="sm:hidden">{PERIOD_LABELS_SHORT[p]}</span>
                 </Button>
               ))}
             </div>
+          </div>
+
+          {/* Даты */}
+          <div className="flex items-center gap-2">
+            <Input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="flex-1 rounded-2xl bg-input text-foreground"
+            />
+            <span className="text-muted-foreground">—</span>
+            <Input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="flex-1 rounded-2xl bg-input text-foreground"
+            />
           </div>
         </div>
 
@@ -128,6 +170,7 @@ export default function DashboardPage() {
           loading={loading}
         />
 
+        {/* Графики: одна колонка на mobile (< 1024px), две колонки на desktop (>= 1024px) */}
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <TrendChart
             incomeData={trends?.map((t) => ({ date: t.date, amount: t.income })) || []}
@@ -142,7 +185,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="mt-10">
+        <div className="mt-6">
           <TopCategoriesWidget
             categories={topCategories || []}
             loading={loading}

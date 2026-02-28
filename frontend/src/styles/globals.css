@@ -29,6 +29,17 @@
   --chart-4: 34 211 238;
   --chart-5: 156 163 175;
   --radius: 1rem;
+
+  /* Responsive spacing variables */
+  --spacing-container-mobile: 1rem;
+  --spacing-container-tablet: 1.5rem;
+  --spacing-container-desktop: 2rem;
+  --spacing-card-mobile: 1rem;
+  --spacing-card-tablet: 1.5rem;
+  --spacing-card-desktop: 2rem;
+  --spacing-gap-mobile: 1rem;
+  --spacing-gap-tablet: 1.5rem;
+  --spacing-gap-desktop: 2rem;
 }
 
 /* Light theme – applied via .light on html */
@@ -61,11 +72,15 @@ html.light {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   color: rgb(var(--foreground));
   background: rgb(var(--background));
+  overflow-x: hidden;
+  /* Prevent horizontal scrolling on all viewport sizes */
+  max-width: 100vw;
 }
 
 @keyframes slide-in {
@@ -81,4 +96,52 @@ body {
 
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
+}
+
+/* Fallback for browsers without CSS Grid support */
+@supports not (display: grid) {
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .grid > * {
+    flex: 1 1 auto;
+  }
+}
+
+/* Performance optimization: Use CSS transforms for animations */
+@media (prefers-reduced-motion: no-preference) {
+  /* Add will-change for critical animations only */
+  .animate-slide-in {
+    will-change: transform, opacity;
+  }
+
+  /* Sidebar transitions */
+  aside[class*="transition-transform"] {
+    will-change: transform;
+  }
+
+  /* Modal backdrop and content */
+  [data-state="open"],
+  [data-state="closed"] {
+    will-change: opacity, transform;
+  }
+
+  /* Progress bars and loading indicators */
+  [role="progressbar"] {
+    will-change: transform;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

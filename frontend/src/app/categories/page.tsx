@@ -84,8 +84,11 @@ function CategoriesPageContent() {
 
   return (
     <div className="min-h-full bg-background">
+      {/* Container: адаптивные отступы 16px -> 24px -> 32px для обеспечения минимальных отступов на мобильных */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Header: вертикальное расположение на mobile, горизонтальное на desktop */}
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {/* Адаптивный размер заголовка: 24px (mobile) -> 30px (desktop) */}
           <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
             Категории
           </h1>

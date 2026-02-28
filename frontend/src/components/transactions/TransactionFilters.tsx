@@ -128,50 +128,57 @@ export function TransactionFilters({
   ];
 
   return (
-    <div className="rounded-2xl border border-border bg-card shadow-fintech p-4 mb-6">
-      <div className="flex flex-col sm:flex-row items-end gap-4">
-        <div className="w-full sm:w-auto sm:min-w-[150px]">
-          <Select
-            label="Тип"
-            options={typeOptions}
-            value={filters.type}
-            onChange={(e) => handleFilterChange("type", e.target.value as any)}
-          />
+    <div className="rounded-2xl border border-border bg-card shadow-fintech p-3 mb-6 sm:p-4">
+      <div className="flex flex-col gap-3">
+        {/* Первая строка: Тип и Категория */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="min-w-0">
+            <Select
+              label="Тип"
+              options={typeOptions}
+              value={filters.type}
+              onChange={(e) => handleFilterChange("type", e.target.value as any)}
+            />
+          </div>
+
+          <div className="min-w-0">
+            <Select
+              label="Категория"
+              options={categoryOptions}
+              value={filters.categoryId}
+              onChange={(e) => handleFilterChange("categoryId", e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="w-full sm:w-auto sm:min-w-[200px]">
-          <Select
-            label="Категория"
-            options={categoryOptions}
-            value={filters.categoryId}
-            onChange={(e) => handleFilterChange("categoryId", e.target.value)}
-          />
+        {/* Вторая строка: Даты */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="min-w-0">
+            <DatePicker
+              label="Дата от"
+              value={filters.startDate}
+              onChange={(value) => handleFilterChange("startDate", value)}
+              maxDate={filters.endDate || undefined}
+            />
+          </div>
+
+          <div className="min-w-0">
+            <DatePicker
+              label="Дата до"
+              value={filters.endDate}
+              onChange={(value) => handleFilterChange("endDate", value)}
+              minDate={filters.startDate || undefined}
+            />
+          </div>
         </div>
 
-        <div className="w-full sm:w-auto sm:min-w-[150px]">
-          <DatePicker
-            label="Дата от"
-            value={filters.startDate}
-            onChange={(value) => handleFilterChange("startDate", value)}
-            maxDate={filters.endDate || undefined}
-          />
-        </div>
-
-        <div className="w-full sm:w-auto sm:min-w-[150px]">
-          <DatePicker
-            label="Дата до"
-            value={filters.endDate}
-            onChange={(value) => handleFilterChange("endDate", value)}
-            minDate={filters.startDate || undefined}
-          />
-        </div>
-
+        {/* Кнопка очистки */}
         {hasActiveFilters && (
           <Button
             variant="secondary"
             size="md"
             onClick={handleClear}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto sm:self-start"
           >
             Очистить
           </Button>

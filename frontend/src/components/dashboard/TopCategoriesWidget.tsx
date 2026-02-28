@@ -17,9 +17,31 @@ import {
   tooltipDefaults,
   formatCurrencyTooltip,
 } from "@/lib/chartConfig";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { getChartConfig } from "@/lib/responsiveConfig";
+import { optimizeGenericData } from "@/lib/chartDataOptimization";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
+/**
+ * TopCategoriesWidget - Адаптивный виджет топ категорий расходов
+ *
+ * Responsive Design:
+ * - Горизонтальная гистограмма (indexAxis: 'y') для лучшей читаемости на мобильных
+ * - Адаптивная высота графика и размеры шрифтов
+ * - Адаптивное количество меток на оси X
+ *
+ * Breakpoints и высота:
+ * - Mobile (< 640px): h-64 (256px)
+ * - Tablet (640px-1024px): h-80 (320px)
+ * - Desktop (>= 1024px): h-96 (384px)
+ *
+ * Adaptive Chart Config:
+ * - maxTicksLimit: 5 (mobile) -> 8 (tablet) -> 12 (desktop)
+ * - fontSize: 10 (mobile) -> 11 (tablet) -> 12 (desktop)
+ *
+ * Требования: 3.1, 3.2, 3.4
+ */
 const SOFT_BAR_COLORS = [
   "rgba(99, 102, 241, 0.75)",
   "rgba(16, 185, 129, 0.75)",
@@ -46,11 +68,23 @@ export function TopCategoriesWidget({
   loading,
   limit = 5,
 }: TopCategoriesWidgetProps) {
+  // Определяем текущий размер экрана для адаптивной конфигурации
+  const { isMobile, isTablet } = useBreakpoint();
+  // Получаем адаптивную конфигурацию графика
+  const chartConfig = getChartConfig(isMobile, isTablet);
+
+  // Оптимизируем данные для мобильных устройств
+  // Требование 10.2: Оптимизация количества отрисовываемых точек данных
+  const optimizedCategories = useMemo(
+    () => optimizeGenericData(categories || [], isMobile, isTablet),
+    [categories, isMobile, isTablet]
+  );
+
   const chartData = useMemo((): ChartData<"bar", number[], string> => {
-    if (!categories || categories.length === 0) {
+    if (!optimizedCategories || optimizedCategories.length === 0) {
       return { labels: [], datasets: [] };
     }
-    const limitedCategories = categories.slice(0, limit);
+    const limitedCategories = optimizedCategories.slice(0, limit);
     return {
       labels: limitedCategories.map((cat) => cat.categoryName),
       datasets: [
@@ -64,7 +98,7 @@ export function TopCategoriesWidget({
         },
       ],
     };
-  }, [categories, limit]);
+  }, [optimizedCategories, limit]);
 
   const options = useMemo(
     () => ({
@@ -84,7 +118,7 @@ export function TopCategoriesWidget({
           cornerRadius: tooltipDefaults.cornerRadius,
           callbacks: {
             label: (context: { dataIndex: number; parsed: { x: number | null } }) => {
-              const category = categories[context.dataIndex];
+              const category = optimizedCategories[context.dataIndex];
               const x = context.parsed.x;
               const amount = x != null ? formatCurrencyTooltip(x) : "—";
               const percentage = category?.percentage?.toFixed(1) || "0";
@@ -99,6 +133,10 @@ export function TopCategoriesWidget({
           grid: chartGrid,
           ticks: {
             color: CHART_COLORS.text,
+            maxTicksLimit: chartConfig.maxTicksLimit,
+            font: {
+              size: chartConfig.fontSize,
+            },
             callback: (value: unknown): string =>
               typeof value === "number"
                 ? formatCurrencyTooltip(value)
@@ -107,11 +145,16 @@ export function TopCategoriesWidget({
         },
         y: {
           grid: { display: false },
-          ticks: { color: CHART_COLORS.text },
+          ticks: {
+            color: CHART_COLORS.text,
+            font: {
+              size: chartConfig.fontSize,
+            },
+          },
         },
       },
     }),
-    [categories]
+    [optimizedCategories, chartConfig]
   );
 
   if (loading) {
@@ -148,11 +191,12 @@ export function TopCategoriesWidget({
         <h2 className="mb-4 text-lg font-semibold text-foreground">
           Топ {limit} категорий расходов
         </h2>
-        <div className="h-64 sm:h-80">
+        {/* Адаптивная высота: 256px (mobile) -> 320px (tablet) -> 384px (desktop) */}
+        <div className="h-64 sm:h-80 lg:h-96">
           <Bar data={chartData} options={options} />
         </div>
         <div className="mt-6 space-y-3">
-          {categories.slice(0, limit).map((cat) => (
+          {optimizedCategories.slice(0, limit).map((cat) => (
             <div
               key={`${cat.categoryName}-${cat.totalAmount}`}
               className="flex items-center justify-between text-sm"

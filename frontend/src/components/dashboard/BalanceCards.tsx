@@ -5,6 +5,26 @@ import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
 
+/**
+ * BalanceCards - Адаптивный компонент для отображения карточек баланса
+ *
+ * Responsive Design:
+ * - Использует mobile-first подход с адаптивной сеткой
+ * - grid-cols-1: одна колонка на мобильных устройствах (< 768px)
+ * - md:grid-cols-3: три колонки на планшетах и desktop (>= 768px)
+ *
+ * Breakpoints:
+ * - Mobile: < 640px - минимальные отступы, уменьшенные шрифты и иконки
+ * - Tablet: 640px-1024px - средние отступы и размеры
+ * - Desktop: >= 1024px - максимальные отступы и размеры
+ *
+ * Adaptive Classes:
+ * - Padding: p-4 sm:p-6 md:p-8 (16px -> 24px -> 32px)
+ * - Font sizes: text-2xl sm:text-3xl md:text-4xl (24px -> 30px -> 36px)
+ * - Icon sizes: h-10 w-10 sm:h-12 sm:w-12 (40px -> 48px)
+ *
+ * Требования: 1.1, 1.2, 1.4, 1.5
+ */
 interface BalanceCardsProps {
   totalIncome: number;
   totalExpense: number;
@@ -45,7 +65,7 @@ export function BalanceCards({
             key={index}
             className="rounded-2xl border border-border bg-card shadow-sm"
           >
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-4 sm:p-6 md:p-8">
               <Skeleton className="mb-4 h-4 w-24" />
               <Skeleton className="h-10 w-32" />
             </CardContent>
@@ -57,100 +77,118 @@ export function BalanceCards({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+      {/* Адаптивная сетка: 3 колонки на всех размерах экрана для компактности */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6">
+        <Card className="rounded-2xl border border-border bg-card p-2 shadow-sm transition-shadow hover:shadow-md sm:p-3 md:p-4">
           <CardContent className="p-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground">Доходы</p>
-                <p className="mt-1 text-3xl font-semibold text-foreground md:text-4xl">
-                  {formatAmount(totalIncome)}
+            <div className="flex flex-col gap-1 sm:gap-2">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-medium text-muted-foreground sm:text-sm">
+                  Доходы
                 </p>
-                {byCurrency && byCurrency.length > 1 && (
-                  <div className="mt-3 space-y-1">
-                    {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-muted-foreground">
-                        {item.currency}:{" "}
-                        {new Intl.NumberFormat("ru-RU", {
-                          style: "currency",
-                          currency: item.currency,
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }).format(parseFloat(item.totalIncome.toString()))}
-                      </p>
-                    ))}
-                  </div>
-                )}
+                {/* Адаптивный размер иконки: 24px (mobile) -> 32px (tablet) -> 40px (desktop) */}
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-xl bg-secondary/10 sm:h-8 sm:w-8 md:h-10 md:w-10">
+                  <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-secondary" />
+                </div>
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary/10">
-                <TrendingUp className="h-6 w-6 text-secondary" />
-              </div>
+              {/* Адаптивный размер шрифта с переносом строк вместо обрезки */}
+              <p className="text-sm font-semibold text-foreground break-words sm:text-base md:text-xl lg:text-2xl">
+                {formatAmount(totalIncome)}
+              </p>
+              {byCurrency && byCurrency.length > 1 && (
+                <div className="mt-1 space-y-0.5">
+                  {byCurrency.map((item) => (
+                    <p
+                      key={item.currency}
+                      className="text-xs text-muted-foreground truncate"
+                    >
+                      {item.currency}:{" "}
+                      {new Intl.NumberFormat("ru-RU", {
+                        style: "currency",
+                        currency: item.currency,
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }).format(parseFloat(item.totalIncome.toString()))}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-2 shadow-sm transition-shadow hover:shadow-md sm:p-3 md:p-4">
           <CardContent className="p-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground">Расходы</p>
-                <p className="mt-1 text-3xl font-semibold text-foreground md:text-4xl">
-                  {formatAmount(totalExpense)}
+            <div className="flex flex-col gap-1 sm:gap-2">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-medium text-muted-foreground sm:text-sm">
+                  Расходы
                 </p>
-                {byCurrency && byCurrency.length > 1 && (
-                  <div className="mt-3 space-y-1">
-                    {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-muted-foreground">
-                        {item.currency}:{" "}
-                        {new Intl.NumberFormat("ru-RU", {
-                          style: "currency",
-                          currency: item.currency,
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }).format(parseFloat(item.totalExpense.toString()))}
-                      </p>
-                    ))}
-                  </div>
-                )}
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-xl bg-muted sm:h-8 sm:w-8 md:h-10 md:w-10">
+                  <TrendingDown className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-muted-foreground" />
+                </div>
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-muted">
-                <TrendingDown className="h-6 w-6 text-muted-foreground" />
-              </div>
+              <p className="text-sm font-semibold text-foreground break-words sm:text-base md:text-xl lg:text-2xl">
+                {formatAmount(totalExpense)}
+              </p>
+              {byCurrency && byCurrency.length > 1 && (
+                <div className="mt-1 space-y-0.5">
+                  {byCurrency.map((item) => (
+                    <p
+                      key={item.currency}
+                      className="text-xs text-muted-foreground truncate"
+                    >
+                      {item.currency}:{" "}
+                      {new Intl.NumberFormat("ru-RU", {
+                        style: "currency",
+                        currency: item.currency,
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }).format(parseFloat(item.totalExpense.toString()))}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-2 shadow-sm transition-shadow hover:shadow-md sm:p-3 md:p-4">
           <CardContent className="p-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground">Баланс</p>
-                <p
-                  className={`mt-1 text-3xl font-semibold md:text-4xl ${
-                    balance >= 0 ? "text-primary" : "text-destructive"
-                  }`}
-                >
-                  {formatAmount(balance)}
+            <div className="flex flex-col gap-1 sm:gap-2">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-medium text-muted-foreground sm:text-sm">
+                  Баланс
                 </p>
-                {byCurrency && byCurrency.length > 1 && (
-                  <div className="mt-3 space-y-1">
-                    {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-muted-foreground">
-                        {item.currency}:{" "}
-                        {new Intl.NumberFormat("ru-RU", {
-                          style: "currency",
-                          currency: item.currency,
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        }).format(parseFloat(item.balance.toString()))}
-                      </p>
-                    ))}
-                  </div>
-                )}
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-xl bg-primary/10 sm:h-8 sm:w-8 md:h-10 md:w-10">
+                  <Wallet className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 text-primary" />
+                </div>
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
-                <Wallet className="h-6 w-6 text-primary" />
-              </div>
+              <p
+                className={`text-sm font-semibold break-words sm:text-base md:text-xl lg:text-2xl ${
+                  balance >= 0 ? "text-primary" : "text-destructive"
+                }`}
+              >
+                {formatAmount(balance)}
+              </p>
+              {byCurrency && byCurrency.length > 1 && (
+                <div className="mt-1 space-y-0.5">
+                  {byCurrency.map((item) => (
+                    <p
+                      key={item.currency}
+                      className="text-xs text-muted-foreground truncate"
+                    >
+                      {item.currency}:{" "}
+                      {new Intl.NumberFormat("ru-RU", {
+                        style: "currency",
+                        currency: item.currency,
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }).format(parseFloat(item.balance.toString()))}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -144,7 +144,7 @@ export function ExpenseChart({ data, loading }: ExpenseChartProps) {
     <Card className="rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
       <CardContent className="p-6 md:p-8">
         <h2 className="mb-4 text-lg font-semibold text-foreground">Тренд расходов</h2>
-        <div className="h-64 sm:h-80">
+        <div className="h-[200px] sm:h-64 lg:h-80">
           <Line data={chartData} options={options} />
         </div>
       </CardContent>
