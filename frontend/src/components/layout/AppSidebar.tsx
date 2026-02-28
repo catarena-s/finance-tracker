@@ -65,10 +65,10 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
+      {/* Mobile menu button - positioned above theme switcher */}
       <button
         type="button"
-        className="fixed left-4 top-4 z-50 rounded-2xl bg-card p-2 shadow-fintech md:hidden"
+        className="fixed left-4 top-4 z-50 rounded-2xl bg-card p-3 shadow-fintech md:hidden"
         onClick={() => setMobileOpen(true)}
         aria-label="Открыть меню"
       >

@@ -102,35 +102,35 @@ export default function DashboardPage() {
   return (
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-8">
           {/* Адаптивный размер заголовка: 24px (mobile) -> 30px (desktop) */}
-          <h1 className="text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
+          <h1 className="mb-4 text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
 
-          {/* Фильтры: вертикальное расположение на mobile (< 640px), горизонтальное на desktop */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
-              {/* Поля дат: минимальная ширина 120px для удобного ввода */}
+          {/* Фильтры: компактное расположение */}
+          <div className="flex flex-col gap-3">
+            {/* Даты на одной строке */}
+            <div className="flex items-center gap-2">
               <Input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="min-w-[120px] rounded-2xl bg-input text-foreground"
+                className="flex-1 rounded-2xl bg-input text-foreground"
               />
-              <span className="hidden text-muted-foreground sm:inline">—</span>
+              <span className="text-muted-foreground">—</span>
               <Input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="min-w-[120px] rounded-2xl bg-input text-foreground"
+                className="flex-1 rounded-2xl bg-input text-foreground"
               />
             </div>
 
-            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
-              <span className="text-sm text-muted-foreground">Группировка:</span>
+            {/* Группировка */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground whitespace-nowrap">Группировка:</span>
               <div className="flex items-center gap-2">
                 {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
                   // Кнопки периодов: минимальный размер 44x44px для сенсорных экранов
-                  // Адаптивные метки: полный текст на desktop, сокращенный на mobile
                   <Button
                     key={p}
                     variant={period === p ? "default" : "outline"}

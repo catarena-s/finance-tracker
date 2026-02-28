@@ -17,6 +17,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center justify-end border-b border-border bg-card/95 px-6 backdrop-blur-md supports-[backdrop-filter]:bg-card/80">
       <div className="flex items-center gap-3">
+        {/* Theme switcher positioned below menu button (z-index: 30 < 50) */}
         <ThemeSwitcher />
         {showAddTransaction && (
           <Button

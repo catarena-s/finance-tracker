@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
 import { Transaction } from "@/types/api";
 import {
-  TransactionTable,
+  TransactionList,
   TransactionFilters,
   TransactionForm,
   TransactionFilterValues,
@@ -184,7 +184,7 @@ function TransactionsPageContent() {
           onFilterChange={handleFilterChange}
         />
 
-        <TransactionTable
+        <TransactionList
           transactions={transactions ?? []}
           loading={loading}
           currentPage={currentPage}

@@ -78,20 +78,20 @@ export function BalanceCards({
   return (
     <>
       {/* Адаптивная сетка: 1 колонка на mobile, 3 колонки на desktop (>= 768px) */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Card className="rounded-2xl border border-border bg-card p-3 shadow-sm transition-shadow hover:shadow-md sm:p-4 md:p-6">
           <CardContent className="p-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground">Доходы</p>
-                {/* Адаптивный размер шрифта: 24px (mobile) -> 30px (tablet) -> 36px (desktop) */}
-                <p className="mt-1 text-2xl font-semibold text-foreground sm:text-3xl md:text-4xl">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-muted-foreground sm:text-sm">Доходы</p>
+                {/* Адаптивный размер шрифта: 20px (mobile) -> 24px (tablet) -> 30px (desktop) */}
+                <p className="mt-1 text-xl font-semibold text-foreground truncate sm:text-2xl md:text-3xl">
                   {formatAmount(totalIncome)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
-                  <div className="mt-3 space-y-1">
+                  <div className="mt-2 space-y-0.5">
                     {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-muted-foreground">
+                      <p key={item.currency} className="text-xs text-muted-foreground truncate">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -104,26 +104,26 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              {/* Адаптивный размер иконки: 40x40px (mobile) -> 48x48px (tablet+), сохраняет пропорции 1:1 */}
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-secondary/10 sm:h-12 sm:w-12">
-                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
+              {/* Адаптивный размер иконки: 36x36px (mobile) -> 40x40px (tablet) -> 48x48px (desktop) */}
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-secondary/10 sm:h-10 sm:w-10 md:h-12 md:w-12">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-secondary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-3 shadow-sm transition-shadow hover:shadow-md sm:p-4 md:p-6">
           <CardContent className="p-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground">Расходы</p>
-                <p className="mt-1 text-2xl font-semibold text-foreground sm:text-3xl md:text-4xl">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-muted-foreground sm:text-sm">Расходы</p>
+                <p className="mt-1 text-xl font-semibold text-foreground truncate sm:text-2xl md:text-3xl">
                   {formatAmount(totalExpense)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
-                  <div className="mt-3 space-y-1">
+                  <div className="mt-2 space-y-0.5">
                     {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-muted-foreground">
+                      <p key={item.currency} className="text-xs text-muted-foreground truncate">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -136,29 +136,29 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-muted sm:h-12 sm:w-12">
-                <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-muted sm:h-10 sm:w-10 md:h-12 md:w-12">
+                <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-3 shadow-sm transition-shadow hover:shadow-md sm:p-4 md:p-6">
           <CardContent className="p-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground">Баланс</p>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-muted-foreground sm:text-sm">Баланс</p>
                 <p
-                  className={`mt-1 text-2xl font-semibold sm:text-3xl md:text-4xl ${
+                  className={`mt-1 text-xl font-semibold truncate sm:text-2xl md:text-3xl ${
                     balance >= 0 ? "text-primary" : "text-destructive"
                   }`}
                 >
                   {formatAmount(balance)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
-                  <div className="mt-3 space-y-1">
+                  <div className="mt-2 space-y-0.5">
                     {byCurrency.map((item) => (
-                      <p key={item.currency} className="text-xs text-muted-foreground">
+                      <p key={item.currency} className="text-xs text-muted-foreground truncate">
                         {item.currency}:{" "}
                         {new Intl.NumberFormat("ru-RU", {
                           style: "currency",
@@ -171,8 +171,8 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 sm:h-12 sm:w-12">
-                <Wallet className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-primary/10 sm:h-10 sm:w-10 md:h-12 md:w-12">
+                <Wallet className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-primary" />
               </div>
             </div>
           </CardContent>
