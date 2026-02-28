@@ -17,20 +17,13 @@ describe("BalanceCards", () => {
   };
 
   describe("responsive layout", () => {
-    it("should display cards in single column on mobile (viewport 375px)", () => {
-      // Устанавливаем мобильный viewport
-      Object.defineProperty(window, "innerWidth", {
-        writable: true,
-        configurable: true,
-        value: 375,
-      });
-
+    it("should display cards in three columns on all viewports for compactness", () => {
       const { container } = render(<BalanceCards {...defaultProps} />);
       
-      // Проверяем наличие grid контейнера с классом для одной колонки
+      // Проверяем наличие grid контейнера с классом для трех колонок
       const gridContainer = container.querySelector(".grid");
       expect(gridContainer).toBeInTheDocument();
-      expect(gridContainer).toHaveClass("grid-cols-1");
+      expect(gridContainer).toHaveClass("grid-cols-3");
       
       // Проверяем, что все три карточки отображаются
       expect(screen.getByText("Доходы")).toBeInTheDocument();
@@ -38,25 +31,13 @@ describe("BalanceCards", () => {
       expect(screen.getByText("Баланс")).toBeInTheDocument();
     });
 
-    it("should display cards in three columns on desktop (viewport 1024px)", () => {
-      // Устанавливаем desktop viewport
-      Object.defineProperty(window, "innerWidth", {
-        writable: true,
-        configurable: true,
-        value: 1024,
-      });
-
+    it("should have responsive gap between cards", () => {
       const { container } = render(<BalanceCards {...defaultProps} />);
       
-      // Проверяем наличие grid контейнера с классом для трех колонок на md+
       const gridContainer = container.querySelector(".grid");
-      expect(gridContainer).toBeInTheDocument();
-      expect(gridContainer).toHaveClass("md:grid-cols-3");
-      
-      // Проверяем, что все три карточки отображаются
-      expect(screen.getByText("Доходы")).toBeInTheDocument();
-      expect(screen.getByText("Расходы")).toBeInTheDocument();
-      expect(screen.getByText("Баланс")).toBeInTheDocument();
+      expect(gridContainer).toHaveClass("gap-2");
+      expect(gridContainer).toHaveClass("sm:gap-4");
+      expect(gridContainer).toHaveClass("md:gap-6");
     });
   });
 
@@ -210,19 +191,15 @@ describe("BalanceCards", () => {
       const { container } = render(<BalanceCards {...defaultProps} />);
       
       // Проверяем наличие адаптивных классов padding
-      const cards = container.querySelectorAll(".p-4");
+      const cards = container.querySelectorAll(".p-2");
       expect(cards.length).toBeGreaterThan(0);
       
       // Проверяем наличие классов для больших экранов
-      const cardsWithMdPadding = container.querySelectorAll(".md\\:p-8");
-      expect(cardsWithMdPadding.length).toBeGreaterThan(0);
-    });
-
-    it("should have responsive gap between cards", () => {
-      const { container } = render(<BalanceCards {...defaultProps} />);
+      const cardsWithSmPadding = container.querySelectorAll(".sm\\:p-3");
+      expect(cardsWithSmPadding.length).toBeGreaterThan(0);
       
-      const gridContainer = container.querySelector(".grid");
-      expect(gridContainer).toHaveClass("gap-6");
+      const cardsWithMdPadding = container.querySelectorAll(".md\\:p-4");
+      expect(cardsWithMdPadding.length).toBeGreaterThan(0);
     });
   });
 
@@ -231,7 +208,7 @@ describe("BalanceCards", () => {
       const { container } = render(<BalanceCards {...defaultProps} />);
       
       // Проверяем наличие иконок с адаптивными размерами
-      const icons = container.querySelectorAll(".h-10, .sm\\:h-12");
+      const icons = container.querySelectorAll(".h-6, .sm\\:h-8, .md\\:h-10");
       expect(icons.length).toBeGreaterThan(0);
     });
   });

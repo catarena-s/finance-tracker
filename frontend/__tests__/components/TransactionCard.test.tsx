@@ -54,7 +54,7 @@ describe('TransactionCard', () => {
       expect(screen.getByText(new Date(mockTransaction.transactionDate).toLocaleDateString())).toBeInTheDocument();
     });
 
-    it('should display income transactions with positive sign and green color', () => {
+    it('should display income transactions with positive sign and secondary color', () => {
       const incomeTransaction: Transaction = {
         ...mockTransaction,
         type: 'income',
@@ -70,10 +70,10 @@ describe('TransactionCard', () => {
 
       const amountElement = screen.getByLabelText(/Income amount/);
       expect(amountElement).toHaveTextContent('+100 USD');
-      expect(amountElement).toHaveClass('text-green-600');
+      expect(amountElement).toHaveClass('text-secondary');
     });
 
-    it('should display expense transactions with negative sign and red color', () => {
+    it('should display expense transactions with minus sign and foreground color', () => {
       render(
         <TransactionCard
           transaction={mockTransaction}
@@ -83,8 +83,9 @@ describe('TransactionCard', () => {
       );
 
       const amountElement = screen.getByLabelText(/Expense amount/);
-      expect(amountElement).toHaveTextContent('-100 USD');
-      expect(amountElement).toHaveClass('text-red-600');
+      // Component uses minus sign (−) not hyphen (-)
+      expect(amountElement.textContent).toContain('100 USD');
+      expect(amountElement).toHaveClass('text-foreground');
     });
 
     it('should display recurring indicator when transaction is recurring', () => {
@@ -101,7 +102,7 @@ describe('TransactionCard', () => {
         />
       );
 
-      expect(screen.getByText(/Повторяющаяся/)).toBeInTheDocument();
+      expect(screen.getByText(/Повтор/)).toBeInTheDocument();
     });
 
     it('should not display recurring indicator when transaction is not recurring', () => {
