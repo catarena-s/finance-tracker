@@ -45,7 +45,7 @@ export function BalanceCards({
             key={index}
             className="rounded-2xl border border-border bg-card shadow-sm"
           >
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-4 sm:p-6 md:p-8">
               <Skeleton className="mb-4 h-4 w-24" />
               <Skeleton className="h-10 w-32" />
             </CardContent>
@@ -58,12 +58,12 @@ export function BalanceCards({
   return (
     <>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Доходы</p>
-                <p className="mt-1 text-3xl font-semibold text-foreground md:text-4xl">
+                <p className="mt-1 text-2xl font-semibold text-foreground sm:text-3xl md:text-4xl">
                   {formatAmount(totalIncome)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
@@ -82,19 +82,19 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary/10">
-                <TrendingUp className="h-6 w-6 text-secondary" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-secondary/10 sm:h-12 sm:w-12">
+                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Расходы</p>
-                <p className="mt-1 text-3xl font-semibold text-foreground md:text-4xl">
+                <p className="mt-1 text-2xl font-semibold text-foreground sm:text-3xl md:text-4xl">
                   {formatAmount(totalExpense)}
                 </p>
                 {byCurrency && byCurrency.length > 1 && (
@@ -113,20 +113,20 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-muted">
-                <TrendingDown className="h-6 w-6 text-muted-foreground" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-muted sm:h-12 sm:w-12">
+                <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md md:p-8">
+        <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Баланс</p>
                 <p
-                  className={`mt-1 text-3xl font-semibold md:text-4xl ${
+                  className={`mt-1 text-2xl font-semibold sm:text-3xl md:text-4xl ${
                     balance >= 0 ? "text-primary" : "text-destructive"
                   }`}
                 >
@@ -148,8 +148,8 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
-                <Wallet className="h-6 w-6 text-primary" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 sm:h-12 sm:w-12">
+                <Wallet className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
             </div>
           </CardContent>

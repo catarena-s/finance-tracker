@@ -62,42 +62,51 @@ export default function DashboardPage() {
     year: "Год",
   };
 
+  const PERIOD_LABELS_SHORT: Record<DashboardPeriod, string> = {
+    day: "Д",
+    month: "М",
+    year: "Г",
+  };
+
   return (
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
               <Input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-auto rounded-2xl bg-input text-foreground"
+                className="min-w-[120px] rounded-2xl bg-input text-foreground"
               />
-              <span className="text-muted-foreground">—</span>
+              <span className="hidden text-muted-foreground sm:inline">—</span>
               <Input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-auto rounded-2xl bg-input text-foreground"
+                className="min-w-[120px] rounded-2xl bg-input text-foreground"
               />
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
               <span className="text-sm text-muted-foreground">Группировка:</span>
-              {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
-                <Button
-                  key={p}
-                  variant={period === p ? "default" : "outline"}
-                  size="sm"
-                  className="rounded-2xl"
-                  onClick={() => setPeriod(p)}
-                >
-                  {PERIOD_LABELS[p]}
-                </Button>
-              ))}
+              <div className="flex items-center gap-2">
+                {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
+                  <Button
+                    key={p}
+                    variant={period === p ? "default" : "outline"}
+                    size="sm"
+                    className="min-h-[44px] min-w-[44px] rounded-2xl"
+                    onClick={() => setPeriod(p)}
+                  >
+                    <span className="hidden sm:inline">{PERIOD_LABELS[p]}</span>
+                    <span className="sm:hidden">{PERIOD_LABELS_SHORT[p]}</span>
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
