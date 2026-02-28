@@ -5,6 +5,19 @@ import { Input, Select, Button } from "@/components/ui";
 import { validateString, validateHexColor } from "@/utils/validation";
 import { availableIcons, CategoryIcon } from "@/utils/categoryIcons";
 
+/**
+ * CategoryForm - Форма создания/редактирования категории
+ * 
+ * Responsive Design:
+ * - Вертикальное расположение полей на мобильных устройствах
+ * - Горизонтальное расположение некоторых элементов на desktop
+ * 
+ * Form Layout:
+ * - Все основные поля располагаются вертикально (одна колонка)
+ * - Элементы выбора цвета: flex-col sm:flex-row (вертикально на mobile, горизонтально на desktop)
+ * 
+ * Требования: 4.3
+ */
 interface CategoryFormProps {
   category?: Category;
   onSubmit: (data: CategoryFormData) => Promise<void>;
@@ -121,7 +134,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
                 key={iconItem.emoji}
                 type="button"
                 onClick={() => setValue("icon", iconItem.emoji)}
-                className={`w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-all ${
+                className={`w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-[background-color,transform] ${
                   selectedIcon === iconItem.emoji
                     ? "bg-primary/10 ring-2 ring-primary"
                     : "bg-muted/50"
@@ -158,7 +171,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
               key={color}
               type="button"
               onClick={() => setValue("color", color)}
-              className={`w-8 h-8 rounded border-2 transition-all ${
+              className={`w-8 h-8 rounded border-2 transition-[border-color,transform] ${
                 selectedColor === color
                   ? "border-foreground scale-110"
                   : "border-border"

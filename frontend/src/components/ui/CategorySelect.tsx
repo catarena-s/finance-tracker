@@ -68,7 +68,7 @@ export const CategorySelect = forwardRef<HTMLSelectElement, CategorySelectProps>
               text-foreground
               bg-input
               focus:outline-none focus:ring-2 focus:ring-offset-0
-              transition-colors duration-200
+              transition-[border-color,box-shadow] duration-200
               disabled:bg-muted disabled:cursor-not-allowed
               appearance-none
               ${

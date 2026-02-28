@@ -22,7 +22,7 @@ export function Header() {
           <Button
             asChild
             size="default"
-            className="rounded-2xl shadow-sm transition-all duration-200 hover:shadow-md"
+            className="rounded-2xl shadow-sm transition-[box-shadow] duration-200 hover:shadow-md"
           >
             <Link href="/transactions?openAdd=1">
               <Plus className="mr-2 h-4 w-4" />
@@ -34,7 +34,7 @@ export function Header() {
           <Button
             asChild
             size="default"
-            className="rounded-2xl shadow-sm transition-all duration-200 hover:shadow-md"
+            className="rounded-2xl shadow-sm transition-[box-shadow] duration-200 hover:shadow-md"
           >
             <Link href="/categories?openAdd=1">
               <Plus className="mr-2 h-4 w-4" />
@@ -46,7 +46,7 @@ export function Header() {
           <Button
             asChild
             size="default"
-            className="rounded-2xl shadow-sm transition-all duration-200 hover:shadow-md"
+            className="rounded-2xl shadow-sm transition-[box-shadow] duration-200 hover:shadow-md"
           >
             <Link href="/budgets?openAdd=1">
               <Plus className="mr-2 h-4 w-4" />
@@ -58,7 +58,7 @@ export function Header() {
           <Button
             asChild
             size="default"
-            className="rounded-2xl shadow-sm transition-all duration-200 hover:shadow-md"
+            className="rounded-2xl shadow-sm transition-[box-shadow] duration-200 hover:shadow-md"
           >
             <Link href="/recurring?openAdd=1">
               <Plus className="mr-2 h-4 w-4" />

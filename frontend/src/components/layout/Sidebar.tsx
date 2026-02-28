@@ -29,7 +29,7 @@ export function Sidebar() {
 
   const linkClass = (href: string) =>
     cn(
-      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
+      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-[background-color,color,box-shadow] duration-150",
       isActive(href)
         ? "bg-primary text-primary-foreground shadow-sm [&_svg]:text-primary-foreground"
         : "text-muted-foreground [&_svg]:text-muted-foreground hover:bg-muted hover:text-foreground hover:[&_svg]:text-primary"
@@ -58,7 +58,7 @@ export function Sidebar() {
     <>
       <button
         type="button"
-        className="group fixed left-4 top-4 z-50 rounded-xl border border-border bg-card p-2.5 shadow-fintech transition-all duration-150 hover:shadow-fintech-hover hover:border-primary/30 md:hidden"
+        className="group fixed left-4 top-4 z-50 rounded-xl border border-border bg-card p-2.5 shadow-fintech transition-[box-shadow,border-color] duration-150 hover:shadow-fintech-hover hover:border-primary/30 md:hidden"
         onClick={() => setMobileOpen(true)}
         aria-label="Открыть меню"
       >
@@ -91,7 +91,7 @@ export function Sidebar() {
           </Link>
           <button
             type="button"
-            className="rounded-xl p-2 text-muted-foreground transition-colors duration-150 hover:bg-muted hover:text-foreground md:hidden"
+            className="rounded-xl p-2 text-muted-foreground transition-[background-color,color] duration-150 hover:bg-muted hover:text-foreground md:hidden"
             onClick={() => setMobileOpen(false)}
             aria-label="Закрыть меню"
           >

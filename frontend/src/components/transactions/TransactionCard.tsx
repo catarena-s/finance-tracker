@@ -3,6 +3,29 @@ import { Transaction } from "@/types/api";
 import { formatCurrency, formatDate } from "@/utils/format";
 import { Button } from "@/components/ui";
 
+/**
+ * TransactionCard - Карточное представление транзакции для мобильных устройств
+ * 
+ * Responsive Design:
+ * - Компактное карточное представление для узких экранов
+ * - Все ключевые данные отображаются: дата, категория, сумма, описание
+ * - Интерактивность: клик для раскрытия дополнительной информации
+ * 
+ * Layout:
+ * - Mobile: flex-col (вертикальное расположение элементов)
+ * - Tablet+: sm:flex-row (горизонтальное расположение)
+ * 
+ * Text Overflow:
+ * - Описание обрезается до 2 строк (line-clamp-2) в свернутом состоянии
+ * - Полное описание отображается при раскрытии карточки
+ * 
+ * Accessibility:
+ * - Карточка кликабельна (role="button", tabIndex={0})
+ * - Поддержка клавиатурной навигации (Enter, Space)
+ * - Aria-атрибуты для screen readers
+ * 
+ * Требования: 8.1, 8.2, 8.3, 8.4
+ */
 interface TransactionCardProps {
   transaction: Transaction;
   onEdit: (transaction: Transaction) => void;
@@ -29,7 +52,7 @@ export function TransactionCard({
 
   return (
     <div 
-      className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-[box-shadow] cursor-pointer"
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
@@ -62,6 +85,7 @@ export function TransactionCard({
           </div>
 
           {transaction.description && (
+            // Обрезка описания до 2 строк в свернутом состоянии, полное отображение при раскрытии
             <p className={`text-sm text-gray-700 mb-2 ${isExpanded ? '' : 'line-clamp-2'}`}>
               {transaction.description}
             </p>

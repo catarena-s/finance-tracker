@@ -44,7 +44,7 @@ export function Toast({
       <p className="flex-1 text-sm font-medium">{message}</p>
       <button
         onClick={onClose}
-        className="ml-2 text-white hover:text-gray-200 transition-colors"
+        className="ml-2 text-white hover:text-gray-200 transition-[color]"
         aria-label="Закрыть уведомление"
       >
         ✕

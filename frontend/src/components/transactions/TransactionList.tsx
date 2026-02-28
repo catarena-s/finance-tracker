@@ -5,6 +5,28 @@ import { TransactionTable } from "./TransactionTable";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { Pagination } from "@/components/ui";
 
+/**
+ * TransactionList - Адаптивный список транзакций
+ * 
+ * Responsive Design:
+ * - Условный рендеринг: таблица на desktop, карточки на mobile
+ * - Переключение представления на основе ширины viewport
+ * 
+ * Breakpoint Logic:
+ * - Mobile (< 768px): карточное представление (TransactionCard)
+ *   Причина: таблицы плохо работают на узких экранах, карточки обеспечивают
+ *   лучшую читаемость и доступность всех данных
+ * - Desktop (>= 768px): табличное представление (TransactionTable)
+ *   Причина: таблицы эффективны для сканирования больших объемов данных
+ *   на широких экранах
+ * 
+ * Card View Features:
+ * - Все ключевые данные видимы: дата, категория, сумма, описание
+ * - Обрезка длинных описаний (line-clamp-2)
+ * - Интерактивность: клик для раскрытия полной информации
+ * 
+ * Требования: 8.1, 8.2, 8.3, 8.4, 8.5
+ */
 interface TransactionListProps {
   transactions: Transaction[];
   loading?: boolean;
@@ -30,11 +52,11 @@ export function TransactionList({
 }: TransactionListProps) {
   const { width } = useBreakpoint();
   
-  // Use table view on desktop (>= 768px), card view on mobile (< 768px)
-  // This aligns with requirement 8.1: viewport < 768px should use card representation
+  // Используем табличное представление на desktop (>= 768px), карточное на mobile (< 768px)
+  // Это соответствует требованию 8.1: viewport < 768px должен использовать карточное представление
   const useTableView = width >= 768;
 
-  // If using table view, delegate to TransactionTable component
+  // Если используем табличное представление, делегируем компоненту TransactionTable
   if (useTableView) {
     return (
       <TransactionTable
@@ -51,7 +73,7 @@ export function TransactionList({
     );
   }
 
-  // Mobile card view below
+  // Карточное представление для мобильных устройств
   if (loading) {
     return (
       <div className="space-y-4">

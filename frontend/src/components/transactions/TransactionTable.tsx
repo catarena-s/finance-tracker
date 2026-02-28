@@ -64,7 +64,7 @@ export function TransactionTable({
 
   return (
     <div className="space-y-6">
-      <Card className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
+      <Card className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[box-shadow] hover:shadow-md">
         <Table>
           <TableHeader>
             <TableRow className="border-border hover:bg-transparent">
@@ -92,7 +92,7 @@ export function TransactionTable({
               return (
                 <TableRow
                   key={transaction.id}
-                  className="border-border transition-colors hover:bg-muted/50"
+                  className="border-border transition-[background-color] hover:bg-muted/50"
                 >
                   <TableCell className="px-6 py-4 font-medium text-muted-foreground">
                     {formatDate(transaction.transactionDate)}
@@ -125,7 +125,7 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+                        className="h-9 w-9 rounded-xl text-muted-foreground transition-[background-color,color] duration-200 hover:bg-muted hover:text-foreground"
                         onClick={() => onEdit(transaction)}
                         aria-label="Редактировать"
                       >
@@ -134,7 +134,7 @@ export function TransactionTable({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-muted-foreground transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
+                        className="h-9 w-9 rounded-xl text-muted-foreground transition-[background-color,color] duration-200 hover:bg-destructive/10 hover:text-destructive"
                         onClick={() => onDelete(transaction.id)}
                         aria-label="Удалить"
                       >

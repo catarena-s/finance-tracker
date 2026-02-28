@@ -14,7 +14,7 @@ export function ThemeSwitcher({ className }: { className?: string }) {
       onClick={toggleTheme}
       aria-label={theme === "dark" ? "Включить светлую тему" : "Включить тёмную тему"}
       className={cn(
-        "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-all duration-150 hover:border-primary/50 hover:text-primary hover:shadow-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background",
+        "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-[border-color,color,box-shadow] duration-150 hover:border-primary/50 hover:text-primary hover:shadow-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background",
         className
       )}
     >

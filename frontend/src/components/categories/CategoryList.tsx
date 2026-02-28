@@ -6,6 +6,19 @@ import { CategoryCard } from "./CategoryCard";
 import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { FolderTree } from "lucide-react";
 
+/**
+ * CategoryList - Адаптивный список категорий
+ * 
+ * Responsive Grid Layout:
+ * - Mobile (< 640px): grid-cols-1 (одна колонка)
+ *   Причина: на узких экранах одна колонка обеспечивает лучшую читаемость
+ * - Tablet (640px-1024px): sm:grid-cols-2 (две колонки)
+ *   Причина: на средних экранах две колонки эффективно используют пространство
+ * - Desktop (>= 1024px): lg:grid-cols-3 (три колонки)
+ *   Причина: на широких экранах три колонки оптимально используют пространство
+ * 
+ * Требования: 5.1
+ */
 interface CategoryListProps {
   categories: Category[];
   loading?: boolean;
@@ -21,6 +34,7 @@ export function CategoryList({
 }: CategoryListProps) {
   if (loading) {
     return (
+      // Адаптивная сетка: 1 колонка (mobile) -> 2 колонки (tablet) -> 3 колонки (desktop)
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {[...Array(8)].map((_, index) => (
           <Card
@@ -75,6 +89,7 @@ export function CategoryList({
               {incomeCategories.length}
             </span>
           </div>
+          {/* Адаптивная сетка для карточек категорий */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {incomeCategories.map((category) => (
               <CategoryCard

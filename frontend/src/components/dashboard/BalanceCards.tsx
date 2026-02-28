@@ -5,6 +5,26 @@ import { Card, CardContent } from "@/components/ui/shadcn/card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
 
+/**
+ * BalanceCards - Адаптивный компонент для отображения карточек баланса
+ * 
+ * Responsive Design:
+ * - Использует mobile-first подход с адаптивной сеткой
+ * - grid-cols-1: одна колонка на мобильных устройствах (< 768px)
+ * - md:grid-cols-3: три колонки на планшетах и desktop (>= 768px)
+ * 
+ * Breakpoints:
+ * - Mobile: < 640px - минимальные отступы, уменьшенные шрифты и иконки
+ * - Tablet: 640px-1024px - средние отступы и размеры
+ * - Desktop: >= 1024px - максимальные отступы и размеры
+ * 
+ * Adaptive Classes:
+ * - Padding: p-4 sm:p-6 md:p-8 (16px -> 24px -> 32px)
+ * - Font sizes: text-2xl sm:text-3xl md:text-4xl (24px -> 30px -> 36px)
+ * - Icon sizes: h-10 w-10 sm:h-12 sm:w-12 (40px -> 48px)
+ * 
+ * Требования: 1.1, 1.2, 1.4, 1.5
+ */
 interface BalanceCardsProps {
   totalIncome: number;
   totalExpense: number;
@@ -57,12 +77,14 @@ export function BalanceCards({
 
   return (
     <>
+      {/* Адаптивная сетка: 1 колонка на mobile, 3 колонки на desktop (>= 768px) */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <Card className="rounded-2xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md sm:p-6 md:p-8">
           <CardContent className="p-0">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Доходы</p>
+                {/* Адаптивный размер шрифта: 24px (mobile) -> 30px (tablet) -> 36px (desktop) */}
                 <p className="mt-1 text-2xl font-semibold text-foreground sm:text-3xl md:text-4xl">
                   {formatAmount(totalIncome)}
                 </p>
@@ -82,6 +104,7 @@ export function BalanceCards({
                   </div>
                 )}
               </div>
+              {/* Адаптивный размер иконки: 40x40px (mobile) -> 48x48px (tablet+), сохраняет пропорции 1:1 */}
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-secondary/10 sm:h-12 sm:w-12">
                 <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
               </div>

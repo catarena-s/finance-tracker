@@ -112,16 +112,25 @@ body {
 
 /* Performance optimization: Use CSS transforms for animations */
 @media (prefers-reduced-motion: no-preference) {
-  * {
-    /* Hint browser about properties that will change */
-    will-change: auto;
+  /* Add will-change for critical animations only */
+  .animate-slide-in {
+    will-change: transform, opacity;
   }
   
-  /* Optimize animations to use transform and opacity only */
-  .animate-slide-in,
-  [class*="transition-"],
-  [class*="animate-"] {
-    will-change: transform, opacity;
+  /* Sidebar transitions */
+  aside[class*="transition-transform"] {
+    will-change: transform;
+  }
+  
+  /* Modal backdrop and content */
+  [data-state="open"],
+  [data-state="closed"] {
+    will-change: opacity, transform;
+  }
+  
+  /* Progress bars and loading indicators */
+  [role="progressbar"] {
+    will-change: transform;
   }
 }
 
