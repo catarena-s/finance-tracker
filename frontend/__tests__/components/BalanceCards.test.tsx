@@ -100,9 +100,9 @@ describe("BalanceCards", () => {
         byCurrency: [
           {
             currency: "RUB",
-            totalIncome: "50000",
-            totalExpense: "30000",
-            balance: "20000",
+            totalIncome: 50000,
+            totalExpense: 30000,
+            balance: 20000,
           },
         ] as SummaryByCurrency[],
       };
@@ -123,15 +123,15 @@ describe("BalanceCards", () => {
         byCurrency: [
           {
             currency: "USD",
-            totalIncome: "1000",
-            totalExpense: "500",
-            balance: "500",
+            totalIncome: 1000,
+            totalExpense: 500,
+            balance: 500,
           },
           {
             currency: "EUR",
-            totalIncome: "800",
-            totalExpense: "300",
-            balance: "500",
+            totalIncome: 800,
+            totalExpense: 300,
+            balance: 500,
           },
         ] as SummaryByCurrency[],
         currencyRates: {

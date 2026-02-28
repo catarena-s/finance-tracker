@@ -228,6 +228,8 @@ describe("Property: Icon Proportions", () => {
       type: fc.constantFrom("income" as const, "expense" as const),
       color: fc.hexaString({ minLength: 6, maxLength: 6 }).map(hex => `#${hex}`),
       icon: fc.string({ minLength: 1, maxLength: 2 }), // Emoji
+      createdAt: fc.constant(new Date().toISOString()),
+      updatedAt: fc.constant(new Date().toISOString()),
     });
 
     it("should maintain 1:1 aspect ratio for category icons at any viewport width", () => {
@@ -517,6 +519,8 @@ describe("Property: Icon Proportions", () => {
         type: "expense",
         color: "#FF5733",
         icon: "🛒",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
       
       const { container } = render(
@@ -543,6 +547,8 @@ describe("Property: Icon Proportions", () => {
         type: "expense",
         color: "#FF5733",
         icon: "🛒",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
       
       const { container } = render(
