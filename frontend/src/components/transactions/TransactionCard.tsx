@@ -5,25 +5,25 @@ import { Button } from "@/components/ui";
 
 /**
  * TransactionCard - Карточное представление транзакции для мобильных устройств
- * 
+ *
  * Responsive Design:
  * - Компактное карточное представление для узких экранов
  * - Все ключевые данные отображаются: дата, категория, сумма, описание
  * - Интерактивность: клик для раскрытия дополнительной информации
- * 
+ *
  * Layout:
  * - Mobile: flex-col (вертикальное расположение элементов)
  * - Tablet+: sm:flex-row (горизонтальное расположение)
- * 
+ *
  * Text Overflow:
  * - Описание обрезается до 2 строк (line-clamp-2) в свернутом состоянии
  * - Полное описание отображается при раскрытии карточки
- * 
+ *
  * Accessibility:
  * - Карточка кликабельна (role="button", tabIndex={0})
  * - Поддержка клавиатурной навигации (Enter, Space)
  * - Aria-атрибуты для screen readers
- * 
+ *
  * Требования: 8.1, 8.2, 8.3, 8.4
  */
 interface TransactionCardProps {
@@ -39,26 +39,26 @@ export function TransactionCard({
 }: TransactionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isIncome = transaction.type === "income";
-  
+
   // Get category name from transaction object
   const categoryName = (transaction as any).category?.name || transaction.categoryId;
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't toggle if clicking on buttons
-    if ((e.target as HTMLElement).closest('button')) {
+    if ((e.target as HTMLElement).closest("button")) {
       return;
     }
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <div 
+    <div
       className="rounded-2xl border border-border bg-card p-3 shadow-sm hover:shadow-md transition-[box-shadow] cursor-pointer"
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           setIsExpanded(!isExpanded);
         }
@@ -75,7 +75,7 @@ export function TransactionCard({
           {isIncome ? "+" : "−"}
           {formatCurrency(Number(transaction.amount), transaction.currency)}
         </span>
-        
+
         <div className="flex gap-1">
           <Button
             variant="ghost"
@@ -126,7 +126,9 @@ export function TransactionCard({
 
       {/* Описание */}
       {transaction.description && (
-        <p className={`text-sm text-foreground mb-2 ${isExpanded ? '' : 'line-clamp-2'}`}>
+        <p
+          className={`text-sm text-foreground mb-2 ${isExpanded ? "" : "line-clamp-2"}`}
+        >
           {transaction.description}
         </p>
       )}
@@ -182,10 +184,12 @@ export function TransactionCard({
             <span className="font-medium">ID:</span> {transaction.id}
           </div>
           <div>
-            <span className="font-medium">Создано:</span> {formatDate(transaction.createdAt)}
+            <span className="font-medium">Создано:</span>{" "}
+            {formatDate(transaction.createdAt)}
           </div>
           <div>
-            <span className="font-medium">Обновлено:</span> {formatDate(transaction.updatedAt)}
+            <span className="font-medium">Обновлено:</span>{" "}
+            {formatDate(transaction.updatedAt)}
           </div>
         </div>
       )}

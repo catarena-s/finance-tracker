@@ -31,7 +31,7 @@ export function Header({ onMenuClick }: HeaderProps) {
           <Menu className="h-5 w-5" />
         </button>
       </div>
-      
+
       {/* Right side: theme switcher and action buttons */}
       <div className="ml-auto flex items-center gap-3 px-4 md:px-6">
         <ThemeSwitcher />

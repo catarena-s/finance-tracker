@@ -41,18 +41,18 @@ const breakpoints: BreakpointConfig = {
 
 /**
  * Хук для определения текущего размера экрана и брейкпоинта
- * 
+ *
  * Использует существующий хук useWindowSize для отслеживания размера окна
  * и предоставляет удобный API для определения текущего брейкпоинта.
- * 
+ *
  * @param delay - Задержка debounce в миллисекундах (по умолчанию 150ms)
  * @returns Объект с флагами устройств и текущим брейкпоинтом
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
  *   const { isMobile, isTablet, isDesktop, currentBreakpoint } = useBreakpoint();
- *   
+ *
  *   return (
  *     <div>
  *       {isMobile && <MobileView />}
@@ -74,7 +74,7 @@ export function useBreakpoint(delay?: number): UseBreakpointReturn {
 
     // Определяем текущий брейкпоинт
     let currentBreakpoint: keyof BreakpointConfig | "xs" = "xs";
-    
+
     if (width >= breakpoints["2xl"]) {
       currentBreakpoint = "2xl";
     } else if (width >= breakpoints.xl) {

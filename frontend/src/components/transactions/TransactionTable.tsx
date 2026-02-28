@@ -71,7 +71,9 @@ export function TransactionTable({
               <TableHead className="h-12 w-[100px] px-2 font-semibold text-muted-foreground md:w-[120px] md:px-4">
                 Дата
               </TableHead>
-              <TableHead className="hidden w-[80px] px-2 font-semibold text-muted-foreground lg:table-cell md:px-4">Тип</TableHead>
+              <TableHead className="hidden w-[80px] px-2 font-semibold text-muted-foreground lg:table-cell md:px-4">
+                Тип
+              </TableHead>
               <TableHead className="w-[120px] px-2 font-semibold text-muted-foreground md:w-[140px] md:px-4">
                 Категория
               </TableHead>

@@ -29,7 +29,7 @@
   --chart-4: 34 211 238;
   --chart-5: 156 163 175;
   --radius: 1rem;
-  
+
   /* Responsive spacing variables */
   --spacing-container-mobile: 1rem;
   --spacing-container-tablet: 1.5rem;
@@ -104,7 +104,7 @@ body {
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .grid > * {
     flex: 1 1 auto;
   }
@@ -116,18 +116,18 @@ body {
   .animate-slide-in {
     will-change: transform, opacity;
   }
-  
+
   /* Sidebar transitions */
   aside[class*="transition-transform"] {
     will-change: transform;
   }
-  
+
   /* Modal backdrop and content */
   [data-state="open"],
   [data-state="closed"] {
     will-change: opacity, transform;
   }
-  
+
   /* Progress bars and loading indicators */
   [role="progressbar"] {
     will-change: transform;

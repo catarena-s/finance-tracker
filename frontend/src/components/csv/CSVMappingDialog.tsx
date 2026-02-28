@@ -109,7 +109,9 @@ export function CSVMappingDialog({
           ))}
           {optionalFields.map(({ key, label }) => (
             <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <label className="w-full sm:w-48 text-sm text-muted-foreground">{label}</label>
+              <label className="w-full sm:w-48 text-sm text-muted-foreground">
+                {label}
+              </label>
               <select
                 className="flex-1 border border-border bg-input text-foreground rounded px-2 py-1.5 text-sm"
                 value={mapping[key] ?? ""}

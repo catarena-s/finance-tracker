@@ -25,21 +25,21 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 /**
  * TopCategoriesWidget - Адаптивный виджет топ категорий расходов
- * 
+ *
  * Responsive Design:
  * - Горизонтальная гистограмма (indexAxis: 'y') для лучшей читаемости на мобильных
  * - Адаптивная высота графика и размеры шрифтов
  * - Адаптивное количество меток на оси X
- * 
+ *
  * Breakpoints и высота:
  * - Mobile (< 640px): h-64 (256px)
  * - Tablet (640px-1024px): h-80 (320px)
  * - Desktop (>= 1024px): h-96 (384px)
- * 
+ *
  * Adaptive Chart Config:
  * - maxTicksLimit: 5 (mobile) -> 8 (tablet) -> 12 (desktop)
  * - fontSize: 10 (mobile) -> 11 (tablet) -> 12 (desktop)
- * 
+ *
  * Требования: 3.1, 3.2, 3.4
  */
 const SOFT_BAR_COLORS = [
@@ -145,7 +145,7 @@ export function TopCategoriesWidget({
         },
         y: {
           grid: { display: false },
-          ticks: { 
+          ticks: {
             color: CHART_COLORS.text,
             font: {
               size: chartConfig.fontSize,

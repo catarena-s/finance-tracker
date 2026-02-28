@@ -10,29 +10,29 @@ import { CategoryIcon } from "@/utils/categoryIcons";
 
 /**
  * CategoryCard - Адаптивная карточка категории
- * 
+ *
  * Responsive Design:
  * - Используется в сетке с адаптивным количеством колонок (родительский компонент)
  * - Обрезка длинных названий с многоточием (text-overflow: ellipsis)
  * - Адаптивное отображение кнопок действий
- * 
+ *
  * Grid Layout (родительский компонент):
  * - Mobile (< 640px): grid-cols-1 (одна колонка)
  * - Tablet (640px-1024px): sm:grid-cols-2 (две колонки)
  * - Desktop (>= 1024px): lg:grid-cols-3 (три колонки)
- * 
+ *
  * Adaptive Button Behavior:
  * - Mobile: кнопки всегда видимы (opacity-100) для удобства на сенсорных экранах
  * - Desktop: кнопки появляются при hover (sm:opacity-0 sm:group-hover:opacity-100)
- * 
+ *
  * Button Sizes:
  * - Mobile: h-9 w-9 (36x36px) - увеличенный размер для сенсорных экранов
  * - Desktop: sm:h-8 sm:w-8 (32x32px) - стандартный размер
- * 
+ *
  * Icon Proportions:
  * - Иконка категории: h-5 w-5 (20x20px) - сохраняет пропорции 1:1
  * - Цветовой индикатор: h-3.5 w-3.5 (14x14px) - сохраняет пропорции 1:1
- * 
+ *
  * Требования: 5.1, 5.2, 5.3, 5.4, 5.5
  */
 interface CategoryCardProps {

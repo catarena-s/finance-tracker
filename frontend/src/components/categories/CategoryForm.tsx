@@ -7,15 +7,15 @@ import { availableIcons, CategoryIcon } from "@/utils/categoryIcons";
 
 /**
  * CategoryForm - Форма создания/редактирования категории
- * 
+ *
  * Responsive Design:
  * - Вертикальное расположение полей на мобильных устройствах
  * - Горизонтальное расположение некоторых элементов на desktop
- * 
+ *
  * Form Layout:
  * - Все основные поля располагаются вертикально (одна колонка)
  * - Элементы выбора цвета: flex-col sm:flex-row (вертикально на mobile, горизонтально на desktop)
- * 
+ *
  * Требования: 4.3
  */
 interface CategoryFormProps {

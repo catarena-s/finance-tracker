@@ -8,7 +8,7 @@ import { FolderTree } from "lucide-react";
 
 /**
  * CategoryList - Адаптивный список категорий
- * 
+ *
  * Responsive Grid Layout:
  * - Mobile (< 640px): grid-cols-1 (одна колонка)
  *   Причина: на узких экранах одна колонка обеспечивает лучшую читаемость
@@ -16,7 +16,7 @@ import { FolderTree } from "lucide-react";
  *   Причина: на средних экранах две колонки эффективно используют пространство
  * - Desktop (>= 1024px): lg:grid-cols-3 (три колонки)
  *   Причина: на широких экранах три колонки оптимально используют пространство
- * 
+ *
  * Требования: 5.1
  */
 interface CategoryListProps {

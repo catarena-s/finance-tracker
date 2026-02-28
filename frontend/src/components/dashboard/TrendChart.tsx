@@ -33,17 +33,17 @@ ChartJS.register(
 
 /**
  * TrendChart - Адаптивный компонент графика трендов доходов и расходов
- * 
+ *
  * Responsive Design:
  * - Динамическая высота графика в зависимости от размера экрана
  * - Адаптивное количество меток на оси X для предотвращения перегруженности
  * - Уменьшенный размер точек на мобильных устройствах
- * 
+ *
  * Breakpoints и высота:
  * - Mobile (< 640px): h-64 (256px) - минимальная высота для читаемости
  * - Tablet (640px-1024px): h-80 (320px)
  * - Desktop (>= 1024px): h-96 (384px)
- * 
+ *
  * Adaptive Chart Config:
  * - maxTicksLimit: 5 (mobile) -> 8 (tablet) -> 12 (desktop)
  *   Ограничивает количество меток на оси X для предотвращения наложения
@@ -51,7 +51,7 @@ ChartJS.register(
  *   Уменьшает размер точек на графике для экономии места
  * - fontSize: 10 (mobile) -> 11 (tablet) -> 12 (desktop)
  *   Адаптивный размер шрифта для меток осей
- * 
+ *
  * Требования: 3.1, 3.2, 3.4, 3.5
  */
 interface TrendChartProps {
@@ -64,7 +64,10 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
   // Определяем текущий размер экрана для адаптивной конфигурации
   const { isMobile, isTablet } = useBreakpoint();
   // Получаем адаптивную конфигурацию графика (maxTicksLimit, pointRadius, fontSize)
-  const chartConfig = useMemo(() => getChartConfig(isMobile, isTablet), [isMobile, isTablet]);
+  const chartConfig = useMemo(
+    () => getChartConfig(isMobile, isTablet),
+    [isMobile, isTablet]
+  );
 
   // Оптимизируем данные для мобильных устройств
   // Требование 10.2: Оптимизация количества отрисовываемых точек данных
@@ -122,8 +125,8 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
         legend: {
           display: true,
           position: "top" as const,
-          labels: { 
-            color: CHART_COLORS.text, 
+          labels: {
+            color: CHART_COLORS.text,
             usePointStyle: true,
             font: {
               size: chartConfig.fontSize,
@@ -157,8 +160,8 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
       scales: {
         x: {
           grid: { display: false },
-          ticks: { 
-            color: CHART_COLORS.text, 
+          ticks: {
+            color: CHART_COLORS.text,
             maxTicksLimit: chartConfig.maxTicksLimit,
             font: {
               size: chartConfig.fontSize,

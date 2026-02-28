@@ -16,33 +16,33 @@ import { X } from "lucide-react";
 
 /**
  * DashboardPage - Главная страница дашборда с адаптивными фильтрами
- * 
+ *
  * Responsive Design:
  * - Адаптивное расположение фильтров и элементов управления
  * - Вертикальная раскладка на мобильных, горизонтальная на desktop
  * - Адаптивные метки кнопок (полные/сокращенные)
- * 
+ *
  * Filter Layout:
  * - Mobile (< 640px): flex-col (вертикальное расположение всех фильтров)
  * - Desktop (>= 640px): sm:flex-row (горизонтальное расположение)
- * 
+ *
  * Date Inputs:
  * - Минимальная ширина 120px (min-w-[120px]) для удобного ввода дат
  * - Вертикальное расположение на mobile, горизонтальное на desktop
- * 
+ *
  * Period Buttons:
  * - Минимальный размер 44x44px (min-h-[44px] min-w-[44px]) для сенсорных экранов
  * - Адаптивные метки: "День/Месяц/Год" на desktop, "Д/М/Г" на mobile
  *   Причина: экономия места на узких экранах при сохранении функциональности
- * 
+ *
  * Chart Grid:
  * - Mobile (< 1024px): grid-cols-1 (одна колонка)
  * - Desktop (>= 1024px): lg:grid-cols-2 (две колонки)
- * 
+ *
  * Padding:
  * - Container: px-4 sm:px-6 lg:px-8 (16px -> 24px -> 32px)
  *   Обеспечивает минимальные отступы 16px на мобильных устройствах
- * 
+ *
  * Требования: 2.1, 2.2, 2.3, 2.4, 2.5, 6.1, 6.2, 6.3
  */
 function getDefaultDateRange(): { start: string; end: string } {
@@ -105,8 +105,10 @@ export default function DashboardPage() {
         <div className="mb-8">
           {/* Заголовок и кнопки группировки на одной строке */}
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
-            
+            <h1 className="text-2xl font-semibold text-foreground md:text-3xl">
+              Обзор
+            </h1>
+
             {/* Кнопки группировки без подписи */}
             <div className="flex items-center gap-2">
               {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
