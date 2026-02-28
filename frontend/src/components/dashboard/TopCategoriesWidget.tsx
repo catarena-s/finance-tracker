@@ -17,6 +17,8 @@ import {
   tooltipDefaults,
   formatCurrencyTooltip,
 } from "@/lib/chartConfig";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { getChartConfig } from "@/lib/responsiveConfig";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -46,6 +48,9 @@ export function TopCategoriesWidget({
   loading,
   limit = 5,
 }: TopCategoriesWidgetProps) {
+  const { isMobile, isTablet } = useBreakpoint();
+  const chartConfig = getChartConfig(isMobile, isTablet);
+
   const chartData = useMemo((): ChartData<"bar", number[], string> => {
     if (!categories || categories.length === 0) {
       return { labels: [], datasets: [] };
@@ -99,6 +104,10 @@ export function TopCategoriesWidget({
           grid: chartGrid,
           ticks: {
             color: CHART_COLORS.text,
+            maxTicksLimit: chartConfig.maxTicksLimit,
+            font: {
+              size: chartConfig.fontSize,
+            },
             callback: (value: unknown): string =>
               typeof value === "number"
                 ? formatCurrencyTooltip(value)
@@ -107,11 +116,16 @@ export function TopCategoriesWidget({
         },
         y: {
           grid: { display: false },
-          ticks: { color: CHART_COLORS.text },
+          ticks: { 
+            color: CHART_COLORS.text,
+            font: {
+              size: chartConfig.fontSize,
+            },
+          },
         },
       },
     }),
-    [categories]
+    [categories, chartConfig]
   );
 
   if (loading) {
@@ -148,7 +162,7 @@ export function TopCategoriesWidget({
         <h2 className="mb-4 text-lg font-semibold text-foreground">
           Топ {limit} категорий расходов
         </h2>
-        <div className="h-64 sm:h-80">
+        <div className="h-64 sm:h-80 lg:h-96">
           <Bar data={chartData} options={options} />
         </div>
         <div className="mt-6 space-y-3">

@@ -13,10 +13,10 @@ interface ModalProps {
 }
 
 const sizeClasses = {
-  sm: "max-w-md",
-  md: "max-w-lg",
-  lg: "max-w-2xl",
-  xl: "max-w-4xl",
+  sm: "w-[95%] sm:max-w-md",
+  md: "w-[95%] sm:max-w-lg",
+  lg: "w-[95%] sm:max-w-2xl",
+  xl: "w-[95%] sm:max-w-4xl",
 };
 
 export function Modal({ isOpen, onClose, title, children, size = "md" }: ModalProps) {
@@ -31,9 +31,9 @@ export function Modal({ isOpen, onClose, title, children, size = "md" }: ModalPr
       <DialogContent
         title={title}
         showClose={true}
-        className={cn("w-full", sizeClasses[size])}
+        className={cn(sizeClasses[size])}
       >
-        <div className="pt-2">{children}</div>
+        <div className="overflow-y-auto max-h-[85vh] pt-2">{children}</div>
       </DialogContent>
     </Dialog>
   );

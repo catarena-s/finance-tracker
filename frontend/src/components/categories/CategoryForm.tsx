@@ -113,7 +113,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
               "Выберите иконку"}
           </span>
         </div>
-        <div className="grid grid-cols-10 gap-2">
+        <div className="grid grid-cols-8 sm:grid-cols-10 gap-2">
           {availableIcons.map((iconItem) => {
             const IconComponent = iconItem.icon;
             return (
@@ -137,7 +137,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
 
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">Цвет</label>
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-2">
           <div
             className="w-12 h-12 rounded border-2 border-border"
             style={{ backgroundColor: selectedColor }}
@@ -152,7 +152,7 @@ export function CategoryForm({ category, onSubmit, onCancel }: CategoryFormProps
             })}
           />
         </div>
-        <div className="grid grid-cols-12 gap-2">
+        <div className="grid grid-cols-10 sm:grid-cols-12 gap-2">
           {commonColors.map((color) => (
             <button
               key={color}

@@ -96,7 +96,7 @@ export function RecurringTransactionForm({
         {...register("name", { required: "Обязательное поле" })}
         error={errors.name?.message}
       />
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <div className="flex-1">
           <CurrencyInput
             label="Сумма"
@@ -105,7 +105,7 @@ export function RecurringTransactionForm({
             currency={watch("currency")}
           />
         </div>
-        <div className="w-32">
+        <div className="w-full sm:w-32">
           <label className="block text-sm font-medium text-foreground mb-1">
             Валюта
           </label>
@@ -160,7 +160,7 @@ export function RecurringTransactionForm({
       <Input label="Описание" {...register("description")} />
       <div>
         <label className="block text-sm font-medium text-foreground mb-1">Повтор</label>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <select
             className="flex-1 border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             value={watch("frequency")}
@@ -177,7 +177,7 @@ export function RecurringTransactionForm({
           <input
             type="number"
             min={1}
-            className="w-20 border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full sm:w-20 border border-input rounded-2xl px-3 py-2 bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             {...register("interval", { valueAsNumber: true, min: 1 })}
           />
         </div>

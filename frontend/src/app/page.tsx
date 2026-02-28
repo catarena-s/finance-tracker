@@ -13,7 +13,7 @@ export default function HomePage() {
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h1 className="mb-4 text-4xl font-bold text-foreground sm:text-5xl">
+          <h1 className="mb-4 text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">
             Трекер личных финансов
           </h1>
           <p className="mb-12 text-xl text-muted-foreground">

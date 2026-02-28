@@ -18,6 +18,8 @@ import {
   tooltipDefaults,
   formatCurrencyTooltip,
 } from "@/lib/chartConfig";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { getChartConfig, getChartHeightClasses } from "@/lib/responsiveConfig";
 
 ChartJS.register(
   CategoryScale,
@@ -35,6 +37,9 @@ interface TrendChartProps {
 }
 
 export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps) {
+  const { isMobile, isTablet } = useBreakpoint();
+  const chartConfig = useMemo(() => getChartConfig(isMobile, isTablet), [isMobile, isTablet]);
+
   const chartData = useMemo((): ChartData<"line", number[], string> => {
     if (
       (!incomeData || incomeData.length === 0) &&
@@ -53,8 +58,8 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
           backgroundColor: CHART_COLORS.secondaryLight,
           tension: 0.4,
           borderWidth: 2,
-          pointRadius: 2,
-          pointHoverRadius: 4,
+          pointRadius: chartConfig.pointRadius,
+          pointHoverRadius: chartConfig.pointRadius + 2,
         },
         {
           label: "Расходы",
@@ -63,12 +68,12 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
           backgroundColor: CHART_COLORS.destructiveLight,
           tension: 0.4,
           borderWidth: 2,
-          pointRadius: 2,
-          pointHoverRadius: 4,
+          pointRadius: chartConfig.pointRadius,
+          pointHoverRadius: chartConfig.pointRadius + 2,
         },
       ],
     };
-  }, [incomeData, expenseData]);
+  }, [incomeData, expenseData, chartConfig.pointRadius]);
 
   const options = useMemo(
     () => ({
@@ -79,7 +84,13 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
         legend: {
           display: true,
           position: "top" as const,
-          labels: { color: CHART_COLORS.text, usePointStyle: true },
+          labels: { 
+            color: CHART_COLORS.text, 
+            usePointStyle: true,
+            font: {
+              size: chartConfig.fontSize,
+            },
+          },
         },
         tooltip: {
           mode: "index" as const,
@@ -108,13 +119,22 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
       scales: {
         x: {
           grid: { display: false },
-          ticks: { color: CHART_COLORS.text, maxTicksLimit: 8 },
+          ticks: { 
+            color: CHART_COLORS.text, 
+            maxTicksLimit: chartConfig.maxTicksLimit,
+            font: {
+              size: chartConfig.fontSize,
+            },
+          },
         },
         y: {
           beginAtZero: true,
           grid: chartGrid,
           ticks: {
             color: CHART_COLORS.text,
+            font: {
+              size: chartConfig.fontSize,
+            },
             callback: (value: unknown): string =>
               typeof value === "number"
                 ? formatCurrencyTooltip(value)
@@ -123,7 +143,7 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
         },
       },
     }),
-    []
+    [chartConfig]
   );
 
   if (loading) {
@@ -161,7 +181,7 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
     <Card className="rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
       <CardContent className="p-6 md:p-8">
         <h2 className="mb-4 text-lg font-semibold text-foreground">Доходы и расходы</h2>
-        <div className="h-64 sm:h-80">
+        <div className={getChartHeightClasses()}>
           <Line data={chartData} options={options} />
         </div>
       </CardContent>

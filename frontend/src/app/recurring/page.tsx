@@ -86,13 +86,15 @@ function RecurringPageContent() {
   return (
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-foreground md:text-3xl mb-2">
-            Повторяющиеся транзакции
-          </h1>
-          <p className="text-muted-foreground">
-            Шаблоны для автоматического создания транзакций (подписки, зарплата и т.д.).
-          </p>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground md:text-3xl mb-2">
+              Повторяющиеся транзакции
+            </h1>
+            <p className="text-muted-foreground">
+              Шаблоны для автоматического создания транзакций (подписки, зарплата и т.д.).
+            </p>
+          </div>
         </div>
 
         {error && (
