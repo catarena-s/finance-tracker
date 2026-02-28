@@ -68,20 +68,20 @@ export function TransactionTable({
         <Table>
           <TableHeader>
             <TableRow className="border-border hover:bg-transparent">
-              <TableHead className="h-12 px-6 font-semibold text-muted-foreground">
+              <TableHead className="h-12 w-[100px] px-2 font-semibold text-muted-foreground md:w-[120px] md:px-4">
                 Дата
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground">Тип</TableHead>
-              <TableHead className="font-semibold text-muted-foreground">
+              <TableHead className="hidden w-[80px] px-2 font-semibold text-muted-foreground lg:table-cell md:px-4">Тип</TableHead>
+              <TableHead className="w-[120px] px-2 font-semibold text-muted-foreground md:w-[140px] md:px-4">
                 Категория
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground">
+              <TableHead className="hidden px-2 font-semibold text-muted-foreground xl:table-cell md:px-4">
                 Описание
               </TableHead>
-              <TableHead className="text-right font-semibold text-muted-foreground">
+              <TableHead className="min-w-[120px] px-2 text-right font-semibold text-muted-foreground md:px-4">
                 Сумма
               </TableHead>
-              <TableHead className="w-[100px] text-right font-semibold text-muted-foreground">
+              <TableHead className="w-[80px] px-1 text-right font-semibold text-muted-foreground md:w-[100px] md:px-2">
                 Действия
               </TableHead>
             </TableRow>
@@ -94,51 +94,51 @@ export function TransactionTable({
                   key={transaction.id}
                   className="border-border transition-[background-color] hover:bg-muted/50"
                 >
-                  <TableCell className="px-6 py-4 font-medium text-muted-foreground">
+                  <TableCell className="px-2 py-3 text-xs font-medium text-muted-foreground md:px-4 md:text-sm">
                     {formatDate(transaction.transactionDate)}
                   </TableCell>
-                  <TableCell className="px-6 py-4">
+                  <TableCell className="hidden px-2 py-3 lg:table-cell md:px-4">
                     <span
                       className={
                         isIncome
-                          ? "font-medium text-secondary"
-                          : "font-medium text-foreground"
+                          ? "text-xs font-medium text-secondary md:text-sm"
+                          : "text-xs font-medium text-foreground md:text-sm"
                       }
                     >
                       {isIncome ? "Доход" : "Расход"}
                     </span>
                   </TableCell>
-                  <TableCell className="px-6 py-4 text-foreground">
+                  <TableCell className="px-2 py-3 text-xs text-foreground md:px-4 md:text-sm">
                     {(transaction as any).category?.name || transaction.categoryId}
                   </TableCell>
-                  <TableCell className="max-w-[200px] truncate px-6 py-4 text-muted-foreground">
+                  <TableCell className="hidden max-w-[200px] truncate px-2 py-3 text-xs text-muted-foreground xl:table-cell md:px-4 md:text-sm">
                     {transaction.description || "—"}
                   </TableCell>
-                  <TableCell className="px-6 py-4 text-right font-semibold">
+                  <TableCell className="px-2 py-3 text-right text-xs font-semibold md:px-4 md:text-sm">
                     <span className={isIncome ? "text-secondary" : "text-foreground"}>
                       {isIncome ? "+" : "−"}
                       {formatCurrency(Number(transaction.amount), transaction.currency)}
                     </span>
                   </TableCell>
-                  <TableCell className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-1">
+                  <TableCell className="px-1 py-3 text-right md:px-2">
+                    <div className="flex justify-end gap-0.5">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-muted-foreground transition-[background-color,color] duration-200 hover:bg-muted hover:text-foreground"
+                        className="h-8 w-8 rounded-xl text-muted-foreground transition-[background-color,color] duration-200 hover:bg-muted hover:text-foreground"
                         onClick={() => onEdit(transaction)}
                         aria-label="Редактировать"
                       >
-                        <Pencil className="h-4 w-4" />
+                        <Pencil className="h-3.5 w-3.5" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 rounded-xl text-muted-foreground transition-[background-color,color] duration-200 hover:bg-destructive/10 hover:text-destructive"
+                        className="h-8 w-8 rounded-xl text-muted-foreground transition-[background-color,color] duration-200 hover:bg-destructive/10 hover:text-destructive"
                         onClick={() => onDelete(transaction.id)}
                         aria-label="Удалить"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
                   </TableCell>

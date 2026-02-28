@@ -65,14 +65,14 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* Mobile menu button - positioned above theme switcher */}
+      {/* Mobile menu button - aligned with h-14 header (56px total, centered vertically) */}
       <button
         type="button"
-        className="fixed left-4 top-4 z-50 rounded-2xl bg-card p-3 shadow-fintech md:hidden"
+        className="fixed left-4 top-[15px] z-50 rounded-2xl bg-card p-2 shadow-fintech md:hidden"
         onClick={() => setMobileOpen(true)}
         aria-label="Открыть меню"
       >
-        <Menu className="h-6 w-6 text-foreground" />
+        <Menu className="h-5 w-5 text-foreground" />
       </button>
 
       {/* Mobile overlay */}
@@ -91,10 +91,10 @@ export function AppSidebar() {
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex h-16 items-center justify-between border-b border-border px-4 md:justify-center">
+        <div className="flex h-14 items-center justify-end border-b border-border px-4 md:justify-center">
           <Link
             href="/"
-            className="flex items-center gap-2"
+            className="hidden items-center gap-2 md:flex"
             onClick={() => setMobileOpen(false)}
           >
             <span className="text-2xl">💰</span>

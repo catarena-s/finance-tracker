@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,6 @@ import {
   ArrowLeftRight,
   FolderTree,
   PiggyBank,
-  Menu,
   X,
 } from "lucide-react";
 
@@ -21,11 +20,19 @@ const navItems = [
   { href: "/recurring", label: "Повторяющиеся", icon: ArrowLeftRight },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const isActive = (href: string) => pathname.startsWith(href);
+
+  const handleClose = () => {
+    if (onClose) onClose();
+  };
 
   const linkClass = (href: string) =>
     cn(
@@ -44,7 +51,7 @@ export function Sidebar() {
             key={item.href}
             href={item.href}
             className={linkClass(item.href)}
-            onClick={() => setMobileOpen(false)}
+            onClick={handleClose}
           >
             <Icon className="h-5 w-5 shrink-0" />
             {item.label}
@@ -56,34 +63,27 @@ export function Sidebar() {
 
   return (
     <>
-      <button
-        type="button"
-        className="group fixed left-4 top-4 z-50 rounded-xl border border-border bg-card p-2.5 shadow-fintech transition-[box-shadow,border-color] duration-150 hover:shadow-fintech-hover hover:border-primary/30 md:hidden"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Открыть меню"
-      >
-        <Menu className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
-      </button>
-
+      {/* Mobile overlay */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm transition-opacity duration-300 md:hidden"
-          onClick={() => setMobileOpen(false)}
+          onClick={handleClose}
           aria-hidden
         />
       )}
 
+      {/* Sidebar: desktop fixed, mobile slide-out */}
       <aside
         className={cn(
           "fixed left-0 top-0 z-40 h-full w-64 border-r border-border bg-card shadow-fintech transition-transform duration-150 ease-in-out md:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex h-16 items-center justify-between border-b border-border px-4 md:justify-center">
+        <div className="flex h-14 items-center justify-end border-b border-border px-4 md:justify-center">
           <Link
             href="/"
-            className="flex items-center gap-2"
-            onClick={() => setMobileOpen(false)}
+            className="hidden items-center gap-2 md:flex"
+            onClick={handleClose}
           >
             <span className="text-xl font-semibold text-foreground">
               Трекер финансов
@@ -92,7 +92,7 @@ export function Sidebar() {
           <button
             type="button"
             className="rounded-xl p-2 text-muted-foreground transition-[background-color,color] duration-150 hover:bg-muted hover:text-foreground md:hidden"
-            onClick={() => setMobileOpen(false)}
+            onClick={handleClose}
             aria-label="Закрыть меню"
           >
             <X className="h-5 w-5" />

@@ -39,8 +39,9 @@ export function TransactionCard({
 }: TransactionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isIncome = transaction.type === "income";
-  const amountColor = isIncome ? "text-green-600" : "text-red-600";
-  const amountSign = isIncome ? "+" : "-";
+  
+  // Get category name from transaction object
+  const categoryName = (transaction as any).category?.name || transaction.categoryId;
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't toggle if clicking on buttons
@@ -52,7 +53,7 @@ export function TransactionCard({
 
   return (
     <div 
-      className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-[box-shadow] cursor-pointer"
+      className="rounded-2xl border border-border bg-card p-3 shadow-sm hover:shadow-md transition-[box-shadow] cursor-pointer"
       onClick={handleCardClick}
       role="button"
       tabIndex={0}
@@ -65,88 +66,26 @@ export function TransactionCard({
       aria-expanded={isExpanded}
       aria-label="Transaction card, click to expand"
     >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span
-              className={`text-lg font-semibold ${amountColor}`}
-              aria-label={`${isIncome ? "Income" : "Expense"} amount`}
-            >
-              {amountSign}
-              {formatCurrency(Number(transaction.amount), transaction.currency)}
-            </span>
-            <span className="text-xs text-gray-500 uppercase">
-              {transaction.currency}
-            </span>
-          </div>
-
-          <div className="text-sm text-gray-600 mb-1">
-            <span className="font-medium">Категория:</span> {transaction.categoryId}
-          </div>
-
-          {transaction.description && (
-            // Обрезка описания до 2 строк в свернутом состоянии, полное отображение при раскрытии
-            <p className={`text-sm text-gray-700 mb-2 ${isExpanded ? '' : 'line-clamp-2'}`}>
-              {transaction.description}
-            </p>
-          )}
-
-          {isExpanded && (
-            <div className="mt-2 pt-2 border-t border-gray-200 space-y-1">
-              <div className="text-xs text-gray-600">
-                <span className="font-medium">ID:</span> {transaction.id}
-              </div>
-              <div className="text-xs text-gray-600">
-                <span className="font-medium">Создано:</span> {formatDate(transaction.createdAt)}
-              </div>
-              <div className="text-xs text-gray-600">
-                <span className="font-medium">Обновлено:</span> {formatDate(transaction.updatedAt)}
-              </div>
-            </div>
-          )}
-
-          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
-            <span className="flex items-center gap-1">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              {formatDate(transaction.transactionDate)}
-            </span>
-
-            {transaction.isRecurring && (
-              <span className="flex items-center gap-1 text-blue-600">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Повторяющаяся
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="flex sm:flex-col gap-2">
+      {/* Первая строка: сумма и иконки действий */}
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <span
+          className={`text-lg font-semibold ${isIncome ? "text-secondary" : "text-foreground"}`}
+          aria-label={`${isIncome ? "Income" : "Expense"} amount`}
+        >
+          {isIncome ? "+" : "−"}
+          {formatCurrency(Number(transaction.amount), transaction.currency)}
+        </span>
+        
+        <div className="flex gap-1">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onEdit(transaction)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(transaction);
+            }}
             aria-label="Edit transaction"
-            className="flex-1 sm:flex-none"
+            className="h-8 w-8 p-0 rounded-xl"
           >
             <svg
               className="w-4 h-4"
@@ -163,9 +102,12 @@ export function TransactionCard({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onDelete(transaction.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(transaction.id);
+            }}
             aria-label="Delete transaction"
-            className="flex-1 sm:flex-none text-red-600 hover:text-red-700 hover:bg-red-50"
+            className="h-8 w-8 p-0 rounded-xl text-destructive hover:text-destructive hover:bg-destructive/10"
           >
             <svg
               className="w-4 h-4"
@@ -181,6 +123,72 @@ export function TransactionCard({
           </Button>
         </div>
       </div>
+
+      {/* Описание */}
+      {transaction.description && (
+        <p className={`text-sm text-foreground mb-2 ${isExpanded ? '' : 'line-clamp-2'}`}>
+          {transaction.description}
+        </p>
+      )}
+
+      {/* Информация в 2 колонках */}
+      <div className="grid grid-cols-2 gap-2 text-xs">
+        {/* Левая колонка: дата */}
+        <div className="space-y-1">
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <svg
+              className="w-3 h-3"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>{formatDate(transaction.transactionDate)}</span>
+          </div>
+        </div>
+
+        {/* Правая колонка: категория и повтор */}
+        <div className="space-y-1">
+          <div className="text-muted-foreground truncate">
+            <span className="font-medium">Категория:</span> {categoryName}
+          </div>
+          {transaction.isRecurring && (
+            <div className="flex items-center gap-1 text-primary">
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>Повтор</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Развернутая информация */}
+      {isExpanded && (
+        <div className="mt-2 pt-2 border-t border-border space-y-1 text-xs text-muted-foreground">
+          <div>
+            <span className="font-medium">ID:</span> {transaction.id}
+          </div>
+          <div>
+            <span className="font-medium">Создано:</span> {formatDate(transaction.createdAt)}
+          </div>
+          <div>
+            <span className="font-medium">Обновлено:</span> {formatDate(transaction.updatedAt)}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -219,8 +219,8 @@ export function TrendChart({ incomeData, expenseData, loading }: TrendChartProps
     <Card className="rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
       <CardContent className="p-6 md:p-8">
         <h2 className="mb-4 text-lg font-semibold text-foreground">Доходы и расходы</h2>
-        {/* Адаптивная высота: 256px (mobile) -> 320px (tablet) -> 384px (desktop) */}
-        <div className={getChartHeightClasses()}>
+        {/* Адаптивная высота: 200px (mobile) -> 256px (tablet) -> 320px (desktop) */}
+        <div className="h-[200px] sm:h-64 lg:h-80">
           <Line data={chartData} options={options} />
         </div>
       </CardContent>

@@ -103,48 +103,42 @@ export default function DashboardPage() {
     <div className="min-h-full bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8">
-          {/* Адаптивный размер заголовка: 24px (mobile) -> 30px (desktop) */}
-          <h1 className="mb-4 text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
-
-          {/* Фильтры: компактное расположение */}
-          <div className="flex flex-col gap-3">
-            {/* Даты на одной строке */}
+          {/* Заголовок и кнопки группировки на одной строке */}
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h1 className="text-2xl font-semibold text-foreground md:text-3xl">Обзор</h1>
+            
+            {/* Кнопки группировки без подписи */}
             <div className="flex items-center gap-2">
-              <Input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="flex-1 rounded-2xl bg-input text-foreground"
-              />
-              <span className="text-muted-foreground">—</span>
-              <Input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="flex-1 rounded-2xl bg-input text-foreground"
-              />
+              {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
+                <Button
+                  key={p}
+                  variant={period === p ? "default" : "outline"}
+                  size="sm"
+                  className="h-9 min-w-[36px] rounded-2xl px-3 text-sm"
+                  onClick={() => setPeriod(p)}
+                >
+                  <span className="hidden sm:inline">{PERIOD_LABELS[p]}</span>
+                  <span className="sm:hidden">{PERIOD_LABELS_SHORT[p]}</span>
+                </Button>
+              ))}
             </div>
+          </div>
 
-            {/* Группировка */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground whitespace-nowrap">Группировка:</span>
-              <div className="flex items-center gap-2">
-                {(Object.keys(PERIOD_LABELS) as DashboardPeriod[]).map((p) => (
-                  // Кнопки периодов: минимальный размер 44x44px для сенсорных экранов
-                  <Button
-                    key={p}
-                    variant={period === p ? "default" : "outline"}
-                    size="sm"
-                    className="min-h-[44px] min-w-[44px] rounded-2xl"
-                    onClick={() => setPeriod(p)}
-                  >
-                    {/* Полный текст на desktop (>= 640px), сокращенный на mobile */}
-                    <span className="hidden sm:inline">{PERIOD_LABELS[p]}</span>
-                    <span className="sm:hidden">{PERIOD_LABELS_SHORT[p]}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
+          {/* Даты */}
+          <div className="flex items-center gap-2">
+            <Input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="flex-1 rounded-2xl bg-input text-foreground"
+            />
+            <span className="text-muted-foreground">—</span>
+            <Input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="flex-1 rounded-2xl bg-input text-foreground"
+            />
           </div>
         </div>
 
@@ -189,7 +183,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="mt-10">
+        <div className="mt-6">
           <TopCategoriesWidget
             categories={topCategories || []}
             loading={loading}
