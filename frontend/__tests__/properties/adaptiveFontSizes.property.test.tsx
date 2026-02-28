@@ -77,9 +77,9 @@ describe("Property: Adaptive Font Sizes", () => {
               />
             );
             
-            // Find amount elements with adaptive classes (text-2xl sm:text-3xl md:text-4xl)
+            // Find amount elements with adaptive classes (text-sm sm:text-base md:text-xl lg:text-2xl)
             const amounts = container.querySelectorAll(
-              ".text-2xl.sm\\:text-3xl.md\\:text-4xl"
+              ".text-sm.sm\\:text-base.md\\:text-xl.lg\\:text-2xl"
             );
             
             expect(amounts.length).toBeGreaterThan(0);
@@ -89,18 +89,18 @@ describe("Property: Adaptive Font Sizes", () => {
               const fontClasses = extractFontSizeClasses(element);
               
               // Should have base, sm, and md classes
-              expect(fontClasses.base).toBe("text-2xl");
-              expect(fontClasses.sm).toBe("text-3xl");
-              expect(fontClasses.md).toBe("text-4xl");
+              expect(fontClasses.base).toBe("text-sm");
+              expect(fontClasses.sm).toBe("text-base");
+              expect(fontClasses.md).toBe("text-xl");
               
               // Verify progressive increase: base < sm < md
               const baseSize = getFontSizeFromClass(fontClasses.base);
               const smSize = getFontSizeFromClass(fontClasses.sm);
               const mdSize = getFontSizeFromClass(fontClasses.md);
               
-              expect(baseSize).toBe(24); // text-2xl
-              expect(smSize).toBe(30);   // text-3xl
-              expect(mdSize).toBe(36);   // text-4xl
+              expect(baseSize).toBe(14); // text-sm
+              expect(smSize).toBe(16);   // text-base
+              expect(mdSize).toBe(20);   // text-xl
               
               expect(smSize).toBeGreaterThan(baseSize);
               expect(mdSize).toBeGreaterThan(smSize);
@@ -128,7 +128,7 @@ describe("Property: Adaptive Font Sizes", () => {
             );
             
             const amounts = container.querySelectorAll(
-              ".text-2xl.sm\\:text-3xl.md\\:text-4xl"
+              ".text-sm.sm\\:text-base.md\\:text-xl.lg\\:text-2xl"
             );
             
             expect(amounts.length).toBeGreaterThan(0);
@@ -174,7 +174,7 @@ describe("Property: Adaptive Font Sizes", () => {
             
             // Find all elements with adaptive font size classes
             const adaptiveElements = container.querySelectorAll(
-              ".text-2xl.sm\\:text-3xl.md\\:text-4xl"
+              ".text-sm.sm\\:text-base.md\\:text-xl.lg\\:text-2xl"
             );
             
             adaptiveElements.forEach((element) => {
@@ -213,16 +213,16 @@ describe("Property: Adaptive Font Sizes", () => {
       );
       
       const amounts = container.querySelectorAll(
-        ".text-2xl.sm\\:text-3xl.md\\:text-4xl"
+        ".text-sm.sm\\:text-base.md\\:text-xl.lg\\:text-2xl"
       );
       
       amounts.forEach((element) => {
         const fontClasses = extractFontSizeClasses(element);
         
-        // Should use mobile size (text-2xl) as base
-        expect(fontClasses.base).toBe("text-2xl");
-        expect(fontClasses.sm).toBe("text-3xl");
-        expect(fontClasses.md).toBe("text-4xl");
+        // Should use mobile size (text-sm) as base
+        expect(fontClasses.base).toBe("text-sm");
+        expect(fontClasses.sm).toBe("text-base");
+        expect(fontClasses.md).toBe("text-xl");
       });
     });
 
@@ -243,7 +243,7 @@ describe("Property: Adaptive Font Sizes", () => {
         );
         
         const amounts = container.querySelectorAll(
-          ".text-2xl.sm\\:text-3xl.md\\:text-4xl"
+          ".text-sm.sm\\:text-base.md\\:text-xl.lg\\:text-2xl"
         );
         
         expect(amounts.length).toBeGreaterThan(0);
@@ -256,9 +256,9 @@ describe("Property: Adaptive Font Sizes", () => {
           const mdSize = getFontSizeFromClass(fontClasses.md);
           
           // Verify progressive sizing is maintained
-          expect(baseSize).toBe(24);
-          expect(smSize).toBe(30);
-          expect(mdSize).toBe(36);
+          expect(baseSize).toBe(14);
+          expect(smSize).toBe(16);
+          expect(mdSize).toBe(20);
           expect(smSize).toBeGreaterThan(baseSize);
           expect(mdSize).toBeGreaterThan(smSize);
         });
@@ -282,7 +282,7 @@ describe("Property: Adaptive Font Sizes", () => {
             );
             
             const amounts = container.querySelectorAll(
-              ".text-2xl.sm\\:text-3xl.md\\:text-4xl"
+              ".text-sm.sm\\:text-base.md\\:text-xl.lg\\:text-2xl"
             );
             
             // Should have exactly 3 amount elements (income, expense, balance)
@@ -290,9 +290,10 @@ describe("Property: Adaptive Font Sizes", () => {
             
             // All three should have the same adaptive font classes
             amounts.forEach((element) => {
-              expect(element).toHaveClass("text-2xl");
-              expect(element).toHaveClass("sm:text-3xl");
-              expect(element).toHaveClass("md:text-4xl");
+              expect(element).toHaveClass("text-sm");
+              expect(element).toHaveClass("sm:text-base");
+              expect(element).toHaveClass("md:text-xl");
+              expect(element).toHaveClass("lg:text-2xl");
             });
           }
         ),

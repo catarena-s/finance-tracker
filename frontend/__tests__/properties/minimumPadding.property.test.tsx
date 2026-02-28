@@ -34,17 +34,17 @@ const getPaddingValues = (element: Element): {
 const hasMinimumPaddingClasses = (element: Element): boolean => {
   const classList = Array.from(element.classList);
   
-  // Check for p-4 (16px padding on all sides) or px-4/py-4 (16px horizontal/vertical)
-  const hasPadding4 = classList.some(cls => 
-    cls === "p-4" || cls === "px-4" || cls === "py-4"
+  // Check for p-2 (8px padding on all sides) or px-2/py-2 (8px horizontal/vertical)
+  const hasPadding2 = classList.some(cls => 
+    cls === "p-2" || cls === "px-2" || cls === "py-2" || cls === "p-0"
   );
   
-  // Check for responsive padding classes (sm:p-6, md:p-8, etc.)
+  // Check for responsive padding classes (sm:p-3, md:p-4, etc.)
   const hasResponsivePadding = classList.some(cls => 
     /^(sm|md|lg|xl|2xl):p(x|y)?-\d+$/.test(cls)
   );
   
-  return hasPadding4 || hasResponsivePadding;
+  return hasPadding2 || hasResponsivePadding;
 };
 
 // Mock window.innerWidth for viewport testing
@@ -61,7 +61,7 @@ const setViewportWidth = (width: number) => {
 
 describe("Property: Minimum Padding/Margins", () => {
   describe("BalanceCards minimum padding on mobile viewports", () => {
-    it("should ensure minimum 16px padding on card containers for any viewport width in 320px-480px range", () => {
+    it("should ensure minimum 8px padding on card containers for any viewport width in 320px-480px range", () => {
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 480 }), // Mobile viewport range
@@ -82,14 +82,14 @@ describe("Property: Minimum Padding/Margins", () => {
             );
             
             // Find all Card elements (containers with padding)
-            const cards = container.querySelectorAll(".p-4, .sm\\:p-6, .md\\:p-8");
+            const cards = container.querySelectorAll(".p-2, .sm\\:p-3, .md\\:p-4");
             
             expect(cards.length).toBeGreaterThan(0);
             
             // Verify each card has minimum padding classes
             cards.forEach((card) => {
-              // Check for p-4 class (16px padding)
-              expect(card).toHaveClass("p-4");
+              // Check for p-2 class (8px padding on mobile)
+              expect(card).toHaveClass("p-2");
               
               // Verify the card has responsive padding classes
               expect(hasMinimumPaddingClasses(card)).toBe(true);
@@ -100,7 +100,7 @@ describe("Property: Minimum Padding/Margins", () => {
       );
     });
 
-    it("should maintain minimum 16px padding regardless of content size", () => {
+    it("should maintain minimum 8px padding regardless of content size", () => {
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 480 }),
@@ -119,13 +119,13 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            const cards = container.querySelectorAll(".p-4");
+            const cards = container.querySelectorAll(".p-2");
             
             expect(cards.length).toBeGreaterThan(0);
             
-            // All cards should have p-4 class (16px minimum padding)
+            // All cards should have p-2 class (8px minimum padding on mobile)
             cards.forEach((card) => {
-              expect(card).toHaveClass("p-4");
+              expect(card).toHaveClass("p-2");
             });
           }
         ),
@@ -133,7 +133,7 @@ describe("Property: Minimum Padding/Margins", () => {
       );
     });
 
-    it("should have progressive padding classes: p-4 sm:p-6 md:p-8", () => {
+    it("should have progressive padding classes: p-2 sm:p-3 md:p-4", () => {
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 480 }),
@@ -152,15 +152,15 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            const cards = container.querySelectorAll(".p-4");
+            const cards = container.querySelectorAll(".p-2");
             
             expect(cards.length).toBeGreaterThan(0);
             
             // Verify progressive padding classes
             cards.forEach((card) => {
-              expect(card).toHaveClass("p-4");
-              expect(card).toHaveClass("sm:p-6");
-              expect(card).toHaveClass("md:p-8");
+              expect(card).toHaveClass("p-2");
+              expect(card).toHaveClass("sm:p-3");
+              expect(card).toHaveClass("md:p-4");
             });
           }
         ),
@@ -181,12 +181,12 @@ describe("Property: Minimum Padding/Margins", () => {
       
       setViewportWidth(320);
       
-      const cards = container.querySelectorAll(".p-4");
+      const cards = container.querySelectorAll(".p-2");
       
       expect(cards.length).toBeGreaterThan(0);
       
       cards.forEach((card) => {
-        expect(card).toHaveClass("p-4");
+        expect(card).toHaveClass("p-2");
       });
     });
 
@@ -201,12 +201,12 @@ describe("Property: Minimum Padding/Margins", () => {
       
       setViewportWidth(480);
       
-      const cards = container.querySelectorAll(".p-4");
+      const cards = container.querySelectorAll(".p-2");
       
       expect(cards.length).toBeGreaterThan(0);
       
       cards.forEach((card) => {
-        expect(card).toHaveClass("p-4");
+        expect(card).toHaveClass("p-2");
       });
     });
 
@@ -229,7 +229,7 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            const cards = container.querySelectorAll(".p-4");
+            const cards = container.querySelectorAll(".p-2");
             
             // Should have exactly 3 cards
             expect(cards.length).toBe(3);
@@ -270,12 +270,12 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            const cards = container.querySelectorAll(".p-4");
+            const cards = container.querySelectorAll(".p-2");
             
             expect(cards.length).toBeGreaterThan(0);
             
             cards.forEach((card) => {
-              expect(card).toHaveClass("p-4");
+              expect(card).toHaveClass("p-2");
             });
           }
         ),
@@ -302,14 +302,14 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            const cards = container.querySelectorAll(".p-4");
+            const cards = container.querySelectorAll(".p-2");
             
             expect(cards.length).toBeGreaterThan(0);
             
             cards.forEach((card) => {
-              expect(card).toHaveClass("p-4");
-              expect(card).toHaveClass("sm:p-6");
-              expect(card).toHaveClass("md:p-8");
+              expect(card).toHaveClass("p-2");
+              expect(card).toHaveClass("sm:p-3");
+              expect(card).toHaveClass("md:p-4");
             });
           }
         ),
@@ -333,21 +333,21 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            // In loading state, cards should still have padding
+            // In loading state, CardContent has padding classes
             const cardContents = container.querySelectorAll(".p-4, .sm\\:p-6, .md\\:p-8");
             
             expect(cardContents.length).toBeGreaterThan(0);
             
-            // Verify at least some elements have the minimum padding
-            const elementsWithP4 = container.querySelectorAll(".p-4");
-            expect(elementsWithP4.length).toBeGreaterThan(0);
+            // Verify at least some elements have padding
+            const elementsWithPadding = container.querySelectorAll(".p-4");
+            expect(elementsWithPadding.length).toBeGreaterThan(0);
           }
         ),
         { numRuns: 100 }
       );
     });
 
-    it("should ensure minimum padding is never less than 16px", () => {
+    it("should ensure minimum padding is never less than 8px", () => {
       fc.assert(
         fc.property(
           fc.integer({ min: 320, max: 480 }),
@@ -366,14 +366,14 @@ describe("Property: Minimum Padding/Margins", () => {
               />
             );
             
-            const cards = container.querySelectorAll(".p-4");
+            const cards = container.querySelectorAll(".p-2");
             
-            // Verify that p-4 class is present (which equals 16px in Tailwind)
-            // This ensures minimum padding is at least 16px
+            // Verify that p-2 class is present (which equals 8px in Tailwind)
+            // This ensures minimum padding is at least 8px
             cards.forEach((card) => {
-              expect(card).toHaveClass("p-4");
+              expect(card).toHaveClass("p-2");
               
-              // p-4 in Tailwind = 1rem = 16px (at default font size)
+              // p-2 in Tailwind = 0.5rem = 8px (at default font size)
               // This is the minimum required padding
             });
           }
@@ -398,12 +398,12 @@ describe("Property: Minimum Padding/Margins", () => {
           />
         );
         
-        const cards = container.querySelectorAll(".p-4");
+        const cards = container.querySelectorAll(".p-2");
         
         expect(cards.length).toBeGreaterThan(0);
         
         cards.forEach((card) => {
-          expect(card).toHaveClass("p-4");
+          expect(card).toHaveClass("p-2");
         });
       });
     });

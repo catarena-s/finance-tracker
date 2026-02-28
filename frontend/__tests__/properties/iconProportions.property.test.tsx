@@ -490,7 +490,7 @@ describe("Property: Icon Proportions", () => {
   });
 
   describe("Specific icon size verification", () => {
-    it("should use h-5 w-5 sm:h-6 sm:w-6 for BalanceCards icons", () => {
+    it("should use h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 for BalanceCards icons", () => {
       const { container } = render(
         <BalanceCards
           totalIncome={50000}
@@ -502,13 +502,15 @@ describe("Property: Icon Proportions", () => {
       const icons = container.querySelectorAll("svg");
       
       icons.forEach((icon) => {
-        // Base size should be h-5 w-5
-        expect(icon).toHaveClass("h-5");
-        expect(icon).toHaveClass("w-5");
+        // Base size should be h-3 w-3
+        expect(icon).toHaveClass("h-3");
+        expect(icon).toHaveClass("w-3");
         
-        // Responsive size should be sm:h-6 sm:w-6
-        expect(icon).toHaveClass("sm:h-6");
-        expect(icon).toHaveClass("sm:w-6");
+        // Responsive sizes should be sm:h-4 sm:w-4 md:h-5 md:w-5
+        expect(icon).toHaveClass("sm:h-4");
+        expect(icon).toHaveClass("sm:w-4");
+        expect(icon).toHaveClass("md:h-5");
+        expect(icon).toHaveClass("md:w-5");
       });
     });
 
