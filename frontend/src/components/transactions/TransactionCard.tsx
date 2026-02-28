@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Transaction } from "@/types/api";
 import { formatCurrency, formatDate } from "@/utils/format";
 import { Button } from "@/components/ui";
@@ -14,12 +14,34 @@ export function TransactionCard({
   onEdit,
   onDelete,
 }: TransactionCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const isIncome = transaction.type === "income";
   const amountColor = isIncome ? "text-green-600" : "text-red-600";
   const amountSign = isIncome ? "+" : "-";
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't toggle if clicking on buttons
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+    <div 
+      className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow cursor-pointer"
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setIsExpanded(!isExpanded);
+        }
+      }}
+      aria-expanded={isExpanded}
+      aria-label="Transaction card, click to expand"
+    >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
@@ -40,9 +62,23 @@ export function TransactionCard({
           </div>
 
           {transaction.description && (
-            <p className="text-sm text-gray-700 mb-2 line-clamp-2">
+            <p className={`text-sm text-gray-700 mb-2 ${isExpanded ? '' : 'line-clamp-2'}`}>
               {transaction.description}
             </p>
+          )}
+
+          {isExpanded && (
+            <div className="mt-2 pt-2 border-t border-gray-200 space-y-1">
+              <div className="text-xs text-gray-600">
+                <span className="font-medium">ID:</span> {transaction.id}
+              </div>
+              <div className="text-xs text-gray-600">
+                <span className="font-medium">Создано:</span> {formatDate(transaction.createdAt)}
+              </div>
+              <div className="text-xs text-gray-600">
+                <span className="font-medium">Обновлено:</span> {formatDate(transaction.updatedAt)}
+              </div>
+            </div>
           )}
 
           <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">

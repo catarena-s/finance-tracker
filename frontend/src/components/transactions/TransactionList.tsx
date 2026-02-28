@@ -1,6 +1,8 @@
 import React from "react";
 import { Transaction } from "@/types/api";
 import { TransactionCard } from "./TransactionCard";
+import { TransactionTable } from "./TransactionTable";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { Pagination } from "@/components/ui";
 
 interface TransactionListProps {
@@ -26,6 +28,30 @@ export function TransactionList({
   onEdit,
   onDelete,
 }: TransactionListProps) {
+  const { width } = useBreakpoint();
+  
+  // Use table view on desktop (>= 768px), card view on mobile (< 768px)
+  // This aligns with requirement 8.1: viewport < 768px should use card representation
+  const useTableView = width >= 768;
+
+  // If using table view, delegate to TransactionTable component
+  if (useTableView) {
+    return (
+      <TransactionTable
+        transactions={transactions}
+        loading={loading}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    );
+  }
+
+  // Mobile card view below
   if (loading) {
     return (
       <div className="space-y-4">

@@ -56,11 +56,11 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
               </Badge>
             </div>
           </div>
-          <div className="flex shrink-0 gap-0.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          <div className="flex shrink-0 gap-0.5 opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover:opacity-100">
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground"
+              className="h-9 w-9 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground sm:h-8 sm:w-8"
               onClick={() => onEdit(category)}
               aria-label="Редактировать"
             >
@@ -69,7 +69,7 @@ export function CategoryCard({ category, onEdit, onDelete }: CategoryCardProps) 
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-destructive/10 hover:text-destructive"
+              className="h-9 w-9 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-destructive/10 hover:text-destructive sm:h-8 sm:w-8"
               onClick={() => onDelete(category.id)}
               aria-label="Удалить"
             >
